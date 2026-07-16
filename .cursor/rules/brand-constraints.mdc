@@ -1,0 +1,76 @@
+---
+description: Brand consistency and brand-world constraints for fajita-io
+alwaysApply: true
+---
+
+# Brand constraints
+
+A brand is not merely a logo, color palette, font pairing, gradient, or collection of components. It is a coherent world that remains recognizable when the logo is hidden.
+
+Project-specific identity decisions may not yet exist. Derive them through the creative-direction workflow (`creative-director`, `brand-world-builder`) and record them in design memory. Do not invent and ship identity decisions without documenting them.
+
+## Required reading
+
+Before material visual or verbal changes:
+
+- `.cursor/design-memory/approved-direction.md`
+- `.cursor/design-memory/visual-decisions.md`
+- `.cursor/design-memory/creative-thesis.md`
+
+## What must stay consistent once approved
+
+Preserve approved decisions for:
+
+| Domain | Examples |
+| --- | --- |
+| Central brand metaphor | The governing image or idea |
+| Emotional territory | How the product should feel |
+| Brand attributes | Adjectives that constrain choices |
+| Color relationships | Not just hex values; how colors behave |
+| Typography | Display, reading, interface, numeric roles |
+| Logo behavior | Clearspace, minimum size, forbidden treatments |
+| Graphic devices | Recurring visual motifs |
+| Image treatment | Crop, grade, grain, contrast |
+| Illustration system | Style, line weight, perspective |
+| Icon language | Stroke, corner, metaphor level |
+| Surface hierarchy | Background, elevated, inset, accent |
+| Shape language | Radius, chamfer, cut, overlap |
+| Motion language | Easing, duration, what moves vs. stays still |
+| Voice | Tone, compression, confidence level |
+| Vocabulary | Words the brand owns or avoids |
+| Product screenshots | Frame, shadow, context, annotation |
+| Data visualization | Chart personality, color logic |
+| State surfaces | Empty, loading, success, warning, error |
+
+## Change control
+
+- Document any approved change in `.cursor/design-memory/visual-decisions.md` using the decision log format.
+- Do not silently change previously approved design principles.
+- When superseding a decision, keep the old entry and mark it superseded with reason and date.
+- If `approved-direction.md` status is "Not yet approved," creative exploration is open. Once approved, deviations require explicit documentation.
+
+## Marketing and product unity
+
+Marketing pages and the application share:
+
+- Typography hierarchy logic
+- Color relationships (adjusted for density)
+- Motion personality
+- Voice and vocabulary
+- Graphic devices and shape language
+
+They differ in:
+
+- Information density
+- Pacing and narrative vs. task focus
+- Decorative vs. functional emphasis
+
+The product UI must not become a decorative marketing page. The marketing site must not become a generic landing template.
+
+## Copy alignment
+
+Visual brand constraints work with `draper-honeycopy.mdc` and `voice-and-boundaries.mdc`. Copy and visuals must express the same central idea. Invoke `brand-copy-director` when voice and layout diverge.
+
+## Logo-hidden test
+
+Before approving a direction, verify: cover the logo. Is the page still recognizably fajita-io? If not, strengthen composition, type, color behavior, or signature devices before building more pages.

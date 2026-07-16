@@ -1,0 +1,85 @@
+---
+description: Production-quality frontend standards for design implementation in fajita-io
+alwaysApply: true
+---
+
+# Frontend quality
+
+Design work must ship as production-ready frontend, not as a visual mock that breaks in the browser.
+
+## HTML and accessibility
+
+- Semantic HTML (`header`, `nav`, `main`, `section`, `article`, `button`, `label`, etc.)
+- Accessible interaction states (hover, focus, active, disabled, loading, error)
+- Full keyboard navigation for interactive UI
+- Visible focus states that match the brand without hiding them
+- WCAG-conscious contrast for text, icons, and controls
+- `prefers-reduced-motion` support for all non-essential animation
+- No hover-only interactions required to complete tasks
+- No decorative elements blocking content or intercepting clicks
+- Touch targets adequate on mobile (minimum 44px where practical)
+
+## Layout and performance
+
+- Responsive typography (fluid scales, not fixed px-only headlines)
+- Fluid layouts that do not break at intermediate widths
+- Stable loading states; no layout shift from missing image dimensions
+- Optimized image delivery (appropriate format, sizing, lazy load where sensible)
+- Sensible animation performance (prefer transform/opacity; avoid layout-thrashing)
+- No unnecessary client-side JavaScript for static presentation
+- No broken mobile overflow or horizontal scroll from design choices
+
+## Integrity
+
+- No placeholder links (`href="#"`) on customer-facing surfaces
+- No fake functionality or dead buttons
+- No unresolved console errors
+- No hydration errors
+- No TypeScript errors introduced by design work
+- No lint errors introduced by design work
+
+## Component discipline
+
+- No duplicated component patterns where a reusable primitive is appropriate
+- No premature abstraction that erases visual distinctiveness
+- The design system encodes art direction; it does not neutralize it (see `design-system-engineer` skill)
+
+## Visual testing breakpoints
+
+Capture and **inspect** screenshots at minimum:
+
+| Width | Context |
+| --- | --- |
+| 1440px | Wide desktop |
+| 1280px | Laptop |
+| 1024px | Tablet landscape |
+| 768px | Tablet portrait |
+| 430px | Large mobile |
+| 390px | Standard mobile |
+| 360px | Small mobile |
+
+Do not assume correct CSS equals correct design. Look at the screenshots.
+
+Use `visual-qa-critic`, `responsive-art-director`, and `layout-perfection-critic` skills for structured review.
+
+## Production hardening checklist
+
+Before declaring design work done:
+
+- [ ] Accessibility: focus, contrast, screen reader names, reduced motion
+- [ ] Browser behavior: Chrome, Safari, Firefox spot check
+- [ ] Performance: no jank from motion or images
+- [ ] Type safety and lint clean
+- [ ] Responsive behavior at all required breakpoints
+- [ ] Loading, empty, error states implemented
+- [ ] SEO and AI visibility per `seo-ai-visibility.mdc` (metadata, schema, sitemap, llms.txt)
+- [ ] Pixel-perfect pass per `pixel-perfect-quality.mdc` (markdown, spacing, CWV)
+- [ ] Real interactions only; no placeholder content
+- [ ] No dead controls
+
+## Related
+
+- `design-principles.mdc` for creative standards
+- `anti-ai-slop.mdc` for visual prohibitions
+- `DESIGN_WORKFLOW.md` Phase 11 for full validation sequence
+- `pixel-perfect-quality.mdc` for markdown, spacing, and CWV

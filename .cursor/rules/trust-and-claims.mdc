@@ -1,0 +1,49 @@
+---
+description: >-
+  Trust and honest claims for Fajita. No fabricated proof, metrics, or security
+  language. Maturity through clarity, not pretense.
+alwaysApply: true
+---
+
+# Trust and claims
+
+> The interface must never appear more mature by pretending. It should appear more mature by being unusually clear, complete, and considered.
+
+Register every customer-facing claim in `.cursor/experience-memory/trust-evidence-register.md` with evidence and verification source.
+
+## Prohibited
+
+- Fabricated testimonials, customer logos, or activity feeds
+- Fake live counters or manufactured scarcity
+- Unsupported "enterprise-grade," "SOC 2 compliant," or security badges unless verified
+- Invented performance benchmarks
+- Misleading comparison tables
+- Visual implication that unavailable features are live
+- Fake demo output presented as live capability
+- Inaccurate integration status ("Works with X" when not shipped)
+
+## Required honesty
+
+- Product claims match shipped functionality
+- Metrics verifiable or labeled as examples
+- Screenshots reflect real or clearly labeled demo UI
+- Pricing, renewal, trial, and refund terms clear
+- Security and privacy language accurate (`legal-drafting.mdc` for policies)
+- Company identity accurate per `company.mdc`
+- Contact information real
+
+## Build trust through
+
+- Product transparency and visible functionality
+- Clear system behavior and thoughtful errors
+- Specific explanations over vague reassurance
+- Real demonstrations (`interactive-demo-engineer`)
+- Coherent legal and support surfaces
+- Professional billing behavior
+- Honest status communication
+
+## Invoke
+
+`trust-experience-designer` when adding pricing, signup, checkout, security pages, integrations, AI behavior explanations, or marketing proof.
+
+Update `trust-evidence-register.md` for every new claim.

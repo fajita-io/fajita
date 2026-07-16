@@ -1,0 +1,57 @@
+---
+description: >-
+  Actual and perceived speed for Fajita. Immediate feedback, stable loading,
+  and performance budgets. Premium products explain when results cannot be instant.
+alwaysApply: true
+---
+
+# Perceived performance
+
+> A fast product responds immediately. A premium product also explains intelligently when the result cannot be immediate.
+
+## Every asynchronous interaction must answer
+
+1. Did the system receive the action?
+2. What is happening?
+3. How far has it progressed (when knowable)?
+4. Can the user continue working?
+5. What happens if it fails?
+6. Can it be retried safely?
+
+## Required practices
+
+- Immediate acknowledgment of interactions (visual/state change < 100ms perceived)
+- Optimistic updates where safe; clear processing where not
+- Stable skeleton geometry matching final layout
+- Progressive rendering (show shell, then content)
+- Route prefetching for likely next navigation
+- Intentional lazy loading (never lazy-load LCP element)
+- Image dimension reservation (width/height or aspect-ratio)
+- Avoid unnecessary blocking requests on critical path
+- Avoid serial data waterfalls where parallel fetch is safe
+- Preserve user input during failures
+- Background refresh without unnecessary UI disruption
+- Caching appropriate to data freshness requirements
+- Reduced animation on `prefers-reduced-motion`
+- No large decorative asset delaying primary experience
+
+## Performance budget
+
+Targets and measurements live in `.cursor/experience-memory/performance-budget.md`.
+
+Do not invent measured results. Set targets; record measurements after audit via `perceived-performance-engineer`.
+
+Align Core Web Vitals with `pixel-perfect-quality.mdc`:
+
+| Metric | Target |
+| --- | --- |
+| LCP | ≤ 2.5s |
+| INP | ≤ 200ms |
+| CLS | ≤ 0.1 |
+
+## Invoke
+
+- `perceived-performance-engineer` when adding async workflows, data fetching, uploads, AI generation, or heavy routes
+- `layout-perfection-critic` for CWV measurement on changed public pages
+
+Update `performance-budget.md` when budgets change.

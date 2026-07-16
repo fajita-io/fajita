@@ -1,0 +1,98 @@
+---
+description: >-
+  Secure defaults and privacy behavior for all Fajita implementation work.
+  Separates authentication, authorization, entitlements, and admin privilege.
+  Server-side enforcement, least privilege, deny by default. Security copy
+  documents reality, not aspiration.
+alwaysApply: true
+---
+
+# Security and privacy
+
+Permanent rule for all future implementation work in Fajita. Applies to marketing, the application, APIs, background jobs, integrations, and support tooling. Complements `trust-and-claims.mdc` (honest claims), `supabase-migrations.mdc` (RLS and service-role handling), and `operations-and-observability.mdc` (logging and redaction).
+
+> A premium SaaS experience is defined as much by what happens when something goes wrong as by what happens when everything works.
+
+> Security pages, privacy pages, and trust copy are documentation of reality, not aspirational marketing.
+
+## Four concepts that are never interchangeable
+
+| Concept | Question it answers | Enforced by |
+| --- | --- | --- |
+| Authentication | Who is the user? | Identity provider (Clerk in this repo), session validity |
+| Authorization | What may this user access? | Server-side ownership and role checks, RLS |
+| Entitlements | What does the user's plan permit? | Billing-derived server state (see `billing-and-entitlements.mdc`) |
+| Administrative privilege | What may a trusted internal operator do? | Separate, audited, least-privilege internal path |
+
+Never grant one because another is true. A signed-in user is not automatically authorized. An authorized user is not automatically entitled. No customer is ever an administrator.
+
+## Secure defaults required everywhere
+
+Apply secure defaults to: authentication, authorization, sessions, cookies, password behavior, magic links, OAuth, account recovery, multi-factor authentication (when applicable), API keys, webhooks, file uploads, user-generated content, integrations, administrative access, database access, row-level security, service roles, secrets, environment variables, logs, analytics, AI prompts, AI outputs, exports, deletion, backups, and support tooling.
+
+## Non-negotiable controls
+
+- Server-side authorization for every protected action. No client-side-only enforcement.
+- Least-privilege access for users, service processes, and operators.
+- Deny by default. An undefined permission is denied, not allowed.
+- Ownership checks on every object access (guard against insecure direct object references / IDOR).
+- Workspace and tenant isolation on every query, mutation, and file path.
+- Secure webhook signature verification before processing any payload.
+- Idempotent webhook handling with duplicate-event protection.
+- Rate limiting where abuse is realistic (auth, recovery, invites, uploads, public endpoints).
+- Input validation on all external input; output encoding on all rendered output.
+- Safe file validation: verify type and size, restrict extensions and content types, never trust the client-supplied name or MIME.
+- No secrets exposed to the browser. Only `NEXT_PUBLIC_*` values are public, and those must never carry privileged keys.
+- No privileged keys (`STRIPE_SECRET_KEY`, `CLERK_SECRET_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `DATABASE_URL`, signing secrets) in public env or client bundles.
+- No sensitive values written to logs (see `operations-and-observability.mdc`).
+- No sensitive personal data sent to analytics (DataFast events carry non-PII, non-secret metadata only).
+- No raw credentials stored in application tables. Identity and payment credentials live with their providers.
+- No fabricated compliance claims (SOC 2, "enterprise-grade," badges) until verified and registered in `trust-evidence-register.md`.
+
+## Ten questions every sensitive feature must answer
+
+Before implementing any sensitive feature, answer and record:
+
+1. Who can initiate it?
+2. Who can view the result?
+3. What server-side check enforces this?
+4. What data is stored?
+5. Where is it stored?
+6. How long is it retained?
+7. What is logged?
+8. How is it deleted?
+9. What happens if the operation fails?
+10. How can suspicious activity be investigated?
+
+If any answer is unknown, mark it unresolved in the memory files below. Do not ship a sensitive feature with unanswered questions.
+
+## Repository-specific baseline (known facts)
+
+- Identity: Clerk is configured via env (`CLERK_SECRET_KEY`, `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`), not yet wired into UI. Treat Clerk as the authentication authority; do not build custom auth.
+- Database: Supabase Postgres (`supabase-migrations.mdc`). Billing tables have RLS enabled but no policies yet. Every `public` table needs RLS plus explicit policies before it holds user data.
+- Service role: `SUPABASE_SERVICE_ROLE_KEY` is server-only. Never import it into client components or expose it through public env.
+- Billing: Stripe is the source of truth for subscription state. The webhook route verifies signatures (`stripe.webhooks.constructEvent`). Idempotency and state persistence are not yet complete (see `billing-and-entitlements.mdc`).
+
+## User-facing security and privacy language
+
+Security and privacy copy must match the real implementation. Do not describe controls that do not exist. Align voice with `voice-and-boundaries.mdc` and keep internal detail off customer surfaces (`brand-constraints.mdc` customer-facing boundary).
+
+## Required memory updates
+
+Record material decisions in:
+
+- `.cursor/maturity-memory/security-model.md`
+- `.cursor/maturity-memory/data-inventory.md`
+- `.cursor/maturity-memory/permissions-matrix.md`
+
+Before implementing or materially changing authentication, authorization, workspaces, admin access, API keys, integrations, webhooks, uploads, AI processing, or data export/deletion, invoke `security-and-privacy-architect`.
+
+## Avoid overengineering
+
+Prefer provider-native security (Clerk sessions, Supabase RLS, Stripe-hosted payment surfaces) over custom implementations. Do not build a complex role system before roles exist, or add security tooling with no attacker in the threat model. Reach a large company's reliability with the smallest coherent system.
+
+## Related
+
+- `trust-and-claims.mdc`, `trust-evidence-register.md`
+- `billing-and-entitlements.mdc`, `operations-and-observability.mdc`, `lifecycle-communications.mdc`
+- `supabase-migrations.mdc`

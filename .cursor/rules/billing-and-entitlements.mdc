@@ -1,0 +1,88 @@
+---
+description: >-
+  Billing and entitlement behavior for Fajita. Application access derives from
+  authoritative server-side billing state, never from a browser reaching a
+  success URL. Separates billing (what the customer pays) from entitlements
+  (what the product allows).
+alwaysApply: true
+---
+
+# Billing and entitlements
+
+Permanent rule for all pricing, checkout, subscription, usage, credit, and plan-gating work. Uses Stripe as the payment authority. Complements `security-and-privacy.mdc` (server-side enforcement), `trust-and-claims.mdc` (honest pricing), and `lifecycle-communications.mdc` (billing emails).
+
+> Billing determines what the customer pays. Entitlements determine what the product allows. They must be connected, but they must not be the same implementation concern.
+
+> A premium SaaS experience is defined as much by what happens when something goes wrong as by what happens when everything works.
+
+## Distinct concepts
+
+Keep these separate in code and in memory: product catalog, prices, plans, subscriptions, billing status, product entitlements, usage, credits, limits, permissions, promotions, and trials. A plan is not a price. A subscription is not an entitlement. Usage is not a permission.
+
+## Access derives from authoritative state
+
+Application access must be derived from authoritative server-side state (Stripe as source of truth, reconciled into the app). Do not grant paid access solely because the browser visited a Checkout success URL. The success URL is a hint, not proof. Confirm entitlement server-side before unlocking paid capability.
+
+## Billing states to consider
+
+New subscription, trialing, active, past due, payment failed, incomplete, paused, canceled, scheduled cancellation, grace period, expired, refunded, disputed, upgraded, downgraded, reactivated, one-time purchase, promotional access, complimentary access, usage exhaustion, credit exhaustion.
+
+Not every product needs every state. Design the smallest set that matches the real plan structure, and mark the rest not applicable in `billing-state-model.md`.
+
+## Required behavior
+
+- Verified billing webhooks (signature checked before processing).
+- Idempotent event processing with a stored event ID or equivalent guard.
+- Duplicate-event protection.
+- Safe out-of-order event handling (use event timestamps / subscription state, not arrival order).
+- Server-side entitlement checks on every plan-gated action.
+- Clearly defined grace-period behavior.
+- Clearly defined downgrade behavior (including what happens to data over the new limit).
+- Clearly defined cancellation behavior.
+- Clearly defined data retention after cancellation.
+- Clearly defined failed-payment recovery.
+- Accurate invoice and receipt behavior.
+- Clear renewal language.
+- Clear upgrade and downgrade effects (timing, proration, access changes).
+- No hidden billing terms, surprise charges, or misleading "free" claims.
+- No permanently locked user data without explanation.
+- No destructive downgrade without warning.
+- No accidental entitlement leakage across workspaces or accounts.
+
+## Every restricted interface must explain
+
+- What is unavailable.
+- Why it is unavailable.
+- What plan or action unlocks it.
+- What happens to existing data.
+- Whether the restriction is temporary.
+- Whether the attempted work was preserved.
+
+An upgrade prompt must never hide what the user was trying to do.
+
+## Repository-specific baseline (known facts)
+
+- Provider: Stripe (`stripe@22`).
+- Plans defined in `src/lib/stripe/plans.ts`: `starter` (10 monitors), `pro` (50 monitors), `business` (unlimited). Prices resolved by `lookup_key` (`fajita_<plan>_<interval>`). Pricing amounts are `[UNRESOLVED]` (set in Stripe Dashboard).
+- Entitlements resolved in `src/lib/stripe/entitlements.ts` by reading Stripe as the source of truth (`customers.search` on `metadata.user_id`, then subscription status).
+- Webhook route `src/app/api/webhooks/stripe/route.ts` verifies signatures. The current handler (`src/lib/stripe/webhooks.ts`) only emits analytics goals. **Known gaps:** it does not persist subscription state to the `billing_subscriptions` cache table, and it does not implement idempotency or duplicate protection. Close these before relying on the cache or before launch.
+- Supabase tables `billing_accounts` and `billing_subscriptions` exist with RLS enabled but no policies. The cache is currently unpopulated.
+- Identity keys are Clerk user IDs (`user_id text`), linked to Stripe via customer metadata.
+
+Reconcile payment-provider state and application state deliberately. Do not let the cache and Stripe drift silently; define which is authoritative for each check (Stripe authoritative; cache is a performance mirror).
+
+## Required memory updates
+
+- `.cursor/maturity-memory/entitlement-matrix.md`
+- `.cursor/maturity-memory/billing-state-model.md`
+
+Before implementing pricing, checkout, trials, subscriptions, credits, usage limits, one-time purchases, upgrades, downgrades, cancellation, failed-payment recovery, the billing portal, or plan-gated features, invoke `billing-and-entitlement-architect`.
+
+## Avoid overengineering
+
+Use Stripe Checkout, Customer Portal, and webhooks instead of custom billing UI or a custom payment ledger. Do not build a usage-metering pipeline before a metered plan exists. Prefer a small, well-defined set of states with straightforward recovery paths.
+
+## Related
+
+- `security-and-privacy.mdc`, `trust-and-claims.mdc`, `lifecycle-communications.mdc`
+- `permissions-matrix.md`, `data-inventory.md`

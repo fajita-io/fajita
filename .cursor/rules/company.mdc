@@ -1,0 +1,53 @@
+---
+description: >-
+  Official company name and address for Fajita. Use on legal pages, footers,
+  contact surfaces, emails, and policies.
+alwaysApply: true
+---
+
+# Company
+
+## Legal name
+
+**Fajita**
+
+Use "Fajita" as the company name in customer-facing copy, legal documents, footers, contact blocks, and transactional emails unless a specific legal entity suffix is added later by explicit instruction.
+
+Do not invent entity suffixes (Inc., LLC, Corp.) unless documented here.
+
+## Mailing address
+
+Use this exact address block for contact, legal notices, and footer listings:
+
+```text
+Fajita
+1001 S Main St, Ste 600
+Kalispell, MT 59901
+```
+
+Single-line form when space is tight:
+
+`Fajita · 1001 S Main St, Ste 600, Kalispell, MT 59901`
+
+## When to use
+
+| Surface | Usage |
+| --- | --- |
+| Site footer | Company name + address or name with link to contact |
+| Legal (Terms, Privacy, etc.) | Party name and notice address per `legal-drafting.mdc` |
+| Contact / About | Full address block |
+| Emails | Footer signature with company name |
+| In-app legal or billing | Company name; address when required for compliance |
+
+## Formatting
+
+- No em dashes in customer-facing address copy
+- Spell out "Ste" as "Ste" (standard suite abbreviation) or "Suite" in formal legal docs
+- State: MT. City: Kalispell. ZIP: 59901
+- Do not alter the street address unless this rule is updated
+
+## Related
+
+- Legal voice: `legal-drafting.mdc`
+- Marketing copy voice: `draper-honeycopy.mdc`
+- Product/repo slug may differ (e.g., fajita-io); customer-facing name is **Fajita**

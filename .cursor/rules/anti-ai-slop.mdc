@@ -1,0 +1,100 @@
+---
+description: Ruthless prohibition of generic AI-generated design patterns for fajita-io
+alwaysApply: true
+---
+
+# Anti-AI slop
+
+This rule rejects default AI design conventions. If a layout could belong to any startup, it fails.
+
+Align with `voice-and-boundaries.mdc` for copy slop. This rule covers visual and structural slop.
+
+## Rejected by default
+
+Do not use these unless explicitly justified in design memory with a product-specific reason:
+
+**Color and surface**
+- Purple-to-blue gradients
+- Random aurora backgrounds
+- Meaningless glowing orbs
+- Excessive glassmorphism
+- Dark backgrounds with neon accents solely because the product is technical
+- Arbitrary gradients applied to text
+- Excessive blur
+
+**Layout and structure**
+- Floating dashboard-card collages
+- Generic bento grids
+- Three-column feature-card sections
+- Endless rounded rectangles
+- Identical border radii across all components
+- Centered text in every section
+- Every section contained inside a card
+- Decorative grids added merely to appear technical
+- Feature icon grids that do not advance the narrative
+- Product mockups floating in empty space
+
+**Typography**
+- Giant sans-serif headlines without typographic character
+- Inter or another neutral UI font everywhere without rationale
+
+**Decoration**
+- Random pills and badges above every headline
+- Generic abstract SVG blobs
+- Fake terminal windows used without product relevance
+
+**Social proof and trust**
+- Generic testimonial carousels
+- Fake logos or unsupported trust claims
+
+**Motion**
+- Animations that do not communicate hierarchy, causality, state, or personality
+- Animating every element
+- Staggering every section without narrative reason
+
+**Copy (visual-adjacent)**
+- "Built for modern teams," "supercharge your workflow," "unlock the power of," "all-in-one platform," or equivalent empty SaaS language
+
+**Direct imitation**
+- Layouts, palettes, type pairings, or compositions that directly imitate Linear, Stripe, Framer, Vercel, Apple, Notion, Arc, or any reference website
+
+Record rejected patterns in `.cursor/design-memory/rejected-patterns.md`.
+
+## Stop and reconsider
+
+If the design could be described as any of the following without a more specific, ownable creative idea, halt and invoke `creative-director`:
+
+- Clean SaaS
+- Modern startup
+- Sleek dashboard
+- Premium gradient
+- Minimal tech
+- Linear-inspired
+- Apple-inspired
+
+## Ownable requirement
+
+Every major page must contain at least one composition, interaction, typographic decision, or visual device that could not be transferred to an unrelated SaaS product without feeling out of place.
+
+## AI-Slop Test
+
+A page fails when:
+
+- The company name and copy could be replaced and the design would still work for any startup
+- Most visual interest comes from gradients, glows, shadows, or glass
+- The layout consists primarily of repetitive cards
+- The product is not understandable without reading all the text
+- The page appears assembled rather than composed
+- The design looks like a remix of popular SaaS references
+- There is no memorable moment
+- Mobile is only a collapsed desktop layout
+
+Failed pages require another pass with `visual-qa-critic` before ship.
+
+## What is allowed
+
+- Familiar interaction patterns (forms, menus, focus rings, standard button placement)
+- Restraint and whitespace
+- Strong editorial typography
+- Product-specific visual devices tied to the creative thesis
+- References whose **logic** was extracted, not whose **layout** was copied (see `reference-deconstruction` skill)

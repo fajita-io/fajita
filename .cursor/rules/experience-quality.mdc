@@ -1,0 +1,80 @@
+---
+description: >-
+  Product experience quality for Fajita. Evaluate through complete user journeys,
+  not static screenshots alone. Complements creative-direction system.
+alwaysApply: true
+---
+
+# Experience quality
+
+Premium product design is not decoration. It is the removal of uncertainty at every interaction.
+
+This rule governs **behavior, clarity, feedback, and journey coherence**. It complements the creative-direction system (`design-principles.mdc`, design-memory) without replacing it. Visual art direction and experience quality are both required.
+
+## Read before experience work
+
+- `.cursor/experience-memory/experience-principles.md`
+- `.cursor/experience-memory/critical-user-journeys.md`
+- `.cursor/experience-memory/interface-state-inventory.md`
+- `.cursor/rules/state-completeness.mdc`
+- `.cursor/rules/perceived-performance.mdc`
+- `.cursor/rules/trust-and-claims.mdc`
+
+## Evaluate every important workflow
+
+| Question | Must be yes |
+| --- | --- |
+| What does the user understand immediately? | Purpose and context clear |
+| What do they believe happens next? | Primary action obvious |
+| Is every primary action obvious? | One dominant action per screen |
+| Does every action produce immediate feedback? | Acknowledgment within 100ms feel |
+| Does navigation preserve context? | User not lost after transitions |
+| Is progress visible? | Long tasks show state |
+| Is system status understandable? | Loading, saving, errors legible |
+| Does the interface prevent mistakes? | Confirm destructive; disable with reason |
+| Can mistakes be recovered? | Undo, retry, preserved input |
+| Is advanced capability progressively disclosed? | Power features not dumped on day one |
+| Are new users guided without patronizing experts? | Skippable help; shortcuts for power users |
+| Does the product feel responsive at all times? | See `perceived-performance.mdc` |
+| Does value communicate during critical journeys? | Not only on marketing |
+| Is the interface coherent when data is sparse, dense, delayed, missing, or wrong? | All states designed |
+
+## Required workflow anatomy
+
+Every important workflow must have:
+
+1. Clear entry point
+2. Visible current state
+3. Clear primary action
+4. Immediate interaction feedback
+5. Progress communication (when work takes time)
+6. Meaningful completion state
+7. Recovery path
+8. Logical next step
+
+Reject interfaces that only look polished in the ideal happy-path screenshot.
+
+## Auto-invoke skills
+
+| Work type | Skill |
+| --- | --- |
+| Journey mapping, IA | `product-experience-director` |
+| Onboarding | `onboarding-activation-architect` |
+| States | `interface-state-director` |
+| Microinteractions | `microinteraction-director` |
+| Demos | `interactive-demo-engineer` |
+| Trust | `trust-experience-designer` |
+| Speed | `perceived-performance-engineer` |
+| Data displays | `data-visualization-director` |
+| Sample content | `content-realism-editor` |
+| Analytics | `product-analytics-architect` |
+| Browser QA | `cross-browser-qa-engineer` |
+| Code health | `maintainability-critic` |
+
+See `DESIGN_WORKFLOW.md` Experience Phases A–G.
+
+## Related
+
+- `release-quality-gates.mdc` for ship criteria
+- `visual-qa-critic` for creative screenshot QA
+- `layout-perfection-critic` for spacing and CWV

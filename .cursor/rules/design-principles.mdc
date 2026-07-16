@@ -1,0 +1,94 @@
+---
+description: Foundational design philosophy for fajita-io. Requires creative thesis before implementation.
+alwaysApply: true
+---
+
+# Design principles
+
+These principles govern all visual, motion, and layout work in fajita-io. They apply to marketing pages, the application, emails, and any customer-facing surface.
+
+## Core mandate
+
+> Familiar interaction patterns are allowed. Familiar art direction is not.
+
+> Originality does not mean making the interface difficult to understand. The experience should feel visually unexpected while remaining behaviorally intuitive.
+
+## Before any significant visual change
+
+Agents auto-load context per `design-workflow-auto.mdc`. Read these design-memory files in full:
+
+- `.cursor/design-memory/creative-thesis.md`
+- `.cursor/design-memory/approved-direction.md`
+- `.cursor/design-memory/rejected-patterns.md`
+- `.cursor/design-memory/visual-decisions.md`
+
+Do not begin broad UI implementation until a creative direction has been selected or clearly recommended. Prototyping a visual slice is allowed only after Phase 2 of `DESIGN_WORKFLOW.md` has started.
+
+## Creative process requirements
+
+1. **Begin with a creative thesis**, not a component library. The thesis names the emotional response, the central idea, and what the category gets wrong.
+2. **Identify the intended emotional response** before choosing colors, type, or layout patterns.
+3. **Audit category conventions** and decide which to preserve (usability) and which to reject (differentiation).
+4. **Build hierarchy** through composition, scale, typography, contrast, and pacing. Not through more boxes, badges, and borders.
+5. **Use visual restraint.** Empty space is a material. Do not fill every region with decoration or cards.
+6. **Prefer deliberate asymmetry** over accidental imbalance. Asymmetry should feel composed, not broken.
+7. **Design sections as connected narrative moments.** Each section should change rhythm, density, or viewpoint.
+8. **Make the product recognizable without relying solely on its logo.** Shape language, type, motion, and composition should carry identity.
+9. **Preserve clarity even when experimenting.** Users must understand what the product does and what to do next.
+10. **Ensure every visual decision has a strategic purpose.** If you cannot explain why a choice exists, remove it.
+11. **Distinguish familiar usability from familiar art direction.** Standard patterns for forms, navigation, and feedback are fine. Generic SaaS aesthetics are not.
+12. **Design marketing and application surfaces as parts of the same brand world.** Different density, same DNA.
+13. **Treat mobile as an art-directed experience.** Recompose; do not only collapse the desktop layout.
+14. **Build accessibility into the visual system.** Contrast, focus, motion, and touch targets are design decisions, not afterthoughts.
+15. **Use real content or realistic product content.** No lorem ipsum, fake metrics, or placeholder logos.
+
+## Required skills by phase
+
+Consult `DESIGN_WORKFLOW.md` for the full sequence. Key invocations:
+
+| Phase | Skills |
+| --- | --- |
+| Creative direction | `creative-director`, `reference-deconstruction` |
+| Brand world | `brand-world-builder`, `brand-copy-director`, `typography-director` |
+| Layout and motion | `editorial-layout`, `signature-moment-designer`, `motion-choreographer` |
+| Implementation | `design-system-engineer`, `product-ui-art-director` |
+| Responsive and QA | `responsive-art-director`, `visual-qa-critic` |
+| Conversion | `conversion-experience-designer` |
+
+## Operating behavior
+
+### Before design work
+
+1. Read all permanent design rules in `.cursor/rules/` (design, anti-slop, brand, frontend quality).
+2. Read all design-memory files.
+3. Inspect the product and existing implementation.
+4. Determine which skill applies.
+5. Avoid implementing before understanding the approved direction.
+
+### During design work
+
+- Make intentional visual decisions.
+- Preserve previously approved principles.
+- Document material changes in design memory.
+- Prefer one strong coherent idea over a collection of fashionable effects.
+- Use browser screenshots to evaluate the actual implementation.
+- Judge the rendered result. Correct code does not guarantee good design.
+- Keep the product understandable.
+- Preserve accessibility.
+- Avoid direct visual imitation of reference sites.
+
+### After design work
+
+- Run the project.
+- Inspect relevant routes.
+- Capture screenshots at required breakpoints.
+- Correct visible defects.
+- Update design-memory files.
+- Record unresolved issues honestly in `critique-log.md`.
+
+## Related rules
+
+- `anti-ai-slop.mdc` for prohibited visual patterns
+- `brand-constraints.mdc` for identity consistency
+- `frontend-quality.mdc` for production standards
+- `voice-and-boundaries.mdc` and `draper-honeycopy.mdc` for copy (complements `brand-copy-director` skill)

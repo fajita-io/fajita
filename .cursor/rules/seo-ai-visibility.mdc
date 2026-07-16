@@ -1,0 +1,239 @@
+---
+description: >-
+  SEO and AI visibility standards for Fajita. Maximize organic search and LLM
+  discoverability from day one on all public surfaces.
+alwaysApply: true
+---
+
+# SEO and AI visibility
+
+Every public page ships with search and AI discovery built in, not bolted on later. The goal: correct indexing, rich results where earned, and clear entity signals so humans and models can find, understand, and cite Fajita accurately.
+
+Align with `company.mdc` for legal name and address. Align with `voice-and-boundaries.mdc` and `draper-honeycopy.mdc` for copy quality (specific copy ranks and gets cited; slop does not).
+
+## Scope
+
+| Surface | SEO treatment |
+| --- | --- |
+| Marketing, landing, pricing, docs, blog, legal | Full SEO + AI visibility |
+| Auth-gated app (dashboard, workspace) | `noindex` unless a page is intentionally public |
+| API routes | Not indexed |
+| Preview/staging | `noindex` + `robots.txt` disallow |
+
+When adding a route, decide index intent before shipping.
+
+## Auto-implementation (no separate prompt)
+
+Agents must implement SEO infrastructure **automatically** as part of frontend work. The user should never need to say "implement SEO," "add sitemap," or "set up llms.txt."
+
+**On session start or before any public page work**, check whether the SEO foundation exists. If anything is missing, **create it in the same work session** before or alongside the requested page. Do not defer to a follow-up task.
+
+### SEO foundation (ship once, maintain always)
+
+| Asset | Location (Next.js App Router) |
+| --- | --- |
+| `metadataBase` + default metadata | `src/app/layout.tsx` |
+| Organization + WebSite JSON-LD | root layout or home page |
+| `robots.txt` | `src/app/robots.ts` or `public/robots.txt` |
+| `sitemap.xml` | `src/app/sitemap.ts` |
+| `llms.txt` | `src/app/llms.txt/route.ts` or `public/llms.txt` |
+| OG defaults | `opengraph-image` or metadata `openGraph.images` |
+
+Use real Fajita copy from `company.mdc`. Replace placeholder metadata (e.g. `title: "fajita.io"`) on first touch.
+
+### Per-page auto-implementation
+
+When creating or editing any public route, **in the same PR/commit**:
+
+- Add or update `metadata` / `generateMetadata` for that route
+- Add route to sitemap
+- Update `llms.txt` if URLs or positioning changed
+- Add JSON-LD when page type warrants it
+- Verify index intent (`index` vs `noindex`)
+
+Do not ship a new public page without its SEO package.
+
+## Non-negotiables (every public page)
+
+- One clear `<h1>` matching page intent
+- Unique `<title>` (50–60 chars target) and meta description (140–160 chars target)
+- Canonical URL (`rel="canonical"`)
+- `lang="en"` on `<html>` (adjust if localized later)
+- Semantic HTML (`main`, `nav`, `article`, `section`, headings in order)
+- Meaningful text in HTML on first load (no empty shell requiring JS for core meaning)
+- Descriptive alt text on informative images; empty alt on decorative
+- Internal links with descriptive anchor text (not "click here")
+- Mobile-friendly layout and tap targets
+- Fast LCP: optimize hero images, fonts, and blocking scripts
+- No placeholder meta ("fajita.io", "Coming soon" as sole description)
+
+## Next.js App Router requirements
+
+Use the Metadata API (`export const metadata` or `generateMetadata`) per route. Do not rely on client-only title updates for public pages.
+
+Per public route provide where applicable:
+
+```text
+title
+description
+alternates.canonical
+openGraph (title, description, url, siteName, images, type)
+twitter (card, title, description, images)
+robots (only when diverging from default index/follow)
+```
+
+- Default site metadata in root `layout.tsx`; override per page
+- Use `metadataBase` with production URL once domain is known
+- Prefer static or SSG/ISR for indexable marketing content
+- `generateStaticParams` for programmatic SEO pages (docs, comparisons) when added
+
+## Required root files
+
+Ship and maintain at production domain root:
+
+| File | Purpose |
+| --- | --- |
+| `/robots.txt` | Allow/disallow paths; reference sitemap |
+| `/sitemap.xml` | All indexable public URLs with `lastmod` |
+| `/llms.txt` | AI-oriented site summary, key URLs, usage guidance |
+| `/favicon.ico` | Brand mark in SERPs and tabs |
+| `opengraph-image` or explicit OG images | Share and citation previews |
+
+Keep `robots.txt`, `llms.txt`, and sitemap reachable (see `src/middleware.ts` matcher).
+
+### robots.txt baseline
+
+- Allow public marketing, docs, legal
+- Disallow `/api/`, authenticated app paths, staging utilities
+- Include `Sitemap: https://[production-domain]/sitemap.xml`
+
+### llms.txt baseline
+
+Plain, factual, quotable. Include:
+
+- What Fajita is (one paragraph)
+- Who it is for
+- Primary URLs (home, pricing, docs, signup)
+- Company name and contact per `company.mdc`
+- Preferred name for the product
+- Link to full policy pages (privacy, terms)
+- Optional: `llms-full.txt` with expanded product detail for models that support it
+
+Update `llms.txt` when positioning, pricing, or core features change.
+
+## Structured data (JSON-LD)
+
+Add valid JSON-LD on relevant public pages. Minimum site-wide:
+
+- **Organization** (name: Fajita, url, address from `company.mdc`, logo when available)
+- **WebSite** (name, url, `potentialAction` SearchAction if site search exists)
+
+Add when content exists:
+
+- **SoftwareApplication** or **Product** on product/pricing pages
+- **FAQPage** on pages with real FAQs
+- **Article** / **BlogPosting** on blog posts
+- **BreadcrumbList** on nested pages
+- **WebPage** for generic marketing pages
+
+Rules:
+
+- JSON-LD must match visible on-page content (no false claims)
+- No fake `aggregateRating` or `review` without real verified data
+- Validate with Google Rich Results Test before ship
+
+## Content standards (ranking and citations)
+
+AI systems and search engines reward **specific, true, well-structured** content.
+
+**Do:**
+- Lead with what the product does in plain language
+- Use descriptive H2/H3 sections (problem, how it works, proof, pricing, FAQ)
+- Answer real questions users ask (good for FAQ schema and AI answers)
+- Keep claims verifiable; link to sources where appropriate for a citation product
+- Refresh titles and descriptions when positioning changes
+
+**Do not:**
+- Keyword stuffing or hidden text
+- Duplicate thin pages for long-tail spam
+- Empty SaaS filler (see `voice-and-boundaries.mdc`)
+- `noindex` on important landing pages by accident
+- Block all bots in `robots.txt` unless legal requires it
+
+## AI crawler visibility
+
+This project tracks AI crawler traffic via `@datafast/ai-crawl` in `src/middleware.ts`. Preserve that integration.
+
+- Do not break middleware reachability for indexable paths
+- Prefer allowing major search and answer-engine crawlers unless policy dictates otherwise
+- Monitor crawler logs after launches and route changes
+- When adding auth middleware, exclude `robots.txt`, `sitemap.xml`, `llms.txt`, and public static assets from redirects
+
+Entity clarity helps models recommend correctly:
+
+- Consistent product name (**Fajita**) across title, H1, `llms.txt`, and Organization schema
+- Visible pricing and feature truth on indexable pages
+- About or company context with address per `company.mdc`
+
+## Performance and Core Web Vitals
+
+SEO and UX share metrics. Meet `frontend-quality.mdc` and:
+
+- Set width/height on images; use modern formats (WebP/AVIF)
+- Limit render-blocking scripts on marketing pages
+- Font subsetting and `font-display: swap`
+- Target good LCP, INP, and CLS on mobile
+
+## Internal linking and IA
+
+- Homepage links to primary conversion and proof pages
+- Footer: legal, contact, docs, pricing
+- Docs and blog link back to product pages with descriptive anchors
+- Avoid orphan pages (no inbound internal links)
+
+## App vs. marketing
+
+The authenticated app is usually **not** a growth surface for organic search:
+
+- Default app layout: `robots: { index: false, follow: false }` unless page is public by design
+- Public share links (if any): intentional metadata and canonical per share URL
+- Do not leak private user content into sitemap or structured data
+
+## Checklist before shipping a public page
+
+- [ ] Unique title and meta description
+- [ ] Canonical URL set
+- [ ] One H1; logical heading order
+- [ ] OG + Twitter images
+- [ ] Added to `sitemap.xml`
+- [ ] JSON-LD if applicable and validated
+- [ ] `llms.txt` updated if positioning or key URLs changed
+- [ ] Core content visible without JS
+- [ ] Mobile and performance spot check
+- [ ] No accidental `noindex`
+- [ ] Company entity consistent with `company.mdc`
+
+## Checklist before launch
+
+- [ ] Production `metadataBase` URL configured
+- [ ] `robots.txt`, `sitemap.xml`, `llms.txt` live
+- [ ] Organization + WebSite JSON-LD on home or layout
+- [ ] Google Search Console property verified (document in internal runbook, not customer-facing)
+- [ ] Submit sitemap after first deploy
+- [ ] Spot-check rendered HTML (View Source), not only React tree
+- [ ] AI crawler tracking still firing in middleware
+
+## When to update this work
+
+- New public route or section
+- Positioning, pricing, or product name change
+- Domain or URL structure change
+- Major redesign (preserve or improve metadata and schema)
+- Adding docs, blog, or programmatic pages
+
+## Related
+
+- `frontend-quality.mdc` (semantic HTML, performance)
+- `company.mdc` (entity name and address)
+- `conversion-experience-designer` skill (page hierarchy supports SEO intent)
+- `DESIGN_WORKFLOW.md` Phase 11 production hardening

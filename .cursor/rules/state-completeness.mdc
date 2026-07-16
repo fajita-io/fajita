@@ -1,0 +1,75 @@
+---
+description: >-
+  Complete interface state models for Fajita. Features are not done until every
+  realistic state is designed, implemented, and tested.
+alwaysApply: true
+---
+
+# State completeness
+
+> A feature is not complete when its happy path works. It is complete when users understand what is happening across every realistic state.
+
+## Required state consideration
+
+For each meaningful component, page, workflow, data surface, or action, consider which of these apply and implement those that do:
+
+**Lifecycle:** Default · First-use · Empty · Populated · Sparse · Dense
+
+**Async:** Loading · Optimistic · Processing · Partial success · Success
+
+**Problems:** Warning · Validation error · System error · Offline/disconnected
+
+**Access:** Permission denied · Restricted by plan · Expired · Stale
+
+**Interaction:** Disabled · Hover · Focus · Active · Selected
+
+**Risk:** Destructive confirmation · Undo · Recovery
+
+**Context:** Mobile · Reduced motion
+
+Document relevant states in `.cursor/experience-memory/interface-state-inventory.md` **before** declaring a feature complete.
+
+## Prohibited
+
+- Blank empty states
+- Infinite spinners without message or escape
+- Generic "Something went wrong" without recovery guidance
+- Disabled buttons without explanation (tooltip, helper text, or visible reason)
+- Destructive actions without confirmation or undo where appropriate
+- Loading states that cause major layout shift
+- Errors that erase user input
+- Dead ends after successful actions (always offer next step)
+- Upgrade prompts that hide what the user was attempting
+- Empty dashboards with meaningless sample charts
+- Skeletons that do not resemble eventual content
+- Inconsistent state language ("Failed" vs "Error" vs "Could not" mixed randomly)
+
+## Empty state requirements
+
+Every empty state must do at least one:
+
+- Explain the feature
+- Show why it matters
+- Help create the first item
+- Demonstrate expected outcome
+- Offer import path
+- Provide realistic example
+- Direct to another useful action
+
+Invoke `interface-state-director` when adding features.
+
+## Error state requirements
+
+Errors must explain:
+
+- What happened (plain language)
+- What was preserved
+- What the user can do now
+- Whether retry is safe
+- Where to get help
+
+Align copy with `voice-and-boundaries.mdc`. No internal stack traces customer-facing.
+
+## Testing
+
+Each implemented state needs verification in `interface-state-inventory.md` (Testing status column). Use `cross-browser-qa-engineer` for mobile and reduced-motion variants.

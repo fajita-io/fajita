@@ -1,0 +1,90 @@
+---
+description: >-
+  Transactional email, lifecycle email, product notifications, and customer
+  communications for Fajita. Every message needs a legitimate trigger, a single
+  dominant action, and accurate product state. Essential messages are never
+  suppressed as marketing.
+alwaysApply: true
+---
+
+# Lifecycle communications
+
+Permanent rule for all customer communication: transactional emails, lifecycle emails, in-app notifications, and product messaging. Complements `voice-and-boundaries.mdc` and `draper-honeycopy.mdc` (voice), `trust-and-claims.mdc` (honest content), and `security-and-privacy.mdc` (no secrets in messages).
+
+> A polished lifecycle system should feel like the product is paying attention, not like a marketing sequence is chasing the user.
+
+> A premium SaaS experience is defined as much by what happens when something goes wrong as by what happens when everything works.
+
+## Communication categories
+
+Distinguish and never blur: transactional, security, billing, product notification, onboarding, educational lifecycle, marketing, operational, and support communication. Category determines consent, suppression, urgency, and channel.
+
+## Every communication must have
+
+- A legitimate trigger tied to real system state.
+- A clear purpose.
+- A defined audience.
+- A single dominant action.
+- Accurate product state at send time.
+- Accurate branding.
+- Appropriate urgency.
+- A fallback destination.
+- An ownership and support path.
+- A suppression policy.
+- A retry policy where applicable.
+- An analytics purpose where appropriate.
+
+## Consent and suppression
+
+Apply consent and preference behavior appropriate to the category. Security, account, and essential billing communications must not be suppressed as ordinary marketing. Marketing and educational lifecycle messages honor opt-out. Never send a transactional message dressed as marketing to bypass preferences, and never withhold a security alert because a user unsubscribed from a newsletter.
+
+## Delivery and craft requirements
+
+- Branded sender identity with consistent sender names.
+- Appropriate reply handling (monitored reply-to or a clear no-reply with a real support path).
+- Verified sending domains (SPF, DKIM, DMARC configured before launch).
+- Professional plain-text alternatives.
+- Accessible templates and mobile-safe layouts.
+- Useful preview text.
+- Clear links and a clear support contact (`company.mdc` identity).
+
+## Hard prohibitions
+
+- No fake urgency.
+- No invented activity or fabricated engagement.
+- No misleading personalization.
+- No sensitive information in subject lines.
+- No passwords, secrets, or complete API credentials in messages.
+- No customer data leakage across recipients (verify recipient scoping).
+- No duplicate sends from retried jobs (idempotent send keys).
+- No message claiming success before the underlying operation actually succeeded.
+
+## Voice
+
+Product and email language share the approved Fajita voice (`draper-honeycopy.mdc`) without sacrificing clarity. Confident, specific, calm. No em dashes. No AI slop.
+
+## Notifications versus email
+
+Product notifications and emails must not repeat the same information unnecessarily. Decide the right channel per event in `notification-policy.md`. All communications must reflect real system state at delivery time.
+
+## Repository-specific baseline (known facts)
+
+- No email/sending provider is wired yet. Resend is available as an MCP integration but is not a project dependency and has no configured key. Sender domain, provider, and templates are `[UNRESOLVED]`.
+- DataFast is the analytics layer; communication analytics should reuse defined goals where meaningful without leaking PII.
+- Company identity for sender and footers: Fajita, 1001 S Main St, Ste 600, Kalispell, MT 59901 (`company.mdc`).
+
+## Required memory updates
+
+- `.cursor/maturity-memory/communication-map.md`
+- `.cursor/maturity-memory/notification-policy.md`
+
+Before implementing welcome emails, auth emails, security alerts, onboarding emails, activation nudges, processing notifications, digests, usage alerts, billing emails, failed-payment emails, upgrade confirmations, cancellation emails, re-engagement, in-app notification centers, or support communications, invoke `lifecycle-communication-director`.
+
+## Avoid overengineering
+
+Use a managed sending provider rather than custom email infrastructure. Start with the essential transactional and security messages; add lifecycle and marketing sequences only when a real journey needs them. Do not build a notification center before there is something worth notifying users about.
+
+## Related
+
+- `voice-and-boundaries.mdc`, `draper-honeycopy.mdc`, `company.mdc`
+- `trust-and-claims.mdc`, `security-and-privacy.mdc`, `billing-and-entitlements.mdc`

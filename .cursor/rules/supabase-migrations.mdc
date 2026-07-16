@@ -1,0 +1,41 @@
+---
+description: >-
+  Auto-apply all repo SQL migrations to the fajita-io Supabase project
+  (olvnjsqspvywvwfchtuc). Agents must push; user never applies manually.
+globs: supabase/**/*.sql
+alwaysApply: true
+---
+
+# Supabase migrations (fajita-io only)
+
+All SQL in this repo targets **one** remote database:
+
+| Field | Value |
+| --- | --- |
+| Project | fajita-io |
+| Ref | `olvnjsqspvywvwfchtuc` |
+| URL | `https://olvnjsqspvywvwfchtuc.supabase.co` |
+
+## Agent obligations
+
+1. **Create migrations in** `supabase/migrations/` using timestamped filenames (`YYYYMMDDHHMMSS_description.sql`). Never run ad-hoc DDL outside migration files.
+2. **After creating or editing any SQL** under `supabase/` (migrations, seeds, roles), run:
+   ```bash
+   ./scripts/supabase-push.sh
+   ```
+3. **Never ask the user to apply migrations.** You apply them. Confirm with `supabase migration list --linked` when useful.
+4. **Never push to another project.** If `supabase/.temp/project-ref` is not `olvnjsqspvywvwfchtuc`, run `supabase link --project-ref olvnjsqspvywvwfchtuc` and retry. Do not use `--db-url` with a different host.
+5. **On failure**, read the CLI error, fix the migration SQL, and push again. Do not leave pending migrations in the repo.
+
+## Commands
+
+| Task | Command |
+| --- | --- |
+| Push pending migrations | `./scripts/supabase-push.sh` |
+| List migration status | `supabase migration list --linked` |
+| New migration file | `supabase migration new <name>` |
+
+## Security
+
+- Migrations run with service-level DB access. Include RLS on every `public` table you create.
+- Never commit or log `SUPABASE_SERVICE_ROLE_KEY`, `DATABASE_URL` passwords, or `SUPABASE_ACCESS_TOKEN`.
