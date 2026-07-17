@@ -50,8 +50,8 @@ Observability must support customer support and diagnostics without exposing int
 
 ## Repository-specific baseline (known facts)
 
-- No error-monitoring or performance-monitoring vendor is wired yet. Selection and thresholds are `[UNRESOLVED]`.
-- The Stripe webhook route returns 400 on failure and relies on Stripe's own retry behavior; app-side retry, dead-letter, and idempotency are not yet implemented.
+- No error-monitoring or performance-monitoring vendor is wired yet. Selection and thresholds remain `[UNRESOLVED]` (Phase 18 blocker LB-001).
+- Stripe webhook processing persists state with inbox idempotency; failed processing returns 500 so Stripe retries. App-side dead-letter visibility for billing events still needs operator runbook proof in production smoke.
 - DataFast tracks pageviews, goals, and AI-crawler traffic (`src/middleware.ts`); it is product analytics, not operational error monitoring. Do not conflate the two.
 - No background-job runner or queue is configured yet. Monitoring checks, alert delivery, and scheduled tasks implied by the product are `[UNRESOLVED]` operations to design before implementation.
 - Hosting: Vercel (`.vercel` present). Environment separation should use provider environment scoping.

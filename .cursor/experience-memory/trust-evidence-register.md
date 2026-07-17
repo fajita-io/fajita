@@ -17,9 +17,11 @@ Every customer-facing claim must have evidence. Update via `trust-experience-des
 
 | Claim | Location | Evidence | Verification | Accuracy | Owner | Review | Risk if wrong | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Fajita monitors websites, APIs, certificates, and cron jobs | Master directive 0.0; planned homepage hero | `fajita-master-directive.mdc` | Directive intent | Not yet shipped | — | TBD | Misleading marketing | Unverified until shipped |
-| Alerts reach teams before customers report problems | Master directive 0.0; planned hero copy | `fajita-master-directive.mdc` | Directive intent | Not yet shipped | — | TBD | Misleading marketing | Unverified until shipped |
-| Public status pages included | Master directive 0.0 | `fajita-master-directive.mdc` | Directive intent | Not yet shipped | — | TBD | Misleading marketing | Unverified until shipped |
+| Fajita monitors websites, APIs, certificates, and cron jobs | Homepage hero, features pages | `src/lib/site/claims.ts` (at-launch); site framed as early access, `accountsOpen: false` | Claims registry + `tests/site-content.test.ts` | Future-facing until engine ships | — | 2026-07-16 | Misleading marketing | Example (early-access framing); verify at launch |
+| Alerts reach teams before customers report problems | Hero support copy, alert-flow section | `claims.ts`; channels limited to email, Slack, Discord, webhook | Claims registry + tests | Future-facing | — | 2026-07-16 | Misleading marketing | Example; verify at launch |
+| Public status pages included | Homepage, `/features/status-pages` | `claims.ts` | Claims registry + tests | Future-facing | — | 2026-07-16 | Misleading marketing | Example; verify at launch |
+| Verification from a second location before alerting | Detection section, feature pages | `claims.ts` (registered at-launch) | Claims registry | **Must be confirmed against shipped engine before launch** | — | 2026-07-16 | Overclaiming | Unverified; flagged in phase-2 handoff |
+| No fake numbers, logos, testimonials, or uptime stats anywhere | Site-wide | Content tests scan all typed sources | `tests/site-content.test.ts` | Current | — | 2026-07-16 | Trust damage | Verified |
 
 ---
 
@@ -45,7 +47,19 @@ Every customer-facing claim must have evidence. Update via `trust-experience-des
 
 | Claim | Location | Evidence | Verification | Accuracy | Owner | Review | Risk if wrong | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Interactive demo output | Marketing demo TBD | Deterministic sample data | `content-realism-editor` | Example labeled | — | TBD | False capability | Pending |
+| Interactive demo output | Homepage product journey, coverage explorer, monitor preview, status-page previews | Deterministic local fixture data; copy states it is a demonstration; no network calls; no claim a real monitor was created | Component code + `tests/site-demo.test.tsx` (asserts zero fetches) | Example labeled | — | 2026-07-16 | False capability | Verified |
+| `/status` reflects reality | `/status` | Page states live status monitoring is not yet published; no hardcoded "operational" claim, no fake history | Page copy review | Current | — | 2026-07-16 | Fake health data | Verified |
+
+---
+
+## Affiliate program (Phase 12)
+
+| Claim | Location | Evidence | Verification | Accuracy | Owner | Review | Risk if wrong | Status |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Affiliate program exists and pays commissions | May appear on `/affiliates` and related surfaces | `programPublished=true`; feature stage `public_beta`; claims `affiliate-program` = available-now; Agreement + Privacy in force | Claims registry + legal hub + counsel review memo | Live public beta | `/affiliates`, `/legal/affiliate-agreement` | 2026-07-17 | Premature marketing | Verified published |
+| Specific commission rate / threshold / recurring months | May state as current Program Terms (not guarantees) | Version 1 in `config.ts` + Schedule A; claim `affiliate-commission-rate` = available-now | Claims registry + Agreement | Version 1 live | Schedule A | 2026-07-17 | False commercial terms | Verified aligned |
+| Guaranteed affiliate income | Nowhere | Claim `affiliate-income-guarantee` = internal-only PROHIBITED | Claims registry | N/A | — | 2026-07-17 | Deceptive marketing | Verified banned |
+| Agreement / privacy notice in force | `/legal` lists in-preparation only | Drafts in `docs/legal/*-draft.md`; no public href | Legal hub | Draft | — | 2026-07-17 | Binding unreviewed terms | Verified draft-only |
 
 ---
 

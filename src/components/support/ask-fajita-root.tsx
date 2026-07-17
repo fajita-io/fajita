@@ -1,0 +1,37 @@
+"use client";
+
+import dynamic from "next/dynamic";
+
+import type { ConversationMode, PageContext } from "@/lib/support/types";
+
+const AskFajitaChat = dynamic(
+  () => import("./ask-fajita-chat").then((m) => m.AskFajitaChat),
+  {
+    ssr: false,
+    loading: () => null,
+  },
+);
+
+/**
+ * Lazy-mounted Ask Fajita root. Does not block page render.
+ * Not mounted on public status pages, auth-provider pages, or Stripe hosts.
+ */
+export function AskFajitaRoot({
+  mode,
+  pageContext,
+  suggestedPrompts,
+}: {
+  mode: ConversationMode;
+  pageContext?: PageContext;
+  suggestedPrompts: string[];
+}) {
+  return (
+    <div className="fj-support-root" data-testid="ask-fajita-root">
+      <AskFajitaChat
+        mode={mode}
+        pageContext={pageContext}
+        suggestedPrompts={suggestedPrompts}
+      />
+    </div>
+  );
+}

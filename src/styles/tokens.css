@@ -1,0 +1,148 @@
+/**
+ * Fajita primitive tokens.
+ * Layer 1 of 3 (primitive -> semantic -> component).
+ * Never reference these directly in components; use semantic tokens in themes.css.
+ * Documented in /docs/brand/fajita-color-system.md.
+ */
+
+:root {
+  /* ------------------------------------------------------------------ */
+  /* Color primitives: foundation (carbon, soot, cream)                  */
+  /* ------------------------------------------------------------------ */
+  --fj-cream-50: #fffdf7;
+  --fj-cream-100: #faf5ea;
+  --fj-cream-200: #f2ead9;
+  --fj-cream-300: #e6dac3;
+  --fj-sand-400: #c8b99d;
+  --fj-taupe-500: #8a8070;
+  --fj-soot-600: #5c544a;
+  --fj-soot-700: #3e382f;
+  --fj-carbon-800: #262119;
+  --fj-carbon-900: #17130e;
+  --fj-carbon-950: #0e0b07;
+
+  /* Cool technical grays (application surfaces, charts) */
+  --fj-slate-300: #d5d3cd;
+  --fj-slate-500: #7d7a72;
+  --fj-slate-700: #45423b;
+
+  /* ------------------------------------------------------------------ */
+  /* Color primitives: brand heat                                        */
+  /* ------------------------------------------------------------------ */
+  --fj-ember-200: #ffe3c2;
+  --fj-ember-300: #ffc078;
+  --fj-ember-400: #f5921b;
+  --fj-ember-500: #e8590c;
+  --fj-ember-600: #d9480f;
+  --fj-ember-700: #b53a0a;
+  --fj-ember-800: #8a2c07;
+
+  --fj-amber-300: #ffd43b;
+  --fj-amber-400: #f0b429;
+  --fj-amber-600: #9a6700;
+  --fj-amber-700: #7a5200;
+
+  --fj-pepper-300: #ffa8a8;
+  --fj-pepper-500: #e03131;
+  --fj-pepper-600: #c92a2a;
+  --fj-pepper-700: #a61e1e;
+
+  /* ------------------------------------------------------------------ */
+  /* Color primitives: operational states                                */
+  /* ------------------------------------------------------------------ */
+  --fj-green-300: #8ce99a;
+  --fj-green-400: #69db7c;
+  --fj-green-600: #2f9e44;
+  --fj-green-700: #2b8a3e;
+  --fj-green-800: #237032;
+
+  --fj-teal-300: #63e6be;
+  --fj-teal-600: #0ca678;
+  --fj-teal-700: #0b7a5a;
+
+  --fj-blue-300: #74c0fc;
+  --fj-blue-600: #1971c2;
+  --fj-blue-700: #1864ab;
+
+  /* ------------------------------------------------------------------ */
+  /* Spacing scale (4px base)                                            */
+  /* ------------------------------------------------------------------ */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* Marketing section rhythm (fluid) */
+  --space-section: clamp(4rem, 3rem + 6vw, 8rem);
+  --space-section-tight: clamp(2.5rem, 2rem + 3vw, 5rem);
+
+  /* ------------------------------------------------------------------ */
+  /* Containers                                                          */
+  /* ------------------------------------------------------------------ */
+  --container-marketing: 76rem;
+  --container-reading: 42rem;
+  --container-dashboard: 88rem;
+  --container-gutter: clamp(1.25rem, 0.75rem + 3vw, 3rem);
+
+  /* ------------------------------------------------------------------ */
+  /* Radius: purposeful variation, not one radius everywhere.            */
+  /* lg (18/64 of the mark frame) is the signature brand radius.         */
+  /* ------------------------------------------------------------------ */
+  --radius-xs: 0.25rem; /* inputs, chips inner */
+  --radius-sm: 0.5rem; /* buttons, small cards */
+  --radius-md: 0.75rem; /* cards, tiles */
+  --radius-lg: 1.125rem; /* brand frames, demo frames, hero surfaces */
+  --radius-xl: 1.75rem; /* editorial feature surfaces */
+  --radius-pill: 999px; /* badges, status pills */
+
+  /* ------------------------------------------------------------------ */
+  /* Elevation: warm-tinted, restrained. No glow-as-brand.               */
+  /* ------------------------------------------------------------------ */
+  --shadow-low: 0 1px 2px rgba(23, 19, 14, 0.06);
+  --shadow-mid: 0 2px 8px rgba(23, 19, 14, 0.08), 0 1px 2px rgba(23, 19, 14, 0.05);
+  --shadow-high:
+    0 12px 32px rgba(23, 19, 14, 0.12), 0 2px 8px rgba(23, 19, 14, 0.06);
+
+  /* z-index system */
+  --layer-base: 0;
+  --layer-raised: 10;
+  --layer-sticky: 100;
+  --layer-overlay: 1000;
+  --layer-toast: 1100;
+
+  /* ------------------------------------------------------------------ */
+  /* Motion tokens (see /docs/brand/fajita-motion-system.md)             */
+  /* ------------------------------------------------------------------ */
+  --motion-instant: 80ms;
+  --motion-fast: 140ms;
+  --motion-medium: 240ms;
+  --motion-slow: 420ms;
+  --motion-narrative: 800ms;
+
+  /* Standard: interactions. Enter/exit: overlays. Thermal: state change. */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter: cubic-bezier(0, 0, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-thermal: cubic-bezier(0.33, 0, 0.15, 1);
+
+  --motion-distance-sm: 4px;
+  --motion-distance-md: 12px;
+  --motion-stagger: 60ms;
+  --motion-stagger-max: 360ms;
+
+  /* ------------------------------------------------------------------ */
+  /* Icon sizing aligned to type                                         */
+  /* ------------------------------------------------------------------ */
+  --icon-sm: 1rem;
+  --icon-md: 1.25rem;
+  --icon-lg: 1.5rem;
+}

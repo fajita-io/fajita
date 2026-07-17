@@ -69,7 +69,12 @@ Likely candidates for monitoring products:
 
 | Direction | Reason | Date |
 | --- | --- | --- |
-| *(none yet)* | Run `creative-director` to log rejected territories | — |
+| Logo: thermal waveform alone (unbounded) | Reads as a generic analytics squiggle at small sizes; no protective/guardian idea | 2026-07-16 |
+| Logo: signal-line "F" monogram | Letterform fights the waveform; ambiguous at 16px | 2026-07-16 |
+| Logo: controlled burner rings | Drifts toward stove/kitchen literalism; restaurant risk | 2026-07-16 |
+| Logo: skillet geometry as infrastructure | Even abstracted, the pan silhouette pulls food-brand associations | 2026-07-16 |
+| Logo: cool-to-warm gradient signal bar | Depends on color to carry meaning; fails mono and grayscale | 2026-07-16 |
+| Bright ember-600 on primary buttons (light mode) | 4.3:1 contrast with white text; fails WCAG AA. Use ember-700 | 2026-07-16 |
 
 ## Rejected typography approaches
 

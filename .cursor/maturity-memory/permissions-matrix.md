@@ -45,4 +45,19 @@ Distinct from entitlements: this matrix is authorization (may the actor perform 
 
 ## Status
 
-Installation baseline recorded 2026-07-16. Team/workspace roles are undefined; every `[UNRESOLVED]` is enforced as denied. Resolve via `security-and-privacy-architect` at Gate 2 before team or admin features.
+Installation baseline recorded 2026-07-16. **Phase 3 resolved the organization role model (2026-07-17).**
+
+The customer-facing tenant is the **organization**. Roles are `owner` > `admin` > `member`, defined in `src/lib/auth/roles.ts` and enforced by `src/lib/auth/context.ts` guards. The previous `[UNRESOLVED]` workspace-member/admin/owner rows now map to organization member/admin/owner. See `docs/application/roles-and-permissions.md` for the full permission matrix.
+
+Resolved decisions:
+
+- Read/create/update own product data: organization members per role, enforced by server guards and RLS (`app.is_org_member` / `app.has_org_role`).
+- Invite members: admin/owner (`members:invite`).
+- Export data: any member may request (`export:request`); org-scope requires membership.
+- Manage billing: owner only (`billing:manage`, reserved for a later phase).
+- Manage integrations: admin/owner (`integrations:manage`, reserved).
+- View logs / audit: admin/owner (`audit:read`).
+- Platform admin (internal, was "Sys admin"): explicit Clerk-id allowlist `PLATFORM_ADMIN_USER_IDS`, separate from org roles, never email-domain inferred. See `docs/security/platform-admin-foundation.md`.
+- Impersonation: still **No**. Not designed or approved.
+
+RLS is now written and enabled on all identity/tenancy tables and the billing tables (`supabase/migrations/20260717000100_phase3_rls.sql`), closing the earlier billing RLS gap for reads (writes remain service-role only).

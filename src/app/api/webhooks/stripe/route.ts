@@ -19,14 +19,23 @@ export async function POST(request: Request) {
 
   const payload = await request.text();
 
+  let event;
   try {
-    const event = await constructStripeEvent(payload, signature);
-    await handleStripeWebhookEvent(event);
-    return NextResponse.json({ received: true });
-  } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Webhook verification failed.";
-
-    return NextResponse.json({ error: message }, { status: 400 });
+    event = await constructStripeEvent(payload, signature);
+  } catch {
+    // Never echo verification internals to an unauthenticated caller.
+    return NextResponse.json(
+      { error: "Signature verification failed." },
+      { status: 400 },
+    );
   }
+
+  const result = await handleStripeWebhookEvent(event);
+
+  // 200 for processed/duplicate/ignored so Stripe stops retrying; 500 for a
+  // genuine processing failure so Stripe retries and the inbox stays consistent.
+  if (result.status === "failed") {
+    return NextResponse.json({ received: true, status: result.status }, { status: 500 });
+  }
+  return NextResponse.json({ received: true, status: result.status });
 }

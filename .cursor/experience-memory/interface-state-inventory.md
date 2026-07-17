@@ -10,25 +10,37 @@ State matrix per surface. Update via `interface-state-director`. Mark Implementa
 
 | State | Priority | Implementation | Testing |
 | --- | --- | --- | --- |
-| Default (populated marketing) | P0 | Pending | Pending |
-| Loading | P1 | Pending | Pending |
-| Error (runtime) | P2 | Pending | Pending |
-| Mobile | P0 | Pending | Pending |
-| Reduced motion | P1 | Pending | Pending |
+| Default (populated marketing) | P0 | Done (Phase 2) | Done (unit + screenshot QA) |
+| Loading | P1 | Done (`(site)/loading.tsx` thermal dots) | Done (visual) |
+| Error (runtime) | P2 | Done (root `error.tsx` with retry) | Done (visual) |
+| Mobile | P0 | Done (recomposed; simplified Thermal Stack) | Done (7-breakpoint sweep) |
+| Reduced motion | P1 | Done (CSS media query, static demo states) | Done (manual + Lighthouse) |
 
-**Data dependency:** Static content
+**Data dependency:** Static content from `src/lib/site/`
 **Permission dependency:** Public
 
 ---
 
-## Route: `/` (current placeholder)
+## Route: `/` (Phase 0 placeholder)
+
+**Notes:** Superseded by the Phase 2 homepage. Retired 2026-07-16.
+
+---
+
+## Feature: Public forms (early access + contact)
 
 | State | Priority | Implementation | Testing |
 | --- | --- | --- | --- |
-| Default | P0 | Done (minimal h1) | Pending |
-| Empty | N/A | — | — |
+| Default | P0 | Done | Done (`tests/site-forms.test.tsx`) |
+| Validation error (input preserved) | P0 | Done (inline `role="alert"`) | Done |
+| Submitting | P0 | Done (disabled + label change) | Done |
+| Success | P0 | Done (confirmation replaces form) | Done |
+| System error (input preserved) | P0 | Done | Done |
+| Rate limited | P1 | Done (429 message, retry guidance) | Done (API-level) |
+| Mobile | P0 | Done | Done (screenshot sweep) |
 
-**Notes:** Placeholder only. Replace when marketing ships.
+**Data dependency:** `/api/early-access`, `/api/contact` (Supabase)
+**Permission dependency:** Public
 
 ---
 
@@ -73,12 +85,14 @@ State matrix per surface. Update via `interface-state-director`. Mark Implementa
 
 | State | Priority | Implementation | Testing |
 | --- | --- | --- | --- |
-| Default interactive | P0 | Pending | Pending |
-| Processing | P0 | Pending | Pending |
-| Success outcome | P0 | Pending | Pending |
-| Demo error + fallback | P0 | Pending | Pending |
-| Reduced motion | P1 | Pending | Pending |
-| Mobile simplified | P0 | Pending | Pending |
+| Default interactive | P0 | Done (nine-step product journey) | Done (`tests/site-demo.test.tsx`) |
+| Processing | P0 | Done (simulated check/verify states) | Done |
+| Success outcome | P0 | Done (resolution + uptime review) | Done |
+| Demo error + fallback | P0 | Done (simulated failure step; no network, no real errors possible) | Done |
+| Reduced motion | P1 | Done (static stage renders) | Done (manual) |
+| Mobile simplified | P0 | Done (step list recomposition, touch targets) | Done (screenshot sweep) |
+
+**Notes:** Entirely local state; reset supported; keyboard operable with `aria-live` announcements.
 
 ---
 

@@ -1,19 +1,19 @@
 # Approved direction
 
-**Status:** Not yet approved (visual territory)
+**Status:** Approved (Phase 1 brand identity directive, 2026-07-16)
 
-The master creative directive (`fajita-master-directive.mdc`, 0.0) is **approved and permanent**: it fixes the brand idea, personality, quality bar, and constraints below. The specific visual territory (identity system, composition, type, exact palette behavior) still requires `creative-director` exploration and user approval before broad implementation.
+The master creative directive (`fajita-master-directive.mdc`, 0.0) is **approved and permanent**. The visual territory below was developed and implemented during Phase 1 under an explicit user directive that mandated the full brand identity build. Full documentation lives in `docs/brand/` and is demonstrated at `/internal/brand-lab`.
 
 ---
 
 ## Direction name
 
-`[UNRESOLVED]` Territory to be developed and named via `creative-director`.
+**The Held Pulse.** A live system pulse held inside a protective boundary, with a single warm ember dot as the ever-present observer. Controlled heat under constant watch.
 
 ## Approval status
 
 - Master directive 0.0: **Approved, permanent** (2026-07-16)
-- Visual territory: **Not yet approved**
+- Visual territory: **Approved** (Phase 1 user directive, 2026-07-16). Marketing-site composition beyond the holding page remains open for Phase 2 exploration within this territory.
 
 ## Strategic idea
 
@@ -43,23 +43,32 @@ Framer.com is the polish benchmark (spatial composition, typography, product sto
 
 ## Composition
 
-`[UNRESOLVED]` Grid character, asymmetry, and density via `creative-director` + `editorial-layout`.
+Editorial, warm-paper surfaces (cream, not white) with generous negative space on marketing surfaces; calmer, denser, cooler-neutral treatment reserved for the future application. Marketing composition beyond the holding page is Phase 2 work within this territory.
 
 ## Typography
 
-Must feel commissioned: distinctive display face or customized treatment, highly legible interface face, technical/monospaced accent, fluid responsive sizing, strong numeric and tabular styles. Specific faces `[UNRESOLVED]` via `typography-director`.
+Three commissioned roles, all Google Fonts (OFL/permissive, subset via `next/font`):
+
+- **Fraunces** (display): warm, sharp serif with optical sizing; carries editorial headlines and the wordmark source.
+- **Instrument Sans** (interface/body): legible, contemporary, quietly characterful.
+- **Spline Sans Mono** (technical accent): endpoints, response times, tabular data.
+
+Fluid scales, role-based classes in `src/styles/typography.css`, tokens documented in `docs/brand/fajita-typography.md`.
 
 ## Color behavior
 
-Foundation to develop (not final tokens): carbon/soot black, warm tortilla cream, controlled ember orange, pepper red (confirmed failure), acid lime (healthy), amber (degradation/verification), cooler technical neutrals in the application. Must support WCAG contrast, dark and light experiences, and all six operational states (healthy, degraded, down, maintenance, paused, unknown). Exact palette `[UNRESOLVED]` via `brand-world-builder`.
+Implemented as a three-layer token system (`tokens.css` primitives → `themes.css` semantics → component consumption). Families: soot/carbon foundation, warm cream paper, ember (brand heat), amber (verifying/degraded), pepper red (confirmed down), operational green (kept legible and distinct from decorative heat colors), teal (maintenance/paused), cool blue accents. Light and dark themes both WCAG AA verified; contrast table in `docs/brand/fajita-color-system.md`. Heat gradients strategic, never ambient.
 
 ## Graphic devices
 
-`[UNRESOLVED]` Must derive from the thermal-monitoring metaphor and form one coherent proprietary asset language (no generic icon packs or stock SaaS illustration).
+- The **ember dot**: single warm point that appears in the mark, as the tittle of the wordmark's j, and as the observer inside the Thermal Stack.
+- The **held pulse waveform**: a monitored signal line inside a rounded protective boundary.
+- **Thermal Stack**: layered infrastructure diagram with heat surface, service nodes, and alert rail.
+- Heat-grid pattern and thermal divider as restrained texture. All custom, no icon packs as brand expression.
 
 ## Identity system (required deliverables)
 
-Custom wordmark, proprietary symbol/monogram, horizontal and stacked lockups, responsive variants, small-size icon, mono and full-color versions, favicon, app icon, social avatar, OG treatment, motion-logo behavior, clear-space and minimum-size guidance, dark/light treatments, status-specific treatments where appropriate. Conceptual territories to explore: heat waveform, monitored burner, signal-to-controlled-flame, abstract skillet geometry, "F" from temperature/status lines, system pulse in a controlled boundary, cool-to-hot transition. Do not accept the first usable logo. Final mark `[UNRESOLVED]`.
+**Delivered.** Final mark: **The Held Pulse** (system pulse inside a rounded protective boundary, ember dot at the crest). Selected after six documented territories (see `docs/brand/fajita-logo-system.md` and the Brand Lab explorations section). Custom wordmark set in Fraunces converted to baked SVG paths with a dotless j carrying the ember dot as its tittle. All lockups exist: horizontal, stacked, mark-only, mono, dark/light, small-size optical variant, favicon (`src/app/icon.svg`), app icon, social avatar, OG treatment, powered-by lockup, animated pulse spec with reduced-motion fallback. Components: `FajitaLogo`, `FajitaMark`, `FajitaWordmark`, `FajitaPoweredBy`. Static exports in `public/brand/`.
 
 ## Product visualization
 
@@ -67,11 +76,11 @@ Modular interactive demonstrations (create monitor, detect slow response, confir
 
 ## Motion language
 
-Documented motion system with reusable tokens: entrances, exits, hover, scroll-linked behavior, section and demo transitions, chart animation, status-state transitions, alert propagation, incident escalation, recovery motion, logo motion, loading, reduced-motion alternatives, mobile simplification, performance budgets. Smooth, physical, controlled, premium. Specific spec `[UNRESOLVED]` via `motion-choreographer`.
+**Delivered (foundation).** Motion tokens in `tokens.css` (durations 120–1200ms, five easings including `--ease-thermal`), keyframes and utilities in `src/styles/motion.css`, global `prefers-reduced-motion` handling, CSS-only implementation (no animation library). Full spec in `docs/brand/fajita-motion-system.md`. Narrative/scroll choreography for the marketing site is Phase 2 work within this spec.
 
 ## Signature moment
 
-Central animated brand world: a stylized digital skillet or controlled thermal environment representing customer infrastructure (sizzle = healthy, thermal expansion = latency, restrained smoke = degraded, precise flare = outage, cooling = recovery, alerts traveling outward). Must aid comprehension of monitoring, detection, verification, notification, incident communication, and recovery. Never a long decorative intro. Exact execution `[UNRESOLVED]` via `signature-moment-designer`.
+**Delivered (foundation).** The **Thermal Stack** (`src/components/brand/thermal-stack/`): SVG + CSS animated infrastructure diagram with six states (operational, verifying, degraded, down, recovering, maintenance), state controller with incident-journey autoplay, static fallback, simplified mobile mode, reduced-motion support, typed API, and README with performance notes. Never a long decorative intro; states map one-to-one to real monitoring semantics.
 
 ## Marketing expression
 
@@ -107,4 +116,4 @@ WCAG-compliant contrast across states and themes; reduced-motion alternatives fo
 
 ---
 
-*Master directive locked. Populate the remaining `[UNRESOLVED]` territory fields via `creative-director` and `brand-world-builder`, then set territory status to Approved with user sign-off.*
+*Master directive locked. Territory approved and implemented in Phase 1 (identity, tokens, motion foundation, Thermal Stack, Brand Lab). Phase 2 composes the marketing site inside this world; product visualization demos remain to be built then.*

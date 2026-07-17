@@ -1,11 +1,14 @@
 # Production readiness scorecard
 
-Launch gate for Fajita. Governed by `operations-and-observability.mdc` and audited by `production-readiness-auditor` at Gate 6. Complements `.cursor/experience-memory/release-scorecard.md` (visual/experience) with operational readiness.
+Launch gate for Fajita. Governed by `operations-and-observability.mdc` and audited at Gate 6 / Phase 18.
 
-**No line may be marked complete without evidence.** Score 1 to 10. A launch cannot pass with any unresolved blocker or critical issue.
+**Canonical runtime registry:** `src/lib/platform/readiness/`  
+**Ops UI:** `/internal/readiness`, `/internal/launch`  
+**Exported docs:** `docs/readiness/final-production-readiness.md`
 
-**Status:** Not started · In progress · Pass · Blocked
-**Legend:** Evidence = file/config/test/interface proving it, not a claim. A blank cell shown as `n/a` means not yet assigned.
+**No line may be marked complete without evidence.**
+
+**Phase 18 classification (2026-07-17): Not Ready**
 
 ---
 
@@ -13,33 +16,33 @@ Launch gate for Fajita. Governed by `operations-and-observability.mdc` and audit
 
 | Category | Status | Score | Evidence | Blocking issue | Owner | Verification method | Last reviewed |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Authentication | Not started | n/a | Clerk configured, not wired | Auth not implemented | `[UNRESOLVED]` | Inspect Clerk integration + protected routes | 2026-07-16 |
-| Authorization | Not started | n/a | n/a | No server-side authz yet | `[UNRESOLVED]` | Inspect ownership checks + denials | 2026-07-16 |
-| Tenant isolation | Not started | n/a | n/a | No workspace model; RLS policies absent | `[UNRESOLVED]` | RLS + cross-tenant test | 2026-07-16 |
-| Secrets | In progress | n/a | Env split public/server (`.env.example`) | Verify no server key in client bundle | `[UNRESOLVED]` | Bundle inspection | 2026-07-16 |
-| Privacy | Not started | n/a | `data-inventory.md` baseline | Retention/processors not finalized | `[UNRESOLVED]` | Data-flow review | 2026-07-16 |
-| Data retention | Not started | n/a | n/a | Windows `[UNRESOLVED]` | `[UNRESOLVED]` | Policy + code review | 2026-07-16 |
-| Export and deletion | Not started | n/a | Billing cascade in migration | No export/deletion feature | `[UNRESOLVED]` | Deletion cascade test | 2026-07-16 |
-| Billing | In progress | n/a | `src/lib/stripe/*`, checkout/portal routes | Webhook does not persist state | `[UNRESOLVED]` | Stripe test-mode e2e | 2026-07-16 |
-| Entitlements | In progress | n/a | `entitlements.ts` reads Stripe | Only monitor count defined | `[UNRESOLVED]` | Server gate test | 2026-07-16 |
-| Failed payments | Not started | n/a | n/a | No dunning; grace undefined | `[UNRESOLVED]` | Failed-invoice simulation | 2026-07-16 |
-| Lifecycle communication | Not started | n/a | `communication-map.md` baseline | No provider wired | `[UNRESOLVED]` | Send test + template review | 2026-07-16 |
-| Security communication | Not started | n/a | n/a | Depends on Clerk/email | `[UNRESOLVED]` | Trigger test | 2026-07-16 |
-| Background jobs | Not started | n/a | Stripe webhook only | No runner; no idempotency | `[UNRESOLVED]` | Register + retry test | 2026-07-16 |
-| Monitoring | Not started | n/a | DataFast (analytics only) | No error monitor | `[UNRESOLVED]` | Error-capture verification | 2026-07-16 |
-| Alerts | Not started | n/a | n/a | No thresholds/ownership | `[UNRESOLVED]` | Alert-fire test | 2026-07-16 |
-| Recovery | Not started | n/a | n/a | No failed-job recovery | `[UNRESOLVED]` | Replay test | 2026-07-16 |
-| Feature flags | Not started | n/a | n/a | None configured | `[UNRESOLVED]` | Flag toggle test | 2026-07-16 |
-| Support diagnostics | Not started | n/a | n/a | No support view | `[UNRESOLVED]` | Redaction review | 2026-07-16 |
-| Incident readiness | Not started | n/a | `incident-playbook.md` baseline | No on-call/ownership | `[UNRESOLVED]` | Tabletop drill | 2026-07-16 |
-| Trust-claim accuracy | In progress | n/a | `trust-evidence-register.md` | Claims unverified until shipped | `[UNRESOLVED]` | Claim-vs-reality audit | 2026-07-16 |
+| Authentication | Pass with condition | 7 | Clerk middleware; invitations tests; auth docs | Production smoke pending LB-008 | engineering | Clerk + protected routes | 2026-07-17 |
+| Authorization | Pass with condition | 7 | roles.ts; platform permissions; server checks | — | engineering | Matrix vs server | 2026-07-17 |
+| Tenant isolation | Pass with condition | 7 | phase3/4 RLS SQL; org scoping | LB-010 billing RLS harness | engineering | Cross-tenant SQL | 2026-07-17 |
+| Secrets | Pass with condition | 7 | secret-scan script; env split | Rotation exercises staging | engineering | Scan + bundle | 2026-07-17 |
+| Privacy | Pass with condition | 6 | final-data-map; legal drafts | Counsel LB-003 | privacy | Data-flow review | 2026-07-17 |
+| Data retention | Pass with condition | 6 | retention docs + jobs | Prod verify smoke | privacy | Policy + jobs | 2026-07-17 |
+| Export and deletion | Pass with condition | 6 | privacy export/deletion reviews | Provider propagation honesty | privacy | Fixture export/delete | 2026-07-17 |
+| Billing | Blocked | 5 | webhook-processor idempotency + persistence | LB-002/005/006 | billing | Stripe e2e | 2026-07-17 |
+| Entitlements | Blocked | 5 | org engine + snapshots | Enforcement off LB-002 | billing | Server gate | 2026-07-17 |
+| Failed payments | Pass with condition | 6 | grace-period module + recovery UI | Live dunning unproven | billing | Failed invoice sim | 2026-07-17 |
+| Lifecycle communication | Pass with condition | 6 | Resend paths; lifecycle workers | Deliverability matrix | operations | Send test | 2026-07-17 |
+| Security communication | In progress | 4 | disclosure routes | APM LB-001 | security | Trigger test | 2026-07-17 |
+| Background jobs | Pass with condition | 7 | workers + cron tokens | — | engineering | Register + retry | 2026-07-17 |
+| Monitoring (APM) | Pass with condition | 7 | Sentry wired; DSN pending in Vercel | Set SENTRY_DSN | operations | Controlled error in Sentry | 2026-07-17 |
+| Alerts (product) | Pass with condition | 7 | alert tests; providers | LB-007 prod alert tests | engineering | Delivery test | 2026-07-17 |
+| Recovery | Blocked | 3 | DR plan + tabletops | LB-004 restore | operations | Restore exercise | 2026-07-17 |
+| Feature flags | Pass with condition | 7 | platform flags + launch plan | — | operations | Flag toggle | 2026-07-17 |
+| Support diagnostics | Pass with condition | 6 | Pamphlet + support ops | No live SLA | support | Redaction review | 2026-07-17 |
+| Incident readiness | Pass with condition | 6 | IR plan + tabletops | Solo-founder AR-002 | operations | Tabletop | 2026-07-17 |
+| Trust-claim accuracy | Pass with condition | 7 | claims registry; no fake certs | — | product | Claim audit | 2026-07-17 |
 
 ## Rules
 
-- Blocker or critical open -> launch blocked.
+- Blocker or critical open → launch blocked.
 - Every Pass cites concrete evidence.
-- Re-audit in fresh context at Gate 6 (`production-readiness-auditor`) plus the security, billing, and operations architects.
+- Do not use a single percentage to hide critical failures.
 
 ## Status
 
-Installation baseline recorded 2026-07-16. Nothing is launch-ready; this scorecard tracks progress toward it. No score assigned until each category has inspected evidence.
+Phase 18 Gate 6 audit recorded **Not Ready** on 2026-07-17. See `docs/readiness/go-live-approval.md`.

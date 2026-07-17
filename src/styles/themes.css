@@ -1,0 +1,147 @@
+/**
+ * Fajita semantic tokens (layer 2) for light and dark themes.
+ * Components consume ONLY these tokens (or component tokens built on them).
+ * Contrast ratios documented in /docs/brand/fajita-color-system.md.
+ *
+ * Theme switching: data-theme="light" | "dark" on <html>, set before paint
+ * by the inline script in src/lib/theme/theme-script.ts.
+ */
+
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  --color-background-primary: var(--fj-cream-50);
+  --color-background-secondary: var(--fj-cream-100);
+  --color-background-elevated: #ffffff;
+  --color-background-inset: var(--fj-cream-200);
+  --color-background-inverse: var(--fj-carbon-900);
+
+  --color-text-primary: var(--fj-carbon-900);
+  --color-text-secondary: var(--fj-soot-700);
+  --color-text-muted: var(--fj-soot-600);
+  --color-text-inverse: var(--fj-cream-100);
+  --color-text-on-brand: #ffffff;
+
+  /* ember-700 so white button labels reach 5.9:1 (ember-600 is 4.3:1) */
+  --color-brand-ember: var(--fj-ember-700);
+  --color-brand-ember-strong: var(--fj-ember-800);
+  --color-brand-heat: var(--fj-ember-500);
+  --color-brand-heat-soft: var(--fj-ember-200);
+  --color-brand-text: var(--fj-ember-700);
+
+  --color-border-subtle: var(--fj-cream-300);
+  --color-border-strong: var(--fj-sand-400);
+  --color-focus-ring: var(--fj-ember-600);
+
+  /* Operational states: -text passes 4.5:1 on background-primary,
+     -bold is the saturated fill for dots/charts, -soft is the tint surface. */
+  --color-status-operational: var(--fj-green-800);
+  --color-status-operational-bold: var(--fj-green-600);
+  --color-status-operational-soft: #e3f5e8;
+
+  --color-status-degraded: var(--fj-amber-700);
+  --color-status-degraded-bold: var(--fj-amber-400);
+  --color-status-degraded-soft: #fbf0d3;
+
+  --color-status-verifying: var(--fj-amber-600);
+  --color-status-verifying-bold: var(--fj-amber-400);
+  --color-status-verifying-soft: #fbf0d3;
+
+  --color-status-down: var(--fj-pepper-600);
+  --color-status-down-bold: var(--fj-pepper-500);
+  --color-status-down-soft: #fde5e5;
+
+  --color-status-maintenance: var(--fj-blue-700);
+  --color-status-maintenance-bold: var(--fj-blue-600);
+  --color-status-maintenance-soft: #e3effa;
+
+  --color-status-paused: var(--fj-soot-600);
+  --color-status-paused-bold: var(--fj-taupe-500);
+  --color-status-paused-soft: var(--fj-cream-200);
+
+  --color-status-unknown: var(--fj-slate-700);
+  --color-status-unknown-bold: var(--fj-slate-500);
+  --color-status-unknown-soft: #eceae4;
+
+  --color-status-recovering: var(--fj-teal-700);
+  --color-status-recovering-bold: var(--fj-teal-600);
+  --color-status-recovering-soft: #def4ec;
+
+  /* Charts */
+  --color-chart-grid: var(--fj-cream-300);
+  --color-chart-axis: var(--fj-soot-600);
+  --color-chart-series-1: var(--fj-ember-600);
+  --color-chart-series-2: var(--fj-blue-600);
+  --color-chart-series-3: var(--fj-teal-600);
+  --color-chart-series-4: var(--fj-taupe-500);
+
+  --shadow-card: var(--shadow-mid);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-background-primary: var(--fj-carbon-950);
+  --color-background-secondary: var(--fj-carbon-900);
+  --color-background-elevated: var(--fj-carbon-800);
+  --color-background-inset: #1d1811;
+  --color-background-inverse: var(--fj-cream-100);
+
+  --color-text-primary: var(--fj-cream-100);
+  --color-text-secondary: var(--fj-cream-300);
+  --color-text-muted: var(--fj-sand-400);
+  --color-text-inverse: var(--fj-carbon-900);
+  --color-text-on-brand: var(--fj-carbon-950);
+
+  --color-brand-ember: var(--fj-ember-400);
+  --color-brand-ember-strong: var(--fj-ember-300);
+  --color-brand-heat: var(--fj-ember-400);
+  --color-brand-heat-soft: #33210e;
+  --color-brand-text: var(--fj-ember-300);
+
+  --color-border-subtle: var(--fj-soot-700);
+  --color-border-strong: var(--fj-soot-600);
+  --color-focus-ring: var(--fj-ember-300);
+
+  --color-status-operational: var(--fj-green-400);
+  --color-status-operational-bold: var(--fj-green-400);
+  --color-status-operational-soft: #12261a;
+
+  --color-status-degraded: var(--fj-amber-300);
+  --color-status-degraded-bold: var(--fj-amber-300);
+  --color-status-degraded-soft: #2b2208;
+
+  --color-status-verifying: var(--fj-amber-300);
+  --color-status-verifying-bold: var(--fj-amber-300);
+  --color-status-verifying-soft: #2b2208;
+
+  --color-status-down: var(--fj-pepper-300);
+  --color-status-down-bold: var(--fj-pepper-500);
+  --color-status-down-soft: #331312;
+
+  --color-status-maintenance: var(--fj-blue-300);
+  --color-status-maintenance-bold: var(--fj-blue-300);
+  --color-status-maintenance-soft: #101f2e;
+
+  --color-status-paused: var(--fj-sand-400);
+  --color-status-paused-bold: var(--fj-taupe-500);
+  --color-status-paused-soft: #221d15;
+
+  --color-status-unknown: var(--fj-slate-300);
+  --color-status-unknown-bold: var(--fj-slate-500);
+  --color-status-unknown-soft: #201e19;
+
+  --color-status-recovering: var(--fj-teal-300);
+  --color-status-recovering-bold: var(--fj-teal-300);
+  --color-status-recovering-soft: #0d211b;
+
+  --color-chart-grid: var(--fj-soot-700);
+  --color-chart-axis: var(--fj-sand-400);
+  --color-chart-series-1: var(--fj-ember-400);
+  --color-chart-series-2: var(--fj-blue-300);
+  --color-chart-series-3: var(--fj-teal-300);
+  --color-chart-series-4: var(--fj-sand-400);
+
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.3);
+}

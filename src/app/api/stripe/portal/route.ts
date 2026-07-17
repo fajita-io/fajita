@@ -1,62 +1,47 @@
 import { NextResponse } from "next/server";
 
-import { findStripeCustomerByUserId } from "@/lib/stripe/customers";
-import { getStripe } from "@/lib/stripe/server";
+import { openBillingPortalAction } from "@/lib/app/actions/billing";
 
 type PortalRequestBody = {
-  userId?: string;
+  organizationId?: string;
 };
 
-function getAppUrl(): string {
-  const url =
-    process.env.NEXT_PUBLIC_APP_URL ??
-    process.env.NEXT_PUBLIC_DATAFAST_DOMAIN ??
-    "http://localhost:3000";
-
-  return url.startsWith("http") ? url : `https://${url}`;
-}
-
+/**
+ * Authenticated Customer Portal endpoint. The Stripe customer is resolved from
+ * the org mapping after an authorization check; the client never supplies a
+ * customer id.
+ */
 export async function POST(request: Request) {
   let body: PortalRequestBody;
-
   try {
     body = (await request.json()) as PortalRequestBody;
   } catch {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  const { userId } = body;
-
-  if (!userId) {
+  if (!body.organizationId) {
     return NextResponse.json(
-      { error: "userId is required until Clerk auth is wired." },
-      { status: 401 },
+      { error: "organizationId is required." },
+      { status: 400 },
     );
   }
 
-  try {
-    const customer = await findStripeCustomerByUserId(userId);
-
-    if (!customer) {
-      return NextResponse.json(
-        { error: "No billing account found for this user." },
-        { status: 404 },
-      );
+  const result = await openBillingPortalAction(body.organizationId);
+  if (!result.ok || !result.data) {
+    if (!result.ok) {
+      const status =
+        result.kind === "forbidden" || result.kind === "unauthenticated"
+          ? 403
+          : result.kind === "not_found"
+            ? 404
+            : 400;
+      return NextResponse.json({ error: result.error }, { status });
     }
-
-    const stripe = getStripe();
-    const appUrl = getAppUrl();
-
-    const session = await stripe.billingPortal.sessions.create({
-      customer: customer.id,
-      return_url: `${appUrl}/settings/billing`,
-    });
-
-    return NextResponse.json({ url: session.url });
-  } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Could not open billing portal.";
-
-    return NextResponse.json({ error: message }, { status: 500 });
+    return NextResponse.json(
+      { error: "Could not open billing portal." },
+      { status: 400 },
+    );
   }
+
+  return NextResponse.json({ url: result.data.url });
 }

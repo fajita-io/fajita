@@ -4,23 +4,17 @@
  * Usage:
  *   STRIPE_SECRET_KEY=sk_test_... npx tsx scripts/stripe-seed-products.ts
  *
- * Creates products with lookup_keys matching src/lib/stripe/plans.ts.
+ * Creates products with lookup_keys matching BILLING_CATALOG / plans.ts.
  * Safe to re-run; skips prices that already exist.
+ *
+ * Do not run this against an unrelated Stripe account (for example another
+ * Accomplish product). Confirm the account with Stripe Dashboard first.
  */
 
 import Stripe from "stripe";
 
+import { BILLING_CATALOG } from "../src/lib/billing/catalog";
 import { PLANS } from "../src/lib/stripe/plans";
-
-const STARTER_MONTHLY_CENTS = 1900;
-const PRO_MONTHLY_CENTS = 4900;
-const BUSINESS_MONTHLY_CENTS = 14900;
-
-const MONTHLY_AMOUNTS: Record<keyof typeof PLANS, number> = {
-  starter: STARTER_MONTHLY_CENTS,
-  pro: PRO_MONTHLY_CENTS,
-  business: BUSINESS_MONTHLY_CENTS,
-};
 
 async function ensurePrice(
   stripe: Stripe,
@@ -37,8 +31,15 @@ async function ensurePrice(
   });
 
   if (existing.data[0]) {
-    console.log(`Price exists: ${lookupKey}`);
-    return existing.data[0];
+    const price = existing.data[0];
+    if (price.unit_amount !== unitAmount) {
+      console.warn(
+        `WARNING: ${lookupKey} exists at ${price.unit_amount} cents; catalog expects ${unitAmount}. Create a new price and retire the old lookup key.`,
+      );
+    } else {
+      console.log(`Price exists: ${lookupKey} (${price.unit_amount} cents)`);
+    }
+    return price;
   }
 
   const price = await stripe.prices.create({
@@ -53,7 +54,7 @@ async function ensurePrice(
     },
   });
 
-  console.log(`Created price: ${lookupKey} (${price.id})`);
+  console.log(`Created price: ${lookupKey} (${price.id}, ${unitAmount} cents)`);
   return price;
 }
 
@@ -62,13 +63,22 @@ async function main() {
   if (!secretKey) {
     throw new Error("STRIPE_SECRET_KEY is required.");
   }
+  if (!secretKey.startsWith("sk_test_") && !secretKey.startsWith("sk_live_")) {
+    throw new Error("STRIPE_SECRET_KEY looks invalid.");
+  }
 
   const stripe = new Stripe(secretKey, {
     apiVersion: "2026-06-24.dahlia",
     typescript: true,
   });
 
+  const account = await stripe.accounts.retrieve();
+  console.log(
+    `Seeding Stripe account ${account.id}${account.settings?.dashboard?.display_name ? ` (${account.settings.dashboard.display_name})` : ""}`,
+  );
+
   for (const plan of Object.values(PLANS)) {
+    const catalog = BILLING_CATALOG[plan.id];
     const productLookup = `fajita_product_${plan.id}`;
 
     const existingProducts = await stripe.products.search({
@@ -94,29 +104,25 @@ async function main() {
       console.log(`Product exists: ${product.name} (${product.id})`);
     }
 
-    const monthlyAmount = MONTHLY_AMOUNTS[plan.id];
-    const yearlyAmount = Math.round(monthlyAmount * 12 * 0.83);
-
     await ensurePrice(
       stripe,
       product.id,
-      plan.lookupKeys.month,
-      monthlyAmount,
+      catalog.lookupKeys.month,
+      catalog.pricing.monthlyCents,
       "month",
       plan.id,
     );
-
     await ensurePrice(
       stripe,
       product.id,
-      plan.lookupKeys.year,
-      yearlyAmount,
+      catalog.lookupKeys.year,
+      catalog.pricing.yearlyCents,
       "year",
       plan.id,
     );
   }
 
-  console.log("Stripe catalog seed complete.");
+  console.log("Done. Run: npm run stripe:verify-prices");
 }
 
 main().catch((error) => {

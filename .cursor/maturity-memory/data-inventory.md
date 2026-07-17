@@ -42,6 +42,32 @@ Every category of data Fajita stores or processes. Governed by `security-and-pri
 - Payment details never touch app storage or logs.
 - Retention, export, and deletion behavior for product data is `[UNRESOLVED]` and must be defined before those features ship.
 
+## Phase 3 additions (2026-07-17)
+
+Account-foundation data now exists. Full field-level map: `docs/privacy/phase-3-data-map.md`.
+
+New tables (all RLS-protected): `user_profiles`, `user_preferences`, `notification_preferences`, `organizations`, `organization_members`, `organization_invitations` (hashed tokens only), `organization_onboarding`, `audit_events`, `notifications`, `export_requests`, `deletion_requests`, `feature_flag_overrides`.
+
+Data-minimization held: no phone, address, job title, revenue, device fingerprinting, standing IP logs, or monitoring-target data. Audit events store no IP/user-agent by default. Analytics carries ids and coarse enums only, never emails, org names, tokens, or secrets.
+
+Retention/export/deletion: export and deletion request models exist with cooling-off and ownership-conflict protection; artifact generation and the deletion worker are deferred (documented).
+
+## Phase 12 additions (2026-07-17)
+
+Affiliate program data model applied (35 tables). Full map:
+`docs/privacy/phase-12-affiliate-data-map.md`. Legal drafts (not in force):
+`docs/legal/affiliate-agreement-draft.md`,
+`docs/legal/affiliate-privacy-notice-draft.md`.
+
+Categories include applications, affiliate profiles, referral sessions/clicks,
+org attributions, conversions, commissions, immutable ledger, fraud flags,
+payout/tax profiles, payout batches/items/statements, notifications, exports.
+Money is integer cents. Affiliates never receive Referred Customer identity.
+Stripe Connect holds bank/tax collection when configured.
+
+Program is published (`programPublished = true`, public beta). Rates may be
+stated as current Program Terms. Income guarantees remain prohibited.
+
 ## Status
 
-Installation baseline recorded 2026-07-16. Populate product-data rows and resolve retention/export/deletion via `security-and-privacy-architect`.
+Installation baseline recorded 2026-07-16. Phase 3 account-foundation data added 2026-07-17. Phase 12 affiliate data mapped 2026-07-17. Monitoring/product-data rows remain to be populated in later phases.

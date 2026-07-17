@@ -1,0 +1,201 @@
+/**
+ * Fajita typography tokens and role classes.
+ * Families are set by next/font in src/lib/fonts.ts:
+ *   --font-display (Fraunces), --font-sans (Instrument Sans),
+ *   --font-mono (Spline Sans Mono).
+ * Full spec: /docs/brand/fajita-typography.md
+ */
+
+:root {
+  --font-fallback-display: georgia, "times new roman", serif;
+  --font-fallback-sans: -apple-system, "Segoe UI", helvetica, arial, sans-serif;
+  --font-fallback-mono: ui-monospace, "SF Mono", menlo, monospace;
+
+  /* Fluid type scale. Marketing display sizes are intentionally larger
+     than any application size; the app never uses display-1/display-2. */
+  --text-display-1: clamp(2.75rem, 1.9rem + 4.2vw, 5.5rem);
+  --text-display-2: clamp(2.125rem, 1.6rem + 2.6vw, 3.75rem);
+  --text-heading-1: clamp(1.75rem, 1.45rem + 1.5vw, 2.5rem);
+  --text-heading-2: clamp(1.375rem, 1.2rem + 0.9vw, 1.75rem);
+  --text-heading-3: 1.1875rem;
+  --text-body-lg: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --text-body: 1rem;
+  --text-body-sm: 0.875rem;
+  --text-label: 0.8125rem;
+  --text-caption: 0.75rem;
+
+  --leading-display: 1.04;
+  --leading-heading: 1.15;
+  --leading-body: 1.6;
+  --leading-tight: 1.35;
+
+  --tracking-display: -0.015em;
+  --tracking-heading: -0.01em;
+  --tracking-label: 0.08em;
+}
+
+/* ---------------------------------------------------------------- */
+/* Role classes                                                      */
+/* ---------------------------------------------------------------- */
+
+.fj-display-1,
+.fj-display-2 {
+  font-family: var(--font-display, var(--font-fallback-display));
+  font-weight: 560;
+  font-variation-settings:
+    "opsz" 144,
+    "SOFT" 0,
+    "WONK" 0;
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-text-primary);
+  text-wrap: balance;
+  margin: 0;
+}
+
+.fj-display-1 {
+  font-size: var(--text-display-1);
+}
+
+.fj-display-2 {
+  font-size: var(--text-display-2);
+}
+
+.fj-heading-1,
+.fj-heading-2,
+.fj-heading-3 {
+  font-family: var(--font-display, var(--font-fallback-display));
+  font-weight: 540;
+  font-variation-settings:
+    "opsz" 40,
+    "SOFT" 0,
+    "WONK" 0;
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-text-primary);
+  text-wrap: balance;
+  margin: 0;
+}
+
+.fj-heading-1 {
+  font-size: var(--text-heading-1);
+}
+
+.fj-heading-2 {
+  font-size: var(--text-heading-2);
+}
+
+.fj-heading-3 {
+  font-size: var(--text-heading-3);
+  font-family: var(--font-sans, var(--font-fallback-sans));
+  font-weight: 600;
+  font-variation-settings: normal;
+}
+
+.fj-body-lg,
+.fj-body,
+.fj-body-sm {
+  font-family: var(--font-sans, var(--font-fallback-sans));
+  font-weight: 400;
+  line-height: var(--leading-body);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.fj-body-lg {
+  font-size: var(--text-body-lg);
+}
+
+.fj-body {
+  font-size: var(--text-body);
+}
+
+.fj-body-sm {
+  font-size: var(--text-body-sm);
+}
+
+/* Eyebrow labels: the small all-caps line above section headings. */
+.fj-eyebrow {
+  font-family: var(--font-mono, var(--font-fallback-mono));
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-brand-text);
+  margin: 0;
+}
+
+.fj-label {
+  font-family: var(--font-sans, var(--font-fallback-sans));
+  font-size: var(--text-label);
+  font-weight: 500;
+  line-height: var(--leading-tight);
+  color: var(--color-text-secondary);
+}
+
+.fj-caption {
+  font-family: var(--font-sans, var(--font-fallback-sans));
+  font-size: var(--text-caption);
+  line-height: var(--leading-tight);
+  color: var(--color-text-muted);
+}
+
+/* Technical accent: endpoints, response times, IDs, timestamps. */
+.fj-mono {
+  font-family: var(--font-mono, var(--font-fallback-mono));
+  font-size: 0.9em;
+  font-weight: 400;
+}
+
+/* Numeric data: uptime percentages, latency, counts. */
+.fj-numeric {
+  font-family: var(--font-sans, var(--font-fallback-sans));
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* Reading prose: documentation, long-form. Measure capped at 68ch. */
+.fj-prose {
+  font-family: var(--font-sans, var(--font-fallback-sans));
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--color-text-secondary);
+  max-width: var(--container-reading);
+}
+
+.fj-prose h2,
+.fj-prose h3 {
+  color: var(--color-text-primary);
+  line-height: var(--leading-heading);
+  margin: var(--space-8) 0 var(--space-3);
+}
+
+.fj-prose p {
+  margin: 0 0 var(--space-4);
+}
+
+.fj-prose ul,
+.fj-prose ol {
+  margin: 0 0 var(--space-4);
+  padding-left: var(--space-6);
+  display: grid;
+  gap: var(--space-2);
+}
+
+.fj-prose li {
+  margin: 0;
+}
+
+.fj-prose code {
+  font-family: var(--font-mono, var(--font-fallback-mono));
+  font-size: 0.875em;
+  background: var(--color-background-inset);
+  border-radius: var(--radius-xs);
+  padding: 0.1em 0.35em;
+}
+
+.fj-prose a {
+  color: var(--color-brand-text);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}

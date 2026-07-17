@@ -1,0 +1,47 @@
+import type { Metadata } from "next";
+
+import { PageHeader } from "@/components/app/ui";
+import {
+  FirstSession,
+  type FirstSessionInitial,
+} from "@/components/app/onboarding/first-session";
+import { requireActiveContext } from "@/lib/app/page-context";
+import { getOnboardingState } from "@/lib/app/onboarding";
+import { can } from "@/lib/auth/roles";
+
+export const metadata: Metadata = {
+  title: "Get set up",
+  robots: { index: false, follow: false },
+};
+
+export default async function OnboardingPage() {
+  const { membership } = await requireActiveContext();
+  const state = await getOnboardingState(membership.organization.id);
+  const row = state.row;
+
+  const initial: FirstSessionInitial = {
+    useCase: row?.use_case ?? "",
+    firstConcern: row?.first_concern ?? "",
+    responsibilityRole: row?.responsibility_role ?? "",
+  };
+
+  const hasMonitor = state.signals.activeMonitorCount > 0;
+
+  return (
+    <div style={{ maxWidth: "42rem", marginInline: "auto" }}>
+      <PageHeader
+        title="Let's watch something that matters."
+        description={
+          hasMonitor
+            ? "Your first monitor is already live. These answers still tune the remaining setup guidance."
+            : "Start with a website, API, certificate, or scheduled job. Fajita will test the setup before monitoring begins."
+        }
+      />
+      <FirstSession
+        organizationId={membership.organization.id}
+        canCreateMonitor={can(membership.role, "monitors:manage")}
+        initial={initial}
+      />
+    </div>
+  );
+}

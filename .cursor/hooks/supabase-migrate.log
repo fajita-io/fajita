@@ -1,0 +1,864 @@
+=== 2026-07-17T00:23:34Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260716230000_public_site_forms.sql
+
+ [Y/n] y
+Applying migration 20260716230000_public_site_forms.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T00:36:47Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Remote database is up to date.
+=== 2026-07-17T00:37:25Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260716234500_early_access_email_unique.sql
+
+ [Y/n] y
+Applying migration 20260716234500_early_access_email_unique.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T00:37:26Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Remote database is up to date.
+=== 2026-07-17T01:17:00Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260717000000_phase3_identity_and_tenancy.sql
+
+ [Y/n] y
+Applying migration 20260717000000_phase3_identity_and_tenancy.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T01:18:22Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260717000100_phase3_rls.sql
+
+ [Y/n] y
+Applying migration 20260717000100_phase3_rls.sql...
+NOTICE (00000): policy "user_profiles_select_own" for relation "public.user_profiles" does not exist, skipping
+NOTICE (00000): policy "user_preferences_select_own" for relation "public.user_preferences" does not exist, skipping
+NOTICE (00000): policy "notification_preferences_select_own" for relation "public.notification_preferences" does not exist, skipping
+NOTICE (00000): policy "organizations_select_member" for relation "public.organizations" does not exist, skipping
+NOTICE (00000): policy "organization_members_select" for relation "public.organization_members" does not exist, skipping
+NOTICE (00000): policy "organization_invitations_select" for relation "public.organization_invitations" does not exist, skipping
+NOTICE (00000): policy "organization_onboarding_select" for relation "public.organization_onboarding" does not exist, skipping
+NOTICE (00000): policy "audit_events_select" for relation "public.audit_events" does not exist, skipping
+NOTICE (00000): policy "notifications_select_own" for relation "public.notifications" does not exist, skipping
+NOTICE (00000): policy "export_requests_select" for relation "public.export_requests" does not exist, skipping
+NOTICE (00000): policy "deletion_requests_select" for relation "public.deletion_requests" does not exist, skipping
+NOTICE (00000): policy "feature_flag_overrides_select" for relation "public.feature_flag_overrides" does not exist, skipping
+NOTICE (00000): policy "billing_accounts_select_own" for relation "public.billing_accounts" does not exist, skipping
+NOTICE (00000): policy "billing_subscriptions_select_own" for relation "public.billing_subscriptions" does not exist, skipping
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T02:21:55Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Remote database is up to date.
+=== 2026-07-17T02:22:18Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Remote database is up to date.
+=== 2026-07-17T02:25:07Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Remote database is up to date.
+=== 2026-07-17T02:25:40Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Remote database is up to date.
+=== 2026-07-17T02:26:08Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Remote database is up to date.
+=== 2026-07-17T02:26:36Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Remote database is up to date.
+=== 2026-07-17T02:37:24Z push failed ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+unexpected login role status 502: error code: 502
+                                                 
+Connect to your database by setting the env var correctly: SUPABASE_DB_PASSWORD
+=== 2026-07-17T02:39:37Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260718000000_phase4_monitoring_engine.sql
+
+ [Y/n] y
+Applying migration 20260718000000_phase4_monitoring_engine.sql...
+NOTICE (00000): constraint "monitors_current_version_fk" of relation "monitors" does not exist, skipping
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T02:43:01Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260718000100_phase4_monitoring_rls.sql
+
+ [Y/n] y
+Applying migration 20260718000100_phase4_monitoring_rls.sql...
+NOTICE (00000): policy "monitors_select_member" for relation "public.monitors" does not exist, skipping
+NOTICE (00000): policy "monitor_versions_select_member" for relation "public.monitor_versions" does not exist, skipping
+NOTICE (00000): policy "monitor_assertions_select_member" for relation "public.monitor_assertions" does not exist, skipping
+NOTICE (00000): policy "check_schedules_select_member" for relation "public.check_schedules" does not exist, skipping
+NOTICE (00000): policy "check_executions_select_member" for relation "public.check_executions" does not exist, skipping
+NOTICE (00000): policy "check_results_select_member" for relation "public.check_results" does not exist, skipping
+NOTICE (00000): policy "check_assertion_results_select_member" for relation "public.check_assertion_results" does not exist, skipping
+NOTICE (00000): policy "monitor_security_events_select_admin" for relation "public.monitor_security_events" does not exist, skipping
+NOTICE (00000): policy "heartbeat_events_select_member" for relation "public.heartbeat_events" does not exist, skipping
+NOTICE (00000): policy "monitor_regions_select_public" for relation "public.monitor_regions" does not exist, skipping
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T02:46:53Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Remote database is up to date.
+=== 2026-07-17T02:47:16Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260718000200_phase4_fix_lease_fn.sql
+
+ [Y/n] y
+Applying migration 20260718000200_phase4_fix_lease_fn.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T03:35:05Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Remote database is up to date.
+=== 2026-07-17T03:35:27Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Remote database is up to date.
+=== 2026-07-17T04:01:47Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260719000000_phase5_groups_tags_exports.sql
+
+ [Y/n] y
+Applying migration 20260719000000_phase5_groups_tags_exports.sql...
+NOTICE (00000): trigger "monitor_tag_assignments_tenancy" for relation "public.monitor_tag_assignments" does not exist, skipping
+NOTICE (00000): constraint "monitors_group_fk" of relation "monitors" does not exist, skipping
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T04:02:03Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260719000100_phase5_rls.sql
+
+ [Y/n] y
+Applying migration 20260719000100_phase5_rls.sql...
+NOTICE (00000): policy "monitor_groups_select_member" for relation "public.monitor_groups" does not exist, skipping
+NOTICE (00000): policy "monitor_tags_select_member" for relation "public.monitor_tags" does not exist, skipping
+NOTICE (00000): policy "monitor_tag_assignments_select_member" for relation "public.monitor_tag_assignments" does not exist, skipping
+NOTICE (00000): policy "monitor_export_requests_select_member" for relation "public.monitor_export_requests" does not exist, skipping
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T04:03:30Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260719000200_phase5_result_stats_fn.sql
+
+ [Y/n] y
+Applying migration 20260719000200_phase5_result_stats_fn.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T04:05:58Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260719000300_phase5_result_stats_public.sql
+
+ [Y/n] y
+Applying migration 20260719000300_phase5_result_stats_public.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T05:03:56Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260720000000_phase6_incident_schema.sql
+
+ [Y/n] y
+Applying migration 20260720000000_phase6_incident_schema.sql...
+NOTICE (00000): constraint "monitor_operational_states_active_incident_fk" of relation "monitor_operational_states" does not exist, skipping
+NOTICE (00000): constraint "monitor_operational_states_maintenance_fk" of relation "monitor_operational_states" does not exist, skipping
+NOTICE (00000): constraint "incidents_active_maintenance_fk" of relation "incidents" does not exist, skipping
+NOTICE (00000): constraint "incident_events_evidence_fk" of relation "incident_events" does not exist, skipping
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T05:08:29Z push failed ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260720000100_phase6_incident_engine.sql
+
+ [Y/n] y
+Applying migration 20260720000100_phase6_incident_engine.sql...
+ERROR: syntax error at or near "record" (SQLSTATE 42601)                     
+At statement: 6                                                              
+-- Maintain the public-safe projection (allowlisted fields only). Stays      
+-- internal until Phase 8 publishes it.                                      
+create or replace function app.upsert_incident_projection(p_incident_id uuid)
+returns void                                                                 
+language plpgsql                                                             
+security definer                                                             
+set search_path = public, app                                                
+as $$                                                                        
+declare                                                                      
+  v inc record;                                                              
+        ^                                                                    
+Try rerunning the command with --debug to troubleshoot the error.
+=== 2026-07-17T05:08:43Z push failed ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260720000100_phase6_incident_engine.sql
+
+ [Y/n] y
+Applying migration 20260720000100_phase6_incident_engine.sql...
+ERROR: syntax error at or near "record" (SQLSTATE 42601)                     
+At statement: 6                                                              
+-- Maintain the public-safe projection (allowlisted fields only). Stays      
+-- internal until Phase 8 publishes it.                                      
+create or replace function app.upsert_incident_projection(p_incident_id uuid)
+returns void                                                                 
+language plpgsql                                                             
+security definer                                                             
+set search_path = public, app                                                
+as $$                                                                        
+declare                                                                      
+  v inc record;                                                              
+        ^                                                                    
+Try rerunning the command with --debug to troubleshoot the error.
+=== 2026-07-17T05:08:54Z push failed ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260720000100_phase6_incident_engine.sql
+
+ [Y/n] y
+Applying migration 20260720000100_phase6_incident_engine.sql...
+ERROR: syntax error at or near "record" (SQLSTATE 42601)                     
+At statement: 6                                                              
+-- Maintain the public-safe projection (allowlisted fields only). Stays      
+-- internal until Phase 8 publishes it.                                      
+create or replace function app.upsert_incident_projection(p_incident_id uuid)
+returns void                                                                 
+language plpgsql                                                             
+security definer                                                             
+set search_path = public, app                                                
+as $$                                                                        
+declare                                                                      
+  v inc record;                                                              
+        ^                                                                    
+Try rerunning the command with --debug to troubleshoot the error.
+=== 2026-07-17T05:09:06Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260720000100_phase6_incident_engine.sql
+
+ [Y/n] y
+Applying migration 20260720000100_phase6_incident_engine.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T05:09:53Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260720000200_phase6_incident_rls.sql
+
+ [Y/n] y
+Applying migration 20260720000200_phase6_incident_rls.sql...
+NOTICE (00000): policy "monitor_operational_states_select_member" for relation "public.monitor_operational_states" does not exist, skipping
+NOTICE (00000): policy "incidents_select_member" for relation "public.incidents" does not exist, skipping
+NOTICE (00000): policy "incident_monitors_select_member" for relation "public.incident_monitors" does not exist, skipping
+NOTICE (00000): policy "incident_events_select_member" for relation "public.incident_events" does not exist, skipping
+NOTICE (00000): policy "incident_state_transitions_select_member" for relation "public.incident_state_transitions" does not exist, skipping
+NOTICE (00000): policy "incident_evidence_select_member" for relation "public.incident_evidence" does not exist, skipping
+NOTICE (00000): policy "incident_updates_select_member" for relation "public.incident_updates" does not exist, skipping
+NOTICE (00000): policy "incident_notes_select_member" for relation "public.incident_notes" does not exist, skipping
+NOTICE (00000): policy "incident_acknowledgments_select_member" for relation "public.incident_acknowledgments" does not exist, skipping
+NOTICE (00000): policy "incident_assignments_select_member" for relation "public.incident_assignments" does not exist, skipping
+NOTICE (00000): policy "incident_suppressions_select_member" for relation "public.incident_suppressions" does not exist, skipping
+NOTICE (00000): policy "maintenance_windows_select_member" for relation "public.maintenance_windows" does not exist, skipping
+NOTICE (00000): policy "maintenance_monitor_links_select_member" for relation "public.maintenance_monitor_links" does not exist, skipping
+NOTICE (00000): policy "maintenance_occurrences_select_member" for relation "public.maintenance_occurrences" does not exist, skipping
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T05:12:14Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Remote database is up to date.
+=== 2026-07-17T05:18:46Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260720000300_phase6_incident_api.sql
+
+ [Y/n] y
+Applying migration 20260720000300_phase6_incident_api.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T05:58:34Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Remote database is up to date.
+=== 2026-07-17T06:13:19Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260721000000_phase7_alert_schema.sql
+
+ [Y/n] y
+Applying migration 20260721000000_phase7_alert_schema.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T06:17:48Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260721000100_phase7_alert_engine.sql
+
+ [Y/n] y
+Applying migration 20260721000100_phase7_alert_engine.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T06:18:22Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260721000200_phase7_alert_rls.sql
+
+ [Y/n] y
+Applying migration 20260721000200_phase7_alert_rls.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T06:21:34Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260721000300_phase7_event_emission.sql
+
+ [Y/n] y
+Applying migration 20260721000300_phase7_event_emission.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T07:18:48Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Remote database is up to date.
+=== 2026-07-17T14:46:52Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260722000000_phase8_status_page_schema.sql
+
+ [Y/n] y
+Applying migration 20260722000000_phase8_status_page_schema.sql...
+NOTICE (00000): constraint "status_pages_primary_domain_fk" of relation "status_pages" does not exist, skipping
+NOTICE (00000): constraint "status_pages_published_version_fk" of relation "status_pages" does not exist, skipping
+NOTICE (00000): constraint "status_pages_draft_version_fk" of relation "status_pages" does not exist, skipping
+NOTICE (00000): constraint "status_pages_logo_asset_fk" of relation "status_pages" does not exist, skipping
+NOTICE (00000): constraint "status_pages_favicon_asset_fk" of relation "status_pages" does not exist, skipping
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T14:47:26Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260722000100_phase8_status_page_rls.sql
+
+ [Y/n] y
+Applying migration 20260722000100_phase8_status_page_rls.sql...
+NOTICE (00000): policy "status_pages_select_member" for relation "public.status_pages" does not exist, skipping
+NOTICE (00000): policy "status_page_component_groups_select_member" for relation "public.status_page_component_groups" does not exist, skipping
+NOTICE (00000): policy "status_page_components_select_member" for relation "public.status_page_components" does not exist, skipping
+NOTICE (00000): policy "status_page_component_monitors_select_member" for relation "public.status_page_component_monitors" does not exist, skipping
+NOTICE (00000): policy "status_page_incidents_select_member" for relation "public.status_page_incidents" does not exist, skipping
+NOTICE (00000): policy "status_page_maintenance_select_member" for relation "public.status_page_maintenance" does not exist, skipping
+NOTICE (00000): policy "status_page_manual_messages_select_member" for relation "public.status_page_manual_messages" does not exist, skipping
+NOTICE (00000): policy "status_page_versions_select_member" for relation "public.status_page_versions" does not exist, skipping
+NOTICE (00000): policy "status_page_domains_select_member" for relation "public.status_page_domains" does not exist, skipping
+NOTICE (00000): policy "status_page_domain_verifications_select_member" for relation "public.status_page_domain_verifications" does not exist, skipping
+NOTICE (00000): policy "status_page_brand_assets_select_member" for relation "public.status_page_brand_assets" does not exist, skipping
+NOTICE (00000): policy "status_page_uptime_summaries_select_member" for relation "public.status_page_uptime_summaries" does not exist, skipping
+NOTICE (00000): policy "status_page_public_snapshots_select_member" for relation "public.status_page_public_snapshots" does not exist, skipping
+NOTICE (00000): policy "status_page_analytics_events_select_member" for relation "public.status_page_analytics_events" does not exist, skipping
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T14:55:44Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260722000200_phase8_status_page_functions.sql
+
+ [Y/n] y
+Applying migration 20260722000200_phase8_status_page_functions.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T15:07:06Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260722000300_phase8_uptime_public.sql
+
+ [Y/n] y
+Applying migration 20260722000300_phase8_uptime_public.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T16:01:10Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260723000000_phase9_subscriber_schema.sql
+
+ [Y/n] y
+Applying migration 20260723000000_phase9_subscriber_schema.sql...
+NOTICE (00000): constraint "status_pages_subscriber_cooldown_check" of relation "status_pages" does not exist, skipping
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T16:03:29Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260723000100_phase9_subscriber_engine.sql
+
+ [Y/n] y
+Applying migration 20260723000100_phase9_subscriber_engine.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T16:04:08Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260723000200_phase9_subscriber_rls.sql
+
+ [Y/n] y
+Applying migration 20260723000200_phase9_subscriber_rls.sql...
+NOTICE (00000): policy "sps_events_select_member" for relation "public.status_page_subscriber_events" does not exist, skipping
+NOTICE (00000): policy "sps_intents_select_member" for relation "public.status_page_subscriber_delivery_intents" does not exist, skipping
+NOTICE (00000): policy "sps_attempts_select_member" for relation "public.status_page_subscriber_delivery_attempts" does not exist, skipping
+NOTICE (00000): policy "sps_dead_letters_select_member" for relation "public.status_page_subscriber_delivery_dead_letters" does not exist, skipping
+NOTICE (00000): policy "sps_delivery_suppressions_select_member" for relation "public.status_page_subscriber_delivery_suppressions" does not exist, skipping
+NOTICE (00000): policy "sps_suppressions_select_member" for relation "public.status_page_subscriber_suppressions" does not exist, skipping
+NOTICE (00000): policy "sps_provider_events_select_member" for relation "public.status_page_subscriber_provider_events" does not exist, skipping
+NOTICE (00000): policy "sps_import_jobs_select_member" for relation "public.status_page_subscriber_import_jobs" does not exist, skipping
+NOTICE (00000): policy "sps_export_jobs_select_member" for relation "public.status_page_subscriber_export_jobs" does not exist, skipping
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T16:14:29Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260723000300_phase9_subscriber_link_token.sql
+
+ [Y/n] y
+Applying migration 20260723000300_phase9_subscriber_link_token.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T16:43:29Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260723000400_phase9_consent_events.sql
+
+ [Y/n] y
+Applying migration 20260723000400_phase9_consent_events.sql...
+NOTICE (00000): constraint "status_page_subscriber_consent_records_event_check1" of relation "status_page_subscriber_consent_records" does not exist, skipping
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T16:58:27Z push failed ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260724000000_phase10_billing_schema.sql
+
+ [Y/n] y
+Applying migration 20260724000000_phase10_billing_schema.sql...
+ERROR: functions in index predicate must be marked IMMUTABLE (SQLSTATE 42P17)
+At statement: 32                                                             
+create index billing_admin_overrides_org_idx                                 
+  on public.billing_admin_overrides (organization_id)                        
+  where expires_at is null or expires_at > now()                             
+Try rerunning the command with --debug to troubleshoot the error.
+=== 2026-07-17T16:58:50Z push failed ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260724000000_phase10_billing_schema.sql
+ • 20260724000100_phase10_billing_rls.sql
+
+ [Y/n] y
+Applying migration 20260724000000_phase10_billing_schema.sql...
+ERROR: functions in index predicate must be marked IMMUTABLE (SQLSTATE 42P17)
+At statement: 32                                                             
+create index billing_admin_overrides_org_idx                                 
+  on public.billing_admin_overrides (organization_id)                        
+  where expires_at is null or expires_at > now()                             
+Try rerunning the command with --debug to troubleshoot the error.
+=== 2026-07-17T16:59:42Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260724000000_phase10_billing_schema.sql
+ • 20260724000100_phase10_billing_rls.sql
+
+ [Y/n] y
+Applying migration 20260724000000_phase10_billing_schema.sql...
+Applying migration 20260724000100_phase10_billing_rls.sql...
+NOTICE (00000): policy "billing_customers_select" for relation "public.billing_customers" does not exist, skipping
+NOTICE (00000): policy "billing_subscriptions_select" for relation "public.billing_subscriptions" does not exist, skipping
+NOTICE (00000): policy "billing_payment_events_select" for relation "public.billing_payment_events" does not exist, skipping
+NOTICE (00000): policy "billing_grace_periods_select" for relation "public.billing_grace_periods" does not exist, skipping
+NOTICE (00000): policy "billing_cancellation_records_select" for relation "public.billing_cancellation_records" does not exist, skipping
+NOTICE (00000): policy "billing_downgrade_plans_select" for relation "public.billing_downgrade_plans" does not exist, skipping
+NOTICE (00000): policy "billing_usage_counters_select" for relation "public.billing_usage_counters" does not exist, skipping
+NOTICE (00000): policy "billing_entitlement_snapshots_select" for relation "public.billing_entitlement_snapshots" does not exist, skipping
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T18:01:41Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260725000000_phase11_onboarding_lifecycle_schema.sql
+
+ [Y/n] y
+Applying migration 20260725000000_phase11_onboarding_lifecycle_schema.sql...
+NOTICE (00000): constraint "organization_onboarding_first_concern_len" of relation "organization_onboarding" does not exist, skipping
+NOTICE (00000): constraint "billing_cancellation_records_secondary_len" of relation "billing_cancellation_records" does not exist, skipping
+NOTICE (00000): constraint "billing_cancellation_records_missing_feature_len" of relation "billing_cancellation_records" does not exist, skipping
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T18:03:20Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260725000100_phase11_lifecycle_engine.sql
+
+ [Y/n] y
+Applying migration 20260725000100_phase11_lifecycle_engine.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T18:03:44Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260725000200_phase11_rls.sql
+
+ [Y/n] y
+Applying migration 20260725000200_phase11_rls.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T18:27:35Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260725000300_phase11_attempt_defaults.sql
+
+ [Y/n] y
+Applying migration 20260725000300_phase11_attempt_defaults.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T18:30:21Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260725000400_phase11_report_aggregates.sql
+
+ [Y/n] y
+Applying migration 20260725000400_phase11_report_aggregates.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T19:25:44Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260726000000_phase12_affiliate_schema.sql
+
+ [Y/n] y
+Applying migration 20260726000000_phase12_affiliate_schema.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T19:26:26Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260726000100_phase12_affiliate_engine.sql
+
+ [Y/n] y
+Applying migration 20260726000100_phase12_affiliate_engine.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T19:27:35Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260726000200_phase12_affiliate_rls.sql
+
+ [Y/n] y
+Applying migration 20260726000200_phase12_affiliate_rls.sql...
+NOTICE (00000): policy "affiliate_programs_select" for relation "public.affiliate_programs" does not exist, skipping
+NOTICE (00000): policy "affiliate_program_versions_select" for relation "public.affiliate_program_versions" does not exist, skipping
+NOTICE (00000): policy "affiliate_applications_select" for relation "public.affiliate_applications" does not exist, skipping
+NOTICE (00000): policy "affiliates_select" for relation "public.affiliates" does not exist, skipping
+NOTICE (00000): policy "affiliate_profiles_select" for relation "public.affiliate_profiles" does not exist, skipping
+NOTICE (00000): policy "affiliate_email_preferences_select" for relation "public.affiliate_email_preferences" does not exist, skipping
+NOTICE (00000): policy "affiliate_codes_select" for relation "public.affiliate_codes" does not exist, skipping
+NOTICE (00000): policy "affiliate_campaigns_select" for relation "public.affiliate_campaigns" does not exist, skipping
+NOTICE (00000): policy "affiliate_links_select" for relation "public.affiliate_links" does not exist, skipping
+NOTICE (00000): policy "affiliate_payout_profiles_select" for relation "public.affiliate_payout_profiles" does not exist, skipping
+NOTICE (00000): policy "affiliate_tax_profiles_select" for relation "public.affiliate_tax_profiles" does not exist, skipping
+NOTICE (00000): policy "affiliate_payout_items_select" for relation "public.affiliate_payout_items" does not exist, skipping
+NOTICE (00000): policy "affiliate_payout_statements_select" for relation "public.affiliate_payout_statements" does not exist, skipping
+NOTICE (00000): policy "affiliate_terms_acceptances_select" for relation "public.affiliate_terms_acceptances" does not exist, skipping
+NOTICE (00000): policy "affiliate_notifications_select" for relation "public.affiliate_notifications" does not exist, skipping
+NOTICE (00000): policy "affiliate_exports_select" for relation "public.affiliate_exports" does not exist, skipping
+NOTICE (00000): policy "affiliate_creatives_select" for relation "public.affiliate_creatives" does not exist, skipping
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T21:14:47Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260727000000_phase13_docs_platform.sql
+
+ [Y/n] y
+Applying migration 20260727000000_phase13_docs_platform.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T21:43:11Z push failed ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Found local migration files to be inserted before the last migration on remote database.
+
+Rerun the command with --include-all flag to apply these migrations:
+supabase/migrations/20260717000001_org_internal_flag.sql
+=== 2026-07-17T21:43:27Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260728000000_org_internal_flag.sql
+
+ [Y/n] y
+Applying migration 20260728000000_org_internal_flag.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T21:44:56Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Remote database is up to date.
+=== 2026-07-17T21:46:55Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Remote database is up to date.
+=== 2026-07-17T21:59:20Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260729000000_phase14_glossary_platform.sql
+
+ [Y/n] y
+Applying migration 20260729000000_phase14_glossary_platform.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T22:41:26Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260730000000_phase16_support_chatbot.sql
+
+ [Y/n] y
+Applying migration 20260730000000_phase16_support_chatbot.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T23:03:31Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260731000000_phase17_platform_operations.sql
+
+ [Y/n] y
+Applying migration 20260731000000_phase17_platform_operations.sql...
+Warning: failed to cache migrations catalog: error exporting pg-delta catalog: failed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?:
+
+Finished supabase db push.
+Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop
+=== 2026-07-17T23:21:37Z push ok ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Remote database is up to date.
+=== 2026-07-17T23:28:21Z push failed ===
+Pushing migrations to fajita-io (olvnjsqspvywvwfchtuc)...
+Initialising login role...
+Connecting to remote database...
+Do you want to push these migrations to the remote database?
+ • 20260801000000_phase20_controlled_scale.sql
+
+ [Y/n] y
+failed to create migration table: ERROR: canceling statement due to lock timeout (SQLSTATE 55P03)
+Try rerunning the command with --debug to troubleshoot the error.

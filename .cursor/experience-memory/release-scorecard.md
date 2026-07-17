@@ -4,7 +4,9 @@ Production release evidence for Fajita. No category complete without evidence. U
 
 **Release version:** `[UNRESOLVED]`
 **Release date:** `[UNRESOLVED]`
-**Overall status:** Not ready
+**Overall status:** Not ready (Phase 18 Gate 6, 2026-07-17)
+
+Canonical ops scorecard: `/internal/readiness` and `docs/readiness/final-production-readiness.md`. Do not treat visual scorecard Pass as launch approval while production-readiness classification is Not Ready.
 
 ---
 

@@ -10,3 +10,5 @@ next-env.d.ts
 # Headroom local learnings / session artifacts
 CLAUDE.local.md
 .headroom/
+.brand-src/
+.qa-screens/

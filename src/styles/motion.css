@@ -1,0 +1,140 @@
+/**
+ * Fajita motion system: keyframes and utility classes.
+ * Tokens (durations, easings, distances) live in tokens.css.
+ * Full spec: /docs/brand/fajita-motion-system.md
+ *
+ * Principles:
+ *  1. Nothing moves without cause.
+ *  2. Interactions confirm fast (<= 240ms); narrative reveals are deliberate.
+ *  3. State changes move like temperature: continuous, never teleporting.
+ *  4. Stillness is the default. Alert states earn motion; calm states barely move.
+ */
+
+/* ---------------------------------------------------------------- */
+/* Keyframes                                                         */
+/* ---------------------------------------------------------------- */
+
+@keyframes fj-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fj-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--motion-distance-md));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Thermal pulse: the signature heartbeat. Scale + opacity only. */
+@keyframes fj-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 0.82;
+  }
+}
+
+/* Verifying: faster diagnostic pulse. */
+@keyframes fj-pulse-fast {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 0.7;
+  }
+}
+
+/* Signal travel: dash offset along a monitoring path. */
+@keyframes fj-signal-travel {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+/* Recovery cooling: hue-free brightness settle, used on state change. */
+@keyframes fj-cool-down {
+  from {
+    filter: brightness(1.25);
+  }
+  to {
+    filter: brightness(1);
+  }
+}
+
+/* ---------------------------------------------------------------- */
+/* Utility classes                                                   */
+/* ---------------------------------------------------------------- */
+
+.fj-animate-rise {
+  animation: fj-rise-in var(--motion-medium) var(--ease-enter) both;
+}
+
+.fj-animate-fade {
+  animation: fj-fade-in var(--motion-medium) var(--ease-enter) both;
+}
+
+.fj-interactive {
+  transition:
+    background-color var(--motion-fast) var(--ease-standard),
+    border-color var(--motion-fast) var(--ease-standard),
+    color var(--motion-fast) var(--ease-standard),
+    box-shadow var(--motion-fast) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-standard);
+}
+
+.fj-interactive:active {
+  transform: translateY(1px);
+}
+
+/* Status transitions move like temperature. */
+.fj-thermal-transition {
+  transition:
+    background-color var(--motion-slow) var(--ease-thermal),
+    border-color var(--motion-slow) var(--ease-thermal),
+    color var(--motion-slow) var(--ease-thermal),
+    fill var(--motion-slow) var(--ease-thermal),
+    stroke var(--motion-slow) var(--ease-thermal),
+    opacity var(--motion-slow) var(--ease-thermal);
+}
+
+/* ---------------------------------------------------------------- */
+/* Focus treatment (brand-wide)                                      */
+/* ---------------------------------------------------------------- */
+
+:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+/* ---------------------------------------------------------------- */
+/* Reduced motion: every non-essential animation collapses to an     */
+/* instant state change. Status remains legible via color + label.   */
+/* ---------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

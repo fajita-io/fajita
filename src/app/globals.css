@@ -1,6 +1,14 @@
-:root {
-  color-scheme: light dark;
-}
+@import "../styles/tokens.css";
+@import "../styles/themes.css";
+@import "../styles/typography.css";
+@import "../styles/motion.css";
+@import "../styles/components.css";
+@import "../styles/site.css";
+@import "../styles/app.css";
+@import "../styles/docs.css";
+@import "../styles/glossary.css";
+@import "../styles/content.css";
+@import "../styles/support.css";
 
 *,
 *::before,
@@ -8,7 +16,37 @@
   box-sizing: border-box;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
+  font-family: var(--font-sans, var(--font-fallback-sans));
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  background: var(--color-background-primary);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--color-brand-heat-soft);
+  color: var(--color-text-primary);
 }

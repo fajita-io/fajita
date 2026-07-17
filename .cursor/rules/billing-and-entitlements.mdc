@@ -65,8 +65,9 @@ An upgrade prompt must never hide what the user was trying to do.
 - Provider: Stripe (`stripe@22`).
 - Plans defined in `src/lib/stripe/plans.ts`: `starter` (10 monitors), `pro` (50 monitors), `business` (unlimited). Prices resolved by `lookup_key` (`fajita_<plan>_<interval>`). Pricing amounts are `[UNRESOLVED]` (set in Stripe Dashboard).
 - Entitlements resolved in `src/lib/stripe/entitlements.ts` by reading Stripe as the source of truth (`customers.search` on `metadata.user_id`, then subscription status).
-- Webhook route `src/app/api/webhooks/stripe/route.ts` verifies signatures. The current handler (`src/lib/stripe/webhooks.ts`) only emits analytics goals. **Known gaps:** it does not persist subscription state to the `billing_subscriptions` cache table, and it does not implement idempotency or duplicate protection. Close these before relying on the cache or before launch.
-- Supabase tables `billing_accounts` and `billing_subscriptions` exist with RLS enabled but no policies. The cache is currently unpopulated.
+- Webhook route `src/app/api/webhooks/stripe/route.ts` verifies signatures and delegates to `src/lib/billing/webhook-processor.ts`, which persists org-scoped `billing_subscriptions`, writes entitlement snapshots, and idempotizes via `billing_webhook_events` (unique `stripe_event_id`). Pure inbox classification is unit-tested in `webhook-inbox.test.ts`.
+- **Known launch gaps (Phase 18):** `BILLING_ENFORCEMENT_ENABLED` is still `false`; live Stripe price amounts and controlled live payment test are open blockers; route-level signature e2e remains thin (LB-009).
+- Org-keyed billing tables have RLS (customer SELECT where appropriate; webhook inbox / admin tables deny-by-default for authenticated).
 - Identity keys are Clerk user IDs (`user_id text`), linked to Stripe via customer metadata.
 
 Reconcile payment-provider state and application state deliberately. Do not let the cache and Stripe drift silently; define which is authoritative for each check (Stripe authoritative; cache is a performance mirror).

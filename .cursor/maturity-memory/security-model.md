@@ -98,6 +98,19 @@ Structured logs, no sensitive content (`operations-and-observability.mdc`). Neve
 
 `[UNRESOLVED]` pending feature implementation. At minimum: authorization deny-by-default, cross-account access rejection, webhook signature rejection, webhook idempotency, secret non-exposure in client bundle.
 
+## Phase 3 resolution (2026-07-17)
+
+Authentication and multi-tenant authorization are now implemented. Full internal document: `docs/security/application-auth-and-tenancy.md`.
+
+- **Auth authority**: Clerk. Middleware protects `/app` and `/internal`. Idempotent webhook provisioning (`src/app/api/webhooks/clerk/route.ts`, signature-verified).
+- **Authorization**: central role model (`owner`/`admin`/`member`) in `src/lib/auth/roles.ts`; server guards in `src/lib/auth/context.ts` (`requireAuthenticatedUser`, `requireOrganizationMembership`, `requireOrganizationPermission`, `requirePlatformAdmin`, `requireStepUpAuthentication`). Deny by default.
+- **Tenant isolation**: RLS enabled on all identity/tenancy tables plus billing tables (`supabase/migrations/20260717000100_phase3_rls.sql`). Reads are membership-scoped; the authenticated role has no write policies (all writes go through service-role server actions after in-code authorization). Harness: `supabase/tests/phase3_rls_isolation.sql`.
+- **Invitations**: hashed tokens, expiry, email binding, idempotent acceptance, rate limiting (`docs/security/invitation-security.md`).
+- **Platform admin**: explicit Clerk-id allowlist, separate from org roles, empty default (`docs/security/platform-admin-foundation.md`).
+- **Deletion/export**: cooling-off scheduled requests, ownership-conflict protection, step-up foundation.
+
+Closed earlier risks: billing RLS read policies added; auth boundary now enforced; tenant model defined. Still open: webhook idempotency/state persistence for Stripe (billing phase), email delivery, export generation + deletion worker, step-up enforcement, dedicated rate-limit store, error monitoring.
+
 ## Status
 
-Installation baseline recorded 2026-07-16. No security feature implemented. Resolve `[UNRESOLVED]` items via `security-and-privacy-architect` at Gate 2.
+Installation baseline recorded 2026-07-16. Phase 3 auth and tenancy resolved 2026-07-17. Remaining `[UNRESOLVED]` items belong to later phases (billing, integrations, monitoring). Resolve via the matching architect skill at each gate.

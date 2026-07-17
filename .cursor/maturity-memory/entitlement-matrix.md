@@ -2,7 +2,7 @@
 
 Capability by plan for Fajita. Governed by `billing-and-entitlements.mdc`. Update via `billing-and-entitlement-architect`. Do not invent plans or capabilities Phase 0 did not define.
 
-Plans come from `src/lib/stripe/plans.ts`: **Starter** (10 monitors), **Pro** (50 monitors), **Business** (unlimited monitors). A **Free** tier is implied by `entitlements.ts` (`planId: "free"`, `monitorLimit: 0`) but its exact behavior is `[UNRESOLVED]`. Prices are `[UNRESOLVED]` (set in Stripe Dashboard).
+Plans come from `src/lib/stripe/plans.ts` and `BILLING_CATALOG`: **Starter** (10 monitors, $9/mo), **Pro** (50 monitors, $19/mo), **Business** (unlimited monitors, $39/mo). Unbilled orgs receive `BETA_ENTITLEMENTS` while `BILLING_ENFORCEMENT_ENABLED` is false. Stripe Dashboard Prices must match lookup keys at these cents.
 
 **Legend:** value = limit/behavior · `[UNRESOLVED]` = undecided · Server-side = enforcement location
 

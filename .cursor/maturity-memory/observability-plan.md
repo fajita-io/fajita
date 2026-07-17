@@ -29,7 +29,16 @@ Never log: passwords, full access tokens, secret keys, private signing secrets, 
 
 ## Error-monitoring policy
 
-Proposed: one managed error monitor for server and client exceptions with environment separation and PII scrubbing. **Vendor `[UNRESOLVED]`.** Not implemented.
+**Vendor: Sentry** (`@sentry/nextjs`), wired 2026-07-17.
+
+- Server: `sentry.server.config.ts` via `src/instrumentation.ts`
+- Edge: `sentry.edge.config.ts`
+- Client: `src/instrumentation-client.ts`
+- App Router: `src/app/global-error.tsx`
+- Helpers: `src/lib/observability/sentry.ts`
+- Env: `SENTRY_DSN`, `NEXT_PUBLIC_SENTRY_DSN` (optional upload: `SENTRY_AUTH_TOKEN`)
+
+SDK is disabled when DSN is unset. Create the Fajita Sentry project and set Production env before Stage 1. PII scrubbing: `sendDefaultPii: false`; auth/cookie headers stripped in `beforeSend`.
 
 ## Performance-monitoring policy
 

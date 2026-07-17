@@ -1,0 +1,327 @@
+/**
+ * Fajita component tokens and classes (layer 3).
+ * Built exclusively on semantic tokens from themes.css.
+ */
+
+/* ---------------------------------------------------------------- */
+/* Buttons                                                           */
+/* ---------------------------------------------------------------- */
+
+.fj-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-sans, var(--font-fallback-sans));
+  font-size: var(--text-body-sm);
+  font-weight: 600;
+  line-height: 1;
+  min-height: 44px;
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-sm);
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background-color var(--motion-fast) var(--ease-standard),
+    border-color var(--motion-fast) var(--ease-standard),
+    color var(--motion-fast) var(--ease-standard),
+    box-shadow var(--motion-fast) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-standard);
+}
+
+.fj-button:active {
+  transform: translateY(1px);
+}
+
+.fj-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.fj-button--primary {
+  background: var(--color-brand-ember);
+  color: var(--color-text-on-brand);
+}
+
+.fj-button--primary:hover:not(:disabled) {
+  background: var(--color-brand-ember-strong);
+  box-shadow: var(--shadow-mid);
+}
+
+.fj-button--secondary {
+  background: transparent;
+  border-color: var(--color-border-strong);
+  color: var(--color-text-primary);
+}
+
+.fj-button--secondary:hover:not(:disabled) {
+  border-color: var(--color-text-primary);
+  background: var(--color-background-secondary);
+}
+
+.fj-button--ghost {
+  background: transparent;
+  color: var(--color-text-secondary);
+}
+
+.fj-button--ghost:hover:not(:disabled) {
+  color: var(--color-text-primary);
+  background: var(--color-background-inset);
+}
+
+.fj-button--sm {
+  min-height: 36px;
+  padding: 0 var(--space-4);
+  font-size: var(--text-label);
+}
+
+/* ---------------------------------------------------------------- */
+/* Status                                                             */
+/* ---------------------------------------------------------------- */
+
+.fj-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-sans, var(--font-fallback-sans));
+  font-size: var(--text-label);
+  font-weight: 600;
+  line-height: 1;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  background: var(--status-soft);
+  color: var(--status-text);
+  border-color: color-mix(in srgb, var(--status-text) 25%, transparent);
+}
+
+.fj-status-dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--status-bold);
+  flex: none;
+}
+
+.fj-status-dot--live {
+  animation: fj-pulse 2.4s var(--ease-thermal) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fj-status-dot--live {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------- */
+/* Cards                                                              */
+/* ---------------------------------------------------------------- */
+
+.fj-card {
+  background: var(--color-background-elevated);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-6);
+}
+
+.fj-card--editorial {
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  background: var(--color-background-secondary);
+  border-color: var(--color-border-subtle);
+  box-shadow: none;
+}
+
+.fj-card--inset {
+  background: var(--color-background-inset);
+  box-shadow: none;
+}
+
+/* ---------------------------------------------------------------- */
+/* Demo frame: how product UI is always presented in marketing        */
+/* ---------------------------------------------------------------- */
+
+.fj-demo-frame {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-background-elevated);
+  box-shadow: var(--shadow-high);
+  overflow: hidden;
+}
+
+.fj-demo-frame__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border-subtle);
+  background: var(--color-background-secondary);
+}
+
+.fj-demo-frame__title {
+  font-family: var(--font-mono, var(--font-fallback-mono));
+  font-size: var(--text-caption);
+  color: var(--color-text-muted);
+}
+
+.fj-demo-frame__body {
+  padding: var(--space-6);
+}
+
+/* ---------------------------------------------------------------- */
+/* Metric                                                             */
+/* ---------------------------------------------------------------- */
+
+.fj-metric__value {
+  font-family: var(--font-display, var(--font-fallback-display));
+  font-variation-settings:
+    "opsz" 72,
+    "SOFT" 0,
+    "WONK" 0;
+  font-weight: 560;
+  font-size: var(--text-heading-1);
+  line-height: 1.05;
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.fj-metric__label {
+  font-size: var(--text-label);
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+}
+
+/* ---------------------------------------------------------------- */
+/* Chips and tiles                                                    */
+/* ---------------------------------------------------------------- */
+
+.fj-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-label);
+  font-weight: 500;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-background-elevated);
+  color: var(--color-text-secondary);
+}
+
+.fj-integration-tile {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-background-elevated);
+  color: var(--color-text-primary);
+  font-weight: 500;
+  font-size: var(--text-body-sm);
+}
+
+/* ---------------------------------------------------------------- */
+/* Code / endpoint display                                            */
+/* ---------------------------------------------------------------- */
+
+.fj-code {
+  font-family: var(--font-mono, var(--font-fallback-mono));
+  font-size: var(--text-body-sm);
+  line-height: 1.7;
+  background: var(--color-background-inverse);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  overflow-x: auto;
+}
+
+[data-theme="dark"] .fj-code {
+  background: var(--color-background-inset);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-subtle);
+}
+
+/* ---------------------------------------------------------------- */
+/* Thermal divider: the one place a heat gradient is ambient           */
+/* ---------------------------------------------------------------- */
+
+.fj-thermal-divider {
+  border: none;
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--fj-ember-300) 30%,
+    var(--fj-ember-500) 50%,
+    var(--fj-ember-300) 70%,
+    transparent
+  );
+  margin: var(--space-8) 0;
+}
+
+/* ---------------------------------------------------------------- */
+/* Heat-grid pattern background (brand texture, use sparingly)        */
+/* ---------------------------------------------------------------- */
+
+.fj-heat-grid {
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--color-brand-ember) 22%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+}
+
+/* ---------------------------------------------------------------- */
+/* Tooltip (CSS-only, keyboard friendly via focus-within)             */
+/* ---------------------------------------------------------------- */
+
+.fj-tooltip {
+  position: relative;
+  display: inline-flex;
+}
+
+.fj-tooltip__bubble {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(2px);
+  background: var(--color-background-inverse);
+  color: var(--color-text-inverse);
+  font-size: var(--text-caption);
+  line-height: var(--leading-tight);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity var(--motion-fast) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-standard);
+  z-index: var(--layer-overlay);
+}
+
+.fj-tooltip:hover .fj-tooltip__bubble,
+.fj-tooltip:focus-within .fj-tooltip__bubble {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ---------------------------------------------------------------- */
+/* Layout helpers                                                     */
+/* ---------------------------------------------------------------- */
+
+.fj-container {
+  max-width: var(--container-marketing);
+  margin-inline: auto;
+  padding-inline: var(--container-gutter);
+}
+
+.fj-section {
+  padding-block: var(--space-section);
+}

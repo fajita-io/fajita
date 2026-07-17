@@ -27,7 +27,95 @@ Rate each route 1–10. **Scores below 9 require another improvement pass** unle
 
 ## Iterations
 
-*No critique rounds yet. Frontend not implemented.*
+### Phase 1 brand identity QA (2026-07-16)
+
+Production build screenshot QA at 1440 / 1280 / 1024 / 768 / 430 / 390 / 360 for `/` and `/internal/brand-lab`. Zero horizontal overflow and zero console errors at every breakpoint after fixes below. Screenshots in `.qa-screens/` (gitignored); regenerate with `npm run qa:screens`.
+
+```text
+Iteration: 1
+Route: /internal/brand-lab (Thermal Stack section)
+Breakpoint: 390px
+Category: Motion / brand object
+Severity: High
+Observation: The "tense" waveform used chained T shorthand curves that produced wild amplitude swings on the simplified mobile variant.
+Required correction: Rebuild the path with explicit Q segments and bounded control points.
+Resolution: Fixed in thermal-stack.tsx precomputed paths.
+Remaining issue: None.
+```
+
+```text
+Iteration: 1
+Route: all (light theme)
+Category: Accessibility / color
+Severity: High
+Observation: White text on ember-600 primary buttons measured 4.3:1, below WCAG AA.
+Required correction: Move primary button surface to ember-700 (5.88:1).
+Resolution: Fixed in themes.css; logged in rejected-patterns.md.
+Remaining issue: None.
+```
+
+```text
+Iteration: 2
+Route: /internal/brand-lab
+Breakpoint: all
+Category: Production polish
+Severity: High
+Observation: The route prerendered as 404 in production builds because the access guard evaluated env at build time.
+Required correction: Force request-time rendering so the guard reads the deployment environment.
+Resolution: Fixed with dynamic = "force-dynamic" in the layout; guard behavior covered by unit tests.
+Remaining issue: None.
+```
+
+```text
+Iteration: 2
+Route: /internal/brand-lab (nested theme previews)
+Breakpoint: all
+Category: Design system
+Severity: Medium
+Observation: themes.css targeted :root[data-theme] only, so side-by-side light/dark specimens in the lab could not re-theme.
+Required correction: Broaden selectors to [data-theme].
+Resolution: Fixed in themes.css and .fj-code styles.
+Remaining issue: None.
+```
+
+### Phase 2 public site QA (2026-07-16)
+
+Production build screenshot QA at 1440 / 1280 / 1024 / 768 / 430 / 390 / 360 across all 21 public routes, light and dark. Zero horizontal overflow and zero console errors after fixes. Full defect table in `docs/website/visual-qa.md`. Lighthouse (mobile, prod): perf 0.90-0.93, a11y 1.00, best practices 1.00, SEO 1.00 on `/`, `/pricing`, and a feature page.
+
+```text
+Iteration: 1
+Route: /status
+Breakpoint: all
+Category: Production polish
+Severity: High
+Observation: Positive capability list reused the fj-nots class, rendering "x" markers that read as failures.
+Required correction: Use the neutral list style.
+Resolution: Fixed (fj-plan__list).
+Remaining issue: None.
+```
+
+```text
+Iteration: 1
+Route: /signup
+Breakpoint: 390px
+Category: Composition
+Severity: Medium
+Observation: 100svh min-height on the auth grid left a large dead band above the panel on mobile.
+Required correction: Release the min-height and tighten panel padding below 63.75rem.
+Resolution: Fixed in site.css.
+Remaining issue: None.
+```
+
+```text
+Iteration: 1
+Route: build-time OG assets
+Category: Typography
+Severity: Medium
+Observation: Long page titles collided with the eyebrow and footer rows in generated Open Graph images.
+Required correction: Rework vertical layout math and prefer two-line titles.
+Resolution: Fixed in scripts/generate-og-pages.ts; regenerated set inspected.
+Remaining issue: None.
+```
 
 ### Template entry
 
@@ -51,8 +139,15 @@ Remaining issue: [If any]
 ### Marketing routes
 
 | Route | Orig | Brand | Comp | Type | Hier | Clarity | Inter | Motion | Resp | A11y | Conv | Polish | Pass |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `/` | — | — | — | — | — | — | — | — | — | — | — | — | Pending |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `/` (holding page) | 9 | 9 | 9 | 9 | 9 | 9 | n/a | 9 | 9 | 9 | n/a | 9 | Superseded by Phase 2 homepage |
+| `/internal/brand-lab` | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | n/a | 9 | Pass (internal surface) |
+| `/` (Phase 2) | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | Pass |
+| `/pricing` | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | Pass (dollar amounts gated until published) |
+| `/features` + 6 detail pages | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | Pass |
+| `/integrations`, `/security`, `/about`, `/contact` | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | Pass |
+| `/changelog`, `/roadmap`, `/status`, `/legal` | 9 | 9 | 9 | 9 | 9 | 9 | 9 | n/a | 9 | 9 | 9 | 9 | Pass (content foundations; status is a truthful placeholder) |
+| `/login`, `/signup`, 404, 500 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | Pass (early-access framing until accounts open) |
 
 ### Application routes
 

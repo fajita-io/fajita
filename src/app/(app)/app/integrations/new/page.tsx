@@ -1,0 +1,43 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+
+import { BrandIcon } from "@/components/design-system/icons";
+import { AppSection, PageHeader } from "@/components/app/ui";
+import { ChannelCreateForm } from "@/components/app/alerts/channel-create-form";
+import { requireAlertsPage } from "@/lib/alerts/alerts-page";
+import { ALERT_PROVIDERS, type AlertProvider } from "@/lib/alerts/constants";
+
+export const metadata: Metadata = {
+  title: "Add alert channel",
+  robots: { index: false, follow: false },
+};
+
+export default async function NewChannelPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ provider?: string }>;
+}) {
+  const ctx = await requireAlertsPage();
+  if (!ctx.canManageAlerts) notFound();
+
+  const { provider } = await searchParams;
+  const initial = ALERT_PROVIDERS.includes(provider as AlertProvider) ? (provider as AlertProvider) : undefined;
+
+  return (
+    <div className="fj-alerts">
+      <Link className="fj-link-button" href="/app/integrations" style={{ marginBottom: "var(--space-4)", display: "inline-flex" }}>
+        <BrandIcon name="chevron-right" size={14} className="fj-flip-up" /> Integrations
+      </Link>
+
+      <PageHeader
+        title="Add alert channel"
+        description="Pick where alerts should go. You will test it before any real alert is sent."
+      />
+
+      <AppSection>
+        <ChannelCreateForm organizationId={ctx.organizationId} initialProvider={initial} />
+      </AppSection>
+    </div>
+  );
+}

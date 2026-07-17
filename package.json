@@ -5,19 +5,49 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "docs:validate": "tsx scripts/docs-validate.ts",
+    "glossary:validate": "tsx scripts/glossary-validate.ts",
+    "content:validate": "tsx scripts/content-validate.ts",
+    "brand:assets": "tsx scripts/export-brand-assets.ts",
+    "qa:screens": "tsx scripts/screenshot-qa.ts",
+    "readiness:export": "tsx scripts/phase18-export-docs.ts",
+    "readiness:rls": "tsx scripts/rls-inventory.ts",
+    "readiness:secrets": "tsx scripts/secret-scan.ts",
+    "readiness:check": "tsx scripts/rls-inventory.ts && tsx scripts/secret-scan.ts && tsx scripts/phase18-export-docs.ts",
+    "stripe:seed": "tsx scripts/stripe-seed-products.ts",
+    "stripe:verify-prices": "tsx scripts/stripe-verify-prices.ts",
+    "smoke:public": "tsx scripts/public-smoke.ts"
   },
   "dependencies": {
+    "@clerk/nextjs": "^7.5.20",
     "@datafast/ai-crawl": "^1.0.0",
+    "@sentry/nextjs": "^10.66.0",
+    "@supabase/supabase-js": "^2.110.7",
     "next": "^15.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "stripe": "^22.3.2"
+    "stripe": "^22.3.2",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.6",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/fontkit": "^2.0.9",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "typescript": "^5.8.0"
+    "@vitejs/plugin-react": "^6.0.3",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^15.5.20",
+    "fontkit": "^2.0.4",
+    "jsdom": "^29.1.1",
+    "playwright": "^1.61.1",
+    "tsx": "^4.23.1",
+    "typescript": "^5.8.0",
+    "vitest": "^4.1.10"
   }
 }
