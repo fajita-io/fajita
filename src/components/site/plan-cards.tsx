@@ -1,7 +1,7 @@
 import { BrandButtonLink } from "@/components/design-system/primitives";
 import { DataFastGoals } from "@/lib/analytics";
+import { buildSignupUrl } from "@/lib/auth/paid-signup-flow";
 import { formatChecksCompact } from "@/lib/billing/check-volume";
-import { cta } from "@/lib/site/site-config";
 import { publicPlans, pricingConfig } from "@/lib/site/pricing";
 
 const planLines: Record<string, string[]> = {
@@ -64,12 +64,12 @@ export function PlanCards() {
           </ul>
 
           <BrandButtonLink
-            href={cta.primary.href}
+            href={buildSignupUrl(plan.id, "month")}
             variant={plan.highlight ? "primary" : "secondary"}
             data-fast-goal={DataFastGoals.planSelected}
             data-fast-goal-plan={plan.id}
           >
-            {cta.primary.label}
+            Create account
           </BrandButtonLink>
         </div>
       ))}

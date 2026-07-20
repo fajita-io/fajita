@@ -17,6 +17,12 @@ import type { Database } from "@/lib/supabase/types";
 import { writeActiveOrgId } from "@/lib/app/active-org";
 import { validateSlug } from "@/lib/app/slug";
 import { markOnboardingStepAction } from "./onboarding";
+import {
+  buildPaymentSetupUrl,
+  DEFAULT_SIGNUP_INTERVAL,
+  DEFAULT_SIGNUP_PLAN,
+} from "@/lib/auth/paid-signup-flow";
+import { isBillingInterval, isPlanId } from "@/lib/stripe/plans";
 import { DataFastGoals } from "@/lib/analytics/goals";
 import { trackGoal } from "@/lib/analytics/server";
 import { toActionError, type ActionResult } from "./shared";
@@ -25,6 +31,8 @@ const createSchema = z.object({
   name: z.string().trim().min(1, "Name your organization.").max(120),
   slug: z.string().trim().min(1),
   timezone: z.string().trim().min(1).max(64).default("UTC"),
+  planKey: z.string().optional(),
+  interval: z.string().optional(),
 });
 
 export async function createOrganizationAction(
@@ -193,5 +201,15 @@ export async function createFirstOrganizationAndContinue(
 ): Promise<ActionResult<{ slug: string }>> {
   const result = await createOrganizationAction(input);
   if (!result.ok) return result;
-  redirect("/app/onboarding");
+
+  const planKey =
+    input.planKey && isPlanId(input.planKey)
+      ? input.planKey
+      : DEFAULT_SIGNUP_PLAN;
+  const interval =
+    input.interval && isBillingInterval(input.interval)
+      ? input.interval
+      : DEFAULT_SIGNUP_INTERVAL;
+
+  redirect(buildPaymentSetupUrl(planKey, interval));
 }

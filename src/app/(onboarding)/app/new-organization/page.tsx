@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { NewOrganizationForm } from "@/components/app/new-organization-form";
+import { parseSignupPlanParams } from "@/lib/auth/paid-signup-flow";
 import { requireAuthenticatedUser } from "@/lib/auth/context";
 import { listMemberships } from "@/lib/app/organizations";
 
@@ -21,10 +22,15 @@ function suggestName(displayName: string | null, email: string | null): string {
   return "My team";
 }
 
-export default async function NewOrganizationPage() {
+export default async function NewOrganizationPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ plan?: string; interval?: string }>;
+}) {
   const profile = await requireAuthenticatedUser();
   const memberships = await listMemberships(profile.id);
   const isFirst = memberships.length === 0;
+  const { plan, interval } = parseSignupPlanParams(await searchParams);
 
   return (
     <div className="fj-flow__card">
@@ -38,11 +44,13 @@ export default async function NewOrganizationPage() {
       </h1>
       <p className="fj-flow__lede">
         {isFirst
-          ? "An organization holds your monitors, team, and status pages. You can create more later, and switch between them anytime."
+          ? "Step 1 of 3. Your organization holds monitors, team access, and status pages. Next you choose a plan and pay."
           : "This gives you a separate space for a different product or client, with its own team and settings."}
       </p>
       <NewOrganizationForm
         suggestedName={suggestName(profile.display_name, profile.primary_email)}
+        planKey={plan}
+        interval={interval}
       />
     </div>
   );

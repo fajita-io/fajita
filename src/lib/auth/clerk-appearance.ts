@@ -19,7 +19,7 @@ export const clerkAppearance = {
     colorDanger: "var(--color-status-down-bold)",
     colorSuccess: "var(--color-status-operational-bold)",
     colorWarning: "var(--color-status-degraded-bold)",
-    borderRadius: "var(--radius-md)",
+    borderRadius: "var(--radius-sm)",
     fontFamily: "var(--font-sans)",
     fontFamilyButtons: "var(--font-sans)",
   },
@@ -50,6 +50,7 @@ export const clerkAppearance = {
       backgroundColor: "var(--color-background-elevated)",
       boxShadow: "none",
       fontWeight: 500,
+      height: "2.75rem",
     },
     socialButtonsBlockButtonText: {
       fontWeight: 500,
@@ -68,12 +69,14 @@ export const clerkAppearance = {
     formFieldInput: {
       border: "1px solid var(--color-border-subtle)",
       boxShadow: "none",
+      minHeight: "2.75rem",
     },
     formButtonPrimary: {
       backgroundColor: "var(--color-brand-ember)",
       textTransform: "none",
       fontWeight: 600,
       boxShadow: "none",
+      minHeight: "2.75rem",
     },
     formButtonReset: {
       color: "var(--color-brand-ember)",

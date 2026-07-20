@@ -13,7 +13,8 @@ export const clerkSignInFallbackRedirectUrl =
   process.env.NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL ?? "/app";
 
 export const clerkSignUpFallbackRedirectUrl =
-  process.env.NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL ?? "/app";
+  process.env.NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL ??
+  "/app/new-organization";
 
 export function clerkPublishableKeyMode(
   key: string | undefined,

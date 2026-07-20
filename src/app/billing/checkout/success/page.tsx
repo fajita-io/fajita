@@ -77,7 +77,7 @@ export default async function CheckoutSuccessPage({
           </>
         )}
         <div style={{ display: "flex", gap: "var(--space-3)", flexWrap: "wrap" }}>
-          <BrandButtonLink href="/app">Continue to Fajita</BrandButtonLink>
+          <BrandButtonLink href="/app/onboarding">Continue setup</BrandButtonLink>
           <BrandButtonLink href="/app/settings/billing" variant="secondary">
             Go to billing
           </BrandButtonLink>

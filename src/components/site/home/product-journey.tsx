@@ -17,7 +17,13 @@ import { cta } from "@/lib/site/site-config";
 
 const endpoints = [
   { id: "site", label: demoEndpoints.site.label, meta: "marketing site", kind: "Website" },
-  { id: "api", label: demoEndpoints.apiHealth.label, meta: "API endpoint", kind: "API" },
+  {
+    id: "api",
+    label: demoEndpoints.apiHealth.label,
+    name: demoBrand.apiHost,
+    meta: "/v1/health",
+    kind: "API",
+  },
   { id: "cron", label: "nightly-backup", meta: "heartbeat · every 24h", kind: "Cron" },
 ] as const;
 
@@ -149,7 +155,7 @@ export function ProductJourney() {
                   title="Add something worth watching."
                   body="Pick a service. In the product this is a URL and a name; here, three ready-made examples."
                 />
-                <div className="fj-choice-grid">
+                <div className="fj-choice-grid fj-choice-grid--endpoints">
                   {endpoints.map((e) => (
                     <button
                       key={e.id}
@@ -158,7 +164,7 @@ export function ProductJourney() {
                       aria-pressed={endpoint === e.id}
                       onClick={() => setEndpoint(e.id)}
                     >
-                      <span className="fj-choice__name">{e.label}</span>
+                      <span className="fj-choice__name">{"name" in e ? e.name : e.label}</span>
                       <span className="fj-choice__meta">
                         {e.kind} · {e.meta}
                       </span>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 import { PageHeader } from "@/components/app/ui";
 import {
@@ -7,7 +8,12 @@ import {
 } from "@/components/app/onboarding/first-session";
 import { requireActiveContext } from "@/lib/app/page-context";
 import { getOnboardingState } from "@/lib/app/onboarding";
+import {
+  buildPaymentSetupUrl,
+  hasActiveSubscription,
+} from "@/lib/auth/paid-signup-flow";
 import { can } from "@/lib/auth/roles";
+import { computeOrgBillingState } from "@/lib/billing/engine";
 
 export const metadata: Metadata = {
   title: "Get set up",
@@ -16,6 +22,11 @@ export const metadata: Metadata = {
 
 export default async function OnboardingPage() {
   const { membership } = await requireActiveContext();
+  const billing = await computeOrgBillingState(membership.organization.id);
+  if (!hasActiveSubscription(billing.status)) {
+    redirect(buildPaymentSetupUrl(billing.planKey ?? undefined, billing.interval ?? undefined));
+  }
+
   const state = await getOnboardingState(membership.organization.id);
   const row = state.row;
 

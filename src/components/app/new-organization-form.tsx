@@ -9,10 +9,16 @@ import { trackGoal } from "@/lib/analytics/client";
 import { DataFastGoals } from "@/lib/analytics/goals";
 import { TimezoneSelect, detectTimezone } from "./timezone-select";
 
+import type { BillingInterval, PlanId } from "@/lib/stripe/plans";
+
 export function NewOrganizationForm({
   suggestedName,
+  planKey,
+  interval,
 }: {
   suggestedName: string;
+  planKey?: PlanId;
+  interval?: BillingInterval;
 }) {
   const nameId = useId();
   const slugId = useId();
@@ -55,6 +61,8 @@ export function NewOrganizationForm({
       name: name.trim(),
       slug: check.slug,
       timezone,
+      planKey,
+      interval,
     });
     // On success the action redirects; we only reach here on failure.
     if (result && !result.ok) {

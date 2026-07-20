@@ -1115,6 +1115,17 @@ body[data-nav-open="true"] {
   gap: var(--space-3);
 }
 
+.fj-choice-grid--endpoints {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+@media (max-width: 47.9rem) {
+  .fj-choice-grid--endpoints {
+    grid-template-columns: 1fr;
+  }
+}
+
 .fj-choice {
   display: grid;
   gap: var(--space-1);
@@ -1144,6 +1155,8 @@ body[data-nav-open="true"] {
 .fj-choice__name {
   font-size: var(--text-body-sm);
   font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
 .fj-choice__meta {

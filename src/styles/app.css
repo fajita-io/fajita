@@ -70,49 +70,80 @@
 }
 
 .fj-authshell__panel {
-  display: grid;
-  grid-template-rows: auto 1fr;
-  align-content: start;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
   padding: var(--space-8) var(--space-10);
   background: var(--color-background-inset);
 }
 
-.fj-authshell__panel-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
-  margin-bottom: var(--space-10);
-}
-
-.fj-authshell__panel-bar-start {
+.fj-authshell__panel-mobile-logo {
   display: none;
 }
 
 .fj-authshell__form {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  max-width: 28rem;
+  max-width: none;
   margin-inline: auto;
-  align-self: center;
+  padding: var(--space-12) var(--space-2) var(--space-8);
 }
 
 .fj-authshell__flow {
   display: grid;
-  gap: var(--space-6);
+  gap: var(--space-8);
+  width: min(100%, 26rem);
 }
 
 .fj-authshell__flow-header {
   display: grid;
+  gap: var(--space-3);
+}
+
+.fj-authshell__flow-eyebrow {
+  display: inline-flex;
+  align-items: center;
   gap: var(--space-2);
+}
+
+.fj-authshell__flow-eyebrow::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  flex-shrink: 0;
+  background: var(--color-brand-ember);
+  clip-path: polygon(50% 0, 0 100%, 100% 100%);
 }
 
 .fj-authshell__flow-title {
   margin: 0;
+  font-size: clamp(1.875rem, 1.5rem + 1.1vw, 2.375rem);
+  letter-spacing: -0.02em;
+  line-height: 1.08;
 }
 
 .fj-authshell__flow-lede {
   margin: 0;
   color: var(--color-text-secondary);
+  max-width: 28ch;
+}
+
+.fj-authshell__card {
+  background: var(--color-background-elevated);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-mid);
+  padding: var(--space-6);
+}
+
+.fj-authshell__card .cl-rootBox,
+.fj-authshell__card .cl-cardBox,
+.fj-authshell__card .cl-card {
+  width: 100%;
 }
 
 .fj-authshell__flow-footer {
@@ -150,12 +181,18 @@
     padding: var(--space-6);
   }
 
-  .fj-authshell__panel-bar {
-    margin-bottom: var(--space-8);
+  .fj-authshell__panel-mobile-logo {
+    display: block;
+    margin-bottom: var(--space-6);
   }
 
-  .fj-authshell__panel-bar-start {
-    display: block;
+  .fj-authshell__form {
+    align-items: flex-start;
+    padding: var(--space-4) 0 var(--space-6);
+  }
+
+  .fj-authshell__card {
+    padding: var(--space-5);
   }
 }
 
@@ -224,6 +261,9 @@
 }
 .fj-flow__step[data-active] {
   background: var(--color-brand-ember);
+}
+.fj-flow__step[data-complete] {
+  background: color-mix(in srgb, var(--color-brand-ember) 45%, var(--color-border-subtle));
 }
 
 /* ------------------------------------------------------------------ */

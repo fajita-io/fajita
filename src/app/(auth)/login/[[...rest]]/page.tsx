@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SignIn } from "@clerk/nextjs";
 
+import { buildSignupUrl } from "@/lib/auth/paid-signup-flow";
 import { buildMetadata } from "@/lib/site/metadata";
 
 export const metadata: Metadata = buildMetadata({
@@ -15,7 +16,7 @@ export default function LoginPage() {
   return (
     <div className="fj-authshell__flow">
       <header className="fj-authshell__flow-header">
-        <p className="fj-eyebrow">Sign in</p>
+        <p className="fj-eyebrow fj-authshell__flow-eyebrow">Log in</p>
         <h1 className="fj-heading-2 fj-authshell__flow-title">
           Welcome back to Fajita
         </h1>
@@ -24,23 +25,20 @@ export default function LoginPage() {
         </p>
       </header>
 
-      <SignIn
-        routing="path"
-        path="/login"
-        signUpUrl="/signup"
-        fallbackRedirectUrl="/app"
-        forceRedirectUrl="/app"
-      />
+      <div className="fj-authshell__card">
+        <SignIn
+          routing="path"
+          path="/login"
+          signUpUrl={buildSignupUrl()}
+          fallbackRedirectUrl="/app"
+          forceRedirectUrl="/app"
+        />
+      </div>
 
       <footer className="fj-authshell__flow-footer">
-        <p className="fj-caption fj-authshell__flow-legal">
-          By continuing you agree to Fajita&apos;s{" "}
-          <Link href="/legal/terms">Terms</Link> and{" "}
-          <Link href="/legal/privacy">Privacy Policy</Link>. Need help?{" "}
-          <Link href="/contact">Contact support</Link>.
-        </p>
         <p className="fj-body-sm">
-          New to Fajita? <Link href="/signup">Create an account</Link>
+          New to Fajita?{" "}
+          <Link href={buildSignupUrl()}>Create an account</Link>
         </p>
       </footer>
     </div>

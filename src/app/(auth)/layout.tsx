@@ -1,13 +1,12 @@
 import Link from "next/link";
 
-import { AuthShellPanelHeader } from "@/components/auth/auth-shell-panel-header";
 import { FajitaLogo } from "@/components/brand/logo/fajita-logo";
 import { ThermalStack } from "@/components/brand/thermal-stack/thermal-stack";
 
 /**
  * Auth shell. Fajita chrome around Clerk's security-critical flows: brand
  * story on the left, focused sign-in surface on the right. No marketing
- * header or footer. Theme is inherited from the root layout's no-flash script.
+ * header or footer. Theme follows the site preference set on marketing pages.
  */
 export default function AuthLayout({
   children,
@@ -38,13 +37,11 @@ export default function AuthLayout({
       </aside>
 
       <main id="main" className="fj-authshell__panel">
-        <AuthShellPanelHeader
-          mobileLogo={
-            <Link href="/" aria-label="Fajita home">
-              <FajitaLogo orientation="horizontal" size={24} />
-            </Link>
-          }
-        />
+        <div className="fj-authshell__panel-mobile-logo">
+          <Link href="/" aria-label="Fajita home">
+            <FajitaLogo orientation="horizontal" size={24} />
+          </Link>
+        </div>
 
         <div className="fj-authshell__form">{children}</div>
       </main>

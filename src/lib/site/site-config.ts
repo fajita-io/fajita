@@ -12,8 +12,8 @@ export const siteUrl =
 export const cta = {
   /** The one dominant action across the site. */
   primary: {
-    label: "Start monitoring",
-    href: "/signup",
+    label: "Create account",
+    href: "/pricing",
   },
   secondary: {
     label: "See how it works",
