@@ -1,3 +1,4 @@
+export { FeedbackDialog } from "./feedback-dialog";
 export { GeniusSidebarTrigger } from "./genius-sidebar-trigger";
 export { GeniusInlineTrigger } from "./genius-inline-trigger";
 export { GeniusMount } from "./genius-mount";

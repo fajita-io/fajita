@@ -1,10 +1,10 @@
 import { trackGoal } from "@/lib/analytics/client";
 import { DataFastGoals } from "@/lib/analytics/goals";
 import type { OrgRole } from "@/lib/auth/roles";
+import { dispatchFeedbackClose, dispatchFeedbackOpen } from "@/lib/genius/feedback-events";
 import { geniusContextForRoute } from "@/lib/genius/route-context";
 import type {
   GeniusCategory,
-  GeniusOpenOptions,
   GeniusProductContext,
 } from "@/lib/genius/types";
 
@@ -86,14 +86,6 @@ export function openGeniusFeedback(options?: {
     options?.pathname ??
     (typeof window !== "undefined" ? window.location.pathname : "/app");
 
-  const openOptions: GeniusOpenOptions = {
-    ...(options?.category ? { category: options.category } : {}),
-    context: {
-      ...geniusContextForRoute(pathname),
-      ...options?.context,
-    },
-  };
-
   if (options?.track !== false) {
     trackGoal(DataFastGoals.geniusOpened, {
       source: options?.source ?? "button",
@@ -101,12 +93,19 @@ export function openGeniusFeedback(options?: {
     });
   }
 
-  window.Genius?.open(openOptions);
+  dispatchFeedbackOpen({
+    source: options?.source ?? "button",
+    ...(options?.category ? { category: options.category } : {}),
+    context: {
+      ...geniusContextForRoute(pathname),
+      ...options?.context,
+    },
+  });
 }
 
 export function closeGeniusFeedback(source = "programmatic"): void {
   trackGoal(DataFastGoals.geniusClosed, { source });
-  window.Genius?.close();
+  dispatchFeedbackClose();
 }
 
 export function bindGeniusSubmitHandler(): () => void {

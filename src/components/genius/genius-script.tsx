@@ -7,6 +7,7 @@ import { DataFastGoals } from "@/lib/analytics/goals";
 import { bindGeniusSubmitHandler } from "@/lib/genius/client";
 import { GENIUS_FEEDBACK_LABEL, GENIUS_PROJECT_KEY, GENIUS_WIDGET_SRC } from "@/lib/genius/config";
 import { notifyGeniusReady } from "@/lib/genius/ready";
+import { warnIfGeniusProjectInvalid } from "@/lib/genius/validate-project";
 
 /**
  * Loads the Genius feedback widget inside the authenticated app only.
@@ -23,6 +24,7 @@ export function GeniusScript() {
       data-theme="auto"
       data-label={GENIUS_FEEDBACK_LABEL}
       onLoad={() => {
+        void warnIfGeniusProjectInvalid();
         trackGoal(DataFastGoals.geniusWidgetReady);
         bindGeniusSubmitHandler();
         notifyGeniusReady();

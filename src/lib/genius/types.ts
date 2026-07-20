@@ -31,6 +31,20 @@ export interface GeniusSubmitItem {
   category: GeniusCategory;
 }
 
+export interface GeniusSubmitCallbacks {
+  onSuccess?: (data?: unknown) => void;
+  onError?: (error: { error?: string; status?: number }) => void;
+}
+
+export interface GeniusSubmitPayload {
+  category?: GeniusCategory;
+  body: string;
+  source?: string;
+  context?: Partial<GeniusProductContext>;
+  idempotencyKey?: string;
+  elapsedMs?: number;
+}
+
 export interface GeniusApi {
   open: (options?: GeniusOpenOptions) => void;
   close: () => void;
@@ -38,6 +52,10 @@ export interface GeniusApi {
   setContext: (context: GeniusProductContext) => void;
   setAccount: (account: GeniusAccountContext) => void;
   reset: () => void;
+  submit?: (
+    payload: GeniusSubmitPayload,
+    callbacks?: GeniusSubmitCallbacks,
+  ) => Promise<{ ok: boolean; error?: string }>;
   onSubmit?: (item: GeniusSubmitItem) => void;
 }
 

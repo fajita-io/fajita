@@ -1,9 +1,17 @@
 /** Publishable Genius project key. Safe for the browser. */
 export const GENIUS_PROJECT_KEY =
-  process.env.NEXT_PUBLIC_GENIUS_PROJECT_KEY ??
-  "gen_pk_live_Du8Hvh1v1m-yRL3anApAvZp9BLU33tWQ";
+  process.env.NEXT_PUBLIC_GENIUS_PROJECT_KEY?.trim() ?? "";
 
 export const GENIUS_WIDGET_SRC = "https://genius.ly/widget.js";
+
+/** Matches Genius publishable key format (client-side only). */
+export function isValidGeniusProjectKeyFormat(key: string): boolean {
+  return (
+    key.length >= 20 &&
+    key.length <= 120 &&
+    (key.startsWith("gen_pk_live_") || key.startsWith("gen_pk_test_"))
+  );
+}
 
 /** Fajita-facing copy for triggers we control in the app shell. */
 export const GENIUS_FEEDBACK_LABEL = "Share feedback";
@@ -20,5 +28,5 @@ export const GENIUS_DASHBOARD_BRAND = {
 } as const;
 
 export function geniusEnabled(): boolean {
-  return Boolean(GENIUS_PROJECT_KEY?.trim());
+  return isValidGeniusProjectKeyFormat(GENIUS_PROJECT_KEY);
 }

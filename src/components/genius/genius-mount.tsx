@@ -1,6 +1,7 @@
 "use client";
 
 import { geniusEnabled } from "@/lib/genius/config";
+import { FeedbackDialog } from "@/components/genius/feedback-dialog";
 import { GeniusScript } from "@/components/genius/genius-script";
 import { GeniusSync } from "@/components/genius/genius-sync";
 import { GeniusTriggerListener } from "@/components/genius/genius-trigger-listener";
@@ -18,6 +19,7 @@ export function GeniusMount() {
       <GeniusScript />
       <GeniusSync />
       <GeniusTriggerListener />
+      <FeedbackDialog />
     </>
   );
 }

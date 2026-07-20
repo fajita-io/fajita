@@ -1,6 +1,8 @@
 # Genius in-app feedback events
 
-Mounted only in the authenticated app shell (`src/components/genius/`). Never on marketing, docs, auth, or public status pages. Primary entry: sidebar **Share feedback** (Fajita mark). Match modal appearance to `GENIUS_DASHBOARD_BRAND` in `src/lib/genius/config.ts` via the Genius project dashboard.
+Mounted only in the authenticated app shell (`src/components/genius/`). Never on marketing, docs, auth, or public status pages. Primary entry: sidebar **Share feedback** (Fajita mark).
+
+The visible modal is Fajita-branded (`FeedbackDialog`). Genius supplies the backend via `window.Genius.submit`, `identify`, `setContext`, and `setAccount`. Copy and heat-tone styling live in `GENIUS_DASHBOARD_BRAND` and `src/styles/genius.css`.
 
 | Goal | When | Allowed metadata |
 | --- | --- | --- |

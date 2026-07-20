@@ -2,20 +2,16 @@
 
 import { useEffect } from "react";
 
-import { trackGoal } from "@/lib/analytics/client";
-import { DataFastGoals } from "@/lib/analytics/goals";
-import {
-  openGeniusFeedback,
-  type GeniusOpenSource,
-} from "@/lib/genius/client";
+import { openGeniusFeedback } from "@/lib/genius/client";
 import type { GeniusCategory } from "@/lib/genius/types";
 
 const SOURCE_ATTR = "data-genius-source";
 
-function sourceFromElement(el: Element): GeniusOpenSource {
+function sourceFromElement(el: Element) {
   const raw = el.getAttribute(SOURCE_ATTR);
   if (
     raw === "floating" ||
+    raw === "sidebar" ||
     raw === "command_palette" ||
     raw === "account_menu" ||
     raw === "inline" ||
@@ -24,7 +20,7 @@ function sourceFromElement(el: Element): GeniusOpenSource {
   ) {
     return raw;
   }
-  return "button";
+  return "button" as const;
 }
 
 function categoryFromElement(el: Element): GeniusCategory | undefined {
@@ -41,9 +37,8 @@ function categoryFromElement(el: Element): GeniusCategory | undefined {
 }
 
 /**
- * Tracks opens from declarative `data-genius-open` triggers inside the app
- * shell. When a category is set, opens programmatically so context and
- * category reach Genius together.
+ * Opens the Fajita feedback dialog for declarative `data-genius-open`
+ * triggers and blocks the default Genius widget modal.
  */
 export function GeniusTriggerListener() {
   useEffect(() => {
@@ -54,17 +49,14 @@ export function GeniusTriggerListener() {
       const trigger = target.closest("[data-genius-open]");
       if (!trigger || !trigger.closest(".fj-app")) return;
 
-      const source = sourceFromElement(trigger);
-      const category = categoryFromElement(trigger);
+      event.preventDefault();
+      event.stopImmediatePropagation();
 
-      if (category) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        openGeniusFeedback({ source, category });
-        return;
-      }
-
-      trackGoal(DataFastGoals.geniusOpened, { source });
+      openGeniusFeedback({
+        source: sourceFromElement(trigger),
+        category: categoryFromElement(trigger),
+        track: true,
+      });
     };
 
     document.addEventListener("click", onClick, true);

@@ -54,9 +54,9 @@ describe("genius client", () => {
     });
   });
 
-  it("opens feedback with route context", () => {
-    const open = vi.fn();
-    window.Genius = { open } as unknown as typeof window.Genius;
+  it("opens the Fajita feedback dialog with route context", () => {
+    const handler = vi.fn();
+    window.addEventListener("fajita:feedback-open", handler);
 
     openGeniusFeedback({
       source: "floating",
@@ -65,13 +65,18 @@ describe("genius client", () => {
       track: false,
     });
 
-    expect(open).toHaveBeenCalledWith({
+    expect(handler).toHaveBeenCalledOnce();
+    const event = handler.mock.calls[0]?.[0] as CustomEvent;
+    expect(event.detail).toEqual({
+      source: "floating",
       category: "idea",
       context: {
         feature: "Support",
         route: "/app/support",
       },
     });
+
+    window.removeEventListener("fajita:feedback-open", handler);
   });
 
   it("resets identity on sign out", () => {
