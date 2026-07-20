@@ -16,7 +16,7 @@ export default function LoginPage() {
   return (
     <div className="fj-authshell__flow">
       <header className="fj-authshell__flow-header">
-        <p className="fj-eyebrow fj-authshell__flow-eyebrow">Log in</p>
+        <p className="fj-authshell__flow-eyebrow">Log in</p>
         <h1 className="fj-authshell__flow-title">Welcome back to Fajita</h1>
         <p className="fj-body fj-authshell__flow-lede">
           Pick up where your team left off.

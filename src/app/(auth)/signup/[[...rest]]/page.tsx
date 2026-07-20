@@ -26,7 +26,7 @@ export default async function SignupPage({
   return (
     <div className="fj-authshell__flow">
       <header className="fj-authshell__flow-header">
-        <p className="fj-eyebrow fj-authshell__flow-eyebrow">Create account</p>
+        <p className="fj-authshell__flow-eyebrow">Create account</p>
         <h1 className="fj-authshell__flow-title">Start with Fajita</h1>
         <p className="fj-body fj-authshell__flow-lede">
           Create your account, choose a plan, then set up your first monitor.
