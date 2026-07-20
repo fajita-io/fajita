@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { AskFajitaChat } from "@/components/support/ask-fajita-chat";
-import { PoweredByPamphlet } from "@/components/support/powered-by-pamphlet";
 import {
   DOCS_SEARCH_HREF,
   FALLBACK_SUPPORT_HREF,
@@ -14,7 +13,7 @@ import { appUrl } from "@/lib/env";
 export const metadata: Metadata = {
   title: "Support",
   description:
-    "Ask Fajita about monitoring, alerts, status pages, and pricing. Answers cite approved documentation. Powered by Pamphlet.",
+    "Ask Fajita about monitoring, alerts, status pages, and pricing. Answers cite approved documentation.",
   alternates: { canonical: `${appUrl}/support` },
   openGraph: {
     title: "Fajita Support",
@@ -33,9 +32,9 @@ export default function PublicSupportPage() {
         <h1>Support</h1>
         <p>
           Ask a question about monitoring, alerts, status pages, pricing, or
-          setup. Answers come from Fajita’s approved documentation.
+          setup. Answers come from Fajita’s approved documentation and product
+          knowledge.
         </p>
-        <PoweredByPamphlet />
       </header>
 
       <AskFajitaChat
@@ -63,7 +62,6 @@ export default function PublicSupportPage() {
             <a href={FALLBACK_SUPPORT_HREF}>{SUPPORT_COPY.contactSupport}</a>
           </li>
         </ul>
-        <PoweredByPamphlet compact />
       </section>
     </div>
   );

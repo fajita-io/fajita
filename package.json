@@ -2,7 +2,7 @@
   "name": "fajita-io",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "env -u NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY -u CLERK_SECRET_KEY -u CLERK_PUBLISHABLE_KEY next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -19,9 +19,18 @@
     "readiness:check": "tsx scripts/rls-inventory.ts && tsx scripts/secret-scan.ts && tsx scripts/phase18-export-docs.ts",
     "stripe:seed": "tsx scripts/stripe-seed-products.ts",
     "stripe:verify-prices": "tsx scripts/stripe-verify-prices.ts",
-    "smoke:public": "tsx scripts/public-smoke.ts"
+    "chat:knowledge": "tsx scripts/build-fajita-chat-knowledge.ts",
+    "auth:verify": "tsx scripts/auth-production-verify.ts",
+    "auth:verify:prod": "tsx scripts/auth-production-verify.ts --production",
+    "auth:sync-vercel": "./scripts/sync-vercel-auth-env.sh",
+    "smoke:public": "tsx scripts/public-smoke.ts",
+    "dns:cloudflare": "tsx scripts/cloudflare-dns-setup.ts",
+    "dns:email": "tsx scripts/cloudflare-email-dns-setup.ts",
+    "dns:dmarc": "DMARC_ONLY=1 tsx scripts/cloudflare-email-dns-setup.ts",
+    "resend:fetch-dns": "tsx scripts/resend-fetch-dns.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.57.0",
     "@clerk/nextjs": "^7.5.20",
     "@datafast/ai-crawl": "^1.0.0",
     "@sentry/nextjs": "^10.66.0",

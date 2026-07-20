@@ -1,5 +1,7 @@
 import "server-only";
 
+import { unstable_rethrow } from "next/navigation";
+
 import { AppAuthError } from "@/lib/auth/errors";
 
 export type ActionResult<T = undefined> =
@@ -11,8 +13,11 @@ export type ActionResult<T = undefined> =
  * SQL, provider objects, or stack traces to the client. Known AppAuthError
  * messages are already user-safe; everything else becomes a generic message
  * and is logged server-side.
+ *
+ * Next.js control-flow errors (redirect, notFound) must propagate.
  */
 export function toActionError(error: unknown): ActionResult<never> {
+  unstable_rethrow(error);
   if (error instanceof AppAuthError) {
     return { ok: false, error: error.message, kind: error.kind };
   }

@@ -1,0 +1,24 @@
+[
+  {
+    "type": "MX",
+    "name": "send.fajita.io",
+    "content": "REPLACE_WITH_RESEND_MX_TARGET",
+    "priority": 10,
+    "proxied": false,
+    "comment": "Resend return-path (copy from Resend dashboard)"
+  },
+  {
+    "type": "TXT",
+    "name": "send.fajita.io",
+    "content": "REPLACE_WITH_RESEND_SPF_TXT",
+    "proxied": false,
+    "comment": "Resend SPF (copy from Resend dashboard)"
+  },
+  {
+    "type": "TXT",
+    "name": "resend._domainkey.fajita.io",
+    "content": "REPLACE_WITH_RESEND_DKIM_TXT",
+    "proxied": false,
+    "comment": "Resend DKIM (copy from Resend dashboard)"
+  }
+]

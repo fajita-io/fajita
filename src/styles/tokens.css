@@ -90,8 +90,20 @@
   /* ------------------------------------------------------------------ */
   --container-marketing: 76rem;
   --container-reading: 42rem;
+  --container-wide: 56rem;
+  --container-narrow: 44rem;
   --container-dashboard: 88rem;
   --container-gutter: clamp(1.25rem, 0.75rem + 3vw, 3rem);
+
+  /* Touch targets (WCAG-friendly) */
+  --touch-target-sm: 2.25rem;
+  --touch-target-md: 2.5rem;
+  --touch-target-lg: 2.75rem;
+
+  /* Layout breakpoints (reference in @media queries) */
+  --bp-nav: 63.75rem;
+  --bp-stack: 47.9rem;
+  --bp-compact: 40rem;
 
   /* ------------------------------------------------------------------ */
   /* Radius: purposeful variation, not one radius everywhere.            */

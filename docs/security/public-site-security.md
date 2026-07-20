@@ -26,14 +26,11 @@ Everything else is static or server-rendered read-only content.
 | Safe external links | No external links with `target="_blank"` without `rel` on customer surfaces; integration cards use our own glyphs |
 | Brand Lab protection | `/internal/brand-lab` is dev-only (404 in production), noindex, robots-disallowed |
 | Route hygiene | `/api/` and `/internal/` disallowed in robots; login noindexed |
+| Security headers | CSP, HSTS, frame denial, referrer policy, and permissions policy via `next.config.ts` (`src/lib/security/headers.ts`) |
+| security.txt | `/.well-known/security.txt` (RFC 9116) |
 
 ## Known gaps (documented, accepted for this phase)
 
-- **Security headers (CSP, frame, referrer, permissions policies) are
-  not yet set.** They belong in `next.config.ts` headers or Vercel
-  config and should land with the deployment hardening pass, tested
-  against the inline theme script and DataFast script origins. Tracked
-  for Phase 3 readiness.
 - Rate limiting is per-instance memory; fine for launch-scale spam
   friction, replace with a shared store if abuse appears.
 - No email notification on contact messages yet (no sending provider);

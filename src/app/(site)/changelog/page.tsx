@@ -22,7 +22,7 @@ export default function ChangelogPage() {
     <>
       <section className="fj-page-hero">
         <div className="fj-container">
-          <p className="fj-eyebrow" style={{ marginBottom: "var(--space-3)" }}>
+          <p className="fj-eyebrow fj-page-hero__eyebrow">
             Changelog
           </p>
           <h1 className="fj-display-2">What shipped.</h1>

@@ -42,24 +42,24 @@ export default function AboutPage() {
 
       <section className="fj-page-hero">
         <div className="fj-container">
-          <p className="fj-eyebrow" style={{ marginBottom: "var(--space-3)" }}>
+          <p className="fj-eyebrow fj-page-hero__eyebrow">
             About
           </p>
           <h1 className="fj-display-2">
             Software gets complicated. Knowing whether it works should not.
           </h1>
+          <p className="fj-body-lg fj-page-hero__lede">
+            Software fails quietly at first. A response takes a little longer. A
+            certificate creeps toward its expiry date. A cron job stops and nobody
+            hears it. By the time a customer notices, the story is already
+            written.
+          </p>
         </div>
       </section>
 
       <section className="fj-band--tight">
         <div className="fj-container">
-          <div className="fj-prose" style={{ display: "grid", gap: "var(--space-4)" }}>
-            <p className="fj-body-lg" style={{ color: "var(--color-text-primary)" }}>
-              Software fails quietly at first. A response takes a little
-              longer. A certificate creeps toward its expiry date. A cron job
-              stops and nobody hears it. By the time a customer notices, the
-              quiet part is over.
-            </p>
+          <div className="fj-about-prose">
             <p className="fj-body">
               Fajita exists for the quiet part. It watches websites, APIs,
               certificates, and cron jobs around the clock, verifies trouble
@@ -78,7 +78,7 @@ export default function AboutPage() {
       </section>
 
       <section className="fj-band--tight">
-        <div className="fj-container" style={{ maxWidth: "56rem" }}>
+        <div className="fj-container fj-container--wide">
           <SectionHeading eyebrow="Principles" title="How we decide things." as="h2" />
           <div className="fj-facts">
             <div className="fj-fact">
@@ -116,7 +116,7 @@ export default function AboutPage() {
       </section>
 
       <section className="fj-band--tight">
-        <div className="fj-container" style={{ maxWidth: "56rem" }}>
+        <div className="fj-container fj-container--wide">
           <SectionHeading eyebrow="The name" title="Yes, about the name." as="h2" />
           <p className="fj-body" style={{ marginTop: "var(--space-4)", maxWidth: "44rem" }}>
             A fajita arrives at the table sizzling, and everyone in the room

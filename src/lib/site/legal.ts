@@ -12,6 +12,10 @@ export interface LegalDoc {
   status: LegalDocStatus;
   /** Route published only when the document is in force. */
   href?: string;
+  /** Omit from sitemap and set noindex on the route. Hub link still published. */
+  noindex?: boolean;
+  /** Omit from the site footer legal column. Default true when linked. */
+  showInFooter?: boolean;
 }
 
 export const legalDocs: LegalDoc[] = [
@@ -39,8 +43,11 @@ export const legalDocs: LegalDoc[] = [
   {
     id: "dpa",
     name: "Data Processing Addendum",
-    summary: "Terms for customers who need a processor agreement.",
-    status: "in-preparation",
+    summary: "Processor terms for customers who process personal data through the Service.",
+    status: "in-force",
+    href: "/legal/dpa",
+    noindex: true,
+    showInFooter: false,
   },
   {
     id: "sla",
@@ -72,8 +79,11 @@ export const legalDocs: LegalDoc[] = [
   {
     id: "subprocessors",
     name: "Subprocessor List",
-    summary: "The third-party services that process data on our behalf.",
-    status: "in-preparation",
+    summary: "Third-party services that may process personal data on our behalf.",
+    status: "in-force",
+    href: "/legal/subprocessors",
+    noindex: true,
+    showInFooter: false,
   },
   {
     id: "affiliate-agreement",

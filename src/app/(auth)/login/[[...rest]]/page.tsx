@@ -14,7 +14,7 @@ export const metadata: Metadata = buildMetadata({
 export default function LoginPage() {
   return (
     <div>
-      <p className="fj-eyebrow" style={{ marginBottom: "var(--space-3)" }}>
+      <p className="fj-eyebrow fj-page-hero__eyebrow">
         Welcome back
       </p>
       <h1 className="fj-heading-2" style={{ marginBottom: "var(--space-6)" }}>
@@ -22,14 +22,15 @@ export default function LoginPage() {
       </h1>
 
       <SignIn
+        routing="path"
         path="/login"
         signUpUrl="/signup"
         fallbackRedirectUrl="/app"
+        forceRedirectUrl="/app"
       />
 
       <p className="fj-body-sm" style={{ marginTop: "var(--space-6)" }}>
-        New to Fajita? <Link href="/signup">Create an account</Link>. Not ready
-        yet? <Link href="/early-access">Join early access</Link>.
+        New to Fajita? <Link href="/signup">Create an account</Link>.
       </p>
     </div>
   );

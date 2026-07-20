@@ -34,7 +34,7 @@ export default async function ContactPage({
 
       <section className="fj-page-hero">
         <div className="fj-container">
-          <p className="fj-eyebrow" style={{ marginBottom: "var(--space-3)" }}>
+          <p className="fj-eyebrow fj-page-hero__eyebrow">
             Contact
           </p>
           <h1 className="fj-display-2">Talk to a person.</h1>

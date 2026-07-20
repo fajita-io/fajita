@@ -31,19 +31,27 @@ export async function createOrganizationAction(
   input: z.input<typeof createSchema>,
 ): Promise<ActionResult<{ id: string; slug: string }>> {
   try {
-    const parsed = createSchema.parse(input);
+    const parsed = createSchema.safeParse(input);
+    if (!parsed.success) {
+      const issue = parsed.error.issues[0];
+      return {
+        ok: false,
+        error: issue?.message ?? "Check the organization details and try again.",
+        kind: "validation",
+      };
+    }
     const profile = await requireAuthenticatedUser();
     const org = await createOrganization({
       profile,
-      name: parsed.name,
-      slug: parsed.slug,
-      timezone: parsed.timezone,
+      name: parsed.data.name,
+      slug: parsed.data.slug,
+      timezone: parsed.data.timezone,
     });
     await writeActiveOrgId(org.id);
 
     // Bind affiliate attribution from the first-party referral cookie at this
     // durable moment. Best-effort; never blocks organization creation.
-    await bindReferralOnOrgCreation(org.id, profile.id);
+    await bindReferralOnOrgCreation(org.id, profile.id).catch(() => {});
 
     if (profile.onboarding_status === "account_created" || profile.onboarding_status === "email_verified") {
       await serviceClient()

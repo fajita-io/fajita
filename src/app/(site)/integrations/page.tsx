@@ -43,8 +43,8 @@ export default function IntegrationsPage() {
           </h1>
           <p className="fj-body-lg fj-page-hero__lede">
             Fajita does not ask anyone to watch another dashboard. Verified
-            incidents route to these channels at launch, and one clear
-            recovery message follows each of them.
+            incidents route to these channels, and one clear recovery message
+            follows each of them.
           </p>
         </div>
       </section>
@@ -69,8 +69,8 @@ export default function IntegrationsPage() {
                         {integration.name}
                       </h2>
                       <span className="fj-caption">
-                        {integration.status === "at-launch"
-                          ? "Available at launch"
+                        {integration.status === "available"
+                          ? "Available now"
                           : "Planned"}
                       </span>
                     </div>

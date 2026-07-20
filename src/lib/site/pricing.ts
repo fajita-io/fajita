@@ -25,6 +25,9 @@ export const pricingConfig = {
   published: true as boolean,
   unpublishedNote:
     "Pricing publishes when accounts open. Early access members see it first, before anyone is asked to pay.",
+  /** Lede used when amounts are published (homepage preview, pricing hero). */
+  publishedNote:
+    "Starter, Pro, and Business. Clear monitor limits. Monthly or annual. No usage traps.",
 } as const;
 
 function dollarsFromCents(cents: number): number {

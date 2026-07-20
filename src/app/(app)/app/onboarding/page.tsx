@@ -28,7 +28,7 @@ export default async function OnboardingPage() {
   const hasMonitor = state.signals.activeMonitorCount > 0;
 
   return (
-    <div style={{ maxWidth: "42rem", marginInline: "auto" }}>
+    <div className="fj-app-narrow">
       <PageHeader
         title="Let's watch something that matters."
         description={

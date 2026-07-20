@@ -24,7 +24,7 @@ export default function FeaturesPage() {
     <>
       <section className="fj-page-hero">
         <div className="fj-container">
-          <p className="fj-eyebrow" style={{ marginBottom: "var(--space-3)" }}>
+          <p className="fj-eyebrow fj-page-hero__eyebrow">
             Features
           </p>
           <h1 className="fj-display-2">
@@ -39,7 +39,7 @@ export default function FeaturesPage() {
       </section>
 
       <section className="fj-band--tight">
-        <div className="fj-container" style={{ maxWidth: "56rem" }}>
+        <div className="fj-container fj-container--wide">
           <ol
             style={{
               listStyle: "none",

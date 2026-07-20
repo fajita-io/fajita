@@ -69,7 +69,7 @@ export default async function FeaturePage({
       <section className="fj-page-hero">
         <div className="fj-container">
           <nav aria-label="Breadcrumb">
-            <p className="fj-eyebrow" style={{ marginBottom: "var(--space-3)" }}>
+            <p className="fj-eyebrow fj-page-hero__eyebrow">
               <Link href="/features" style={{ color: "inherit", textDecoration: "none" }}>
                 Features
               </Link>{" "}
@@ -100,7 +100,7 @@ export default async function FeaturePage({
       </section>
 
       <section className="fj-band--tight">
-        <div className="fj-container" style={{ maxWidth: "56rem" }}>
+        <div className="fj-container fj-container--wide">
           <SectionHeading eyebrow="In practice" title="Where this earns its keep." as="h2" />
           <ul className="fj-usecases">
             {feature.useCases.map((useCase) => (
@@ -113,7 +113,7 @@ export default async function FeaturePage({
       </section>
 
       <section className="fj-band--tight">
-        <div className="fj-container" style={{ maxWidth: "56rem" }}>
+        <div className="fj-container fj-container--wide">
           <SectionHeading eyebrow="Fair questions" title="Before you commit." as="h2" />
           <FaqList items={feature.objections} />
         </div>

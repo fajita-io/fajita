@@ -32,17 +32,17 @@ const planLines: Record<string, string[]> = {
  */
 export function PlanCards() {
   return (
-    <div className="fj-plans" style={{ marginTop: 0 }}>
+    <div className="fj-plans fj-plans--flush">
       {publicPlans.map((plan) => (
         <div
           key={plan.id}
           className={`fj-plan${plan.highlight ? " fj-plan--highlight" : ""}`}
         >
           <div>
-            <h2 className="fj-heading-2" style={{ margin: 0 }}>
+            <h2 className="fj-heading-2 fj-plan__header">
               {plan.name}
             </h2>
-            <p className="fj-body-sm" style={{ margin: "var(--space-2) 0 0" }}>
+            <p className="fj-body-sm fj-plan__audience">
               {plan.audience}
             </p>
           </div>
@@ -53,15 +53,15 @@ export function PlanCards() {
           </p>
 
           {pricingConfig.published && plan.monthlyUsd !== null ? (
-            <p className="fj-heading-2" style={{ margin: 0 }}>
+            <p className="fj-heading-2 fj-plan__price">
               ${plan.monthlyUsd}
-              <span className="fj-body-sm" style={{ color: "var(--color-text-muted)" }}>
+              <span className="fj-body-sm fj-plan__price-note">
                 {" "}
                 / month
               </span>
             </p>
           ) : (
-            <p className="fj-body-sm" style={{ margin: 0, color: "var(--color-text-muted)" }}>
+            <p className="fj-body-sm fj-plan__price-unpublished">
               Pricing publishes when accounts open.
             </p>
           )}

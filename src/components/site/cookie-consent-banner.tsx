@@ -58,35 +58,17 @@ export function CookieConsentBanner() {
       className="fj-cookie-consent"
       role="dialog"
       aria-label="Cookie preferences"
-      style={{
-        position: "fixed",
-        zIndex: 80,
-        left: "var(--space-4)",
-        right: "var(--space-4)",
-        bottom: "var(--space-4)",
-        maxWidth: "32rem",
-        marginInline: "auto",
-        padding: "var(--space-5)",
-        background: "var(--color-background-elevated)",
-        border: "1px solid var(--color-border)",
-        borderRadius: "var(--radius-md)",
-        boxShadow: "var(--shadow-md, 0 8px 24px rgba(0,0,0,0.12))",
-        display: "grid",
-        gap: "var(--space-4)",
-      }}
     >
       <div>
-        <p className="fj-heading-3" style={{ margin: 0 }}>
-          Cookies on this site
-        </p>
-        <p className="fj-body-sm" style={{ margin: "var(--space-2) 0 0" }}>
+        <p className="fj-heading-3 fj-cookie-consent__title">Cookies on this site</p>
+        <p className="fj-body-sm fj-cookie-consent__body">
           We use necessary cookies to run the product. With your OK, we also use
           analytics and a referral cookie when you arrive through an affiliate
           link.{" "}
           <Link href="/legal/cookies">Cookie Notice</Link>
         </p>
       </div>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-3)" }}>
+      <div className="fj-cookie-consent__actions">
         <BrandButton type="button" onClick={() => decide(true)}>
           Accept all
         </BrandButton>

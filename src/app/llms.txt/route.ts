@@ -31,7 +31,7 @@ The product and company name is "Fajita" (not "fajita.io"; that is the domain).
 - About: ${siteUrl}/about
 - Changelog: ${siteUrl}/changelog
 - Roadmap: ${siteUrl}/roadmap
-- Early access: ${siteUrl}/early-access
+- Signup: ${siteUrl}/signup
 - Contact: ${siteUrl}/contact
 - Support (Ask Fajita): ${siteUrl}/support
 - Affiliate program: ${siteUrl}/affiliates
@@ -81,7 +81,7 @@ Three plans: Starter (10 monitors, $9/mo), Pro (50 monitors, $19/mo), Business (
 
 ## Support
 
-Ask Fajita answers product questions from approved documentation and can route conversations to Fajita support. The experience is powered by Pamphlet (https://pamphlet.io). It does not autonomously change monitors, incidents, or billing.
+Ask Fajita answers product and pricing questions from approved documentation and product knowledge. It can route conversations to Fajita support. It does not autonomously change monitors, incidents, or billing.
 
 ## Company
 

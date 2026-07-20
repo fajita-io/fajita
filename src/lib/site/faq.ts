@@ -1,8 +1,7 @@
 /**
  * FAQ content. Homepage uses homeFaq; pricing uses billingFaq.
- * Answers must stay consistent with src/lib/site/claims.ts. When a
- * capability is early-access scope (not live today), the answer says
- * "will": accuracy over swagger.
+ * Answers must stay consistent with src/lib/site/claims.ts and
+ * accountsOpen / pricingConfig.published in site-config and pricing.
  */
 
 export interface FaqItem {
@@ -59,20 +58,20 @@ export const homeFaq: FaqItem[] = [
   {
     question: "When can I use it?",
     answer:
-      "Fajita is in private build. Join early access and you will be invited as accounts open, with pricing published before anyone is asked to pay.",
+      "Now. Create an account, add a monitor, and connect an alert channel. Pricing is published on the pricing page before anyone is asked to pay.",
   },
 ];
 
 export const billingFaq: FaqItem[] = [
   {
-    question: "When will pricing be published?",
+    question: "What do the plans cost?",
     answer:
-      "When accounts open. Early access members see pricing first, before anyone is asked to pay. There are no numbers on this page today because we will not publish a price we have not committed to.",
+      "Starter is $9 per month, Pro is $19 per month, and Business is $39 per month. Annual billing is available on every plan at a lower monthly equivalent. Exact amounts are on this page and match what Stripe charges at checkout.",
   },
   {
     question: "Is there monthly and annual billing?",
     answer:
-      "Yes, both. Annual pricing will be the better deal, and the exact difference publishes with the plans.",
+      "Yes, both. Annual is the better deal on every plan. You choose the interval at checkout and can change later through the billing portal.",
   },
   {
     question: "Can I change plans later?",
@@ -90,8 +89,8 @@ export const billingFaq: FaqItem[] = [
       "Checks stop at the end of the paid period. Your history stays exportable, and reactivating picks up where you left off.",
   },
   {
-    question: "Will there be a refund policy?",
+    question: "What is the refund policy?",
     answer:
-      "Yes, published in the legal hub before accounts open. The short version we are committing to now: if Fajita is not working for you early on, you will not have to argue about it.",
+      "A written refund policy lives in the legal hub. The short version: if Fajita is not working for you early on, you will not have to argue about it.",
   },
 ];

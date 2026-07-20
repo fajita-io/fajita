@@ -1,3 +1,4 @@
+/** @vitest-environment jsdom */
 /**
  * Interactive product journey: gated progression, reset, keyboard-reachable
  * controls, and the guarantee that the demo never performs network requests.

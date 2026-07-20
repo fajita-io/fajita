@@ -83,18 +83,19 @@ export default async function ToolPage({
   };
 
   return (
-    <article>
+    <article className="fj-content-article">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <div className="fj-content-article__body">
       <ContentBreadcrumbs
         items={[
           { href: "/tools", label: "Tools" },
           { href: `/tools/${meta.slug}`, label: meta.title },
         ]}
       />
-      <header className="fj-content-index__hero">
+      <header>
         <h1 className="fj-heading-1">{meta.title}</h1>
         <p className="fj-body-lg">{meta.description}</p>
         <p className="fj-content-meta">
@@ -120,7 +121,9 @@ export default async function ToolPage({
         <p>{meta.methodologySummary}</p>
       </section>
 
-      <DocsBlocks blocks={body} />
+      <div className="fj-docs-prose">
+        <DocsBlocks blocks={body} />
+      </div>
 
       <section aria-labelledby="limits-heading">
         <h2 id="limits-heading" className="fj-heading-2">
@@ -150,6 +153,7 @@ export default async function ToolPage({
       <p className="fj-body-sm">
         <Link href={`/tools/raw/${meta.slug}`}>Plain-text version</Link>
       </p>
+      </div>
     </article>
   );
 }

@@ -19,12 +19,15 @@ describe("sitemap", () => {
       "/features",
       "/integrations",
       "/security",
+      "/support",
       "/about",
       "/contact",
       "/changelog",
       "/roadmap",
       "/status",
-      "/early-access",
+      "/docs",
+      "/glossary",
+      "/blog",
       "/legal",
       ...featureOrder.map((slug) => `/features/${slug}`),
     ]) {
@@ -35,6 +38,8 @@ describe("sitemap", () => {
   it("excludes noindex and internal routes", () => {
     expect(urls).not.toContain("/login");
     expect(urls).not.toContain("/signup");
+    expect(urls).not.toContain("/legal/dpa");
+    expect(urls).not.toContain("/legal/subprocessors");
     expect(urls.some((u) => u.startsWith("/app"))).toBe(false);
     expect(urls.some((u) => u.startsWith("/internal"))).toBe(false);
     expect(urls.some((u) => u.startsWith("/api"))).toBe(false);

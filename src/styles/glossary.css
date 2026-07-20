@@ -3,10 +3,6 @@
  * and Fajita brand variables. Distinct from the docs sidebar shell.
  */
 
-.fj-glossary-shell {
-  padding-block: var(--space-8) var(--space-16);
-}
-
 .fj-glossary-shell__tools {
   margin-bottom: var(--space-6);
   max-width: 28rem;
@@ -14,29 +10,6 @@
 
 .fj-glossary-shell__main {
   min-width: 0;
-}
-
-.fj-glossary-index__hero {
-  max-width: 42rem;
-  margin-bottom: var(--space-10);
-}
-
-.fj-glossary-index__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-  margin-top: var(--space-6);
-}
-
-.fj-glossary-index__search {
-  margin-bottom: var(--space-12);
-  scroll-margin-top: var(--space-16);
-}
-
-.fj-glossary-index__footer {
-  margin-top: var(--space-12);
-  padding-top: var(--space-6);
-  border-top: 1px solid var(--color-border-subtle);
 }
 
 .fj-glossary-cat-grid {
@@ -171,13 +144,8 @@
   align-items: start;
 }
 
-.fj-glossary-term__toc {
-  position: sticky;
-  top: calc(var(--space-16) + var(--space-2));
-}
-
 .fj-glossary-short-answer {
-  margin: var(--space-8) 0;
+  margin: 0;
 }
 
 .fj-glossary-short-answer__quote {
@@ -208,9 +176,38 @@
 .fj-glossary-docs,
 .fj-glossary-cta,
 .fj-glossary-citation {
-  margin-top: var(--space-10);
+  margin: 0;
   padding-top: var(--space-6);
   border-top: 1px solid var(--color-border-subtle);
+}
+
+.fj-glossary-citation dl {
+  display: grid;
+  gap: var(--space-3);
+  margin: var(--space-4) 0 0;
+}
+
+.fj-glossary-citation dt {
+  font-size: var(--text-caption);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.fj-glossary-citation dd {
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-secondary);
+}
+
+.fj-glossary-faq h3 {
+  margin: 0 0 var(--space-2);
+  color: var(--color-text-primary);
+}
+
+.fj-glossary-faq p {
+  margin: 0;
 }
 
 .fj-glossary-related__list {
@@ -223,11 +220,11 @@
 }
 
 .fj-glossary-cta {
-  max-width: 36rem;
+  max-width: var(--container-reading);
 }
 
 .fj-glossary-meta {
-  margin-top: var(--space-8);
+  margin: 0;
   font-size: var(--text-caption);
   color: var(--color-text-secondary);
 }
@@ -300,7 +297,7 @@
 .fj-glossary-search__hit {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: var(--space-1);
   width: 100%;
   text-align: left;
   padding: var(--space-3);
@@ -338,18 +335,6 @@
   margin-top: var(--space-2);
   font-size: var(--text-body-sm);
   color: var(--color-text-secondary);
-}
-
-.fj-sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
 }
 
 @media (max-width: 900px) {

@@ -172,4 +172,32 @@ Supersedes: —
 
 ---
 
+## Decision: Shared reading-surface rhythm (`reading.css`)
+
+Status: Approved
+Date or iteration: 2026-07-17
+Area: Docs, glossary, blog/content, legal prose
+Decision: One shared stylesheet (`src/styles/reading.css`) owns shell block padding, index section stacks, article column measure, sticky TOC offset, and prose heading/list/code rhythm for `.fj-docs-prose` and `.fj-prose`. Surface CSS (docs/glossary/content) keeps nav, callouts, and component chrome only.
+Reason: Parallel copies of padding and prose margins drifted across docs, glossary, blog, tools, compare, and legal.
+Alternatives considered: Per-route spacing tweaks (rejected: ongoing drift).
+Tradeoffs: Import order matters; `reading.css` loads after surface sheets so shared rhythm wins.
+Implementation implications: New long-form routes wrap body content in `fj-docs-prose` or `fj-prose` and use the reading shell tokens (`--reading-shell-pad-block-*`, `--reading-measure*`).
+Supersedes: —
+
+---
+
+## Decision: PH launch layout tokens and container utilities
+
+Status: Approved
+Date or iteration: 2026-07-20
+Area: Layout system (marketing, reading, app shell)
+Decision: Added primitive tokens `--container-wide` (56rem), `--container-narrow` (44rem), touch-target sm/md/lg, and breakpoint aliases (`--bp-nav`, `--bp-stack`, `--bp-compact`). Component utilities: `.fj-container--wide`, `.fj-container--narrow`, `.fj-container--reading`, shared `.fj-sr-only`, cookie consent classes, legal hub and product-journey demo helpers.
+Reason: Inline `maxWidth` and mixed 36/40/44px touch targets caused spacing drift across 280+ public routes and the app shell.
+Alternatives considered: Per-page inline fixes only (rejected: does not scale).
+Tradeoffs: Some signature demo widths (30rem journey cards) remain as component-scoped classes, not global tokens.
+Implementation implications: Marketing pages use `fj-page-hero__eyebrow` and container modifiers; app shell uses `--container-marketing` for content max-width; reading `--reading-measure-wide` aliases `--container-narrow`.
+Supersedes: —
+
+---
+
 *Add new decisions below as creative direction progresses.*

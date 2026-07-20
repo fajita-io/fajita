@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import { DataFastScript } from "@/components/analytics/datafast-script";
+import {
+  clerkSignInFallbackRedirectUrl,
+  clerkSignInUrl,
+  clerkSignUpFallbackRedirectUrl,
+  clerkSignUpUrl,
+} from "@/lib/auth/clerk-config";
 import { clerkAppearance } from "@/lib/auth/clerk-appearance";
 import { fontVariables } from "@/lib/fonts";
 import { themeInitScript } from "@/lib/theme/theme-script";
@@ -67,8 +73,10 @@ export default function RootLayout({
   return (
     <ClerkProvider
       appearance={clerkAppearance}
-      signInUrl="/login"
-      signUpUrl="/signup"
+      signInUrl={clerkSignInUrl}
+      signUpUrl={clerkSignUpUrl}
+      signInFallbackRedirectUrl={clerkSignInFallbackRedirectUrl}
+      signUpFallbackRedirectUrl={clerkSignUpFallbackRedirectUrl}
     >
       <html lang="en" className={fontVariables} suppressHydrationWarning>
         <head>

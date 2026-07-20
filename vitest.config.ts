@@ -1,16 +1,17 @@
 import { fileURLToPath } from "node:url";
 
+import react from "@vitejs/plugin-react";
 import { defineConfig } from "vitest/config";
 
 /**
- * Unit-test config. Tests target pure logic (normalization, tokens, signing,
- * masking, callback mapping, label mapping) without a database or network.
+ * Unit-test config. Pure logic tests run in node. React component tests under
+ * tests/*.test.tsx opt into jsdom with a file-level vitest environment pragma.
  *
- * `server-only` is a Next.js RSC guard that throws when imported outside a
- * server component. Our library modules import it defensively; in unit tests we
- * alias it to an empty module so the pure functions inside can be exercised.
+ * server-only is aliased to an empty stub so library modules that import the
+ * Next.js RSC guard can still be unit-tested.
  */
 export default defineConfig({
+  plugins: [react()],
   resolve: {
     alias: {
       "server-only": fileURLToPath(
@@ -21,7 +22,12 @@ export default defineConfig({
   },
   test: {
     environment: "node",
-    include: ["src/**/*.test.ts", "test/**/*.test.ts"],
+    include: [
+      "src/**/*.test.ts",
+      "test/**/*.test.ts",
+      "tests/**/*.test.ts",
+      "tests/**/*.test.tsx",
+    ],
     globals: false,
   },
 });

@@ -253,9 +253,9 @@ export const publicClaims: PublicClaim[] = [
   /* Website itself */
   {
     id: "site-early-access",
-    statement:
-      "Accounts are open for signup. Early access remains available for people who prefer to wait for an invitation.",
+    statement: "Accounts are open for signup at /signup.",
     status: "available-now",
+    notes: "Legacy /early-access redirects to signup while accountsOpen is true.",
   },
   {
     id: "site-contact",
@@ -292,15 +292,16 @@ export const publicClaims: PublicClaim[] = [
   {
     id: "support-chatbot",
     statement:
-      "Ask Fajita answers product questions from approved documentation and can send a conversation to Fajita support.",
+      "Ask Fajita answers product and sales questions from approved documentation, handles objections honestly, and can route conversations to Fajita support.",
     status: "available-now",
     notes:
-      "Powered by Pamphlet attribution required. Provider conversation APIs remain deferred until a verified Pamphlet contract exists. Do not claim 24/7 human support, SLAs, or autonomous account changes.",
+      "Powered by Claude via server-side API. Do not claim 24/7 human support, SLAs, or autonomous account changes.",
   },
   {
     id: "support-chatbot-powered-by-pamphlet",
     statement: "Ask Fajita is powered by Pamphlet.",
-    status: "available-now",
+    status: "deprecated",
+    notes: "Superseded 2026-07-20. Ask Fajita uses Fajita's Claude API integration.",
   },
   {
     id: "support-chatbot-autonomous-actions",

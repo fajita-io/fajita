@@ -1,0 +1,314 @@
+/**
+ * Shared reading-surface rhythm for docs, glossary, blog, legal, and long-form.
+ * One measure, one vertical scale, one overflow policy.
+ */
+
+:root {
+  --reading-shell-pad-block-start: var(--space-8);
+  --reading-shell-pad-block-end: var(--space-16);
+  --reading-measure: var(--container-reading);
+  --reading-measure-wide: var(--container-narrow);
+  --reading-section-gap: var(--space-10);
+  --reading-stack-gap: var(--space-8);
+  --reading-header-gap: var(--space-3);
+  --reading-sticky-top: calc(var(--space-16) + var(--space-2));
+}
+
+@media (max-width: 47.9rem) {
+  :root {
+    --reading-shell-pad-block-start: var(--space-6);
+    --reading-shell-pad-block-end: var(--space-12);
+    --reading-section-gap: var(--space-8);
+    --reading-stack-gap: var(--space-6);
+  }
+}
+
+/* ---------------------------------------------------------------- */
+/* Shells                                                            */
+/* ---------------------------------------------------------------- */
+
+.fj-docs-shell,
+.fj-glossary-shell,
+.fj-content-shell {
+  padding-block: var(--reading-shell-pad-block-start) var(--reading-shell-pad-block-end);
+}
+
+/* ---------------------------------------------------------------- */
+/* Index stacks (glossary home, blog home, compare/tools indexes)      */
+/* ---------------------------------------------------------------- */
+
+.fj-glossary-index,
+.fj-content-index {
+  display: grid;
+  gap: var(--reading-section-gap);
+}
+
+.fj-glossary-index__hero,
+.fj-content-index__hero {
+  max-width: var(--reading-measure);
+  margin: 0;
+  display: grid;
+  gap: var(--reading-header-gap);
+}
+
+.fj-glossary-index__hero .fj-body-lg,
+.fj-content-index__hero .fj-body-lg {
+  margin: 0;
+}
+
+.fj-glossary-index__actions,
+.fj-content-index__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.fj-glossary-index > section,
+.fj-content-index > section {
+  min-width: 0;
+}
+
+.fj-glossary-index > section > .fj-heading-2,
+.fj-content-index > section > .fj-heading-2 {
+  margin: 0 0 var(--space-4);
+}
+
+.fj-glossary-index__search {
+  margin: 0;
+  scroll-margin-top: var(--space-16);
+}
+
+.fj-glossary-index__footer {
+  margin: 0;
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+/* ---------------------------------------------------------------- */
+/* Article column + sticky TOC                                       */
+/* ---------------------------------------------------------------- */
+
+.fj-docs-page__article,
+.fj-glossary-term__article,
+.fj-content-article__body {
+  min-width: 0;
+  max-width: var(--reading-measure-wide);
+}
+
+.fj-content-article__body {
+  max-width: var(--reading-measure);
+  display: grid;
+  gap: var(--reading-stack-gap);
+}
+
+.fj-docs-page__article {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.fj-glossary-term__article {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.fj-docs-page__header,
+.fj-glossary-term__header,
+.fj-content-article__body > header {
+  display: grid;
+  gap: var(--reading-header-gap);
+  margin: 0;
+}
+
+.fj-docs-page__header .fj-heading-1,
+.fj-glossary-term__header .fj-heading-1,
+.fj-content-article__body > header .fj-heading-1 {
+  margin: 0;
+}
+
+.fj-docs-page__desc {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.fj-docs-page__toc,
+.fj-glossary-term__toc {
+  position: sticky;
+  top: var(--reading-sticky-top);
+}
+
+.fj-content-article__aside {
+  position: sticky;
+  top: var(--reading-sticky-top);
+}
+
+/* ---------------------------------------------------------------- */
+/* Shared prose: docs blocks + native elements + legal                */
+/* ---------------------------------------------------------------- */
+
+.fj-docs-prose,
+.fj-prose {
+  color: var(--color-text-secondary);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+}
+
+.fj-prose {
+  max-width: var(--reading-measure);
+}
+
+.fj-prose.fj-legal-doc {
+  max-width: var(--reading-measure-wide);
+}
+
+.fj-docs-prose > :first-child,
+.fj-prose > :first-child {
+  margin-top: 0;
+}
+
+.fj-docs-prose > :last-child,
+.fj-prose > :last-child {
+  margin-bottom: 0;
+}
+
+.fj-docs-prose h2,
+.fj-docs-h2,
+.fj-prose h2 {
+  font-family: var(--font-display, var(--font-fallback-display));
+  font-size: var(--text-heading-2);
+  font-weight: 540;
+  color: var(--color-text-primary);
+  line-height: var(--leading-heading);
+  margin: var(--space-10) 0 var(--space-3);
+  scroll-margin-top: var(--space-16);
+}
+
+.fj-docs-prose h3,
+.fj-docs-h3,
+.fj-prose h3 {
+  font-size: var(--text-heading-3);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: var(--leading-heading);
+  margin: var(--space-6) 0 var(--space-2);
+  scroll-margin-top: var(--space-16);
+}
+
+.fj-docs-prose p,
+.fj-docs-p,
+.fj-prose p {
+  margin: 0 0 var(--space-4);
+}
+
+.fj-docs-prose ul,
+.fj-docs-prose ol,
+.fj-docs-list,
+.fj-prose ul,
+.fj-prose ol {
+  margin: 0 0 var(--space-4);
+  padding-left: var(--space-6);
+}
+
+.fj-docs-list li,
+.fj-docs-prose li,
+.fj-prose li {
+  margin: 0 0 var(--space-2);
+}
+
+.fj-docs-list li:last-child,
+.fj-docs-prose li:last-child,
+.fj-prose li:last-child {
+  margin-bottom: 0;
+}
+
+.fj-docs-prose pre,
+.fj-prose pre {
+  margin: var(--space-5) 0;
+  padding: var(--space-4);
+  overflow-x: auto;
+  max-width: 100%;
+  border-radius: var(--radius-sm);
+  background: var(--color-background-elevated);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.fj-docs-prose blockquote,
+.fj-prose blockquote {
+  margin: var(--space-5) 0;
+  padding: var(--space-4) var(--space-5);
+  border-left: 3px solid var(--color-brand-heat);
+  background: var(--color-background-elevated);
+}
+
+.fj-docs-prose hr,
+.fj-prose hr {
+  margin: var(--space-8) 0;
+  border: 0;
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.fj-docs-prose img,
+.fj-prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: var(--space-5) 0;
+}
+
+.fj-docs-callout__body p:last-child,
+.fj-docs-step__body > :last-child {
+  margin-bottom: 0;
+}
+
+.fj-docs-prose a,
+.fj-prose a {
+  color: var(--color-brand-text);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.fj-docs-code__pre,
+.fj-docs-inline-code,
+.fj-glossary-formula {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.fj-docs-code__pre {
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------- */
+/* Legal document                                                     */
+/* ---------------------------------------------------------------- */
+
+.fj-legal-doc {
+  display: grid;
+  gap: var(--space-6);
+  max-width: var(--reading-measure-wide);
+}
+
+.fj-legal-doc__intro {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.fj-legal-doc__section {
+  display: grid;
+  gap: var(--space-3);
+  scroll-margin-top: var(--space-16);
+}
+
+.fj-legal-doc__section .fj-heading-3 {
+  margin: 0;
+}
+
+.fj-page-hero__meta {
+  margin: var(--space-3) 0 0;
+}
+
+.fj-docs-page__article > .fj-docs-breadcrumbs ol,
+.fj-glossary-term__article > .fj-docs-breadcrumbs ol,
+.fj-content-article__body > .fj-content-breadcrumbs ol {
+  margin-bottom: 0;
+}

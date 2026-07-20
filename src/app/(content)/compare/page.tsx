@@ -20,7 +20,7 @@ export default function CompareIndexPage() {
   );
 
   return (
-    <div>
+    <div className="fj-content-index">
       <header className="fj-content-index__hero">
         <p className="fj-eyebrow">Compare</p>
         <h1 className="fj-heading-1">Choose monitoring tools with clear eyes.</h1>

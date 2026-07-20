@@ -9,6 +9,7 @@
 @import "../styles/glossary.css";
 @import "../styles/content.css";
 @import "../styles/support.css";
+@import "../styles/reading.css";
 
 *,
 *::before,
@@ -29,6 +30,12 @@ body {
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+main {
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 img,

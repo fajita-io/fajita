@@ -4,9 +4,11 @@ Production release evidence for Fajita. No category complete without evidence. U
 
 **Release version:** `[UNRESOLVED]`
 **Release date:** `[UNRESOLVED]`
-**Overall status:** Not ready (Phase 18 Gate 6, 2026-07-17)
+**Overall status:** Not ready for full production launch (Phase 18 Gate 6). Marketing site aligned for VC demo walkthrough (2026-07-17).
 
 Canonical ops scorecard: `/internal/readiness` and `docs/readiness/final-production-readiness.md`. Do not treat visual scorecard Pass as launch approval while production-readiness classification is Not Ready.
+
+**VC demo scope (marketing):** Homepage → features → pricing → docs/glossary → signup form. Copy, CTAs, FAQs, changelog, roadmap, integrations, and security page now match `accountsOpen=true` and published pricing. Full paid launch remains blocked by open criticals in `docs/readiness/launch-blocker-register.md` (legal counsel, restore exercise, Stripe live price verification, live payment test, production smoke).
 
 ---
 
@@ -25,8 +27,8 @@ Critical journey categories below 9 require another pass unless external constra
 | Art direction preserved | — | `approved-direction.md` | Y | — | Pending (not approved) |
 | No template residue | — | `visual-qa-critic` | Y | — | Pending |
 | Typography | — | Screenshots | Y | — | Pending |
-| Responsive composition | — | `responsive-art-director` | Y | — | Pending |
-| Spacing defects | — | `layout-perfection-critic` | Y | — | Pending |
+| Responsive composition | 9 | `qa:screens` 45 routes, PH path 0 overflow | Y | — | Pass |
+| Spacing defects | 9 | `layout-perfection-critic` PH pass 2026-07-20 | Y | — | Pass |
 | Dark/light if supported | N/A | — | — | — | N/A |
 | Images/icons | — | Manual | Y | — | Pending |
 | No placeholder content | — | `content-realism-editor` | Y | — | Pending |

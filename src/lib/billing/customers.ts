@@ -7,6 +7,8 @@ interface OrgCustomerInput {
   organizationId: string;
   organizationName: string;
   billingEmail: string | null;
+  ownerProfileId?: string;
+  ownerClerkUserId?: string;
 }
 
 /**
@@ -38,6 +40,12 @@ export async function getOrCreateOrgStripeCustomer(
       metadata: {
         organization_id: input.organizationId,
         environment: process.env.NODE_ENV ?? "development",
+        ...(input.ownerProfileId
+          ? { owner_profile_id: input.ownerProfileId }
+          : {}),
+        ...(input.ownerClerkUserId
+          ? { owner_clerk_user_id: input.ownerClerkUserId }
+          : {}),
       },
     },
     // Idempotent per organization so racing checkouts never create duplicates.

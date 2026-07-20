@@ -67,11 +67,12 @@ export default async function ComparisonPage({
   };
 
   return (
-    <article className="fj-content-article__body">
+    <article className="fj-content-article">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <div className="fj-content-article__body">
       <ContentBreadcrumbs
         items={[
           { href: "/compare", label: "Compare" },
@@ -125,7 +126,7 @@ export default async function ComparisonPage({
         ) : null}
       </section>
 
-      <div className="fj-compare-table-wrap">
+      <div className="fj-compare-table-wrap fj-docs-prose">
         <DocsBlocks blocks={body} />
       </div>
 
@@ -172,6 +173,7 @@ export default async function ComparisonPage({
       <p className="fj-body-sm">
         <Link href={`/compare/raw/${meta.slug}`}>Plain-text version</Link>
       </p>
+      </div>
     </article>
   );
 }

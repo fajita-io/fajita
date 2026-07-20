@@ -135,7 +135,9 @@ export default async function BlogArticlePage({
           <p className="fj-content-thesis">{meta.thesis}</p>
         </header>
 
-        <DocsBlocks blocks={body} />
+        <div className="fj-docs-prose">
+          <DocsBlocks blocks={body} />
+        </div>
 
         <ContentProductCta variant={meta.productCta} contentSlug={meta.slug} />
 

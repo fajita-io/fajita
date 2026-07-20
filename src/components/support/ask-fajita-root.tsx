@@ -26,12 +26,12 @@ export function AskFajitaRoot({
   suggestedPrompts: string[];
 }) {
   return (
-    <div className="fj-support-root" data-testid="ask-fajita-root">
+    <>
       <AskFajitaChat
         mode={mode}
         pageContext={pageContext}
         suggestedPrompts={suggestedPrompts}
       />
-    </div>
+    </>
   );
 }

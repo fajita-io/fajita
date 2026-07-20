@@ -8,15 +8,15 @@ import type { LegalBlock, LegalSection } from "./affiliate-agreement";
 
 export const AFFILIATE_PRIVACY_META = {
   title: "Affiliate Privacy Notice",
-  version: 1,
-  effectiveDate: "2026-07-17",
-  lastUpdated: "2026-07-17",
+  version: 2,
+  effectiveDate: "2026-07-20",
+  lastUpdated: "2026-07-20",
 } as const;
 
 export const affiliatePrivacyIntro: LegalBlock[] = [
   {
     type: "p",
-    text: `This Affiliate Privacy Notice (the "Notice") describes how Fajita ("Fajita," "we," "us," or "our") collects, uses, and shares personal information about individuals who apply to or participate in the Fajita Affiliate Program (the "Program"). It supplements Fajita's general Privacy Policy (when published) and applies only to affiliate-program activities.`,
+    text: `This Affiliate Privacy Notice (the "Notice") describes how Fajita ("Fajita," "we," "us," or "our") collects, uses, and shares personal information about individuals who apply to or participate in the Fajita Affiliate Program (the "Program"). It supplements Fajita's Privacy Policy and applies only to affiliate-program activities.`,
   },
   {
     type: "p",
@@ -101,6 +101,10 @@ export const affiliatePrivacySections: LegalSection[] = [
         type: "p",
         text: "We do not sell affiliate personal information. We do not use Referred Customer personal data to market to those customers on an Affiliate's behalf beyond operating the Program.",
       },
+      {
+        type: "p",
+        text: "Legal bases (EEA, UK, and similar jurisdictions). Where required, we rely on performance of a contract, legitimate interests (such as fraud prevention and Program integrity), consent where applicable, and compliance with legal obligations.",
+      },
     ],
   },
   {
@@ -137,7 +141,7 @@ export const affiliatePrivacySections: LegalSection[] = [
   },
   {
     id: "choices",
-    heading: "6. Your choices",
+    heading: "6. Your choices and privacy rights",
     blocks: [
       {
         type: "ul",
@@ -145,7 +149,8 @@ export const affiliatePrivacySections: LegalSection[] = [
           "Update profile and contact email in the Affiliate settings (when your membership state allows)",
           "Manage optional email categories in preferences (account and security-adjacent messages still send)",
           "Request account closure through settings or by contacting Fajita",
-          "Where applicable law provides access, correction, deletion, or objection rights, contact us using the address above",
+          "Where applicable law provides access, correction, deletion, export, or objection rights, contact us using the address above. Authorized agents may submit requests where permitted by law.",
+          "If you are a California resident, you may have additional rights under the CCPA as described in Fajita's Privacy Policy, including the right to know and delete, subject to exceptions.",
         ],
       },
     ],
@@ -196,13 +201,23 @@ export const affiliatePrivacySections: LegalSection[] = [
     blocks: [
       {
         type: "p",
-        text: "We may update this Notice. Material changes will be indicated by updating the version and, where required, requesting re-acceptance. The version accepted at enrollment is recorded with your terms acceptance.",
+        text: "We may update this Notice. Material changes will be indicated by updating the version and Effective Date and, where required, requesting re-acceptance. The version accepted at enrollment is recorded with your terms acceptance.",
+      },
+    ],
+  },
+  {
+    id: "contact",
+    heading: "12. Contact",
+    blocks: [
+      {
+        type: "p",
+        text: "Privacy inquiries about the Program: Fajita, 1001 S Main St, Ste 600, Kalispell, MT 59901, or the contact form on fajita.io with topic Privacy.",
       },
     ],
   },
   {
     id: "relationship",
-    heading: "12. Relationship to the Affiliate Program Agreement",
+    heading: "13. Relationship to the Affiliate Program Agreement",
     blocks: [
       {
         type: "p",

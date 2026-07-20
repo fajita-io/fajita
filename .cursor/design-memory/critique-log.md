@@ -157,4 +157,42 @@ Remaining issue: [If any]
 
 ---
 
+### Reading surfaces spacing pass (2026-07-17)
+
+```text
+Iteration: layout-perfection
+Routes: /docs, /glossary, /blog, /compare, /tools, /research, /legal/*, /changelog, /roadmap
+Category: Layout
+Severity: Medium (drift across shells)
+Observation: Docs, glossary, blog/content, and legal used parallel but inconsistent shell padding, article stacks, and prose heading rhythm. Blog/research DocsBlocks were not wrapped in shared prose. Magic numbers in search overlay and glossary hits.
+Resolution: Added src/styles/reading.css as shared rhythm (shell pad, index grids, article stacks, prose). Aligned docs/glossary/content/support CSS. Wrapped content DocsBlocks in fj-docs-prose. Legal document uses fj-legal-doc classes. Screenshots under .qa-screens/reading/ (glossary mobile inspected; full re-run blocked by local Clerk redirect loop 404s, not layout).
+Status: Fixed at CSS level; re-screenshot after Clerk env stable
+```
+
+### PH launch layout polish (2026-07-20)
+
+Production build screenshot QA via expanded `npm run qa:screens` (45 routes, 7 widths + dark samples). PH path spot-check: zero horizontal overflow at 360/390/430 on `/`, `/pricing`, `/features`, reading surfaces, auth, and content hubs after fixes below.
+
+```text
+Iteration: layout-perfection
+Routes: marketing, reading, auth, app samples (45 routes in qa:screens)
+Category: Layout / tokens
+Severity: Medium (systemic drift)
+Observation: Inline maxWidth/eyebrow margins, duplicate sr-only, compare/tools/research article shells, pricing table page overflow at 360px, cookie banner inline styles, app touch-target tiers.
+Resolution: Added container-wide/narrow, touch-target, breakpoint tokens; container utilities; shared cookie/legal/journey/plan CSS; unified breadcrumbs; compare index wrapper; article grid parity; pricing table reflow at mobile; body/main overflow-x clip; app shell token pass.
+Status: Fixed; regenerate `.qa-screens/` after deploy
+```
+
+```text
+Iteration: layout-perfection
+Route: /pricing
+Breakpoint: 360px, 390px
+Category: Layout
+Severity: High
+Observation: Comparison table min-width 34rem expanded document scrollWidth by 105–134px on mobile.
+Required correction: Reflow table inside clip container; table-layout fixed below 47.9rem.
+Resolution: fj-compare-scroll-outer + mobile table reflow in site.css and pricing page.
+Remaining issue: None.
+```
+
 *Run `visual-qa-critic` after Phase 4 visual slice and again in Phase 10.*

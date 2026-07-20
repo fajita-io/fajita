@@ -20,7 +20,7 @@ export const metadata: Metadata = buildMetadata({
 export default function ForgotPasswordPage() {
   return (
     <div>
-      <p className="fj-eyebrow" style={{ marginBottom: "var(--space-3)" }}>
+      <p className="fj-eyebrow fj-page-hero__eyebrow">
         Account recovery
       </p>
       <h1 className="fj-heading-2" style={{ marginBottom: "var(--space-4)" }}>

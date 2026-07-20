@@ -249,17 +249,14 @@ export function ProductJourney() {
                   body="One click publishes a status page with your components on it. Custom domain and branding come with it."
                 />
                 {published ? (
-                  <div
-                    className="fj-card"
-                    style={{ display: "grid", gap: "var(--space-3)" }}
-                  >
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: "var(--space-3)", flexWrap: "wrap" }}>
-                      <span className="fj-mono" style={{ color: "var(--color-text-primary)" }}>
+                  <div className="fj-card fj-journey-card">
+                    <div className="fj-journey-card__row">
+                      <span className="fj-mono">
                         status.mesa-labs.dev
                       </span>
                       <StatusBadge status="operational" label="Live" />
                     </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+                    <div className="fj-journey-card__status">
                       <StatusDot status="operational" />
                       <span className="fj-body-sm">{chosenEndpoint.label} · Operational</span>
                     </div>
@@ -314,14 +311,14 @@ export function ProductJourney() {
                   title="The alert beats the support ticket."
                   body={`The verified incident lands in ${chosenChannel.label} (${chosenChannel.meta}). Plain, factual, and first.`}
                 />
-                <div className="fj-card" style={{ display: "grid", gap: "var(--space-2)", maxWidth: "30rem" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+                <div className="fj-card fj-journey-card fj-journey-card--compact">
+                  <div className="fj-journey-card__status">
                     <StatusDot status="down" />
-                    <strong style={{ fontSize: "var(--text-body-sm)" }}>
+                    <strong className="fj-journey-card__title">
                       Incident #482 · {chosenEndpoint.label} is down
                     </strong>
                   </div>
-                  <p className="fj-body-sm" style={{ margin: 0 }}>
+                  <p className="fj-body-sm fj-journey-card__body">
                     Confirmed at 09:18 MST after verification. Checks were
                     passing until 09:17. Status page updated.
                   </p>
@@ -368,12 +365,12 @@ export function ProductJourney() {
                   days={journeyDays()}
                   label={`${chosenEndpoint.label} · last 90 days`}
                 />
-                <div style={{ display: "flex", gap: "var(--space-2)", flexWrap: "wrap" }}>
+                <div className="fj-journey-chips">
                   <ChannelChip>1 incident · 45 min total</ChannelChip>
                   <ChannelChip>Checked {chosenFrequency.label.toLowerCase()}</ChannelChip>
                   <ChannelChip>Alerts via {chosenChannel.label}</ChannelChip>
                 </div>
-                <div style={{ display: "flex", gap: "var(--space-3)", flexWrap: "wrap", marginTop: "var(--space-2)" }}>
+                <div className="fj-journey-actions">
                   <BrandButtonLink
                     href={cta.primary.href}
                     data-fast-goal={DataFastGoals.heroCta}
@@ -401,7 +398,7 @@ export function ProductJourney() {
               </BrandButton>
             ) : null}
             {!canContinue && step < stepTitles.length - 1 ? (
-              <span className="fj-body-sm" style={{ color: "var(--color-text-muted)" }}>
+              <span className="fj-body-sm fj-journey-hint">
                 {step === 2 && "Run the test check to continue."}
                 {step === 4 && "Publish the page to continue."}
                 {step === 5 && "Trigger the failure to continue."}
@@ -421,10 +418,10 @@ export function ProductJourney() {
 function StageHead({ title, body }: { title: string; body: string }) {
   return (
     <header>
-      <h3 className="fj-heading-2" style={{ margin: 0 }}>
+      <h3 className="fj-heading-2 fj-journey-stage__title">
         {title}
       </h3>
-      <p className="fj-body" style={{ marginTop: "var(--space-2)", maxWidth: "36rem" }}>
+      <p className="fj-body fj-journey-stage__body">
         {body}
       </p>
     </header>

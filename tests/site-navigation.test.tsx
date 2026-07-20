@@ -1,17 +1,35 @@
 /**
+ * @vitest-environment jsdom
+ *
  * Global navigation: link integrity, keyboard behavior, menu closing,
- * and the rule that unbuilt areas (blog, docs, glossary, tools) never
- * appear in nav or footer.
+ * and presence of shipped public surfaces in nav and footer.
  */
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
+import { cta } from "@/lib/site/site-config";
 
 vi.mock("next/navigation", () => ({
   usePathname: () => "/",
 }));
+
+beforeEach(() => {
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    value: vi.fn().mockImplementation((query: string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    })),
+  });
+});
 
 afterEach(cleanup);
 
@@ -20,7 +38,9 @@ describe("site header", () => {
     render(<SiteHeader />);
     expect(screen.getByRole("navigation", { name: "Main" })).toBeTruthy();
     expect(screen.getByRole("link", { name: "Fajita home" })).toBeTruthy();
-    expect(screen.getAllByRole("link", { name: "Get early access" }).length).toBeGreaterThan(0);
+    expect(
+      screen.getAllByRole("link", { name: cta.primary.label }).length,
+    ).toBeGreaterThan(0);
   });
 
   it("features dropdown opens, lists all six feature pages, and closes on Escape", () => {
@@ -56,28 +76,30 @@ describe("site header", () => {
     expect(panel?.hasAttribute("hidden")).toBe(false);
   });
 
-  it("does not link to unbuilt areas", () => {
+  it("links to shipped public surfaces", () => {
     const { container } = render(<SiteHeader />);
     const hrefs = Array.from(container.querySelectorAll("a")).map((a) =>
       a.getAttribute("href"),
     );
-    for (const forbidden of ["/blog", "/docs", "/glossary", "/tools", "/affiliates"]) {
-      expect(hrefs).not.toContain(forbidden);
+    for (const required of ["/blog", "/docs", "/glossary", "/tools", "/pricing", "/security"]) {
+      expect(hrefs).toContain(required);
     }
+    expect(hrefs).toContain(cta.primary.href);
   });
 });
 
 describe("site footer", () => {
-  it("renders product, company, and legal groups without unbuilt links", () => {
+  it("renders product, company, and legal groups with shipped links", () => {
     const { container } = render(<SiteFooter />);
     const hrefs = Array.from(container.querySelectorAll("a")).map((a) =>
       a.getAttribute("href"),
     );
     expect(hrefs).toContain("/pricing");
     expect(hrefs).toContain("/legal");
+    expect(hrefs).toContain("/security");
     expect(hrefs).toContain("/status");
-    for (const forbidden of ["/blog", "/docs", "/glossary", "/tools", "/affiliates"]) {
-      expect(hrefs).not.toContain(forbidden);
+    for (const required of ["/blog", "/docs", "/glossary", "/tools"]) {
+      expect(hrefs).toContain(required);
     }
   });
 

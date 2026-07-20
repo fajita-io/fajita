@@ -3,13 +3,14 @@ import Link from "next/link";
 
 import { StatusBadge } from "@/components/design-system/status/status-badge";
 import { SectionHeading } from "@/components/design-system/typography";
-import { buildMetadata } from "@/lib/site/metadata";
 import { BrandButtonLink } from "@/components/design-system/primitives";
+import { buildMetadata } from "@/lib/site/metadata";
+import { siteUrl } from "@/lib/site/site-config";
 
 export const metadata: Metadata = buildMetadata({
   title: "Security",
   description:
-    "How Fajita is being built to watch your infrastructure without becoming a risk to it: tenant separation, encrypted secrets, restricted probes, and honest status labels for every control.",
+    "How Fajita watches your infrastructure without becoming a risk to it: tenant separation, encrypted secrets, restricted probes, and honest status labels for every control.",
   path: "/security",
 });
 
@@ -30,17 +31,11 @@ const statusPresentation: Record<
   planned: { label: "Planned", badge: "maintenance" },
 };
 
-/**
- * Every control carries an honest status. "Implemented" applies only to
- * what is live today (the public website and its handling of the data it
- * collects). Product controls are in progress or planned until the
- * application ships.
- */
 const controls: Control[] = [
   {
     status: "implemented",
     title: "Minimal data collection on this website",
-    body: "The public site collects what you give it: an email address for early access, and the contents of the contact form. Analytics are privacy-conscious and do not build advertising profiles.",
+    body: "The public site collects what you give it: signup details through our identity provider, and the contents of the contact form. Analytics are privacy-conscious and do not build advertising profiles.",
   },
   {
     status: "implemented",
@@ -50,53 +45,70 @@ const controls: Control[] = [
   {
     status: "implemented",
     title: "Stored form data is protected",
-    body: "Early access and contact submissions are stored with row-level security and are not readable by other visitors under any circumstance.",
+    body: "Contact submissions are stored with row-level security and are not readable by other visitors under any circumstance.",
   },
   {
-    status: "in-progress",
-    title: "Tenant separation",
-    body: "Every account's monitors, incidents, and history are separated at the database layer with row-level security policies, not just application checks.",
-  },
-  {
-    status: "in-progress",
-    title: "Encrypted monitor secrets",
-    body: "Request headers and tokens you give a monitor are encrypted at rest, used only for the checks you configured, and never displayed back in full.",
-  },
-  {
-    status: "in-progress",
-    title: "Restricted monitoring destinations",
-    body: "Probes refuse private networks, loopback addresses, and internal metadata endpoints, so Fajita cannot be used to scan infrastructure it should not reach.",
-  },
-  {
-    status: "in-progress",
+    status: "implemented",
     title: "Account security",
     body: "Authentication is handled by a dedicated identity provider rather than a homegrown password system.",
   },
   {
-    status: "planned",
-    title: "Data export",
-    body: "Monitoring history and account data will be exportable in a documented format. Your uptime record is yours.",
+    status: "implemented",
+    title: "Tenant separation",
+    body: "Every account's monitors, incidents, and history are separated at the database layer with row-level security policies, not just application checks.",
   },
   {
-    status: "planned",
-    title: "Account deletion",
-    body: "Deleting an account removes its data on a documented schedule. The exact retention windows publish with the privacy policy.",
+    status: "implemented",
+    title: "Encrypted monitor secrets",
+    body: "Request headers and tokens you give a monitor are encrypted at rest, used only for the checks you configured, and never displayed back in full.",
   },
   {
-    status: "planned",
+    status: "implemented",
+    title: "Restricted monitoring destinations",
+    body: "Probes refuse private networks, loopback addresses, and internal metadata endpoints, so Fajita cannot be used to scan infrastructure it should not reach.",
+  },
+  {
+    status: "implemented",
     title: "Abuse prevention",
     body: "Rate limits and target validation prevent monitors from being used to harass third parties.",
   },
+  {
+    status: "implemented",
+    title: "Data export",
+    body: "Monitoring history and account data can be exported in a documented format. Your uptime record is yours.",
+  },
+  {
+    status: "implemented",
+    title: "Account deletion",
+    body: "Deleting an account removes its data on a documented schedule. Retention windows are described in the privacy policy.",
+  },
 ];
+
+const securityJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Fajita Security",
+  url: `${siteUrl}/security`,
+  description:
+    "Security controls for Fajita uptime monitoring: tenant separation, encrypted secrets, restricted probes, and responsible disclosure.",
+  isPartOf: {
+    "@type": "WebSite",
+    name: "Fajita",
+    url: siteUrl,
+  },
+};
 
 export default function SecurityPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(securityJsonLd) }}
+      />
+
       <section className="fj-page-hero">
         <div className="fj-container">
-          <p className="fj-eyebrow" style={{ marginBottom: "var(--space-3)" }}>
-            Security
-          </p>
+          <p className="fj-eyebrow fj-page-hero__eyebrow">Security</p>
           <h1 className="fj-display-2">
             Built to watch your infrastructure without becoming a risk to it.
           </h1>
@@ -110,11 +122,11 @@ export default function SecurityPage() {
       </section>
 
       <section className="fj-band--tight">
-        <div className="fj-container" style={{ maxWidth: "56rem" }}>
+        <div className="fj-container fj-container--wide">
           <SectionHeading
             eyebrow="Controls"
             title="What protects your data, labeled honestly."
-            lede="Implemented means live today. In progress means being built for launch. Planned means committed but not started. A control never moves up this ladder in marketing before it does in code."
+            lede="Implemented means live today. In progress means actively shipping. Planned means committed but not started. A control never moves up this ladder in marketing before it does in code."
             as="h2"
           />
           <div className="fj-controls">
@@ -128,12 +140,10 @@ export default function SecurityPage() {
                     label={p.label}
                   />
                   <div>
-                    <h3 className="fj-heading-3" style={{ margin: 0 }}>
+                    <h3 className="fj-heading-3 fj-control__title">
                       {control.title}
                     </h3>
-                    <p className="fj-body-sm" style={{ margin: "var(--space-2) 0 0" }}>
-                      {control.body}
-                    </p>
+                    <p className="fj-body-sm fj-control__body">{control.body}</p>
                   </div>
                 </div>
               );
@@ -143,8 +153,13 @@ export default function SecurityPage() {
       </section>
 
       <section className="fj-band--tight">
-        <div className="fj-container" style={{ maxWidth: "56rem" }}>
-          <div className="fj-facts" style={{ marginTop: 0 }}>
+        <div className="fj-container fj-container--wide">
+          <SectionHeading
+            eyebrow="Boundaries"
+            title="What we claim, what we do not, and how to report an issue."
+            as="h2"
+          />
+          <div className="fj-facts fj-facts--flush">
             <div className="fj-fact">
               <p className="fj-fact__label">What we do not claim</p>
               <p className="fj-body">
@@ -173,17 +188,23 @@ export default function SecurityPage() {
             </div>
             <div className="fj-fact">
               <p className="fj-fact__label">Reporting a vulnerability</p>
-              <p className="fj-body">
+              <p className="fj-body fj-prose">
                 Found something? Use the{" "}
-                <Link href="/contact?topic=security" style={{ color: "var(--color-brand-text)" }}>
-                  contact form
-                </Link>{" "}
-                with the security topic. A person reads every report and
-                responds. A formal disclosure policy ships with the{" "}
-                <Link href="/legal" style={{ color: "var(--color-brand-text)" }}>
-                  legal hub
-                </Link>
-                .
+                <Link href="/contact?topic=security">contact form</Link> with
+                the security topic, or read the{" "}
+                <Link href="/legal/disclosure">Responsible Disclosure Policy</Link>
+                . A person reads every report and responds.
+              </p>
+            </div>
+            <div className="fj-fact">
+              <p className="fj-fact__label">Policies and documentation</p>
+              <p className="fj-body fj-prose">
+                See the{" "}
+                <Link href="/legal/privacy">Privacy Policy</Link>,{" "}
+                <Link href="/docs/security/overview">security documentation</Link>
+                , and the{" "}
+                <Link href="/legal/subprocessors">Subprocessor List</Link> for
+                customers who need processor details.
               </p>
             </div>
           </div>
@@ -201,8 +222,8 @@ export default function SecurityPage() {
             <BrandButtonLink href="/contact?topic=security">
               Ask the team
             </BrandButtonLink>
-            <BrandButtonLink href="/early-access" variant="secondary">
-              Get early access
+            <BrandButtonLink href="/signup" variant="secondary">
+              Start monitoring
             </BrandButtonLink>
           </div>
         </div>

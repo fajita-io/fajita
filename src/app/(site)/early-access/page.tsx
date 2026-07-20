@@ -1,23 +1,34 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import { ThermalStack } from "@/components/brand/thermal-stack/thermal-stack";
 import { EarlyAccessForm } from "@/components/site/early-access-form";
 import { buildMetadata } from "@/lib/site/metadata";
+import { accountsOpen } from "@/lib/site/site-config";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Get early access",
-  description:
-    "Fajita accounts open in stages. Leave your email and yours is one of the first invitations we send. Website, API, SSL, and cron monitoring with hosted status pages.",
+  title: accountsOpen ? "Create your account" : "Get early access",
+  description: accountsOpen
+    ? "Fajita accounts are open. Create an account to monitor websites, APIs, SSL certificates, and cron jobs."
+    : "Fajita accounts open in stages. Leave your email and yours is one of the first invitations we send.",
   path: "/early-access",
 });
 
+/**
+ * Legacy early-access URL. When accounts are open, send people to signup
+ * so the waitlist page cannot contradict open CTAs.
+ */
 export default function EarlyAccessPage() {
+  if (accountsOpen) {
+    redirect("/signup");
+  }
+
   return (
     <div className="fj-auth">
       <div className="fj-auth__panel">
         <div>
-          <p className="fj-eyebrow" style={{ marginBottom: "var(--space-3)" }}>
+          <p className="fj-eyebrow fj-page-hero__eyebrow">
             Early access
           </p>
           <h1 className="fj-heading-1" style={{ marginBottom: "var(--space-4)" }}>
@@ -41,7 +52,10 @@ export default function EarlyAccessPage() {
       <aside className="fj-auth__aside" aria-hidden="true">
         <div style={{ maxWidth: "28rem", marginInline: "auto", width: "100%" }}>
           <ThermalStack state="operational" />
-          <p className="fj-caption" style={{ marginTop: "var(--space-5)", textAlign: "center" }}>
+          <p
+            className="fj-caption"
+            style={{ marginTop: "var(--space-5)", textAlign: "center" }}
+          >
             Five services, held steady. The state you will stop worrying about.
           </p>
         </div>

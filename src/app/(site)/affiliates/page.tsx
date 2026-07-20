@@ -151,7 +151,7 @@ export default async function AffiliatesPage() {
 
       <section className="fj-page-hero">
         <div className="fj-container">
-          <p className="fj-eyebrow" style={{ marginBottom: "var(--space-3)" }}>
+          <p className="fj-eyebrow fj-page-hero__eyebrow">
             Affiliate program
           </p>
           <h1 className="fj-display-2">Get paid when the software stays cool.</h1>
@@ -165,7 +165,7 @@ export default async function AffiliatesPage() {
       </section>
 
       <section className="fj-band--tight">
-        <div className="fj-container" style={{ maxWidth: "56rem" }}>
+        <div className="fj-container fj-container--wide">
           <SectionHeading
             eyebrow="The deal"
             title="Clear terms. Versioned. No quiet changes."
@@ -215,7 +215,7 @@ export default async function AffiliatesPage() {
       </section>
 
       <section className="fj-band--tight">
-        <div className="fj-container" style={{ maxWidth: "56rem" }}>
+        <div className="fj-container fj-container--wide">
           <SectionHeading
             eyebrow="How it works"
             title="Apply, share, get paid."

@@ -1,6 +1,7 @@
 /**
  * Public roadmap. Restrained categories, no dates, no contractual promises.
  * Excludes security internals, commercial strategy, and unannounced work.
+ * Stages must stay consistent with src/lib/site/claims.ts.
  */
 
 export type RoadmapStage = "shipped" | "in-progress" | "planned" | "exploring";
@@ -38,33 +39,33 @@ export const roadmapStages: { id: RoadmapStage; label: string; note: string }[] 
 export const roadmapItems: RoadmapItem[] = [
   {
     id: "website",
-    title: "Public website and early access",
-    body: "The product story, honest claims, and an early access list that gets invited first.",
+    title: "Public website, docs, and accounts",
+    body: "Product story, honest claims, documentation, glossary, and open signup.",
     stage: "shipped",
   },
   {
     id: "monitoring-core",
     title: "Core monitoring: websites, APIs, SSL, cron",
     body: "Scheduled checks, verification before alerting, and incident records.",
-    stage: "in-progress",
+    stage: "shipped",
   },
   {
     id: "alerting",
     title: "Alert channels: email, Slack, Discord, webhooks",
     body: "Verified incidents routed to the channels teams already watch, with recovery notices.",
-    stage: "in-progress",
+    stage: "shipped",
   },
   {
     id: "status-pages",
     title: "Public status pages",
     body: "Branded pages with components, incident timelines, maintenance windows, subscribers, and uptime history.",
-    stage: "in-progress",
+    stage: "shipped",
   },
   {
     id: "billing",
     title: "Plans and billing",
-    body: "Starter, Pro, and Business plans with published pricing, monthly and annual.",
-    stage: "planned",
+    body: "Starter, Pro, and Business with published pricing, monthly and annual checkout.",
+    stage: "shipped",
   },
   {
     id: "multi-region",

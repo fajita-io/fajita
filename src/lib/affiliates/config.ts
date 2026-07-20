@@ -153,8 +153,8 @@ export const programPublished = true;
  * The concrete legal drafts land in Phase 12H; these track which version an
  * affiliate accepted.
  */
-export const AFFILIATE_TERMS_VERSION = 1;
-export const AFFILIATE_PRIVACY_VERSION = 1;
+export const AFFILIATE_TERMS_VERSION = 2;
+export const AFFILIATE_PRIVACY_VERSION = 2;
 
 /** Stable slug for the program (used in config rows, not user-facing). */
 export const AFFILIATE_PROGRAM_SLUG = "fajita-affiliate";

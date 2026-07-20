@@ -14,7 +14,7 @@ export const metadata: Metadata = buildMetadata({
 export default function SignupPage() {
   return (
     <div>
-      <p className="fj-eyebrow" style={{ marginBottom: "var(--space-3)" }}>
+      <p className="fj-eyebrow fj-page-hero__eyebrow">
         Get started
       </p>
       <h1 className="fj-heading-2" style={{ marginBottom: "var(--space-6)" }}>
@@ -22,9 +22,11 @@ export default function SignupPage() {
       </h1>
 
       <SignUp
+        routing="path"
         path="/signup"
         signInUrl="/login"
         fallbackRedirectUrl="/app"
+        forceRedirectUrl="/app"
       />
 
       <p className="fj-body-sm" style={{ marginTop: "var(--space-6)" }}>

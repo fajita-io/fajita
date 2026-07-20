@@ -1,3 +1,4 @@
+/** @vitest-environment jsdom */
 /**
  * Public form behavior: validation, error and success states, honeypot
  * presence, accessible labeling, and input preservation on failure.

@@ -17,10 +17,30 @@ import { STATUS_PAGE_ZONE } from "@/lib/status-pages/config";
  */
 const isProtectedRoute = createRouteMatcher(["/app(.*)", "/internal(.*)"]);
 
+/** Webhooks and auth callbacks must stay public; handlers verify signatures. */
+const isPublicRoute = createRouteMatcher([
+  "/login(.*)",
+  "/signup(.*)",
+  "/auth(.*)",
+  "/forgot-password(.*)",
+  "/verify-email(.*)",
+  "/api/webhooks(.*)",
+  "/api/ref(.*)",
+  "/billing/checkout(.*)",
+]);
+
 const APP_HOST = (process.env.NEXT_PUBLIC_APP_URL ?? "https://fajita.io")
   .replace(/^https?:\/\//, "")
   .replace(/\/.*$/, "")
   .toLowerCase();
+
+/** Hostnames that always serve the marketing/app shell (never status rewrites). */
+const PLATFORM_HOSTS = new Set([
+  "fajita.io",
+  "www.fajita.io",
+  "localhost",
+  "127.0.0.1",
+]);
 
 /**
  * Resolve status-page host routing. Requests on a hosted subdomain
@@ -47,10 +67,9 @@ function statusHostRewrite(request: NextRequest): URL | null {
   }
 
   const isPrimary =
+    PLATFORM_HOSTS.has(host) ||
     host === APP_HOST ||
     host === `www.${APP_HOST}` ||
-    host === "localhost" ||
-    host === "127.0.0.1" ||
     host.endsWith(".vercel.app");
   if (isPrimary) return null;
 
@@ -133,7 +152,7 @@ export default clerkMiddleware(
       return NextResponse.redirect(referralRedirect);
     }
 
-    if (isProtectedRoute(request)) {
+    if (isProtectedRoute(request) && !isPublicRoute(request)) {
       await auth.protect();
     }
 

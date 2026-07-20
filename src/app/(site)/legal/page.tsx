@@ -23,7 +23,7 @@ export default function LegalPage() {
     <>
       <section className="fj-page-hero">
         <div className="fj-container">
-          <p className="fj-eyebrow" style={{ marginBottom: "var(--space-3)" }}>
+          <p className="fj-eyebrow fj-page-hero__eyebrow">
             Legal
           </p>
           <h1 className="fj-display-2">The paperwork, kept in order.</h1>
@@ -40,37 +40,11 @@ export default function LegalPage() {
 
       <section className="fj-band--tight">
         <div className="fj-container">
-          <ul
-            style={{
-              listStyle: "none",
-              margin: 0,
-              padding: 0,
-              display: "grid",
-              gap: "var(--space-1)",
-              maxWidth: "44rem",
-            }}
-          >
+          <ul className="fj-legal-hub__list">
             {legalDocs.map((doc) => (
-              <li
-                key={doc.id}
-                id={doc.id}
-                style={{
-                  display: "grid",
-                  gap: "var(--space-1)",
-                  padding: "var(--space-5) 0",
-                  borderBottom: "1px solid var(--color-border-subtle)",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "baseline",
-                    justifyContent: "space-between",
-                    gap: "var(--space-4)",
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <h2 className="fj-heading-3" style={{ margin: 0 }}>
+              <li key={doc.id} id={doc.id} className="fj-legal-hub__item">
+                <div className="fj-legal-hub__row">
+                  <h2 className="fj-heading-3 fj-legal-hub__title">
                     {doc.status === "in-force" && doc.href ? (
                       <Link href={doc.href}>{doc.name}</Link>
                     ) : (
@@ -81,27 +55,25 @@ export default function LegalPage() {
                     {doc.status === "in-force" ? "In force" : "Publishes at launch"}
                   </span>
                 </div>
-                <p className="fj-body-sm" style={{ margin: 0 }}>
+                <p className="fj-body-sm fj-legal-hub__summary">
                   {doc.summary}
                 </p>
               </li>
             ))}
           </ul>
 
-          <div style={{ marginTop: "var(--space-10)", maxWidth: "44rem" }}>
+          <div className="fj-legal-hub__contact">
             <h2 className="fj-heading-3">Questions in the meantime</h2>
             <p className="fj-body-sm">
               If you need a legal or privacy answer before a document publishes,{" "}
               <Link href="/contact?topic=product">ask us directly</Link> and a
               person will respond.
             </p>
-            <address
-              className="fj-body-sm"
-              style={{ fontStyle: "normal", marginTop: "var(--space-4)" }}
-            >
+            <address className="fj-body-sm fj-legal-hub__address">
               {company.addressLines.map((line) => (
-                <span key={line} style={{ display: "block" }}>
+                <span key={line}>
                   {line}
+                  <br />
                 </span>
               ))}
             </address>

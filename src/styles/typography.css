@@ -154,36 +154,10 @@
   font-feature-settings: "tnum";
 }
 
-/* Reading prose: documentation, long-form. Measure capped at 68ch. */
+/* Reading prose: measure + inline code. Vertical rhythm in reading.css. */
 .fj-prose {
   font-family: var(--font-sans, var(--font-fallback-sans));
-  font-size: var(--text-body);
-  line-height: var(--leading-body);
-  color: var(--color-text-secondary);
   max-width: var(--container-reading);
-}
-
-.fj-prose h2,
-.fj-prose h3 {
-  color: var(--color-text-primary);
-  line-height: var(--leading-heading);
-  margin: var(--space-8) 0 var(--space-3);
-}
-
-.fj-prose p {
-  margin: 0 0 var(--space-4);
-}
-
-.fj-prose ul,
-.fj-prose ol {
-  margin: 0 0 var(--space-4);
-  padding-left: var(--space-6);
-  display: grid;
-  gap: var(--space-2);
-}
-
-.fj-prose li {
-  margin: 0;
 }
 
 .fj-prose code {
@@ -192,10 +166,4 @@
   background: var(--color-background-inset);
   border-radius: var(--radius-xs);
   padding: 0.1em 0.35em;
-}
-
-.fj-prose a {
-  color: var(--color-brand-text);
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
 }

@@ -4,26 +4,14 @@
  *
  *   SMOKE_BASE_URL=https://fajita.io npm run smoke:public
  */
+import { publicSmokePaths } from "../src/lib/site/public-routes";
+
 const base = (process.env.SMOKE_BASE_URL || "https://fajita.io").replace(
   /\/$/,
   "",
 );
 
-const paths = [
-  "/",
-  "/pricing",
-  "/legal/terms",
-  "/legal/privacy",
-  "/legal/cookies",
-  "/legal/acceptable-use",
-  "/security",
-  "/docs",
-  "/glossary",
-  "/robots.txt",
-  "/sitemap.xml",
-  "/llms.txt",
-  "/api/health",
-];
+const paths = publicSmokePaths();
 
 async function check(path: string) {
   const url = `${base}${path}`;

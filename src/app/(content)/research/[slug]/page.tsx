@@ -57,11 +57,12 @@ export default async function ResearchPage({
   };
 
   return (
-    <article className="fj-content-article__body">
+    <article className="fj-content-article">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <div className="fj-content-article__body">
       <ContentBreadcrumbs
         items={[
           { href: "/research", label: "Research" },
@@ -76,7 +77,9 @@ export default async function ResearchPage({
         </p>
         <p className="fj-content-thesis">{meta.researchQuestion}</p>
       </header>
-      <DocsBlocks blocks={body} />
+      <div className="fj-docs-prose">
+        <DocsBlocks blocks={body} />
+      </div>
       <ContentFeedback
         contentType="research"
         slug={meta.slug}
@@ -85,6 +88,7 @@ export default async function ResearchPage({
       <p className="fj-body-sm">
         <Link href={`/research/raw/${meta.slug}`}>Plain-text version</Link>
       </p>
+      </div>
     </article>
   );
 }

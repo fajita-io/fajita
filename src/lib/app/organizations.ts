@@ -120,19 +120,41 @@ export async function createOrganization(input: {
     throw memberError;
   }
 
-  await db
+  const { error: onboardingError } = await db
     .from("organization_onboarding")
     .insert({ organization_id: org.id, steps: {} });
+  if (onboardingError) {
+    // Org + membership already exist; do not roll back a usable account for a
+    // checklist seed failure. Reconciliation can recreate the onboarding row.
+    console.error("[org] onboarding seed failed", onboardingError.code);
+  }
 
-  await recordAuditEvent({
-    organizationId: org.id,
-    actorUserId: input.profile.id,
-    action: "organization.created",
-    targetType: "organization",
-    targetId: org.id,
-    summary: `Created ${org.name}`,
-    metadata: { slug: org.slug },
-  });
+  try {
+    await recordAuditEvent({
+      organizationId: org.id,
+      actorUserId: input.profile.id,
+      action: "organization.created",
+      targetType: "organization",
+      targetId: org.id,
+      summary: `Created ${org.name}`,
+      metadata: { slug: org.slug },
+    });
+  } catch (auditError) {
+    console.error("[org] audit event failed after create", auditError);
+  }
+
+  try {
+    const { getOrCreateOrgStripeCustomer } = await import("@/lib/billing/customers");
+    await getOrCreateOrgStripeCustomer({
+      organizationId: org.id,
+      organizationName: org.name,
+      billingEmail: input.profile.primary_email,
+      ownerProfileId: input.profile.id,
+      ownerClerkUserId: input.profile.external_id,
+    });
+  } catch (stripeError) {
+    console.error("[org] stripe customer bootstrap failed", stripeError);
+  }
 
   return org;
 }

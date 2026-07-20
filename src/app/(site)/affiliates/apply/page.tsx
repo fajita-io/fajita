@@ -36,8 +36,8 @@ export default async function AffiliateApplyPage() {
   if (!profile) {
     return (
       <section className="fj-page-hero">
-        <div className="fj-container" style={{ maxWidth: "44rem" }}>
-          <p className="fj-eyebrow" style={{ marginBottom: "var(--space-3)" }}>
+        <div className="fj-container fj-container--narrow">
+          <p className="fj-eyebrow fj-page-hero__eyebrow">
             Affiliate program
           </p>
           <h1 className="fj-display-2">Sign in to apply.</h1>
@@ -68,7 +68,7 @@ export default async function AffiliateApplyPage() {
   if (application && LIVE_STATES.has(application.state)) {
     return (
       <section className="fj-page-hero">
-        <div className="fj-container" style={{ maxWidth: "44rem" }}>
+        <div className="fj-container fj-container--narrow">
           <h1 className="fj-display-2">Your application is in.</h1>
           <p className="fj-body-lg fj-page-hero__lede">
             We review each one by hand. You will hear from us by email. There is
@@ -87,8 +87,8 @@ export default async function AffiliateApplyPage() {
   return (
     <>
       <section className="fj-page-hero">
-        <div className="fj-container" style={{ maxWidth: "44rem" }}>
-          <p className="fj-eyebrow" style={{ marginBottom: "var(--space-3)" }}>
+        <div className="fj-container fj-container--narrow">
+          <p className="fj-eyebrow fj-page-hero__eyebrow">
             Affiliate program
           </p>
           <h1 className="fj-display-2">Apply to join.</h1>
@@ -101,7 +101,7 @@ export default async function AffiliateApplyPage() {
       </section>
 
       <section className="fj-band--tight">
-        <div className="fj-container" style={{ maxWidth: "44rem" }}>
+        <div className="fj-container fj-container--narrow">
           <SectionHeading eyebrow="Application" title="A few questions." as="h2" />
           <div style={{ marginTop: "var(--space-6)" }}>
             <AffiliateApplyForm

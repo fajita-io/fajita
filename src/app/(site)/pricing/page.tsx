@@ -37,7 +37,7 @@ function ComparisonCell({
       </span>
     );
   if (value.kind === "at-launch")
-    return <span style={{ color: "var(--color-text-muted)" }}>Publishes with pricing</span>;
+    return <span style={{ color: "var(--color-text-muted)" }}>Included</span>;
   return <span>{value.value}</span>;
 }
 
@@ -46,7 +46,7 @@ export default function PricingPage() {
     <>
       <section className="fj-page-hero">
         <div className="fj-container">
-          <p className="fj-eyebrow" style={{ marginBottom: "var(--space-3)" }}>
+          <p className="fj-eyebrow fj-page-hero__eyebrow">
             Pricing
           </p>
           <h1 className="fj-display-2">
@@ -65,8 +65,9 @@ export default function PricingPage() {
         <div className="fj-container">
           <PlanCards />
 
-          <div className="fj-compare-scroll">
-            <table className="fj-compare">
+          <div className="fj-compare-scroll-outer">
+            <div className="fj-compare-scroll">
+              <table className="fj-compare">
               <caption className="fj-body-sm">
                 What each plan includes. Limits come from the billing catalog.
               </caption>
@@ -99,13 +100,14 @@ export default function PricingPage() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+              </table>
+            </div>
           </div>
         </div>
       </section>
 
       <section className="fj-band--tight">
-        <div className="fj-container" style={{ maxWidth: "56rem" }}>
+        <div className="fj-container fj-container--wide">
           <SectionHeading
             eyebrow="Commitments"
             title="The parts of billing we are deciding in your favor now."
@@ -131,15 +133,15 @@ export default function PricingPage() {
             <div className="fj-fact">
               <p className="fj-fact__label">Refunds</p>
               <p className="fj-body">
-                A written refund policy ships in the{" "}
+                A written refund policy lives in the{" "}
                 <Link
-                  href="/legal"
+                  href="/legal/refunds"
                   style={{ color: "var(--color-brand-text)" }}
                 >
                   legal hub
-                </Link>{" "}
-                before accounts open. The commitment: if Fajita is not working
-                for you early on, you will not have to argue about it.
+                </Link>
+                . The commitment: if Fajita is not working for you early on, you
+                will not have to argue about it.
               </p>
             </div>
             <div className="fj-fact">

@@ -6,9 +6,9 @@
 
 export const AFFILIATE_AGREEMENT_META = {
   title: "Affiliate Program Agreement",
-  version: 1,
-  effectiveDate: "2026-07-17",
-  lastUpdated: "2026-07-17",
+  version: 2,
+  effectiveDate: "2026-07-20",
+  lastUpdated: "2026-07-20",
 } as const;
 
 export type LegalBlock =
@@ -127,13 +127,15 @@ export const affiliateAgreementSections: LegalSection[] = [
   },
   {
     id: "account-status",
-    heading: "7. Account status",
+    heading: "7. Account status and termination",
     blocks: [
       {
         type: "ol",
         items: [
-          "Fajita may pause, suspend, terminate, or close an Affiliate account for policy violations, fraud, inactivity, or for convenience with reasonable notice where required by law.",
-          "Upon termination or closure, unpaid Commissions that are legitimately earned and cleared may still be paid subject to threshold, tax, and fraud review. Tracking of new referrals ceases.",
+          "Fajita may pause, suspend, terminate, or close an Affiliate account for policy violations, fraud, inactivity, failure to provide required tax or payout information, or for convenience with reasonable notice where required by law.",
+          "You may stop participating at any time by closing your affiliate account or notifying Fajita in writing. Closure stops new referral tracking but does not affect obligations that accrued before closure.",
+          "Upon termination or closure, unpaid Commissions that are legitimately earned, cleared through the holding period, and not subject to reversal may still be paid subject to threshold, tax documentation, and fraud review. Fajita may withhold or reverse Commissions related to suspected violations.",
+          "Upon termination, you shall cease use of Referral Links, Fajita brand assets, and promotional materials referencing the Program, except for factual statements about past participation where required by law.",
         ],
       },
     ],
@@ -153,8 +155,37 @@ export const affiliateAgreementSections: LegalSection[] = [
     ],
   },
   {
+    id: "publicity",
+    heading: "9. Publicity and brand use",
+    blocks: [
+      {
+        type: "ol",
+        items: [
+          "The Affiliate shall not represent itself as Fajita, as an employee or agent of Fajita, or as having authority to bind Fajita.",
+          "Use of Fajita names, logos, and brand assets is limited to materials provided in the Affiliate dashboard or creative library and only while the Affiliate remains in good standing.",
+          "Fajita may reference the Affiliate's business name and public channels in Program communications with the Affiliate's consent where required by law.",
+        ],
+      },
+    ],
+  },
+  {
+    id: "compliance",
+    heading: "10. Compliance and audit",
+    blocks: [
+      {
+        type: "ol",
+        items: [
+          "The Affiliate shall comply with applicable advertising, endorsement, privacy, and anti-spam laws in every jurisdiction where the Affiliate promotes Fajita.",
+          "The Affiliate shall maintain records of promotional placements and disclosures sufficient to demonstrate compliance upon reasonable request.",
+          "Fajita may request information or remove promotional materials that violate this Agreement, applicable law, or Fajita brand guidelines.",
+          "The Affiliate shall comply with applicable export, sanctions, and trade laws and represents that it is not located in or organized under the laws of a comprehensively sanctioned jurisdiction.",
+        ],
+      },
+    ],
+  },
+  {
     id: "contractor",
-    heading: "9. Independent contractor",
+    heading: "11. Independent contractor",
     blocks: [
       {
         type: "p",
@@ -164,7 +195,7 @@ export const affiliateAgreementSections: LegalSection[] = [
   },
   {
     id: "warranties",
-    heading: "10. Warranties and disclaimers",
+    heading: "12. Warranties and disclaimers",
     blocks: [
       {
         type: "ol",
@@ -177,7 +208,7 @@ export const affiliateAgreementSections: LegalSection[] = [
   },
   {
     id: "liability",
-    heading: "11. Limitation of liability",
+    heading: "13. Limitation of liability",
     blocks: [
       {
         type: "p",
@@ -187,7 +218,7 @@ export const affiliateAgreementSections: LegalSection[] = [
   },
   {
     id: "indemnity",
-    heading: "12. Indemnity",
+    heading: "14. Indemnity",
     blocks: [
       {
         type: "p",
@@ -197,7 +228,7 @@ export const affiliateAgreementSections: LegalSection[] = [
   },
   {
     id: "term",
-    heading: "13. Term and changes",
+    heading: "15. Term and changes",
     blocks: [
       {
         type: "ol",
@@ -210,7 +241,7 @@ export const affiliateAgreementSections: LegalSection[] = [
   },
   {
     id: "general",
-    heading: "14. General",
+    heading: "16. General",
     blocks: [
       {
         type: "ol",
@@ -221,7 +252,8 @@ export const affiliateAgreementSections: LegalSection[] = [
           "Assignment. The Affiliate may not assign this Agreement without Fajita's prior written consent. Fajita may assign this Agreement to a corporate affiliate or successor.",
           "Severability; entire agreement; waiver. If any provision is unenforceable, the remainder remains in effect. This Agreement, together with the Program Terms and Affiliate Privacy Notice accepted at enrollment, constitutes the entire agreement on the subject matter. Failure to enforce a provision is not a waiver.",
           "Force majeure. Neither party is liable for delay or failure caused by events beyond reasonable control.",
-          "Survival. Sections 4.3, 5, 8, 10, 11, 12, and 14 survive termination or closure to the extent needed to wind down Commissions, recover amounts owed, and enforce this Agreement.",
+          "Electronic records. Electronic acceptance, click-wrap acknowledgment, and electronic notices satisfy any writing requirement to the extent permitted by law.",
+          "Survival. Sections 4.3, 5, 8, 12, 13, 14, and 16 survive termination or closure to the extent needed to wind down Commissions, recover amounts owed, and enforce this Agreement.",
         ],
       },
     ],

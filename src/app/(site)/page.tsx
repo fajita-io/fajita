@@ -272,7 +272,7 @@ export default function HomePage() {
 
       {/* 7 · Lightweight positioning */}
       <section className="fj-band--tight">
-        <div className="fj-container" style={{ maxWidth: "56rem" }}>
+        <div className="fj-container fj-container--wide">
           <SectionHeading
             eyebrow="Focus"
             title="Monitoring without the monitoring department."
@@ -309,7 +309,11 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="Pricing"
             title="Three plans. No usage traps."
-            lede={pricingConfig.unpublishedNote}
+            lede={
+              pricingConfig.published
+                ? pricingConfig.publishedNote
+                : pricingConfig.unpublishedNote
+            }
             as="h2"
           />
           <div className="fj-plans">
@@ -328,6 +332,18 @@ export default function HomePage() {
                   {plan.monitorLimit ?? "Unlimited"}
                   <span>monitors</span>
                 </p>
+                {pricingConfig.published && plan.monthlyUsd !== null ? (
+                  <p className="fj-heading-3" style={{ margin: 0 }}>
+                    ${plan.monthlyUsd}
+                    <span
+                      className="fj-body-sm"
+                      style={{ color: "var(--color-text-muted)" }}
+                    >
+                      {" "}
+                      / month
+                    </span>
+                  </p>
+                ) : null}
               </div>
             ))}
           </div>
@@ -350,7 +366,7 @@ export default function HomePage() {
               <SectionHeading
                 eyebrow="Security"
                 title="Built to watch your infrastructure without becoming a risk to it."
-                lede="A monitoring tool holds a map of what matters to you. Fajita is being built to hold it carefully."
+                lede="A monitoring tool holds a map of what matters to you. Fajita is built to hold it carefully."
                 as="h2"
               />
               <p style={{ marginTop: "var(--space-6)" }}>

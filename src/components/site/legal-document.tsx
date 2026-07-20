@@ -52,30 +52,23 @@ export function LegalDocument({
   return (
     <>
       <section className="fj-page-hero">
-        <div className="fj-container" style={{ maxWidth: "44rem" }}>
-          <p className="fj-eyebrow" style={{ marginBottom: "var(--space-3)" }}>
-            {eyebrow}
-          </p>
+        <div className="fj-container fj-legal-doc">
+          <p className="fj-eyebrow fj-page-hero__eyebrow">{eyebrow}</p>
           <h1 className="fj-display-2">{title}</h1>
-          <p className="fj-body-sm" style={{ marginTop: "var(--space-3)" }}>
-            {effectiveLabel}
-          </p>
+          <p className="fj-body-sm fj-page-hero__meta">{effectiveLabel}</p>
         </div>
       </section>
 
       <section className="fj-band--tight">
-        <article
-          className="fj-container fj-prose"
-          style={{ maxWidth: "44rem", display: "grid", gap: "var(--space-6)" }}
-        >
-          <div style={{ display: "grid", gap: "var(--space-4)" }}>
+        <article className="fj-container fj-prose fj-legal-doc">
+          <div className="fj-legal-doc__intro">
             <Blocks blocks={intro} />
           </div>
           {sections.map((section) => (
             <section
               key={section.id}
               id={section.id}
-              style={{ display: "grid", gap: "var(--space-3)" }}
+              className="fj-legal-doc__section"
             >
               <h2 className="fj-heading-3">{section.heading}</h2>
               <Blocks blocks={section.blocks} />

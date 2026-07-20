@@ -23,7 +23,11 @@ describe("claims registry", () => {
     expect(isMarketable("multi-region-verification")).toBe(false);
     expect(isMarketable("alert-teams")).toBe(false);
     expect(isMarketable("alert-sms")).toBe(false);
-    expect(isMarketable("pricing-amounts")).toBe(false);
+  });
+
+  it("published pricing amounts are marketable when pricing is published", () => {
+    expect(pricingConfig.published).toBe(true);
+    expect(isMarketable("pricing-amounts")).toBe(true);
   });
 
   it("every claim id is unique", () => {
@@ -45,18 +49,13 @@ describe("pricing centralization", () => {
     }
   });
 
-  it("no dollar amounts exist anywhere while pricing is unpublished", () => {
-    expect(pricingConfig.published).toBe(false);
+  it("published plans expose catalog dollar amounts", () => {
+    expect(pricingConfig.published).toBe(true);
     for (const plan of publicPlans) {
-      expect(plan.monthlyUsd).toBeNull();
-      expect(plan.yearlyUsd).toBeNull();
-    }
-    for (const row of comparisonRows) {
-      for (const value of row.values) {
-        if (value.kind === "text") {
-          expect(value.value).not.toMatch(/\$/);
-        }
-      }
+      expect(plan.monthlyUsd).toBeTypeOf("number");
+      expect(plan.yearlyUsd).toBeTypeOf("number");
+      expect(plan.monthlyUsd!).toBeGreaterThan(0);
+      expect(plan.yearlyUsd!).toBeGreaterThan(0);
     }
   });
 
@@ -110,6 +109,7 @@ describe("copy standard", () => {
     ...legalDocs.flatMap((d) => [d.name, d.summary]),
     ...publicPlans.map((p) => p.audience),
     pricingConfig.unpublishedNote,
+    pricingConfig.publishedNote,
   ];
 
   it("no em dashes in customer-facing content", () => {
@@ -145,10 +145,24 @@ describe("changelog and roadmap integrity", () => {
     }
   });
 
-  it("no legal document is marked in force before launch", () => {
-    for (const doc of legalDocs) {
-      expect(doc.status).toBe("in-preparation");
-      expect(doc.href).toBeUndefined();
+  it("in-force legal documents have published routes", () => {
+    const inForce = legalDocs.filter((d) => d.status === "in-force");
+    expect(inForce.length).toBeGreaterThan(0);
+    for (const doc of inForce) {
+      expect(doc.href).toMatch(/^\/legal\//);
     }
+  });
+
+  it("roadmap shipped items match marketable core claims", () => {
+    const shipped = roadmapItems.filter((r) => r.stage === "shipped").map((r) => r.id);
+    expect(shipped).toEqual(
+      expect.arrayContaining([
+        "website",
+        "monitoring-core",
+        "alerting",
+        "status-pages",
+        "billing",
+      ]),
+    );
   });
 });

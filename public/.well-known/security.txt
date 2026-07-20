@@ -1,0 +1,5 @@
+Contact: https://fajita.io/contact?topic=security
+Expires: 2027-07-20T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://fajita.io/.well-known/security.txt
+Policy: https://fajita.io/legal/disclosure
