@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { IncidentCard } from "@/components/status-public/status-page-view";
@@ -74,9 +75,9 @@ export default async function FajitaServiceStatusIncidentPage({ params }: Params
       lang={page.locale || "en"}
     >
       <div className="sp-shell">
-        <a className="sp-back" href="/status">
+        <Link className="sp-back" href="/status">
           ← {page.name} status
-        </a>
+        </Link>
         <IncidentCard
           incident={incident}
           basePath="/status"

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { formatInstant } from "@/lib/status-pages/format";
@@ -67,9 +68,9 @@ export default async function FajitaServiceStatusHistoryPage({
       lang={page.locale || "en"}
     >
       <div className="sp-shell">
-        <a className="sp-back" href="/status">
+        <Link className="sp-back" href="/status">
           ← {page.name} status
-        </a>
+        </Link>
         <h1 className="sp-banner__title" style={{ marginBottom: "24px" }}>
           Incident history
         </h1>
