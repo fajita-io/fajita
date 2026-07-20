@@ -42,7 +42,7 @@ export function validateSupportAnswer(answer: SupportAnswer): ValidationFailure[
 
   if (/sms|phone alert|phone-call/i.test(text) && /support(s|ed)?/i.test(text)) {
     const smsClaim = publicClaims.find((c) => c.id === "alert-sms");
-    if (smsClaim && smsClaim.status !== "available-now" && smsClaim.status !== "at-launch") {
+    if (smsClaim && smsClaim.status !== "available-now" && smsClaim.status !== "included") {
       if (!/does not currently support sms/i.test(text)) {
         failures.push({
           code: "unsupported_feature_claim",

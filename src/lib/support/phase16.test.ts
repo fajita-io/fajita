@@ -122,7 +122,7 @@ describe("Phase 16 knowledge and answers", () => {
 });
 
 describe("Phase 16 feature flag", () => {
-  it("exposes pamphletSupport as public_beta", () => {
-    expect(FEATURE_REGISTRY.pamphletSupport.stage).toBe("public_beta");
+  it("exposes pamphletSupport as ga", () => {
+    expect(FEATURE_REGISTRY.pamphletSupport.stage).toBe("ga");
   });
 });

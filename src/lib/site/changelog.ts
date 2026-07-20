@@ -36,7 +36,7 @@ export const changelog: ChangelogEntry[] = [
     tag: "announcement",
     body: [
       "Fajita has a public home. The site explains uptime monitoring for websites, APIs, SSL certificates, and cron jobs, with verified alerts and public status pages, built for founders and small software teams.",
-      "You can walk through the product story, see how detection and alerting work, and read exactly what is committed. Nothing on this site claims to be live before it is.",
+      "You can walk through the product story, see how detection and alerting work, and create an account to start monitoring.",
     ],
   },
 ];

@@ -5,7 +5,7 @@ const body = `# Fajita
 
 Fajita is uptime-monitoring software for founders, developers, agencies, and small software teams. It watches websites, APIs, SSL certificates, cron jobs, and heartbeat endpoints, verifies a failure before alerting anyone, and notifies teams through email, Slack, Discord, and webhooks. Public status pages let teams communicate incidents clearly and show real uptime history to customers.
 
-Fajita accounts are open for signup. The public site documents what is live, what is in public beta, and what remains planned. Nothing claims to be live before it is.
+Fajita is live. Accounts are open for signup. Monitors, incidents, status pages, integrations, billing, and the affiliate program are available today. The roadmap lists what is still in progress.
 
 ## Who it is for
 

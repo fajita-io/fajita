@@ -50,7 +50,7 @@ async function requireAlertsAccess(organizationId: string) {
   const access = await requireOrganizationPermission(organizationId, "integrations:manage");
   const admin = await isPlatformAdmin();
   const enabled = await isFeatureEnabled("integrations", organizationId);
-  if (!admin && !enabled) throw Forbidden("Alert channels are not available yet.");
+  if (!admin && !enabled) throw Forbidden("Alert channels are unavailable on your current plan.");
   return access;
 }
 

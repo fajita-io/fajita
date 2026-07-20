@@ -66,7 +66,7 @@ export default async function BillingOverviewPage() {
         <dl className="fj-stat-list">
           <div>
             <dt>Plan</dt>
-            <dd>{planName ?? (state.isBetaGrant ? "Beta access" : "No plan")}</dd>
+            <dd>{planName ?? (state.isBetaGrant ? "Included" : "No plan")}</dd>
           </div>
           <div>
             <dt>Status</dt>

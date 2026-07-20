@@ -21,7 +21,7 @@ const SEGMENT_LABELS: Record<string, string> = {
   onboarding: "Setup",
   "new-organization": "New organization",
   support: "Support",
-  "coming-soon": "Coming soon",
+  "coming-soon": "Unavailable",
 };
 
 interface Crumb {

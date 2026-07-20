@@ -177,12 +177,12 @@ export const termsSections: LegalSection[] = [
     ],
   },
   {
-    id: "beta",
-    heading: "10. Beta, preview, and early access features",
+    id: "preview",
+    heading: "10. Preview and experimental features",
     blocks: [
       {
         type: "p",
-        text: 'Fajita may offer beta, preview, early access, or experimental features ("Preview Features"). Preview Features may be incomplete, change without notice, or be withdrawn at any time. Preview Features are provided "AS IS," may not be covered by support commitments, and may be subject to additional terms presented at enrollment.',
+        text: 'Fajita may offer preview or experimental features ("Preview Features"). Preview Features may be incomplete, change without notice, or be withdrawn at any time. Preview Features are provided "AS IS," may not be covered by support commitments, and may be subject to additional terms presented at enrollment.',
       },
     ],
   },

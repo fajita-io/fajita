@@ -71,8 +71,7 @@ function journeyDays(): UptimeDay[] {
  * The signature interactive section: the complete future Fajita journey,
  * simulated locally. No account, no backend writes, no network requests,
  * no user-supplied URLs. Deterministic fixtures only. The demo never
- * claims a real monitor was created; the closing step hands off to the
- * early-access CTA.
+ * claims a real monitor was created; the closing step hands off to signup.
  */
 export function ProductJourney() {
   const [step, setStep] = useState(0);

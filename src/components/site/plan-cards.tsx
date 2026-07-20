@@ -25,10 +25,8 @@ const planLines: Record<string, string[]> = {
 };
 
 /**
- * Plan cards. While pricing is unpublished (pricingConfig.published =
- * false) no dollar amounts render anywhere; the cards sell the shape of
- * each plan and route to early access. Amounts appear automatically once
- * the central config publishes them.
+ * Plan cards. When pricing is unpublished, dollar amounts stay hidden;
+ * the cards still sell plan shape and route to signup.
  */
 export function PlanCards() {
   return (
@@ -62,7 +60,7 @@ export function PlanCards() {
             </p>
           ) : (
             <p className="fj-body-sm fj-plan__price-unpublished">
-              Pricing publishes when accounts open.
+              See pricing on the pricing page.
             </p>
           )}
 

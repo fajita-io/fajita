@@ -98,6 +98,7 @@ describe("site footer", () => {
     expect(hrefs).toContain("/legal");
     expect(hrefs).toContain("/security");
     expect(hrefs).toContain("/status");
+    expect(hrefs).toContain("https://www.linkedin.com/company/fajita-io");
     for (const required of ["/blog", "/docs", "/glossary", "/tools"]) {
       expect(hrefs).toContain(required);
     }

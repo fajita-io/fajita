@@ -36,7 +36,7 @@ async function requireMaintenanceAccess(organizationId: string) {
   const admin = await isPlatformAdmin();
   const enabled = await isFeatureEnabled("maintenance", organizationId);
   if (!admin && !enabled) {
-    throw Forbidden("Maintenance windows are not available yet.");
+    throw Forbidden("Maintenance windows are unavailable on your current plan.");
   }
   return access;
 }

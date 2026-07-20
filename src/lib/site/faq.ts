@@ -1,7 +1,7 @@
 /**
  * FAQ content. Homepage uses homeFaq; pricing uses billingFaq.
  * Answers must stay consistent with src/lib/site/claims.ts and
- * accountsOpen / pricingConfig.published in site-config and pricing.
+ * pricingConfig.published in site-config and pricing.
  */
 
 export interface FaqItem {

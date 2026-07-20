@@ -29,7 +29,7 @@ What serious small-team monitoring includes:
 What Fajita deliberately is not:
 - Not APM, not logs, not traces, not infrastructure agents
 - Not an on-call scheduler (PagerDuty replacement)
-- Not SMS/phone alerts at launch
+- Not SMS/phone alerts yet
 - Not a free-forever monitoring tier
 `.trim();
 

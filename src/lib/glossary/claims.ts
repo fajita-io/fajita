@@ -40,7 +40,7 @@ const ALLOWED_CLAIM_IDS = [
 ] as const;
 
 function isPubliclyClaimable(status: ClaimStatus): boolean {
-  return status === "available-now" || status === "at-launch";
+  return status === "available-now" || status === "included";
 }
 
 export function assertProductAreaAllowed(area: string): void {

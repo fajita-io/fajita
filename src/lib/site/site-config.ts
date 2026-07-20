@@ -1,7 +1,7 @@
 /**
  * Central public-site configuration. Every customer-facing constant that
  * could otherwise scatter across components lives here: URLs, CTA labels,
- * launch state, and contact routing.
+ * and contact routing.
  *
  * Docs: /docs/website/public-copy-system.md
  */
@@ -9,18 +9,11 @@
 export const siteUrl =
   process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") ?? "https://fajita.io";
 
-/**
- * Launch state. When true, primary CTAs route to signup and the site may
- * invite visitors to create an account. Product access still follows feature
- * flags and billing entitlements.
- */
-export const accountsOpen = true;
-
 export const cta = {
   /** The one dominant action across the site. */
   primary: {
-    label: accountsOpen ? "Start monitoring" : "Get early access",
-    href: accountsOpen ? "/signup" : "/early-access",
+    label: "Start monitoring",
+    href: "/signup",
   },
   secondary: {
     label: "See how it works",
@@ -32,6 +25,10 @@ export const company = {
   name: "Fajita",
   addressLines: ["Fajita", "1001 S Main St, Ste 600", "Kalispell, MT 59901"],
   addressSingleLine: "Fajita · 1001 S Main St, Ste 600, Kalispell, MT 59901",
+} as const;
+
+export const social = {
+  linkedIn: "https://www.linkedin.com/company/fajita-io",
 } as const;
 
 /**

@@ -24,7 +24,7 @@ export const pricingConfig = {
   /** True when dollar amounts may appear on customer-facing surfaces. */
   published: true as boolean,
   unpublishedNote:
-    "Pricing publishes when accounts open. Early access members see it first, before anyone is asked to pay.",
+    "Pricing is on the pricing page. Pick a plan and start monitoring.",
   /** Lede used when amounts are published (homepage preview, pricing hero). */
   publishedNote:
     "Starter, Pro, and Business. Clear monitor limits. Monthly or annual. No usage traps.",
@@ -68,7 +68,7 @@ export type ComparisonValue =
   | { kind: "text"; value: string }
   | { kind: "yes" }
   | { kind: "no" }
-  | { kind: "at-launch" };
+  | { kind: "included" };
 
 export interface ComparisonRow {
   label: string;

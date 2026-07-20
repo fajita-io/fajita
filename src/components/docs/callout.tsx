@@ -8,7 +8,7 @@ const CALLOUT_LABELS: Record<CalloutKind, string> = {
   warning: "Warning",
   security: "Security",
   plan: "Plan requirement",
-  beta: "Beta",
+  beta: "New",
   deprecated: "Deprecated",
 };
 

@@ -36,7 +36,7 @@ function ComparisonCell({
         <span className="fj-visually-hidden">Not included</span>
       </span>
     );
-  if (value.kind === "at-launch")
+  if (value.kind === "included")
     return <span style={{ color: "var(--color-text-muted)" }}>Included</span>;
   return <span>{value.value}</span>;
 }

@@ -68,7 +68,7 @@ async function requireManage(organizationId: string): Promise<OrgAccess> {
   const access = await requireOrganizationPermission(organizationId, "status_pages:manage");
   const admin = await isPlatformAdmin();
   const enabled = await isFeatureEnabled("statusPages", organizationId);
-  if (!admin && !enabled) throw Forbidden("Status pages are not available yet.");
+  if (!admin && !enabled) throw Forbidden("Status pages are unavailable on your current plan.");
   return access;
 }
 
@@ -76,7 +76,7 @@ async function requirePublish(organizationId: string): Promise<OrgAccess> {
   const access = await requireOrganizationPermission(organizationId, "status_pages:publish");
   const admin = await isPlatformAdmin();
   const enabled = await isFeatureEnabled("statusPages", organizationId);
-  if (!admin && !enabled) throw Forbidden("Status pages are not available yet.");
+  if (!admin && !enabled) throw Forbidden("Status pages are unavailable on your current plan.");
   return access;
 }
 

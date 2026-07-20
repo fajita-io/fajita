@@ -29,7 +29,7 @@ What serious small-team monitoring includes:
 What Fajita deliberately is not:
 - Not APM, not logs, not traces, not infrastructure agents
 - Not an on-call scheduler (PagerDuty replacement)
-- Not SMS/phone alerts at launch
+- Not SMS/phone alerts yet
 - Not a free-forever monitoring tier
 
 ## Objection handling (honest, specific, close toward signup)
@@ -105,7 +105,7 @@ Fajita watches SSL certificates for upcoming expiry and invalid chains, and warn
 Fajita monitors cron jobs and background work through heartbeat URLs and expected schedules, and alerts when a job goes quiet.
 Services can ping a private heartbeat URL; a missed ping counts as a failure.
 Fajita re-checks a failure before alerting anyone, so one dropped packet does not page the team.
-Fast check intervals, with exact per-plan frequency published alongside pricing at launch.
+Check intervals from five minutes on Starter to one minute on Pro and Business. See pricing for plan limits.
 Verified incidents alert the team by email.
 Verified incidents alert a Slack channel.
 Verified incidents alert a Discord channel.
@@ -133,8 +133,7 @@ Accounts are open for signup at /signup.
 The contact form delivers messages to the Fajita team and messages are stored securely.
 Fajita runs an affiliate program that pays commissions on eligible referred subscriptions.
 Any specific commission percentage, recurring months, or payout minimum.
-Ask Fajita answers product questions from approved documentation and can send a conversation to Fajita support.
-Ask Fajita is powered by Pamphlet.
+Ask Fajita answers product and sales questions from approved documentation, handles objections honestly, and can route conversations to Fajita support.
 Not currently supported or not marketable:
 multi-region-verification: Confirmation checks from multiple regions. (planned)
 alert-teams: Microsoft Teams integration. (planned)

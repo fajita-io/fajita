@@ -32,8 +32,8 @@ export default function LegalPage() {
             publishes the day it takes effect, written to be read rather than
             skimmed past.
             {inForceCount > 0
-              ? ` ${inForceCount === 1 ? "One document is" : `${inForceCount} documents are`} in force today; the rest publish as accounts and policies open.`
-              : " None are in force yet because accounts are not open yet."}
+              ? ` ${inForceCount === 1 ? "One document is" : `${inForceCount} documents are`} in force today.`
+              : ""}
           </p>
         </div>
       </section>
@@ -52,7 +52,7 @@ export default function LegalPage() {
                     )}
                   </h2>
                   <span className="fj-tag">
-                    {doc.status === "in-force" ? "In force" : "Publishes at launch"}
+                    {doc.status === "in-force" ? "In force" : "In preparation"}
                   </span>
                 </div>
                 <p className="fj-body-sm fj-legal-hub__summary">

@@ -10,9 +10,8 @@
 export type ClaimStatus =
   /** Live and verifiable today. */
   | "available-now"
-  /** Committed launch scope. May be described in product copy with the
-   *  early-access frame; must not be presented as live today. */
-  | "at-launch"
+  /** Committed scope shipping with the product. May appear in comparison tables. */
+  | "included"
   /** Under consideration or scheduled after launch. May appear on the
    *  roadmap only. Must not appear in feature marketing. */
   | "planned"
@@ -79,7 +78,7 @@ export const publicClaims: PublicClaim[] = [
   {
     id: "check-intervals",
     statement:
-      "Fast check intervals, with exact per-plan frequency published alongside pricing at launch.",
+      "Check intervals from five minutes on Starter to one minute on Pro and Business. See pricing for plan limits.",
     status: "available-now",
     notes:
       "Do not publish a specific number of seconds anywhere until entitlements are final.",
@@ -252,10 +251,10 @@ export const publicClaims: PublicClaim[] = [
 
   /* Website itself */
   {
-    id: "site-early-access",
+    id: "site-signup",
     statement: "Accounts are open for signup at /signup.",
     status: "available-now",
-    notes: "Legacy /early-access redirects to signup while accountsOpen is true.",
+    notes: "Legacy /early-access URL redirects to /signup.",
   },
   {
     id: "site-contact",
@@ -329,5 +328,5 @@ export function getClaim(id: string): PublicClaim {
 /** True when the claim may appear in feature marketing (not just roadmap). */
 export function isMarketable(id: string): boolean {
   const s = getClaim(id).status;
-  return s === "available-now" || s === "at-launch";
+  return s === "available-now" || s === "included";
 }

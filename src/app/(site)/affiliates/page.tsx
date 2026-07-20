@@ -50,8 +50,8 @@ const APPLICANT_STATUS_COPY: Record<
   },
   waitlisted: {
     badge: "maintenance",
-    label: "Waitlisted",
-    body: "You are on the list. We open seats in waves and will reach out when one is yours.",
+    label: "In queue",
+    body: "Your application is queued. We review in order and email you when there is a decision.",
   },
   rejected: {
     badge: "down",
@@ -142,8 +142,8 @@ export default async function AffiliatesPage() {
           <div className="fj-fact" style={{ borderColor: "var(--color-amber-border, var(--color-border))" }}>
             <p className="fj-fact__label">Preview</p>
             <p className="fj-body-sm" style={{ margin: 0 }}>
-              The program is not open yet. These terms are provisional and
-              pending final review. This page is visible to the team only.
+              The affiliate program is in final review. This preview is visible
+              to the team only.
             </p>
           </div>
         </div>

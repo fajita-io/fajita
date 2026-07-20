@@ -14,9 +14,13 @@ const channels = [
 
 export function AlertFlow({ animated = true }: { animated?: boolean }) {
   return (
-    <figure style={{ margin: 0 }} data-flow-animated={animated || undefined}>
+    <figure
+      className="fj-alert-flow-figure"
+      data-flow-animated={animated || undefined}
+    >
       <svg
-        viewBox="0 0 640 260"
+        viewBox="0 0 640 284"
+        preserveAspectRatio="xMidYMid meet"
         className="fj-alert-flow"
         role="img"
         aria-label="A confirmed incident routes from the monitor through verification to email, Slack, Discord, and webhook channels. Delivery is confirmed per channel, and a recovery message follows the same paths when checks pass again."
@@ -143,7 +147,7 @@ export function AlertFlow({ animated = true }: { animated?: boolean }) {
           </g>
         ))}
       </svg>
-      <figcaption className="fj-caption" style={{ marginTop: "var(--space-2)" }}>
+      <figcaption className="fj-alert-flow-figure__caption fj-caption">
         One verified incident, four channels, delivery confirmed. Recovery
         sends one clear all-clear along the same paths.
       </figcaption>

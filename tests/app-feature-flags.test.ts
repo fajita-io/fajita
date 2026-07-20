@@ -17,25 +17,23 @@ describe("feature stages", () => {
     expect(isStageAvailable("disabled")).toBe(false);
   });
 
-  it("later-phase product features are hidden and shell features are GA", () => {
+  it("product and shell features are GA for customers", () => {
     const map = baseFeatureMap();
-    // Monitors reached public beta in Phase 5.
     expect(map.monitors).toBe(true);
-    // Incidents/maintenance are private beta in Phase 6 (not customer-available).
-    expect(map.incidents).toBe(false);
-    expect(map.maintenance).toBe(false);
-    expect(map.statusPages).toBe(false);
-    expect(map.billing).toBe(false);
+    expect(map.incidents).toBe(true);
+    expect(map.maintenance).toBe(true);
+    expect(map.statusPages).toBe(true);
+    expect(map.billing).toBe(true);
     expect(map.commandPalette).toBe(true);
     expect(map.notificationCenter).toBe(true);
-    expect(FEATURE_REGISTRY.monitors.stage).toBe("public_beta");
+    expect(FEATURE_REGISTRY.monitors.stage).toBe("ga");
   });
 });
 
 describe("navigation gating", () => {
   const features = baseFeatureMap();
 
-  it("hides not-yet-available product routes from a member", () => {
+  it("shows product routes to a member", () => {
     const nav = buildNav({
       features,
       permissions: permissionsFor("member"),
@@ -44,10 +42,9 @@ describe("navigation gating", () => {
     const labels = nav.flatMap((g) => g.items.map((i) => i.label));
     expect(labels).toContain("Overview");
     expect(labels).toContain("Team");
-    // Monitors is public beta and visible; incidents/maintenance are not yet.
     expect(labels).toContain("Monitors");
-    expect(labels).not.toContain("Incidents");
-    expect(labels).not.toContain("Maintenance");
+    expect(labels).toContain("Incidents");
+    expect(labels).toContain("Maintenance");
   });
 
   it("shows reserved product routes to a platform admin", () => {

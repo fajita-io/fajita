@@ -222,7 +222,7 @@ function entitlementsSource(): KnowledgeSource {
 
 function claimsSource(): KnowledgeSource {
   const marketable = publicClaims.filter(
-    (c) => c.status === "available-now" || c.status === "at-launch",
+    (c) => c.status === "available-now" || c.status === "included",
   );
   const unsupported = publicClaims.filter(
     (c) => c.status === "planned" || c.status === "internal-only",

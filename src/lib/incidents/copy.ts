@@ -64,7 +64,7 @@ export const PUBLIC_UPDATE_SAVED_NOTICE =
   "Saved for future status-page publication. No external message has been sent.";
 
 export const DELIVERY_PENDING_NOTICE =
-  "Alert delivery is not available yet. This event is recorded for future delivery.";
+  "Alert delivery is unavailable on your current plan. This event is recorded for your timeline.";
 
 /** Human label for a timeline event type. Unknown types fall back to the raw. */
 const EVENT_TITLES: Record<string, string> = {

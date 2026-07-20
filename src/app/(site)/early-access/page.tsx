@@ -1,65 +1,16 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { ThermalStack } from "@/components/brand/thermal-stack/thermal-stack";
-import { EarlyAccessForm } from "@/components/site/early-access-form";
 import { buildMetadata } from "@/lib/site/metadata";
-import { accountsOpen } from "@/lib/site/site-config";
 
 export const metadata: Metadata = buildMetadata({
-  title: accountsOpen ? "Create your account" : "Get early access",
-  description: accountsOpen
-    ? "Fajita accounts are open. Create an account to monitor websites, APIs, SSL certificates, and cron jobs."
-    : "Fajita accounts open in stages. Leave your email and yours is one of the first invitations we send.",
+  title: "Create your account",
+  description:
+    "Create a Fajita account to monitor websites, APIs, SSL certificates, and cron jobs.",
   path: "/early-access",
 });
 
-/**
- * Legacy early-access URL. When accounts are open, send people to signup
- * so the waitlist page cannot contradict open CTAs.
- */
+/** Legacy URL. Always send visitors to signup. */
 export default function EarlyAccessPage() {
-  if (accountsOpen) {
-    redirect("/signup");
-  }
-
-  return (
-    <div className="fj-auth">
-      <div className="fj-auth__panel">
-        <div>
-          <p className="fj-eyebrow fj-page-hero__eyebrow">
-            Early access
-          </p>
-          <h1 className="fj-heading-1" style={{ marginBottom: "var(--space-4)" }}>
-            Be watching from day one.
-          </h1>
-          <p className="fj-body" style={{ marginBottom: "var(--space-8)" }}>
-            Accounts open in stages. Leave your email and yours is one of the
-            first invitations we send. No card, no commitment.
-          </p>
-
-          <EarlyAccessForm source="early-access" />
-
-          <p className="fj-body-sm" style={{ marginTop: "var(--space-8)" }}>
-            Want to see the product first?{" "}
-            <Link href="/#how-it-works">Walk through the demo</Link> or{" "}
-            <Link href="/features">read the features</Link>.
-          </p>
-        </div>
-      </div>
-
-      <aside className="fj-auth__aside" aria-hidden="true">
-        <div style={{ maxWidth: "28rem", marginInline: "auto", width: "100%" }}>
-          <ThermalStack state="operational" />
-          <p
-            className="fj-caption"
-            style={{ marginTop: "var(--space-5)", textAlign: "center" }}
-          >
-            Five services, held steady. The state you will stop worrying about.
-          </p>
-        </div>
-      </aside>
-    </div>
-  );
+  redirect("/signup");
 }

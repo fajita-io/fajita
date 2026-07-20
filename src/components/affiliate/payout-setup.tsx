@@ -81,7 +81,7 @@ export function PayoutSetup({
       if (result.data?.url) {
         window.location.href = result.data.url;
       } else {
-        setMessage("Payout setup is not available yet.");
+        setMessage("Payout setup is unavailable right now. Try again in a moment.");
       }
     });
   }
