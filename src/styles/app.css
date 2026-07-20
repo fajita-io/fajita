@@ -95,8 +95,8 @@
 
 .fj-authshell__flow {
   display: grid;
-  gap: var(--space-8);
-  width: min(100%, 26rem);
+  gap: var(--space-6);
+  width: min(100%, 24rem);
 }
 
 .fj-authshell__flow-header {
@@ -108,6 +108,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
+  color: var(--color-text-primary);
 }
 
 .fj-authshell__flow-eyebrow::before {
@@ -116,14 +117,17 @@
   height: 0.45rem;
   flex-shrink: 0;
   background: var(--color-brand-ember);
-  clip-path: polygon(50% 0, 0 100%, 100% 100%);
+  clip-path: polygon(100% 50%, 0 0, 0 100%);
 }
 
 .fj-authshell__flow-title {
   margin: 0;
-  font-size: clamp(1.875rem, 1.5rem + 1.1vw, 2.375rem);
+  font-family: var(--font-sans, var(--font-fallback-sans));
+  font-size: clamp(1.75rem, 1.5rem + 0.9vw, 2rem);
+  font-weight: 700;
   letter-spacing: -0.02em;
-  line-height: 1.08;
+  line-height: 1.12;
+  color: var(--color-text-primary);
 }
 
 .fj-authshell__flow-lede {
@@ -132,52 +136,46 @@
   max-width: 28ch;
 }
 
-.fj-authshell__card {
-  background: var(--color-background-elevated);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-low);
-  padding: var(--space-6);
+.fj-authshell__clerk {
+  width: 100%;
 }
 
-.fj-authshell__card .cl-rootBox,
-.fj-authshell__card .cl-cardBox,
-.fj-authshell__card .cl-card,
-.fj-authshell__card [class*="cl-rootBox"],
-.fj-authshell__card [class*="cl-cardBox"],
-.fj-authshell__card [class*="cl-card"]:not([class*="cardBox"]) {
+/* Clerk SignIn / SignUp inside the auth shell. Use exact .cl-* selectors only.
+   Partial [class*="..."] matches break nested Clerk parts (e.g. BlockButtonText). */
+.fj-authshell .cl-rootBox,
+.fj-authshell .cl-cardBox,
+.fj-authshell .cl-card {
   width: 100%;
   max-width: none;
 }
 
-/* Clerk SignIn / SignUp rhythm inside the Fajita auth card */
-.fj-authshell__card .cl-main,
-.fj-authshell__card [class*="cl-main"] {
+.fj-authshell .cl-main {
   display: grid;
   gap: var(--space-5);
 }
 
-.fj-authshell__card .cl-socialButtonsRoot,
-.fj-authshell__card [class*="socialButtonsRoot"] {
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  background: transparent !important;
+.fj-authshell .cl-socialButtonsRoot {
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  background: transparent;
 }
 
-.fj-authshell__card .cl-socialButtons,
-.fj-authshell__card [class*="cl-socialButtons"]:not([class*="BlockButton"]):not([class*="IconButton"]):not([class*="Provider"]) {
+.fj-authshell .cl-socialButtons {
   display: grid;
   gap: var(--space-3);
   width: 100%;
 }
 
-.fj-authshell__card .cl-socialButtonsBlockButton,
-.fj-authshell__card [class*="socialButtonsBlockButton"] {
+.fj-authshell .cl-socialButtonsBlockButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
   width: 100%;
   min-height: var(--touch-target-lg);
-  border: 1.5px solid var(--color-border-strong);
+  border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-sm);
   background: var(--color-background-elevated);
   box-shadow: none;
@@ -187,55 +185,68 @@
     border-color var(--motion-fast) var(--ease-standard);
 }
 
-.fj-authshell__card .cl-socialButtonsBlockButton:hover,
-.fj-authshell__card [class*="socialButtonsBlockButton"]:hover {
+.fj-authshell .cl-socialButtonsBlockButton:hover {
   background: var(--color-background-secondary);
   border-color: var(--color-text-primary);
 }
 
-.fj-authshell__card .cl-dividerRow,
-.fj-authshell__card [class*="dividerRow"] {
-  margin-block: var(--space-5);
+.fj-authshell .cl-socialButtonsBlockButtonText {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  min-height: auto;
+  width: auto;
+  padding: 0;
+}
+
+.fj-authshell .cl-dividerRow {
+  margin-block: var(--space-4);
   gap: var(--space-3);
 }
 
-.fj-authshell__card .cl-dividerLine,
-.fj-authshell__card [class*="dividerLine"] {
+.fj-authshell .cl-dividerLine {
   background: var(--color-border-subtle);
   height: 1px;
 }
 
-.fj-authshell__card .cl-dividerText,
-.fj-authshell__card [class*="dividerText"] {
+.fj-authshell .cl-dividerText {
   color: var(--color-text-muted);
   font-size: var(--text-caption);
   padding-inline: var(--space-3);
 }
 
-.fj-authshell__card .cl-form,
-.fj-authshell__card [class*="cl-form"]:not([class*="formField"]):not([class*="formButton"]):not([class*="formHeader"]):not([class*="formContainer"]) {
+.fj-authshell .cl-form {
   display: grid;
   gap: var(--space-4);
 }
 
-.fj-authshell__card .cl-formField,
-.fj-authshell__card [class*="formField"]:not([class*="formFieldRow"]):not([class*="formFieldLabel"]):not([class*="formFieldInput"]):not([class*="formFieldError"]):not([class*="formFieldHint"]):not([class*="formFieldSuccess"]):not([class*="formFieldWarning"]):not([class*="formFieldInfo"]) {
+.fj-authshell .cl-formFieldRow {
+  margin: 0;
+}
+
+.fj-authshell .cl-formField {
   display: grid;
   gap: var(--space-2);
 }
 
-.fj-authshell__card .cl-formFieldLabel,
-.fj-authshell__card [class*="formFieldLabel"] {
+.fj-authshell .cl-formFieldLabelRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.fj-authshell .cl-formFieldLabel {
   font-size: var(--text-body-sm);
   font-weight: 600;
   color: var(--color-text-primary);
+  margin: 0;
 }
 
-.fj-authshell__card .cl-formFieldInput,
-.fj-authshell__card [class*="formFieldInput"] {
+.fj-authshell .cl-formFieldInput {
   min-height: var(--touch-target-lg);
   padding: var(--space-3) var(--space-4);
-  border: 1.5px solid var(--color-border-strong);
+  border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-sm);
   background: var(--color-background-elevated);
   box-shadow: none;
@@ -243,46 +254,85 @@
   transition: border-color var(--motion-fast) var(--ease-standard);
 }
 
-.fj-authshell__card .cl-formFieldInput:focus-visible,
-.fj-authshell__card [class*="formFieldInput"]:focus-visible {
+.fj-authshell .cl-formFieldInput:focus-visible {
   outline: 2px solid var(--color-focus-ring);
   outline-offset: 1px;
   border-color: var(--color-brand-ember);
 }
 
-.fj-authshell__card .cl-formButtonPrimary,
-.fj-authshell__card [class*="formButtonPrimary"] {
+.fj-authshell .cl-formFieldAction {
+  color: var(--color-text-primary);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--color-brand-ember);
+  text-underline-offset: 0.18em;
+}
+
+.fj-authshell .cl-formFieldAction:hover {
+  color: var(--color-brand-ember);
+}
+
+.fj-authshell .cl-formButtonPrimary {
   width: 100%;
   min-height: var(--touch-target-lg);
-  margin-top: var(--space-1);
+  margin-top: var(--space-2);
   border-radius: var(--radius-sm);
   font-weight: 600;
   box-shadow: none;
+  background: var(--color-text-primary);
+  color: var(--color-background-primary);
 }
 
-.fj-authshell__card .cl-formButtonPrimary:hover,
-.fj-authshell__card [class*="formButtonPrimary"]:hover:not(:disabled) {
-  background: var(--color-brand-ember-strong);
+.fj-authshell .cl-formButtonPrimary:hover:not(:disabled) {
+  background: var(--color-text-secondary);
+}
+
+.fj-authshell .cl-formButtonPrimaryIcon,
+.fj-authshell .cl-formButtonPrimaryArrowIcon {
+  display: none;
 }
 
 .fj-authshell__flow-footer {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-5);
   padding-top: var(--space-2);
 }
 
 .fj-authshell__flow-legal {
   margin: 0;
-  max-width: 34ch;
+  max-width: 36ch;
+  color: var(--color-text-secondary);
 }
 
 .fj-authshell__flow-footer .fj-body-sm {
   margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.fj-authshell__flow-footer a {
+  color: var(--color-text-primary);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--color-brand-ember);
+  text-underline-offset: 0.18em;
+}
+
+.fj-authshell__flow-footer a:hover {
+  color: var(--color-brand-ember);
+}
+
+/* Legacy alias: some routes still wrap Clerk in a card shell. */
+.fj-authshell__card {
+  width: 100%;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
 }
 
 /* Hide Clerk badge if dashboard branding removal is not enabled yet. */
-.fj-authshell .cl-footerPages,
-.fj-authshell [class*="cl-footerPages"] {
+.fj-authshell .cl-footerPages {
   display: none !important;
 }
 
@@ -308,10 +358,6 @@
   .fj-authshell__form {
     align-items: flex-start;
     padding: var(--space-4) 0 var(--space-6);
-  }
-
-  .fj-authshell__card {
-    padding: var(--space-5);
   }
 }
 

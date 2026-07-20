@@ -9,43 +9,49 @@ import {
   syncGeniusIdentity,
   syncGeniusRouteContext,
 } from "@/lib/genius/client";
+import { subscribeGeniusReady } from "@/lib/genius/ready";
 
 /**
  * Keeps Genius identify, account, and route context aligned with the
- * authenticated app session. Safe before the script finishes loading.
+ * authenticated app session. Re-runs when the widget script finishes loading.
  */
 export function GeniusSync() {
   const pathname = usePathname();
   const { profile, activeOrg, billingPlanLabel } = useApp();
 
   useEffect(() => {
-    syncGeniusIdentity({
-      userId: profile.id,
-      email: profile.email,
-      displayName: profile.displayName,
-      orgRole: activeOrg?.role ?? null,
-      planLabel: billingPlanLabel,
-    });
+    const syncAll = () => {
+      syncGeniusIdentity({
+        userId: profile.id,
+        email: profile.email,
+        displayName: profile.displayName,
+        orgRole: activeOrg?.role ?? null,
+        planLabel: billingPlanLabel,
+      });
+
+      if (activeOrg) {
+        syncGeniusAccount({
+          organizationId: activeOrg.id,
+          organizationName: activeOrg.name,
+          planLabel: billingPlanLabel,
+        });
+      }
+
+      syncGeniusRouteContext(pathname);
+    };
+
+    syncAll();
+    return subscribeGeniusReady(syncAll);
   }, [
     profile.id,
     profile.email,
     profile.displayName,
     activeOrg?.role,
+    activeOrg?.id,
+    activeOrg?.name,
     billingPlanLabel,
+    pathname,
   ]);
-
-  useEffect(() => {
-    if (!activeOrg) return;
-    syncGeniusAccount({
-      organizationId: activeOrg.id,
-      organizationName: activeOrg.name,
-      planLabel: billingPlanLabel,
-    });
-  }, [activeOrg?.id, activeOrg?.name, billingPlanLabel]);
-
-  useEffect(() => {
-    syncGeniusRouteContext(pathname);
-  }, [pathname]);
 
   return null;
 }

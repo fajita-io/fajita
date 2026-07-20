@@ -1265,10 +1265,6 @@ body[data-nav-open="true"] {
   color: var(--color-text-secondary);
 }
 
-.fj-plans--flush {
-  margin-top: 0;
-}
-
 .fj-plan__header {
   margin: 0;
 }

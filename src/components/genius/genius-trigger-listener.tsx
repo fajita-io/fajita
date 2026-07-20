@@ -4,7 +4,11 @@ import { useEffect } from "react";
 
 import { trackGoal } from "@/lib/analytics/client";
 import { DataFastGoals } from "@/lib/analytics/goals";
-import type { GeniusOpenSource } from "@/lib/genius/client";
+import {
+  openGeniusFeedback,
+  type GeniusOpenSource,
+} from "@/lib/genius/client";
+import type { GeniusCategory } from "@/lib/genius/types";
 
 const SOURCE_ATTR = "data-genius-source";
 
@@ -23,9 +27,23 @@ function sourceFromElement(el: Element): GeniusOpenSource {
   return "button";
 }
 
+function categoryFromElement(el: Element): GeniusCategory | undefined {
+  const raw = el.getAttribute("data-genius-category");
+  if (
+    raw === "idea" ||
+    raw === "confusion" ||
+    raw === "bug" ||
+    raw === "praise"
+  ) {
+    return raw;
+  }
+  return undefined;
+}
+
 /**
  * Tracks opens from declarative `data-genius-open` triggers inside the app
- * shell. Genius handles the actual modal; we only record analytics.
+ * shell. When a category is set, opens programmatically so context and
+ * category reach Genius together.
  */
 export function GeniusTriggerListener() {
   useEffect(() => {
@@ -36,16 +54,17 @@ export function GeniusTriggerListener() {
       const trigger = target.closest("[data-genius-open]");
       if (!trigger || !trigger.closest(".fj-app")) return;
 
-      const category = trigger.getAttribute("data-genius-category");
-      trackGoal(DataFastGoals.geniusOpened, {
-        source: sourceFromElement(trigger),
-        ...(category === "idea" ||
-        category === "confusion" ||
-        category === "bug" ||
-        category === "praise"
-          ? { category }
-          : {}),
-      });
+      const source = sourceFromElement(trigger);
+      const category = categoryFromElement(trigger);
+
+      if (category) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        openGeniusFeedback({ source, category });
+        return;
+      }
+
+      trackGoal(DataFastGoals.geniusOpened, { source });
     };
 
     document.addEventListener("click", onClick, true);

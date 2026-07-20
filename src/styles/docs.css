@@ -429,6 +429,14 @@
 .fj-docs-code__pre {
   margin: 0;
   border-radius: 0;
+  background: var(--color-background-inverse);
+  color: var(--color-text-inverse);
+}
+
+[data-theme="dark"] .fj-docs-code__pre {
+  background: var(--color-background-inset);
+  color: var(--color-text-primary);
+  border-top: 1px solid var(--color-border-subtle);
 }
 
 /* ---------------------------------------------------------------- */

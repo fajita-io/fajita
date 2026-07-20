@@ -27,7 +27,7 @@ const planLines: Record<string, string[]> = {
 
 export function PlanCards() {
   return (
-    <div className="fj-plans fj-plans--flush">
+    <div className="fj-plans">
       {publicPlans.map((plan) => (
         <div
           key={plan.id}

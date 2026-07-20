@@ -27,15 +27,13 @@ export default async function SignupPage({
     <div className="fj-authshell__flow">
       <header className="fj-authshell__flow-header">
         <p className="fj-eyebrow fj-authshell__flow-eyebrow">Create account</p>
-        <h1 className="fj-heading-2 fj-authshell__flow-title">
-          Start with Fajita
-        </h1>
+        <h1 className="fj-authshell__flow-title">Start with Fajita</h1>
         <p className="fj-body fj-authshell__flow-lede">
           Create your account, choose a plan, then set up your first monitor.
         </p>
       </header>
 
-      <div className="fj-authshell__card">
+      <div className="fj-authshell__clerk">
         <SignUp
           routing="path"
           path="/signup"
@@ -46,6 +44,12 @@ export default async function SignupPage({
       </div>
 
       <footer className="fj-authshell__flow-footer">
+        <p className="fj-body-sm fj-authshell__flow-legal">
+          By continuing you agree to Fajita&apos;s{" "}
+          <Link href="/legal/terms">Terms</Link> and{" "}
+          <Link href="/legal/privacy">Privacy Policy</Link>. Need help?{" "}
+          <Link href="/contact">Contact support</Link>.
+        </p>
         <p className="fj-body-sm">
           Already have an account? <Link href="/login">Log in</Link>
         </p>
