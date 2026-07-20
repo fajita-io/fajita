@@ -17,22 +17,25 @@ export const metadata: Metadata = buildMetadata({
  */
 export default function VerifyEmailPage() {
   return (
-    <div>
-      <p className="fj-eyebrow fj-page-hero__eyebrow">
-        One more step
-      </p>
-      <h1 className="fj-heading-2" style={{ marginBottom: "var(--space-4)" }}>
-        Verify your email.
-      </h1>
-      <p className="fj-body" style={{ marginBottom: "var(--space-6)" }}>
-        Check your inbox for a verification code from Fajita and enter it on the
-        sign-up screen. The code expires shortly, so if it lapses, request a new
-        one.
-      </p>
-      <p className="fj-body-sm">
-        Wrong address or need to start over?{" "}
-        <Link href="/signup">Back to sign up</Link>.
-      </p>
+    <div className="fj-authshell__flow">
+      <header className="fj-authshell__flow-header">
+        <p className="fj-eyebrow">One more step</p>
+        <h1 className="fj-heading-2 fj-authshell__flow-title">
+          Verify your email
+        </h1>
+        <p className="fj-body fj-authshell__flow-lede">
+          Check your inbox for a verification code from Fajita and enter it on
+          the sign-up screen. The code expires shortly, so if it lapses,
+          request a new one.
+        </p>
+      </header>
+
+      <footer className="fj-authshell__flow-footer">
+        <p className="fj-body-sm">
+          Wrong address or need to start over?{" "}
+          <Link href="/signup">Back to sign up</Link>.
+        </p>
+      </footer>
     </div>
   );
 }

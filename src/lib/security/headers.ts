@@ -6,6 +6,8 @@ const clerkDevHost = "https://*.clerk.accounts.dev";
 const clerkProductionFrontend = "https://clerk.fajita.io";
 const clerkProductionAccounts = "https://accounts.fajita.io";
 const datafastHost = "https://datafa.st";
+/** In-app feedback widget (authenticated /app shell only). */
+const geniusHost = "https://genius.ly";
 const googleAnalyticsHost = "https://www.google-analytics.com";
 const googleTagManagerHost = "https://www.googletagmanager.com";
 const supabaseHost = "https://*.supabase.co";
@@ -13,7 +15,7 @@ const sentryHost = "https://*.ingest.sentry.io";
 
 /**
  * Production security headers for marketing, auth, app, and API routes.
- * CSP allows Clerk, DataFast, Google Analytics, Supabase, and Sentry while blocking framing
+ * CSP allows Clerk, DataFast, Genius, Google Analytics, Supabase, and Sentry while blocking framing
  * and tightening defaults elsewhere.
  */
 export function buildSecurityHeaders(): NonNullable<
@@ -24,6 +26,7 @@ export function buildSecurityHeaders(): NonNullable<
     [
       "script-src 'self' 'unsafe-inline'",
       datafastHost,
+      geniusHost,
       googleTagManagerHost,
       clerkDevHost,
       clerkProductionFrontend,
@@ -32,6 +35,7 @@ export function buildSecurityHeaders(): NonNullable<
     [
       "connect-src 'self'",
       datafastHost,
+      geniusHost,
       googleAnalyticsHost,
       googleTagManagerHost,
       "https://analytics.google.com",

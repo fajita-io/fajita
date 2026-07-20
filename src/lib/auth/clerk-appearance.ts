@@ -8,12 +8,13 @@
  * Docs: docs/application/application-shell.md (auth surfaces).
  */
 export const clerkAppearance = {
+  elevation: "flush" as const,
   variables: {
     colorPrimary: "var(--color-brand-ember)",
     colorText: "var(--color-text-primary)",
     colorTextSecondary: "var(--color-text-secondary)",
-    colorBackground: "var(--color-background-elevated)",
-    colorInputBackground: "var(--color-background-primary)",
+    colorBackground: "transparent",
+    colorInputBackground: "var(--color-background-elevated)",
     colorInputText: "var(--color-text-primary)",
     colorDanger: "var(--color-status-down-bold)",
     colorSuccess: "var(--color-status-operational-bold)",
@@ -23,18 +24,63 @@ export const clerkAppearance = {
     fontFamilyButtons: "var(--font-sans)",
   },
   elements: {
+    rootBox: {
+      width: "100%",
+      maxWidth: "none",
+    },
+    cardBox: {
+      width: "100%",
+      maxWidth: "none",
+    },
     card: {
-      boxShadow: "var(--shadow-mid)",
+      boxShadow: "none",
+      border: "none",
+      backgroundColor: "transparent",
+      padding: 0,
+    },
+    header: { display: "none" },
+    headerTitle: { display: "none" },
+    headerSubtitle: { display: "none" },
+    logoBox: { display: "none" },
+    footer: { display: "none" },
+    footerPages: { display: "none" },
+    footerAction: { display: "none" },
+    socialButtonsBlockButton: {
       border: "1px solid var(--color-border-subtle)",
       backgroundColor: "var(--color-background-elevated)",
+      boxShadow: "none",
+      fontWeight: 500,
     },
-    headerTitle: { fontFamily: "var(--font-display)" },
+    socialButtonsBlockButtonText: {
+      fontWeight: 500,
+    },
+    dividerLine: {
+      backgroundColor: "var(--color-border-subtle)",
+    },
+    dividerText: {
+      color: "var(--color-text-muted)",
+      fontSize: "var(--text-caption)",
+    },
+    formFieldLabel: {
+      fontWeight: 600,
+      color: "var(--color-text-primary)",
+    },
+    formFieldInput: {
+      border: "1px solid var(--color-border-subtle)",
+      boxShadow: "none",
+    },
     formButtonPrimary: {
       backgroundColor: "var(--color-brand-ember)",
       textTransform: "none",
       fontWeight: 600,
+      boxShadow: "none",
+    },
+    formButtonReset: {
+      color: "var(--color-brand-ember)",
+    },
+    identityPreviewEditButton: {
+      color: "var(--color-brand-ember)",
     },
     footerActionLink: { color: "var(--color-brand-ember)" },
-    logoBox: { display: "none" },
   },
 };

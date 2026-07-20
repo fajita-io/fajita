@@ -25,14 +25,19 @@ export function AccountStateScreen({
 }) {
   const copy = COPY[kind];
   return (
-    <div className="fj-authshell">
-      <header className="fj-authshell__bar">
-        <Link href="/" aria-label="Fajita home">
-          <FajitaLogo orientation="horizontal" size={28} />
-        </Link>
-      </header>
-      <main id="main" className="fj-authshell__main" style={{ gridTemplateColumns: "1fr" }}>
-        <div className="fj-authshell__form" style={{ maxWidth: "32rem", textAlign: "center" }}>
+    <div className="fj-authshell fj-authshell--solo">
+      <main id="main" className="fj-authshell__panel">
+        <div
+          className="fj-authshell__form"
+          style={{ maxWidth: "32rem", textAlign: "center" }}
+        >
+          <Link
+            href="/"
+            aria-label="Fajita home"
+            style={{ display: "inline-flex", marginBottom: "var(--space-8)" }}
+          >
+            <FajitaLogo orientation="horizontal" size={28} />
+          </Link>
           <h1 className="fj-heading-2" style={{ marginBottom: "var(--space-4)" }}>
             {copy.title}
           </h1>

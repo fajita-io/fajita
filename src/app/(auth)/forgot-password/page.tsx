@@ -19,21 +19,25 @@ export const metadata: Metadata = buildMetadata({
  */
 export default function ForgotPasswordPage() {
   return (
-    <div>
-      <p className="fj-eyebrow fj-page-hero__eyebrow">
-        Account recovery
-      </p>
-      <h1 className="fj-heading-2" style={{ marginBottom: "var(--space-4)" }}>
-        Reset your password.
-      </h1>
-      <p className="fj-body" style={{ marginBottom: "var(--space-6)" }}>
-        Start from the login screen and choose &ldquo;Forgot password.&rdquo; We
-        will email a verification code, then let you set a new one.
-      </p>
+    <div className="fj-authshell__flow">
+      <header className="fj-authshell__flow-header">
+        <p className="fj-eyebrow">Account recovery</p>
+        <h1 className="fj-heading-2 fj-authshell__flow-title">
+          Reset your password
+        </h1>
+        <p className="fj-body fj-authshell__flow-lede">
+          Start from the login screen and choose &ldquo;Forgot password.&rdquo;
+          We will email a verification code, then let you set a new one.
+        </p>
+      </header>
+
       <BrandButtonLink href="/login">Go to login</BrandButtonLink>
-      <p className="fj-body-sm" style={{ marginTop: "var(--space-6)" }}>
-        Still stuck? <Link href="/contact">Contact support</Link>.
-      </p>
+
+      <footer className="fj-authshell__flow-footer">
+        <p className="fj-body-sm">
+          Still stuck? <Link href="/contact">Contact support</Link>.
+        </p>
+      </footer>
     </div>
   );
 }
