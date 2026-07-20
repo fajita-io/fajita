@@ -136,14 +136,133 @@
   background: var(--color-background-elevated);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-mid);
+  box-shadow: var(--shadow-low);
   padding: var(--space-6);
 }
 
 .fj-authshell__card .cl-rootBox,
 .fj-authshell__card .cl-cardBox,
-.fj-authshell__card .cl-card {
+.fj-authshell__card .cl-card,
+.fj-authshell__card [class*="cl-rootBox"],
+.fj-authshell__card [class*="cl-cardBox"],
+.fj-authshell__card [class*="cl-card"]:not([class*="cardBox"]) {
   width: 100%;
+  max-width: none;
+}
+
+/* Clerk SignIn / SignUp rhythm inside the Fajita auth card */
+.fj-authshell__card .cl-main,
+.fj-authshell__card [class*="cl-main"] {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.fj-authshell__card .cl-socialButtonsRoot,
+.fj-authshell__card [class*="socialButtonsRoot"] {
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+}
+
+.fj-authshell__card .cl-socialButtons,
+.fj-authshell__card [class*="cl-socialButtons"]:not([class*="BlockButton"]):not([class*="IconButton"]):not([class*="Provider"]) {
+  display: grid;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.fj-authshell__card .cl-socialButtonsBlockButton,
+.fj-authshell__card [class*="socialButtonsBlockButton"] {
+  width: 100%;
+  min-height: var(--touch-target-lg);
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-background-elevated);
+  box-shadow: none;
+  font-weight: 600;
+  transition:
+    background-color var(--motion-fast) var(--ease-standard),
+    border-color var(--motion-fast) var(--ease-standard);
+}
+
+.fj-authshell__card .cl-socialButtonsBlockButton:hover,
+.fj-authshell__card [class*="socialButtonsBlockButton"]:hover {
+  background: var(--color-background-secondary);
+  border-color: var(--color-text-primary);
+}
+
+.fj-authshell__card .cl-dividerRow,
+.fj-authshell__card [class*="dividerRow"] {
+  margin-block: var(--space-5);
+  gap: var(--space-3);
+}
+
+.fj-authshell__card .cl-dividerLine,
+.fj-authshell__card [class*="dividerLine"] {
+  background: var(--color-border-subtle);
+  height: 1px;
+}
+
+.fj-authshell__card .cl-dividerText,
+.fj-authshell__card [class*="dividerText"] {
+  color: var(--color-text-muted);
+  font-size: var(--text-caption);
+  padding-inline: var(--space-3);
+}
+
+.fj-authshell__card .cl-form,
+.fj-authshell__card [class*="cl-form"]:not([class*="formField"]):not([class*="formButton"]):not([class*="formHeader"]):not([class*="formContainer"]) {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.fj-authshell__card .cl-formField,
+.fj-authshell__card [class*="formField"]:not([class*="formFieldRow"]):not([class*="formFieldLabel"]):not([class*="formFieldInput"]):not([class*="formFieldError"]):not([class*="formFieldHint"]):not([class*="formFieldSuccess"]):not([class*="formFieldWarning"]):not([class*="formFieldInfo"]) {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.fj-authshell__card .cl-formFieldLabel,
+.fj-authshell__card [class*="formFieldLabel"] {
+  font-size: var(--text-body-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.fj-authshell__card .cl-formFieldInput,
+.fj-authshell__card [class*="formFieldInput"] {
+  min-height: var(--touch-target-lg);
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-background-elevated);
+  box-shadow: none;
+  font-size: var(--text-body);
+  transition: border-color var(--motion-fast) var(--ease-standard);
+}
+
+.fj-authshell__card .cl-formFieldInput:focus-visible,
+.fj-authshell__card [class*="formFieldInput"]:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 1px;
+  border-color: var(--color-brand-ember);
+}
+
+.fj-authshell__card .cl-formButtonPrimary,
+.fj-authshell__card [class*="formButtonPrimary"] {
+  width: 100%;
+  min-height: var(--touch-target-lg);
+  margin-top: var(--space-1);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.fj-authshell__card .cl-formButtonPrimary:hover,
+.fj-authshell__card [class*="formButtonPrimary"]:hover:not(:disabled) {
+  background: var(--color-brand-ember-strong);
 }
 
 .fj-authshell__flow-footer {
