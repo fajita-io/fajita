@@ -16,7 +16,6 @@ import { publicDocs } from "../src/lib/docs/registry";
 import { GLOSSARY_CATEGORIES } from "../src/lib/glossary/frontmatter";
 import { publicTerms } from "../src/lib/glossary/registry";
 import { featureOrder } from "../src/lib/site/features";
-import { INTEGRATION_DIRECTORY } from "../src/lib/site/integration-directory";
 import { legalDocs } from "../src/lib/site/legal";
 
 function pathFromUrl(url: string): string {
@@ -50,7 +49,6 @@ function expectedPaths(): Set<string> {
   ]);
 
   for (const slug of featureOrder) paths.add(`/features/${slug}`);
-  for (const entry of INTEGRATION_DIRECTORY) paths.add(`/integrations/${entry.slug}`);
 
   for (const doc of legalDocs) {
     if (doc.status === "in-force" && doc.href && !doc.noindex) {

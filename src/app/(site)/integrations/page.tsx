@@ -15,13 +15,6 @@ export const metadata: Metadata = buildMetadata({
   path: "/integrations",
 });
 
-const detailSlug: Record<string, string> = {
-  email: "email",
-  slack: "slack",
-  discord: "discord",
-  webhook: "webhooks",
-};
-
 export default function IntegrationsPage() {
   return (
     <>
@@ -42,38 +35,31 @@ export default function IntegrationsPage() {
       <section className="fj-band--tight">
         <div className="fj-container">
           <div className="fj-integrations fj-integrations--flush">
-            {integrations.map((integration) => {
-              const slug = detailSlug[integration.id] ?? integration.id;
-              return (
-                <Link
-                  key={integration.id}
-                  href={`/integrations/${slug}`}
-                  className="fj-integration-card"
-                >
-                  <div className="fj-integration-card__head">
-                    <span className="fj-integration-card__glyph">
-                      <BrandIcon name={INTEGRATION_CHANNEL_ICON[integration.id]} size={22} />
+            {integrations.map((integration) => (
+              <article key={integration.id} className="fj-integration-card">
+                <div className="fj-integration-card__head">
+                  <span className="fj-integration-card__glyph">
+                    <BrandIcon name={INTEGRATION_CHANNEL_ICON[integration.id]} size={22} />
+                  </span>
+                  <div>
+                    <h2 className="fj-heading-3 fj-integration-card__title">
+                      {integration.name}
+                    </h2>
+                    <span className="fj-caption">
+                      {integration.status === "available"
+                        ? "Available now"
+                        : "Planned"}
                     </span>
-                    <div>
-                      <h2 className="fj-heading-3 fj-integration-card__title">
-                        {integration.name}
-                      </h2>
-                      <span className="fj-caption">
-                        {integration.status === "available"
-                          ? "Available now"
-                          : "Planned"}
-                      </span>
-                    </div>
                   </div>
-                  <p className="fj-body-sm fj-integration-card__summary">
-                    {integration.summary}
-                  </p>
-                  <p className="fj-body-sm fj-integration-card__payload">
-                    {integration.payload}
-                  </p>
-                </Link>
-              );
-            })}
+                </div>
+                <p className="fj-body-sm fj-integration-card__summary">
+                  {integration.summary}
+                </p>
+                <p className="fj-body-sm fj-integration-card__payload">
+                  {integration.payload}
+                </p>
+              </article>
+            ))}
           </div>
 
           <p className="fj-body-sm fj-band-note">

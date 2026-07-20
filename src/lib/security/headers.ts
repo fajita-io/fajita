@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
-const clerkHost = "https://*.clerk.accounts.dev";
+/** Dev/test Clerk instances (*.clerk.accounts.dev). */
+const clerkDevHost = "https://*.clerk.accounts.dev";
+/** Production Clerk custom domains (DNS-only CNAMEs on fajita.io). */
+const clerkProductionFrontend = "https://clerk.fajita.io";
+const clerkProductionAccounts = "https://accounts.fajita.io";
 const datafastHost = "https://datafa.st";
 const googleAnalyticsHost = "https://www.google-analytics.com";
 const googleTagManagerHost = "https://www.googletagmanager.com";
@@ -21,7 +25,8 @@ export function buildSecurityHeaders(): NonNullable<
       "script-src 'self' 'unsafe-inline'",
       datafastHost,
       googleTagManagerHost,
-      clerkHost,
+      clerkDevHost,
+      clerkProductionFrontend,
       "https://challenges.cloudflare.com",
     ].join(" "),
     [
@@ -31,7 +36,9 @@ export function buildSecurityHeaders(): NonNullable<
       googleTagManagerHost,
       "https://analytics.google.com",
       "https://region1.google-analytics.com",
-      clerkHost,
+      clerkDevHost,
+      clerkProductionFrontend,
+      clerkProductionAccounts,
       supabaseHost,
       sentryHost,
       "https://*.clerk.com",
@@ -40,11 +47,14 @@ export function buildSecurityHeaders(): NonNullable<
     "style-src 'self' 'unsafe-inline'",
     [
       "font-src 'self' data:",
-      clerkHost,
+      clerkDevHost,
+      clerkProductionFrontend,
     ].join(" "),
     [
       "frame-src 'self'",
-      clerkHost,
+      clerkDevHost,
+      clerkProductionFrontend,
+      clerkProductionAccounts,
       "https://challenges.cloudflare.com",
     ].join(" "),
     "object-src 'none'",

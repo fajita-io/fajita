@@ -21,8 +21,6 @@ const routes: Array<[string, string]> = [
   ["/features/status-pages", "feat-status"],
   ["/features/incident-communication", "feat-incident"],
   ["/integrations", "integrations"],
-  ["/integrations/slack", "integration-slack"],
-  ["/integrations/discord", "integration-discord"],
   ["/security", "security"],
   ["/about", "about"],
   ["/contact", "contact"],

@@ -12,7 +12,6 @@ import {
 } from "@/lib/content/registry";
 import { GLOSSARY_CATEGORIES } from "@/lib/glossary/frontmatter";
 import { publicTerms } from "@/lib/glossary/registry";
-import { INTEGRATION_DIRECTORY } from "@/lib/site/integration-directory";
 import { legalDocs } from "@/lib/site/legal";
 
 const siteUrl =
@@ -58,12 +57,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const featureRoutes = featureOrder.map((slug) => ({
     path: `/features/${slug}`,
     priority: 0.8,
-    changeFrequency: "monthly" as const,
-  }));
-
-  const integrationDetailRoutes = INTEGRATION_DIRECTORY.map((entry) => ({
-    path: `/integrations/${entry.slug}`,
-    priority: 0.6,
     changeFrequency: "monthly" as const,
   }));
 
@@ -157,7 +150,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...staticRoutes,
     docsHub,
     ...featureRoutes,
-    ...integrationDetailRoutes,
     ...docsRoutes,
     glossaryHub,
     glossaryUpdates,

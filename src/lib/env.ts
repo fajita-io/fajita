@@ -136,6 +136,12 @@ const serverSchema = z
    * returns 404. Prefer a long random value in production.
    */
   CRON_SECRET: z.string().optional(),
+  /**
+   * Published status-page slug for Fajita's own service status at /status.
+   * When set and the page is public, /status reads the live snapshot; otherwise
+   * an honest fallback is shown from platform self-monitoring definitions.
+   */
+  FAJITA_SERVICE_STATUS_SLUG: z.string().optional(),
 });
 
 let cachedServer: z.infer<typeof serverSchema> | null = null;
@@ -163,6 +169,7 @@ export function serverEnv(): z.infer<typeof serverSchema> {
     AFFILIATE_WORKER_TOKEN: process.env.AFFILIATE_WORKER_TOKEN,
     STRIPE_CONNECT_CLIENT_ID: process.env.STRIPE_CONNECT_CLIENT_ID,
     CRON_SECRET: process.env.CRON_SECRET,
+    FAJITA_SERVICE_STATUS_SLUG: process.env.FAJITA_SERVICE_STATUS_SLUG,
   });
   if (!parsed.success) {
     const missing = parsed.error.issues.map((i) => i.path.join(".")).join(", ");

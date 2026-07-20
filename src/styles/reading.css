@@ -337,19 +337,17 @@
   display: flex;
   justify-content: flex-start;
   padding-top: var(--space-6);
-  border-top: 1px solid transparent;
+  padding-bottom: var(--space-6);
   opacity: 0;
   transform: translate3d(0, 12px, 0);
   transition:
     opacity 0.7s var(--ease-enter),
-    transform 0.7s var(--ease-enter),
-    border-color 0.5s var(--ease-enter);
+    transform 0.7s var(--ease-enter);
 }
 
 .fj-reading-attribution[data-revealed] {
   opacity: 1;
   transform: translate3d(0, 0, 0);
-  border-top-color: var(--color-border-subtle);
 }
 
 .fj-powered-by-wiki {

@@ -10,7 +10,6 @@ import { publicComparisons, publicResearch, publicTools } from "@/lib/content/re
 import { publicDocs } from "@/lib/docs/registry";
 import { publicTerms } from "@/lib/glossary/registry";
 import { featureOrder } from "@/lib/site/features";
-import { INTEGRATION_DIRECTORY } from "@/lib/site/integration-directory";
 import { legalDocs } from "@/lib/site/legal";
 
 const APP_ROOT = join(process.cwd(), "src/app");
@@ -56,7 +55,6 @@ export const publicStaticPaths = [
 export function publicDynamicSamplePaths(): string[] {
   return [
     ...featureOrder.map((slug) => `/features/${slug}`),
-    ...INTEGRATION_DIRECTORY.map((e) => `/integrations/${e.slug}`),
     ...publicDocs()
       .filter((p) => !p.meta.deprecated && !p.meta.noindex)
       .slice(0, 1)

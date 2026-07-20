@@ -110,12 +110,6 @@ export function SiteFooter() {
                 <Link href="/security">Security</Link>
               </li>
               <li>
-                <Link href="/changelog">Changelog</Link>
-              </li>
-              <li>
-                <Link href="/roadmap">Roadmap</Link>
-              </li>
-              <li>
                 <Link href="/status">Service status</Link>
               </li>
             </ul>
