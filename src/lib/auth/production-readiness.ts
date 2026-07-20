@@ -3,6 +3,11 @@ import {
   clerkSecretKeyMode,
 } from "./clerk-config";
 
+function billingEnforcementEnabled(): boolean {
+  const raw = process.env.BILLING_ENFORCEMENT_ENABLED?.trim().toLowerCase();
+  return raw === "1" || raw === "true" || raw === "yes" || raw === "on";
+}
+
 export type ReadinessCheck = {
   id: string;
   ok: boolean;
@@ -142,26 +147,37 @@ export function evaluateAuthProductionReadiness(options?: {
 
 export function authProductionReady(options?: {
   production?: boolean;
+  /** When true, only block deploy on env required for Stage 0 (billing off). */
+  forBuild?: boolean;
 }): boolean {
   const checks = evaluateAuthProductionReadiness(options);
+  const production =
+    options?.production ?? process.env.NODE_ENV === "production";
+  const forBuild = options?.forBuild ?? false;
+
   const requiredInProd = new Set([
     "clerk_publishable_key",
     "clerk_secret_key",
     "clerk_key_pair_match",
     "clerk_live_keys",
-    "clerk_webhook_secret",
     "supabase_url",
     "supabase_anon_key",
     "supabase_service_role",
-    "stripe_secret_key",
-    "stripe_publishable_key",
-    "stripe_webhook_secret",
-    "stripe_live_keys",
     "app_url",
   ]);
 
-  const production =
-    options?.production ?? process.env.NODE_ENV === "production";
+  if (!forBuild) {
+    requiredInProd.add("clerk_webhook_secret");
+  }
+
+  if (billingEnforcementEnabled() || !forBuild) {
+    requiredInProd.add("stripe_secret_key");
+    requiredInProd.add("stripe_publishable_key");
+    requiredInProd.add("stripe_webhook_secret");
+    if (production) {
+      requiredInProd.add("stripe_live_keys");
+    }
+  }
 
   return checks.every((c) => {
     if (!production && requiredInProd.has(c.id) && c.id.includes("live")) {

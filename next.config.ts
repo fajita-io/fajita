@@ -16,7 +16,7 @@ function assertProductionAuthEnv() {
 
   if (!onVercelProductionBuild) return;
 
-  if (!authProductionReady({ production: true })) {
+  if (!authProductionReady({ production: true, forBuild: true })) {
     const failed = evaluateAuthProductionReadiness({ production: true })
       .filter((c) => !c.ok)
       .map((c) => `${c.id} (${c.detail})`);

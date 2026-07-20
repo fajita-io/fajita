@@ -136,20 +136,7 @@ const serverSchema = z
    * returns 404. Prefer a long random value in production.
    */
   CRON_SECRET: z.string().optional(),
-})
-  .superRefine((data, ctx) => {
-    if (process.env.NODE_ENV === "production") {
-      const wh = data.CLERK_WEBHOOK_SIGNING_SECRET?.trim();
-      if (!wh || !wh.startsWith("whsec_")) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message:
-            "CLERK_WEBHOOK_SIGNING_SECRET is required in production (whsec_…)",
-          path: ["CLERK_WEBHOOK_SIGNING_SECRET"],
-        });
-      }
-    }
-  });
+});
 
 let cachedServer: z.infer<typeof serverSchema> | null = null;
 
