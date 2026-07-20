@@ -24,6 +24,7 @@
     "auth:verify:prod": "tsx scripts/auth-production-verify.ts --production",
     "auth:sync-vercel": "./scripts/sync-vercel-auth-env.sh",
     "smoke:public": "tsx scripts/public-smoke.ts",
+    "sitemap:audit": "tsx scripts/sitemap-audit.ts",
     "dns:cloudflare": "tsx scripts/cloudflare-dns-setup.ts",
     "dns:email": "tsx scripts/cloudflare-email-dns-setup.ts",
     "dns:dmarc": "DMARC_ONLY=1 tsx scripts/cloudflare-email-dns-setup.ts",

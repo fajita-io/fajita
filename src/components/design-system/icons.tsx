@@ -20,6 +20,9 @@ export type BrandIconName =
   | "uptime"
   | "region"
   | "webhook"
+  | "channel-email"
+  | "channel-slack"
+  | "channel-discord"
   | "recovery"
   | "maintenance"
   | "overview"
@@ -130,13 +133,36 @@ const glyphs: Record<BrandIconName, React.ReactElement> = {
       <path d="M10 2.5c2.4 2.2 3.5 4.7 3.5 7.5s-1.1 5.3-3.5 7.5c-2.4-2.2-3.5-4.7-3.5-7.5s1.1-5.3 3.5-7.5z" />
     </>
   ),
-  // Hook receiving the pulse
+  // Signed payload arriving at your endpoint
   webhook: (
     <>
-      <path d="M10 3a4 4 0 0 1 4 4c0 1.7-.9 2.8-2 4" />
-      <path d="M12 11l-4.5 6" />
-      <circle cx="6" cy="17" r="1.6" fill="currentColor" stroke="none" />
-      <path d="M3 8.5a4 4 0 0 0 4 5" />
+      <path d="M6.5 5.5c-2.5 0-4.5 2-4.5 4.5s2 4.5 4.5 4.5" />
+      <path d="M6.5 14v3" />
+      <circle cx="6.5" cy="18" r="1.2" fill="currentColor" stroke="none" />
+      <path d="M11 10h6.5" />
+      <path d="M15 7.5l2.5 2.5L15 12.5" />
+    </>
+  ),
+  // Envelope for direct mail alerts
+  "channel-email": (
+    <>
+      <rect x="3" y="5.5" width="14" height="9.5" rx="1.5" />
+      <path d="M3 6.5l7 4.5 7-4.5" />
+    </>
+  ),
+  // Channel hash for team chat routing
+  "channel-slack": (
+    <>
+      <rect x="3" y="3" width="14" height="14" rx="2.5" />
+      <path d="M8 6v8M12 6v8" />
+      <path d="M6 9.5h8M6 12.5h8" />
+    </>
+  ),
+  // Embed-style bubble for community chat
+  "channel-discord": (
+    <>
+      <path d="M4.5 4.5h11a1.5 1.5 0 0 1 1.5 1.5v5.5a1.5 1.5 0 0 1-1.5 1.5H9.5L7 15.5V12H4.5a1.5 1.5 0 0 1-1.5-1.5V6a1.5 1.5 0 0 1 1.5-1.5z" />
+      <path d="M7 8h6M7 10.5h4" />
     </>
   ),
   // Wave settling back down

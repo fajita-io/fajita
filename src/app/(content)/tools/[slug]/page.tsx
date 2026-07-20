@@ -98,11 +98,6 @@ export default async function ToolPage({
       <header>
         <h1 className="fj-heading-1">{meta.title}</h1>
         <p className="fj-body-lg">{meta.description}</p>
-        <p className="fj-content-meta">
-          Last reviewed {meta.lastReviewedAt} · Network:{" "}
-          {meta.networkAccess ? "yes" : "no"} · Storage:{" "}
-          {meta.storesInput ? "yes" : "no"}
-        </p>
       </header>
 
       <ToolInterface slug={meta.slug} />

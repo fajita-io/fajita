@@ -38,7 +38,6 @@ export default async function ContentLabPage() {
     },
     { href: "/tools/cron-expression-explainer", label: "Cron explainer" },
     { href: "/tools/status-page-checklist", label: "Status checklist" },
-    { href: "/research", label: "Research index" },
     { href: "/research/methodology-template", label: "Methodology template" },
     { href: "/blog/rss.xml", label: "RSS" },
     { href: "/content/manifest.json", label: "Manifest" },

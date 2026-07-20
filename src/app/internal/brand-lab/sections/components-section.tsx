@@ -10,6 +10,7 @@ import {
   Tooltip,
 } from "@/components/design-system/primitives";
 import { BrandIcon } from "@/components/design-system/icons";
+import { CHANNEL_ICON } from "@/lib/alerts/channel-icons";
 import { StatusBadge, StatusDot } from "@/components/design-system/status/status-badge";
 import { UptimeChart, sampleUptimeDays } from "@/components/design-system/uptime-chart";
 import { statusSpecs, type OperationalStatus } from "@/components/design-system/status/status";
@@ -134,14 +135,15 @@ export function ComponentsSection() {
         Chips, tiles, code
       </h3>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-3)", marginBottom: "var(--space-4)" }}>
-        <ChannelChip icon={<BrandIcon name="alert" size={14} />}>#ops on Slack</ChannelChip>
-        <ChannelChip icon={<BrandIcon name="subscriber" size={14} />}>oncall@acme.dev</ChannelChip>
-        <ChannelChip icon={<BrandIcon name="webhook" size={14} />}>PagerDuty webhook</ChannelChip>
+        <ChannelChip icon={<BrandIcon name={CHANNEL_ICON.slack} size={14} />}>#ops on Slack</ChannelChip>
+        <ChannelChip icon={<BrandIcon name={CHANNEL_ICON.email} size={14} />}>oncall@acme.dev</ChannelChip>
+        <ChannelChip icon={<BrandIcon name={CHANNEL_ICON.webhook} size={14} />}>PagerDuty webhook</ChannelChip>
       </div>
       <LabGrid min="12rem" style={{ marginBottom: "var(--space-4)" }}>
-        <IntegrationTile name="Slack" icon={<BrandIcon name="alert" size={20} />} />
-        <IntegrationTile name="Webhooks" icon={<BrandIcon name="webhook" size={20} />} />
-        <IntegrationTile name="Email" icon={<BrandIcon name="subscriber" size={20} />} />
+        <IntegrationTile name="Slack" icon={<BrandIcon name={CHANNEL_ICON.slack} size={20} />} />
+        <IntegrationTile name="Discord" icon={<BrandIcon name={CHANNEL_ICON.discord} size={20} />} />
+        <IntegrationTile name="Webhooks" icon={<BrandIcon name={CHANNEL_ICON.webhook} size={20} />} />
+        <IntegrationTile name="Email" icon={<BrandIcon name={CHANNEL_ICON.email} size={20} />} />
         <IntegrationTile name="Status pages" icon={<BrandIcon name="status-page" size={20} />} />
       </LabGrid>
       <CodeBlock label="Example monitor check">

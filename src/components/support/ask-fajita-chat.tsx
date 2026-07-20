@@ -13,6 +13,7 @@ import {
 } from "@/lib/ai/fajita-chat/ctas";
 import { trackGoal } from "@/lib/analytics/client";
 import { DataFastGoals } from "@/lib/analytics/goals";
+import { PoweredByPamphlet } from "@/components/support/powered-by-pamphlet";
 import { SUPPORT_COPY, SUPPORT_IDENTITY } from "@/lib/support/copy";
 import type { ConversationMode, PageContext } from "@/lib/support/types";
 
@@ -476,7 +477,6 @@ export function AskFajitaChat({
         </div>
 
         <footer className="fj-chat-panel__footer">
-          <p className="fj-chat-warning">{SUPPORT_COPY.composerWarning}</p>
           <form
             className="fj-chat-composer"
             onSubmit={(e) => {
@@ -512,6 +512,7 @@ export function AskFajitaChat({
               ↑
             </button>
           </form>
+          <PoweredByPamphlet inline />
         </footer>
       </div>
     </div>

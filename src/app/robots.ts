@@ -24,7 +24,14 @@ export default function robots(): MetadataRoute.Robots {
         ],
       },
     ],
-    sitemap: `${siteUrl}/sitemap.xml`,
+    sitemap: [
+      `${siteUrl}/sitemap.xml`,
+      `${siteUrl}/sitemap-blog.xml`,
+      `${siteUrl}/sitemap-glossary.xml`,
+      `${siteUrl}/sitemap-comparisons.xml`,
+      `${siteUrl}/sitemap-tools.xml`,
+      `${siteUrl}/sitemap-research.xml`,
+    ],
     host: siteUrl,
   };
 }

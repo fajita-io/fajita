@@ -1,8 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 
-import { PoweredByWiki } from "@/components/glossary/powered-by-wiki";
-import { GLOSSARY_VERSION } from "@/lib/glossary/frontmatter";
 import { publicTerms } from "@/lib/glossary/registry";
 import { buildMetadata } from "@/lib/site/metadata";
 
@@ -26,12 +24,16 @@ export default function GlossaryUpdatesPage() {
   }
 
   return (
-    <article className="fj-glossary-updates">
-      <h1 className="fj-heading-1">Glossary updates</h1>
-      <p className="fj-body">
-        Material definition updates and new published terms. Glossary version{" "}
-        {GLOSSARY_VERSION}.
-      </p>
+    <article className="fj-glossary-index">
+      <header className="fj-glossary-index__hero">
+        <p className="fj-eyebrow">
+          <Link href="/glossary">Glossary</Link>
+        </p>
+        <h1 className="fj-heading-1">Recently updated terms</h1>
+        <p className="fj-body-lg">
+          New definitions and material revisions to the reliability glossary.
+        </p>
+      </header>
       {[...byDate.entries()].map(([date, list]) => (
         <section key={date}>
           <h2 className="fj-heading-2">{date}</h2>
@@ -40,17 +42,13 @@ export default function GlossaryUpdatesPage() {
               <li key={t.meta.slug}>
                 <Link href={`/glossary/${t.meta.slug}`}>
                   <strong>{t.meta.term}</strong>
-                  <span>
-                    {t.meta.contentVersion === "1" ? "Published" : "Updated"} ·
-                    v{t.meta.contentVersion}
-                  </span>
+                  <span>{t.meta.shortDefinition}</span>
                 </Link>
               </li>
             ))}
           </ul>
         </section>
       ))}
-      <PoweredByWiki />
     </article>
   );
 }

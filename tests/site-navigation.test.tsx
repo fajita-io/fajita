@@ -104,8 +104,10 @@ describe("site footer", () => {
     }
   });
 
-  it("shows the real company address, not a placeholder", () => {
+  it("renders the kinetic footer finale without the mailing address", () => {
     const { container } = render(<SiteFooter />);
-    expect(container.textContent).toContain("Kalispell, MT 59901");
+    expect(container.textContent).toContain("The watch before the fire.");
+    expect(container.textContent).toContain("Made in Montana");
+    expect(container.textContent).not.toContain("Kalispell, MT 59901");
   });
 });

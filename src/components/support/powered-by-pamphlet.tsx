@@ -7,18 +7,35 @@ import { PAMPHLET_ATTRIBUTION_URL } from "@/lib/pamphlet/capabilities";
  */
 export function PoweredByPamphlet({
   compact = false,
+  inline = false,
 }: {
   compact?: boolean;
+  inline?: boolean;
 }) {
+  const className = compact
+    ? "fj-support-pamphlet fj-support-pamphlet--compact"
+    : "fj-support-pamphlet";
+
+  if (inline) {
+    return (
+      <p className={className} data-testid="powered-by-pamphlet">
+        Powered by{" "}
+        <a
+          href={PAMPHLET_ATTRIBUTION_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="fj-support-pamphlet__link"
+          aria-label="Pamphlet (opens in a new tab)"
+          data-fast-goal={DataFastGoals.supportPamphletClicked}
+        >
+          Pamphlet
+        </a>
+      </p>
+    );
+  }
+
   return (
-    <p
-      className={
-        compact
-          ? "fj-support-pamphlet fj-support-pamphlet--compact"
-          : "fj-support-pamphlet"
-      }
-      data-testid="powered-by-pamphlet"
-    >
+    <p className={className} data-testid="powered-by-pamphlet">
       <a
         href={PAMPHLET_ATTRIBUTION_URL}
         target="_blank"

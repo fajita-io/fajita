@@ -13,11 +13,12 @@ import {
 import { GLOSSARY_CATEGORIES } from "@/lib/glossary/frontmatter";
 import { publicTerms } from "@/lib/glossary/registry";
 import { INTEGRATION_DIRECTORY } from "@/lib/site/integration-directory";
+import { legalDocs } from "@/lib/site/legal";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") ?? "https://fajita.io";
 
-const lastModified = new Date("2026-07-17");
+const lastModified = new Date("2026-07-20");
 
 /**
  * All indexable public routes. Excluded on purpose: /login and /signup (real
@@ -39,14 +40,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/affiliates", priority: 0.7, changeFrequency: "monthly" },
     { path: "/affiliates/apply", priority: 0.5, changeFrequency: "monthly" },
     { path: "/legal", priority: 0.4, changeFrequency: "monthly" },
-    { path: "/legal/terms", priority: 0.3, changeFrequency: "monthly" },
-    { path: "/legal/privacy", priority: 0.3, changeFrequency: "monthly" },
-    { path: "/legal/cookies", priority: 0.3, changeFrequency: "monthly" },
-    { path: "/legal/acceptable-use", priority: 0.3, changeFrequency: "monthly" },
-    { path: "/legal/refunds", priority: 0.3, changeFrequency: "monthly" },
-    { path: "/legal/disclosure", priority: 0.3, changeFrequency: "monthly" },
-    { path: "/legal/affiliate-agreement", priority: 0.3, changeFrequency: "monthly" },
-    { path: "/legal/affiliate-privacy", priority: 0.3, changeFrequency: "monthly" },
+    ...legalDocs
+      .filter(
+        (doc) =>
+          doc.status === "in-force" &&
+          doc.href &&
+          doc.href !== "/legal" &&
+          !doc.noindex,
+      )
+      .map((doc) => ({
+        path: doc.href!,
+        priority: 0.3,
+        changeFrequency: "monthly" as const,
+      })),
   ];
 
   const featureRoutes = featureOrder.map((slug) => ({
@@ -140,11 +146,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(`${tool.meta.updatedAt}T00:00:00Z`),
   }));
 
-  const researchHub = {
-    path: "/research",
-    priority: 0.6,
-    changeFrequency: "monthly" as const,
-  };
   const researchPages = publicResearch().map((item) => ({
     path: `/research/${item.meta.slug}`,
     priority: 0.55,
@@ -170,7 +171,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...comparePages,
     toolsHub,
     ...toolPages,
-    researchHub,
     ...researchPages,
   ].map((route) => ({
     url: `${siteUrl}${route.path === "/" ? "/" : route.path}`,

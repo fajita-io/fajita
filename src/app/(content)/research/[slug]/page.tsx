@@ -41,7 +41,7 @@ export default async function ResearchPage({
 }) {
   const { slug } = await params;
   const item = getResearch(slug);
-  // Only published research is routable; data-insufficient stays on the index.
+  // Only published research is routable; data-insufficient records stay internal.
   if (!item || item.meta.status !== "published") notFound();
 
   const { meta, body } = item;
@@ -65,15 +65,17 @@ export default async function ResearchPage({
       <div className="fj-content-article__body">
       <ContentBreadcrumbs
         items={[
-          { href: "/research", label: "Research" },
+          { href: "/blog", label: "Blog" },
           { href: `/research/${meta.slug}`, label: meta.title },
         ]}
       />
       <header>
         <h1 className="fj-heading-1">{meta.title}</h1>
         <p className="fj-content-meta">
-          Status {meta.status} · Version {meta.contentVersion} · Last reviewed{" "}
-          {meta.lastReviewedAt}
+          Published {meta.publishedAt}
+          {meta.updatedAt !== meta.publishedAt
+            ? ` · Updated ${meta.updatedAt}`
+            : ""}
         </p>
         <p className="fj-content-thesis">{meta.researchQuestion}</p>
       </header>

@@ -2,13 +2,16 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { RelatedLinks } from "@/components/content/related";
 import {
   BLOG_CATEGORY_META,
   orderedBlogCategories,
 } from "@/lib/content/categories";
 import { TOPIC_CLUSTERS } from "@/lib/content/clusters";
+import { getTool } from "@/lib/content/registry";
 import { articlesInCategory } from "@/lib/content/registry";
 import type { BlogCategory } from "@/lib/content/schema";
+import { getTerm } from "@/lib/glossary/registry";
 import { buildMetadata } from "@/lib/site/metadata";
 
 interface Params {
@@ -55,8 +58,36 @@ export default async function BlogCategoryPage({
     articles.some((a) => a.meta.topicCluster === c.id),
   );
 
+  const relatedLinks = cluster
+    ? [
+        ...cluster.relatedGlossary.map((s) => {
+          const term = getTerm(s);
+          return {
+            href: `/glossary/${s}`,
+            label: term?.meta.term ?? s.replace(/-/g, " "),
+          };
+        }),
+        ...cluster.relatedDocs,
+        ...cluster.relatedTools.map((t) => {
+          const tool = getTool(t);
+          return {
+            href: `/tools/${t}`,
+            label: tool?.meta.title ?? t.replace(/-/g, " "),
+          };
+        }),
+        ...(meta.productCapability
+          ? [
+              {
+                href: meta.productCapability.href,
+                label: meta.productCapability.label,
+              },
+            ]
+          : []),
+      ]
+    : [];
+
   return (
-    <div>
+    <div className="fj-content-index">
       <header className="fj-content-index__hero">
         <p className="fj-eyebrow">
           <Link href="/blog">Blog</Link>
@@ -67,60 +98,40 @@ export default async function BlogCategoryPage({
 
       <section aria-labelledby="foundational-heading">
         <h2 id="foundational-heading" className="fj-heading-2">
-          Foundational article
+          Start here
         </h2>
-        <Link href={`/blog/${featured.meta.slug}`} className="fj-content-card">
+        <Link href={`/blog/${featured.meta.slug}`} className="fj-content-card fj-content-card--featured">
+          <p className="fj-content-card__meta">
+            {featured.meta.readingMinutes} min read
+          </p>
           <h3 className="fj-heading-3">{featured.meta.title}</h3>
-          <p>{featured.meta.description}</p>
+          <p className="fj-content-card__desc">{featured.meta.description}</p>
         </Link>
       </section>
 
-      <section aria-labelledby="recent-heading">
-        <h2 id="recent-heading" className="fj-heading-2">
-          Recent articles
-        </h2>
-        <ul className="fj-content-grid">
-          {articles.map((a) => (
-            <li key={a.meta.slug}>
-              <Link href={`/blog/${a.meta.slug}`} className="fj-content-card">
-                <p className="fj-content-card__meta">{a.meta.publishedAt}</p>
-                {a.meta.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {cluster ? (
-        <section aria-labelledby="related-heading">
-          <h2 id="related-heading" className="fj-heading-2">
-            Related resources
+      {articles.length > 1 ? (
+        <section aria-labelledby="recent-heading">
+          <h2 id="recent-heading" className="fj-heading-2">
+            All articles
           </h2>
           <ul className="fj-content-grid">
-            {cluster.relatedGlossary.map((s) => (
-              <li key={s}>
-                <Link href={`/glossary/${s}`}>Glossary: {s.replace(/-/g, " ")}</Link>
-              </li>
-            ))}
-            {cluster.relatedDocs.map((d) => (
-              <li key={d.href}>
-                <Link href={d.href}>{d.label}</Link>
-              </li>
-            ))}
-            {cluster.relatedTools.map((t) => (
-              <li key={t}>
-                <Link href={`/tools/${t}`}>Tool: {t.replace(/-/g, " ")}</Link>
-              </li>
-            ))}
-            {meta.productCapability ? (
-              <li>
-                <Link href={meta.productCapability.href}>
-                  {meta.productCapability.label}
+            {articles.map((a) => (
+              <li key={a.meta.slug}>
+                <Link href={`/blog/${a.meta.slug}`} className="fj-content-card">
+                  <p className="fj-content-card__meta">
+                    {a.meta.publishedAt} · {a.meta.readingMinutes} min
+                  </p>
+                  <h3 className="fj-heading-3">{a.meta.title}</h3>
+                  <p className="fj-content-card__desc">{a.meta.description}</p>
                 </Link>
               </li>
-            ) : null}
+            ))}
           </ul>
         </section>
+      ) : null}
+
+      {relatedLinks.length > 0 ? (
+        <RelatedLinks title="Related resources" links={relatedLinks} />
       ) : null}
     </div>
   );

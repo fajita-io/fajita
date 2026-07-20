@@ -69,18 +69,18 @@ export function AlertFlow({ animated = true }: { animated?: boolean }) {
         />
         <rect
           x="230"
-          y="103"
-          width="120"
-          height="54"
+          y="100"
+          width="132"
+          height="60"
           rx="12"
           fill="var(--color-background-elevated)"
           stroke="var(--color-border-strong)"
           strokeWidth="1.5"
         />
-        <circle cx="252" cy="124" r="4" fill="var(--color-brand-ember)" />
+        <circle cx="252" cy="122" r="4" fill="var(--color-brand-ember)" />
         <text
           x="264"
-          y="128"
+          y="126"
           fontFamily="var(--font-sans, sans-serif)"
           fontSize="12"
           fontWeight="600"
@@ -102,7 +102,7 @@ export function AlertFlow({ animated = true }: { animated?: boolean }) {
         {channels.map((c) => (
           <g key={c.label}>
             <path
-              d={`M350 130 C 400 130, 410 ${c.y + 22}, 452 ${c.y + 22}`}
+              d={`M362 130 C 412 130, 422 ${c.y + 22}, 452 ${c.y + 22}`}
               stroke="var(--color-brand-ember)"
               strokeWidth="1.75"
               className="flow-line"

@@ -1,7 +1,7 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 
 import { GlossarySearch } from "@/components/glossary/search";
-import { PoweredByWiki } from "@/components/glossary/powered-by-wiki";
 import { buildMetadata } from "@/lib/site/metadata";
 
 export const metadata: Metadata = {
@@ -16,13 +16,17 @@ export const metadata: Metadata = {
 
 export default function GlossarySearchPage() {
   return (
-    <article className="fj-glossary-search-page">
-      <h1 className="fj-heading-1">Search the glossary</h1>
-      <p className="fj-body">
-        Find definitions by term, acronym, synonym, or short phrase.
-      </p>
+    <article className="fj-glossary-index">
+      <header className="fj-glossary-index__hero">
+        <p className="fj-eyebrow">
+          <Link href="/glossary">Glossary</Link>
+        </p>
+        <h1 className="fj-heading-1">Search the glossary</h1>
+        <p className="fj-body-lg">
+          Find definitions by term, acronym, synonym, or short phrase.
+        </p>
+      </header>
       <GlossarySearch variant="inline" autoFocus />
-      <PoweredByWiki />
     </article>
   );
 }

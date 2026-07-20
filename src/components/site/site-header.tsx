@@ -127,25 +127,32 @@ export function SiteHeader() {
               </svg>
             </button>
             {openMenu === "features" ? (
-              <div className="fj-nav-menu" id={featuresMenuId}>
-                {featureLinks.map((f) => (
-                  <Link key={f.href} href={f.href} className="fj-nav-menu__link">
-                    <BrandIcon name={f.icon} size={18} />
-                    <span>
-                      <span className="fj-nav-menu__name">{f.name}</span>
-                      <span className="fj-nav-menu__desc">{f.desc}</span>
+              <div
+                className="fj-nav-menu fj-nav-menu--features"
+                id={featuresMenuId}
+              >
+                <div className="fj-nav-menu__list">
+                  {featureLinks.map((f) => (
+                    <Link key={f.href} href={f.href} className="fj-nav-menu__link">
+                      <BrandIcon name={f.icon} size={18} className="fj-nav-menu__icon" />
+                      <span className="fj-nav-menu__body">
+                        <span className="fj-nav-menu__name">{f.name}</span>
+                        <span className="fj-nav-menu__desc">{f.desc}</span>
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+                <div className="fj-nav-menu__footer">
+                  <Link href="/features" className="fj-nav-menu__link">
+                    <BrandIcon name="uptime" size={18} className="fj-nav-menu__icon" />
+                    <span className="fj-nav-menu__body">
+                      <span className="fj-nav-menu__name">All features</span>
+                      <span className="fj-nav-menu__desc">
+                        Watch, verify, alert, communicate, learn
+                      </span>
                     </span>
                   </Link>
-                ))}
-                <Link href="/features" className="fj-nav-menu__link">
-                  <BrandIcon name="uptime" size={18} />
-                  <span>
-                    <span className="fj-nav-menu__name">All features</span>
-                    <span className="fj-nav-menu__desc">
-                      Watch, verify, alert, communicate, learn
-                    </span>
-                  </span>
-                </Link>
+                </div>
               </div>
             ) : null}
           </div>

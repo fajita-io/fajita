@@ -4,7 +4,6 @@ import { notFound, permanentRedirect } from "next/navigation";
 import { DocsBlocks } from "@/components/docs/blocks";
 import { DocsToc } from "@/components/docs/toc";
 import { GlossaryFeedback } from "@/components/glossary/feedback";
-import { PoweredByWiki } from "@/components/glossary/powered-by-wiki";
 import {
   GlossaryBreadcrumbs,
   GlossaryDocLinks,
@@ -23,7 +22,6 @@ import {
   getTerm,
   prevNext,
 } from "@/lib/glossary/registry";
-import { citationSummary } from "@/lib/glossary/serialize";
 import { GLOSSARY_CATEGORY_META } from "@/lib/glossary/categories";
 import { buildMetadata } from "@/lib/site/metadata";
 import { siteUrl } from "@/lib/site/site-config";
@@ -103,7 +101,6 @@ export default async function GlossaryTermPage({
     .filter((t): t is NonNullable<typeof t> => Boolean(t))
     .map((t) => ({ slug: t.meta.slug, term: t.meta.term }));
   const cat = GLOSSARY_CATEGORY_META[meta.category];
-  const citation = citationSummary(term);
 
   const definedTermLd = {
     "@context": "https://schema.org",
@@ -216,31 +213,8 @@ export default async function GlossaryTermPage({
         <GlossaryDocLinks links={meta.documentationLinks} />
         <GlossaryProductCTA variant={meta.cta} />
 
-        <aside className="fj-glossary-citation" aria-label="Citation summary">
-          <h2 className="fj-heading-3">Citation summary</h2>
-          <dl>
-            <dt>Term</dt>
-            <dd>{citation.term}</dd>
-            <dt>Definition</dt>
-            <dd>{citation.definition}</dd>
-            <dt>Last reviewed</dt>
-            <dd>{citation.lastReviewedAt}</dd>
-            <dt>Content version</dt>
-            <dd>{citation.contentVersion}</dd>
-            <dt>Canonical URL</dt>
-            <dd>
-              <a href={citation.canonicalUrl}>{citation.canonicalUrl}</a>
-            </dd>
-          </dl>
-        </aside>
-
-        <p className="fj-glossary-meta">
-          Last reviewed {meta.lastReviewedAt} · Owner {meta.owner} · Version{" "}
-          {meta.contentVersion}
-        </p>
         <GlossaryFeedback slug={meta.slug} contentVersion={meta.contentVersion} />
         <GlossaryPrevNext prev={prev} next={next} />
-        <PoweredByWiki />
       </div>
       <aside className="fj-glossary-term__toc">
         <DocsToc entries={toc} />

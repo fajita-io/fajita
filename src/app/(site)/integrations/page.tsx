@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { BrandIcon, type BrandIconName } from "@/components/design-system/icons";
+import { BrandIcon } from "@/components/design-system/icons";
 import { SectionHeading } from "@/components/design-system/typography";
 import { CtaButtons } from "@/components/site/cta-buttons";
+import { INTEGRATION_CHANNEL_ICON } from "@/lib/alerts/channel-icons";
 import { buildMetadata } from "@/lib/site/metadata";
 import { integrations } from "@/lib/site/integrations";
 
@@ -13,17 +14,6 @@ export const metadata: Metadata = buildMetadata({
     "Where Fajita alerts arrive: email, Slack, Discord, and signed webhooks. Verified incidents route to the channels your team already watches.",
   path: "/integrations",
 });
-
-/**
- * Integration glyphs use Fajita's own monoline icon language rather than
- * third-party logos, so no trademark is used outside its guidelines.
- */
-const glyphs: Record<string, BrandIconName> = {
-  email: "subscriber",
-  slack: "alert",
-  discord: "alert",
-  webhook: "webhook",
-};
 
 const detailSlug: Record<string, string> = {
   email: "email",
@@ -62,7 +52,7 @@ export default function IntegrationsPage() {
                 >
                   <div className="fj-integration-card__head">
                     <span className="fj-integration-card__glyph">
-                      <BrandIcon name={glyphs[integration.id]} size={20} />
+                      <BrandIcon name={INTEGRATION_CHANNEL_ICON[integration.id]} size={20} />
                     </span>
                     <div>
                       <h2 className="fj-heading-3 fj-integration-card__title">

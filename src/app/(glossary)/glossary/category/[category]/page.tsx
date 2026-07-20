@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { PoweredByWiki } from "@/components/glossary/powered-by-wiki";
 import { GlossaryBreadcrumbs } from "@/components/glossary/term-chrome";
 import {
   GLOSSARY_CATEGORIES,
@@ -62,9 +61,6 @@ export default async function GlossaryCategoryPage({
   const learning = meta.learningOrder
     .map((s) => getTerm(s))
     .filter((t): t is NonNullable<typeof t> => Boolean(t));
-  const recent = [...terms]
-    .sort((a, b) => b.meta.lastReviewedAt.localeCompare(a.meta.lastReviewedAt))
-    .slice(0, 6);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -75,13 +71,13 @@ export default async function GlossaryCategoryPage({
   };
 
   return (
-    <article className="fj-glossary-category">
+    <article className="fj-glossary-index">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <GlossaryBreadcrumbs crumbs={crumbs} />
-      <header>
+      <header className="fj-glossary-index__hero">
         <p className="fj-eyebrow">Category</p>
         <h1 className="fj-heading-1">{meta.label}</h1>
         <p className="fj-body-lg">{meta.definition}</p>
@@ -145,43 +141,31 @@ export default async function GlossaryCategoryPage({
         </ul>
       </section>
 
-      <section>
-        <h2 className="fj-heading-2">Related documentation</h2>
-        <ul>
-          {meta.documentationLinks.map((l) => (
-            <li key={l.href}>
-              <Link href={l.href}>{l.label}</Link>
-            </li>
-          ))}
-        </ul>
-      </section>
+      {meta.documentationLinks.length > 0 ? (
+        <section className="fj-content-related">
+          <h2 className="fj-heading-2">Related documentation</h2>
+          <ul>
+            {meta.documentationLinks.map((l) => (
+              <li key={l.href}>
+                <Link href={l.href}>{l.label}</Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
-      <section>
-        <h2 className="fj-heading-2">Related product capability</h2>
-        <ul>
-          {meta.productLinks.map((l) => (
-            <li key={l.href}>
-              <Link href={l.href}>{l.label}</Link>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section>
-        <h2 className="fj-heading-2">Recently updated</h2>
-        <ul className="fj-glossary-term-list">
-          {recent.map((t) => (
-            <li key={t.meta.slug}>
-              <Link href={`/glossary/${t.meta.slug}`}>
-                <strong>{t.meta.term}</strong>
-                <span>Reviewed {t.meta.lastReviewedAt}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <PoweredByWiki />
+      {meta.productLinks.length > 0 ? (
+        <section className="fj-content-related">
+          <h2 className="fj-heading-2">In the product</h2>
+          <ul>
+            {meta.productLinks.map((l) => (
+              <li key={l.href}>
+                <Link href={l.href}>{l.label}</Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
     </article>
   );
 }

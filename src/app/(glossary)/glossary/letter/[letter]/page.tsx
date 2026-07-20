@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { GlossaryAlphabet } from "@/components/glossary/alphabet";
-import { PoweredByWiki } from "@/components/glossary/powered-by-wiki";
 import {
   alphabetAvailability,
   termsByLetter,
@@ -49,11 +48,13 @@ export default async function GlossaryLetterPage({
   const letters = alphabetAvailability();
 
   return (
-    <article className="fj-glossary-letter">
-      <p className="fj-eyebrow">
-        <Link href="/glossary">Glossary</Link>
-      </p>
-      <h1 className="fj-heading-1">Terms: {letter.toUpperCase()}</h1>
+    <article className="fj-glossary-index">
+      <header className="fj-glossary-index__hero">
+        <p className="fj-eyebrow">
+          <Link href="/glossary">Glossary</Link>
+        </p>
+        <h1 className="fj-heading-1">Terms: {letter.toUpperCase()}</h1>
+      </header>
       <GlossaryAlphabet letters={letters} active={letter} />
       <ul className="fj-glossary-term-list">
         {terms.map((t) => (
@@ -65,7 +66,6 @@ export default async function GlossaryLetterPage({
           </li>
         ))}
       </ul>
-      <PoweredByWiki />
     </article>
   );
 }

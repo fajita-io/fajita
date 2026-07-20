@@ -54,11 +54,8 @@ export default function CompareIndexPage() {
             .map((p) => (
               <li key={p.meta.slug}>
                 <Link href={`/compare/${p.meta.slug}`} className="fj-content-card">
-                  <p className="fj-content-card__meta">
-                    Last reviewed {p.meta.lastReviewedAt}
-                  </p>
                   <h3 className="fj-heading-3">{p.meta.title}</h3>
-                  <p>{p.meta.description}</p>
+                  <p className="fj-content-card__desc">{p.meta.description}</p>
                 </Link>
               </li>
             ))}
@@ -79,11 +76,8 @@ export default function CompareIndexPage() {
             .map((p) => (
               <li key={p.meta.slug}>
                 <Link href={`/compare/${p.meta.slug}`} className="fj-content-card">
-                  <p className="fj-content-card__meta">
-                    Last reviewed {p.meta.lastReviewedAt}
-                  </p>
                   <h3 className="fj-heading-3">{p.meta.title}</h3>
-                  <p>{p.meta.description}</p>
+                  <p className="fj-content-card__desc">{p.meta.description}</p>
                 </Link>
               </li>
             ))}

@@ -2,13 +2,10 @@ import { publicResearch } from "@/lib/content/registry";
 import { siteUrl } from "@/lib/site/site-config";
 
 export function GET() {
-  const urls = [
-    { loc: `${siteUrl}/research`, lastmod: "2026-07-17" },
-    ...publicResearch().map((r) => ({
+  const urls = publicResearch().map((r) => ({
       loc: `${siteUrl}/research/${r.meta.slug}`,
       lastmod: r.meta.updatedAt,
-    })),
-  ];
+  }));
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

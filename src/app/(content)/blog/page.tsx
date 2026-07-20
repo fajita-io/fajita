@@ -61,7 +61,7 @@ export default function BlogIndexPage() {
               {featured.meta.publishedAt} · {featured.meta.readingMinutes} min
             </p>
             <h3 className="fj-heading-3">{featured.meta.title}</h3>
-            <p>{featured.meta.description}</p>
+            <p className="fj-content-card__desc">{featured.meta.description}</p>
           </Link>
         </section>
       ) : null}
@@ -70,12 +70,12 @@ export default function BlogIndexPage() {
         <h2 id="topics-heading" className="fj-heading-2">
           Core topic areas
         </h2>
-        <ul className="fj-content-grid" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(14rem, 1fr))" }}>
+        <ul className="fj-content-grid fj-content-grid--topics">
           {categories.map((cat) => (
             <li key={cat.id}>
               <Link href={`/blog/category/${cat.slug}`} className="fj-content-card">
-                <strong>{cat.label}</strong>
-                <p className="fj-content-card__meta">{cat.introduction}</p>
+                <strong className="fj-content-card__label">{cat.label}</strong>
+                <p className="fj-content-card__desc">{cat.introduction}</p>
               </Link>
             </li>
           ))}
@@ -94,7 +94,7 @@ export default function BlogIndexPage() {
                   {a.meta.publishedAt} · {a.meta.readingMinutes} min read
                 </p>
                 <h3 className="fj-heading-3">{a.meta.title}</h3>
-                <p>{a.meta.description}</p>
+                <p className="fj-content-card__desc">{a.meta.description}</p>
               </Link>
             </li>
           ))}
@@ -133,7 +133,7 @@ export default function BlogIndexPage() {
         ) : (
           <p>
             Methodology is published. Findings wait until privacy-safe cohorts
-            exist. See <Link href="/research">research</Link>.
+            exist.
           </p>
         )}
       </section>

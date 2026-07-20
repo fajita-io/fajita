@@ -17,7 +17,7 @@ export default function BlogUpdatesPage() {
   );
 
   return (
-    <div>
+    <div className="fj-content-index">
       <header className="fj-content-index__hero">
         <p className="fj-eyebrow">
           <Link href="/blog">Blog</Link>
@@ -33,10 +33,10 @@ export default function BlogUpdatesPage() {
           <li key={a.meta.slug}>
             <Link href={`/blog/${a.meta.slug}`} className="fj-content-card">
               <p className="fj-content-card__meta">
-                v{a.meta.contentVersion} · updated {a.meta.updatedAt}
+                Updated {a.meta.updatedAt}
                 {a.meta.changeSummary ? ` · ${a.meta.changeSummary}` : ""}
               </p>
-              {a.meta.title}
+              <h3 className="fj-heading-3">{a.meta.title}</h3>
             </Link>
           </li>
         ))}

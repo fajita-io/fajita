@@ -52,8 +52,9 @@ export const legalDocs: LegalDoc[] = [
   {
     id: "sla",
     name: "Service Level Agreement",
-    summary: "Availability commitments for paid plans.",
-    status: "in-preparation",
+    summary: "99.9% monthly availability for paid plans, with service credits if we miss it.",
+    status: "in-force",
+    href: "/legal/sla",
   },
   {
     id: "cookies",

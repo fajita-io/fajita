@@ -16,9 +16,11 @@ import { tableOfContents } from "@/lib/docs/blocks";
 import { BLOG_CATEGORY_META } from "@/lib/content/categories";
 import {
   getArticle,
+  getTool,
   publicArticles,
   relatedArticles,
 } from "@/lib/content/registry";
+import { getTerm } from "@/lib/glossary/registry";
 import { buildMetadata } from "@/lib/site/metadata";
 import { siteUrl } from "@/lib/site/site-config";
 
@@ -129,8 +131,6 @@ export default async function BlogArticlePage({
               : ""}
             {" · "}
             {meta.readingMinutes} min read
-            {" · "}
-            Last reviewed {meta.lastReviewedAt}
           </p>
           <p className="fj-content-thesis">{meta.thesis}</p>
         </header>
@@ -143,18 +143,24 @@ export default async function BlogArticlePage({
 
         <RelatedLinks
           title="Glossary"
-          links={meta.relatedGlossary.map((s) => ({
-            href: `/glossary/${s}`,
-            label: s.replace(/-/g, " "),
-          }))}
+          links={meta.relatedGlossary.map((s) => {
+            const term = getTerm(s);
+            return {
+              href: `/glossary/${s}`,
+              label: term?.meta.term ?? s.replace(/-/g, " "),
+            };
+          })}
         />
         <RelatedLinks title="Documentation" links={meta.relatedDocs} />
         <RelatedLinks
           title="Tools"
-          links={meta.relatedTools.map((s) => ({
-            href: `/tools/${s}`,
-            label: s.replace(/-/g, " "),
-          }))}
+          links={meta.relatedTools.map((s) => {
+            const tool = getTool(s);
+            return {
+              href: `/tools/${s}`,
+              label: tool?.meta.title ?? s.replace(/-/g, " "),
+            };
+          })}
         />
         <RelatedArticles slugs={related} />
 

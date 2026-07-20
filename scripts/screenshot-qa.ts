@@ -38,6 +38,10 @@ const routes: Array<[string, string]> = [
   ["/legal", "legal"],
   ["/legal/terms", "legal-terms"],
   ["/legal/privacy", "legal-privacy"],
+  ["/legal/sla", "legal-sla"],
+  ["/legal/dpa", "legal-dpa"],
+  ["/legal/subprocessors", "legal-subprocessors"],
+  ["/research/methodology-template", "research-methodology"],
   ["/legal/cookies", "legal-cookies"],
   ["/docs", "docs"],
   ["/docs/getting-started/create-your-first-monitor", "docs-first-monitor"],
@@ -50,7 +54,6 @@ const routes: Array<[string, string]> = [
   ["/compare/fajita-vs-uptimerobot", "compare-page"],
   ["/tools", "tools"],
   ["/tools/uptime-calculator", "tool-uptime"],
-  ["/research", "research"],
   ["/this-page-does-not-exist", "not-found"],
   ["/internal/brand-lab", "brand-lab"],
   /* App routes redirect to login when unauthenticated; still check overflow. */

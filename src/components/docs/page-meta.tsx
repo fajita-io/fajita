@@ -53,14 +53,13 @@ export function DocsDeprecatedBanner({ meta }: { meta: DocFrontmatter }) {
   );
 }
 
-/** Page byline: difficulty, reading time, and review metadata. */
+/** Page byline: difficulty and estimated reading time. */
 export function DocsPageMeta({ meta }: { meta: DocFrontmatter }) {
   const parts: string[] = [titleCase(meta.difficulty)];
   if (meta.estimatedTime) parts.push(meta.estimatedTime);
   return (
     <div className="fj-docs-pagemeta">
       <span>{parts.join(" · ")}</span>
-      <span className="fj-docs-pagemeta__rev">Last reviewed {meta.lastReviewedAt}</span>
     </div>
   );
 }

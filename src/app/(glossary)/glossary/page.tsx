@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 import { GlossaryAlphabet } from "@/components/glossary/alphabet";
-import { PoweredByWiki } from "@/components/glossary/powered-by-wiki";
 import { GlossarySearch } from "@/components/glossary/search";
 import { buildMetadata } from "@/lib/site/metadata";
 import { siteUrl } from "@/lib/site/site-config";
@@ -140,7 +139,7 @@ export default function GlossaryIndexPage() {
             <li key={t.meta.slug}>
               <Link href={`/glossary/${t.meta.slug}`}>
                 <strong>{t.meta.term}</strong>
-                <span>Reviewed {t.meta.lastReviewedAt}</span>
+                <span>{t.meta.shortDefinition}</span>
               </Link>
             </li>
           ))}
@@ -149,10 +148,8 @@ export default function GlossaryIndexPage() {
 
       <footer className="fj-glossary-index__footer">
         <p className="fj-caption">
-          Glossary version {GLOSSARY_VERSION}.{" "}
-          <Link href="/glossary/updates">View updates</Link>
+          <Link href="/glossary/updates">Recently updated terms</Link>
         </p>
-        <PoweredByWiki />
       </footer>
     </div>
   );

@@ -41,6 +41,8 @@ export function buildSecurityHeaders(): NonNullable<
       "https://challenges.cloudflare.com",
     ].join(" "),
     "object-src 'none'",
+    "worker-src 'self' blob:",
+    "child-src 'self' blob:",
     "base-uri 'self'",
     "form-action 'self'",
     "frame-ancestors 'none'",

@@ -1,6 +1,6 @@
-import type { BrandIconName } from "@/components/design-system/icons";
 import { BrandIcon } from "@/components/design-system/icons";
 import type { AlertProvider } from "@/lib/alerts/constants";
+import { CHANNEL_ICON } from "@/lib/alerts/channel-icons";
 import { alertEvent } from "@/lib/alerts/events";
 
 /* ------------------------------------------------------------------ */
@@ -14,12 +14,7 @@ export const PROVIDER_LABEL: Record<AlertProvider, string> = {
   webhook: "Webhook",
 };
 
-export const PROVIDER_ICON: Record<AlertProvider, BrandIconName> = {
-  email: "subscriber",
-  slack: "team",
-  discord: "team",
-  webhook: "webhook",
-};
+export const PROVIDER_ICON = CHANNEL_ICON;
 
 export const PROVIDER_BLURB: Record<AlertProvider, string> = {
   email: "Send to named people. Each address is verified before it can receive an alert.",

@@ -4,9 +4,10 @@ import { FajitaLogo } from "@/components/brand/logo/fajita-logo";
 import { LinkedInIcon } from "@/components/design-system/linkedin-icon";
 import { ThemeToggle } from "@/components/design-system/theme-toggle";
 import { featureOrder, features } from "@/lib/site/features";
-import { company, social } from "@/lib/site/site-config";
+import { social } from "@/lib/site/site-config";
 
 import { FooterCta } from "./footer-cta";
+import { FooterFinale } from "./footer-finale";
 import { FooterMoment } from "./footer-moment";
 
 /**
@@ -99,9 +100,6 @@ export function SiteFooter() {
                 <Link href="/tools">Tools</Link>
               </li>
               <li>
-                <Link href="/research">Research</Link>
-              </li>
-              <li>
                 <Link href="/about">About</Link>
               </li>
               <li>
@@ -153,15 +151,7 @@ export function SiteFooter() {
           </nav>
         </div>
 
-        <div className="fj-footer__base">
-          <p className="fj-caption">
-            © {new Date().getFullYear()} {company.name}
-          </p>
-          <p className="fj-caption">{company.addressSingleLine}</p>
-          <div className="fj-footer__base-right">
-            <p className="fj-caption">Made in Montana</p>
-          </div>
-        </div>
+        <FooterFinale year={new Date().getFullYear()} />
       </div>
     </footer>
   );

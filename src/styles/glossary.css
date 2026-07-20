@@ -3,9 +3,13 @@
  * and Fajita brand variables. Distinct from the docs sidebar shell.
  */
 
+.fj-glossary-shell.fj-container {
+  max-width: var(--container-wide);
+}
+
 .fj-glossary-shell__tools {
   margin-bottom: var(--space-6);
-  max-width: 28rem;
+  max-width: 24rem;
 }
 
 .fj-glossary-shell__main {
@@ -25,16 +29,20 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  padding: var(--space-4);
-  border-bottom: 1px solid var(--color-border-subtle);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--color-background-elevated);
   text-decoration: none;
   color: inherit;
   min-height: 7rem;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
 .fj-glossary-cat-card:hover,
 .fj-glossary-cat-card:focus-visible {
-  border-bottom-color: var(--color-brand-heat);
+  border-color: var(--color-brand-heat);
+  background: var(--color-background-primary);
 }
 
 .fj-glossary-cat-card__label {
@@ -61,14 +69,20 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
-  padding: var(--space-3) 0;
+  padding: var(--space-4) 0;
   text-decoration: none;
   color: inherit;
+  border-radius: var(--radius-sm);
 }
 
 .fj-glossary-term-list a:hover strong,
 .fj-glossary-term-list a:focus-visible strong {
   color: var(--color-brand-text);
+}
+
+.fj-glossary-term-list strong {
+  font-size: var(--text-body);
+  color: var(--color-text-primary);
 }
 
 .fj-glossary-term-list span {
@@ -251,11 +265,28 @@
 }
 
 .fj-glossary-learn {
-  padding-left: var(--space-5);
+  list-style: decimal;
+  padding-left: var(--space-6);
+  margin: 0;
+  display: grid;
+  gap: var(--space-4);
 }
 
 .fj-glossary-learn li {
-  margin-bottom: var(--space-3);
+  padding-left: var(--space-2);
+}
+
+.fj-glossary-learn a {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.fj-glossary-learn a:hover,
+.fj-glossary-learn a:focus-visible {
+  color: var(--color-brand-text);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
 
 .fj-glossary-learn span {

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import { DataFastScript } from "@/components/analytics/datafast-script";
@@ -40,6 +40,16 @@ export const metadata: Metadata = {
     description:
       "Uptime monitoring for websites, APIs, certificates, and cron jobs. Your team hears about it before your customers do.",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f7f3eb" },
+    { media: "(prefers-color-scheme: dark)", color: "#0d0c0b" },
+  ],
 };
 
 const organizationJsonLd = {

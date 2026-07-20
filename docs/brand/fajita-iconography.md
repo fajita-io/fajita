@@ -10,7 +10,9 @@ Two proprietary icon families share the logo's construction language: monoline s
 
 20-unit grid, 1.75 stroke, round caps/joins, currentColor. Branded monitoring concepts:
 
-monitor-http, monitor-api, monitor-ssl, monitor-cron, incident, alert, status-page, subscriber, response-time, uptime, region, webhook, recovery, maintenance.
+monitor-http, monitor-api, monitor-ssl, monitor-cron, incident, alert, status-page, subscriber, response-time, uptime, region, webhook, channel-email, channel-slack, channel-discord, recovery, maintenance.
+
+Alert channels use the `channel-*` family (envelope, hash-in-frame, embed bubble, signed endpoint hook) rather than third-party logos.
 
 Recurring internal motif: the pulse line and the ember dot reappear inside several glyphs (browser frame contains a pulse; incident is the contained spike with the observer dot), tying icons back to the mark.
 

@@ -81,10 +81,6 @@ export default async function ComparisonPage({
       />
       <header>
         <h1 className="fj-heading-1">{meta.title}</h1>
-        <p className="fj-content-meta">
-          Last reviewed {meta.lastReviewedAt} · Version {meta.contentVersion} ·
-          Pricing status: {meta.pricingStatus}
-        </p>
         <p className="fj-content-thesis">{meta.summary}</p>
         <p className="fj-body-sm">
           <Link href={`/compare/${meta.methodologySlug}`}>Research methodology</Link>
