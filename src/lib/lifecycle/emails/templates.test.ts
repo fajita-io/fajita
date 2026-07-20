@@ -38,6 +38,8 @@ describe("lifecycle email rendering", () => {
       expect(rendered.subject.trim().length).toBeGreaterThan(0);
       expect(rendered.previewText.trim().length).toBeGreaterThan(0);
       expect(rendered.html).toContain("<!doctype html>");
+      expect(rendered.html).toContain("https://memo.ly");
+      expect(rendered.text).toContain("https://memo.ly");
       expect(rendered.text.trim().length).toBeGreaterThan(0);
 
       // No leaked template placeholders or stringified absence.

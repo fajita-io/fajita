@@ -1,5 +1,6 @@
-import { SiteHeader } from "@/components/site/site-header";
 import { SiteFooter } from "@/components/site/site-footer";
+import { SiteHeader } from "@/components/site/site-header";
+import { WikiAttributionMount } from "@/components/site/reading-attribution";
 import { CookieConsentBanner } from "@/components/site/cookie-consent-banner";
 import { AskFajitaMount } from "@/components/support/ask-fajita-mount";
 
@@ -13,7 +14,10 @@ export default function SiteLayout({
         Skip to content
       </a>
       <SiteHeader />
-      <main id="main">{children}</main>
+      <main id="main">
+        {children}
+        <WikiAttributionMount />
+      </main>
       <SiteFooter />
       <CookieConsentBanner />
       <AskFajitaMount mode="public" pageContext={{ route: "/", productArea: "marketing" }} />

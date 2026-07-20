@@ -43,7 +43,7 @@ describe("Fajita AI chat CTAs", () => {
 
   it("fallback handles pricing objections without em dashes", () => {
     const fb = getFallbackResponse("How much does it cost?");
-    expect(fb.content).toMatch(/\$9/);
+    expect(fb.content).toMatch(/\$12/);
     expect(fb.content).not.toMatch(/—/);
   });
 });

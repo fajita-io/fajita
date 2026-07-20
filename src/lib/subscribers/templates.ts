@@ -1,5 +1,13 @@
 import type { StatusPageEmailContext } from "./context";
 import type { SubscriberEventType } from "./constants";
+import {
+  EMAIL_COLORS,
+  EMAIL_FONT,
+  accentButton,
+  emailShell,
+  escapeHtml,
+  poweredByMemoText,
+} from "@/lib/email/shell";
 
 /**
  * Controlled subscriber email templates. There is no arbitrary customer HTML,
@@ -43,15 +51,6 @@ export interface RenderPayload {
 
 /* --------------------------------- utils -------------------------------- */
 
-function escapeHtml(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
 function fmtTime(iso: string | null | undefined, tz: string): string {
   if (!iso) return "";
   try {
@@ -82,63 +81,45 @@ interface ShellParts {
   showManageFooter: boolean;
 }
 
+function subscriberHeaderHtml(ctx: StatusPageEmailContext): string {
+  if (ctx.logoUrl) {
+    return `<img src="${escapeHtml(ctx.logoUrl)}" width="140" alt="${escapeHtml(ctx.name)}" style="max-height:36px;height:auto;width:auto;max-width:200px;display:block;border:0;" />`;
+  }
+  return `<span style="font-size:17px;font-weight:700;color:#ffffff;font-family:${EMAIL_FONT};">${escapeHtml(ctx.name)}</span>`;
+}
+
 function htmlShell(parts: ShellParts): string {
   const { ctx } = parts;
-  const accent = safeAccent(ctx.accentColor);
-  const logo = ctx.logoUrl
-    ? `<img src="${escapeHtml(ctx.logoUrl)}" width="120" alt="${escapeHtml(ctx.name)}" style="max-height:40px;height:auto;width:auto;max-width:180px;display:block;border:0;" />`
-    : `<span style="font-size:18px;font-weight:700;color:#111;">${escapeHtml(ctx.name)}</span>`;
-
-  const poweredBy = ctx.poweredByRemoved
-    ? ""
-    : `<p style="margin:16px 0 0;font-size:12px;color:#777;">Status updates delivered by <a href="https://fajita.io" style="color:#777;">Fajita</a>.</p>`;
 
   const manageFooter = parts.showManageFooter && parts.links
-    ? `<p style="margin:0 0 6px;font-size:12px;color:#777;">
-         <a href="${escapeHtml(parts.links.statusPageUrl)}" style="color:#555;">View status page</a>
+    ? `<p style="margin:0 0 8px;font-size:12px;line-height:1.5;color:${EMAIL_COLORS.footerMuted};font-family:${EMAIL_FONT};">
+         <a href="${escapeHtml(parts.links.statusPageUrl)}" style="color:${EMAIL_COLORS.muted};text-decoration:underline;">View status page</a>
          &nbsp;·&nbsp;
-         <a href="${escapeHtml(parts.links.preferenceUrl)}" style="color:#555;">Update preferences</a>
+         <a href="${escapeHtml(parts.links.preferenceUrl)}" style="color:${EMAIL_COLORS.muted};text-decoration:underline;">Update preferences</a>
          &nbsp;·&nbsp;
-         <a href="${escapeHtml(parts.links.unsubscribeUrl)}" style="color:#555;">Unsubscribe</a>
+         <a href="${escapeHtml(parts.links.unsubscribeUrl)}" style="color:${EMAIL_COLORS.muted};text-decoration:underline;">Unsubscribe</a>
        </p>`
     : "";
 
   const privacy = ctx.privacyUrl
-    ? `<p style="margin:0;font-size:12px;color:#999;"><a href="${escapeHtml(ctx.privacyUrl)}" style="color:#999;">Subscriber privacy notice</a></p>`
+    ? `<p style="margin:0 0 8px;font-size:12px;line-height:1.5;color:${EMAIL_COLORS.faint};font-family:${EMAIL_FONT};"><a href="${escapeHtml(ctx.privacyUrl)}" style="color:${EMAIL_COLORS.faint};text-decoration:underline;">Subscriber privacy notice</a></p>`
     : "";
 
-  return `<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<meta name="color-scheme" content="light dark" />
-<title>${escapeHtml(ctx.name)}</title>
-</head>
-<body style="margin:0;padding:0;background:#f4f4f5;color:#111;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
-<span style="display:none!important;visibility:hidden;opacity:0;height:0;width:0;overflow:hidden;">${escapeHtml(parts.preheader)}</span>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f5;">
-  <tr><td align="center" style="padding:24px 12px;">
-    <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:12px;border:1px solid #e5e5e7;">
-      <tr><td style="padding:24px 28px;border-bottom:4px solid ${accent};">${logo}</td></tr>
-      <tr><td style="padding:28px;">${parts.bodyHtml}</td></tr>
-      <tr><td style="padding:20px 28px 28px;border-top:1px solid #eee;">
-        ${manageFooter}
-        ${privacy}
-        ${poweredBy}
-      </td></tr>
-    </table>
-  </td></tr>
-</table>
-</body>
-</html>`;
+  const deliveredBy = ctx.poweredByRemoved
+    ? ""
+    : `<p style="margin:0;font-size:12px;line-height:1.5;color:${EMAIL_COLORS.faint};font-family:${EMAIL_FONT};">Status updates delivered by <a href="https://fajita.io" style="color:${EMAIL_COLORS.muted};text-decoration:underline;">Fajita</a></p>`;
+
+  return emailShell({
+    previewText: parts.preheader,
+    title: ctx.name,
+    headerHtml: subscriberHeaderHtml(ctx),
+    bodyHtml: parts.bodyHtml,
+    footerHtml: `${manageFooter}${privacy}${deliveredBy}`,
+  });
 }
 
 function button(label: string, url: string, accent: string): string {
-  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:20px 0;"><tr>
-    <td style="border-radius:8px;background:${accent};">
-      <a href="${escapeHtml(url)}" style="display:inline-block;padding:12px 22px;font-size:15px;font-weight:600;color:#ffffff;text-decoration:none;border-radius:8px;">${escapeHtml(label)}</a>
-    </td></tr></table>`;
+  return accentButton(label, url, accent);
 }
 
 function textFooter(links: EmailLinks, ctx: StatusPageEmailContext): string {
@@ -151,6 +132,7 @@ function textFooter(links: EmailLinks, ctx: StatusPageEmailContext): string {
   ];
   if (ctx.privacyUrl) lines.push(`Privacy: ${ctx.privacyUrl}`);
   if (!ctx.poweredByRemoved) lines.push("Status updates delivered by Fajita (https://fajita.io).");
+  lines.push(poweredByMemoText());
   return lines.join("\n");
 }
 
@@ -171,16 +153,16 @@ export function renderConfirmationEmail(
   const accent = safeAccent(ctx.accentColor);
   const subject = `Confirm your subscription to ${ctx.name}`;
   const body = `
-    <h1 style="margin:0 0 12px;font-size:22px;line-height:1.3;color:#111;">Confirm your subscription</h1>
-    <p style="margin:0 0 12px;font-size:15px;line-height:1.55;color:#333;">${escapeHtml(input.explanation)}</p>
-    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 4px;font-size:14px;color:#333;">
+    <h1 style="margin:0 0 12px;font-size:24px;line-height:1.25;color:${EMAIL_COLORS.carbon};font-family:${EMAIL_FONT};">Confirm your subscription</h1>
+    <p style="margin:0 0 12px;font-size:15px;line-height:1.55;color:${EMAIL_COLORS.body};font-family:${EMAIL_FONT};">${escapeHtml(input.explanation)}</p>
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 4px;font-size:14px;color:${EMAIL_COLORS.body};font-family:${EMAIL_FONT};">
       <tr><td style="padding:2px 0;">Components: ${escapeHtml(input.scopeSummary)}</td></tr>
       <tr><td style="padding:2px 0;">Updates: ${escapeHtml(input.eventSummary)}</td></tr>
     </table>
     ${button("Confirm subscription", input.confirmUrl, accent)}
-    <p style="margin:0 0 8px;font-size:13px;line-height:1.5;color:#555;">Or paste this link into your browser:<br />
-      <a href="${escapeHtml(input.confirmUrl)}" style="color:#555;word-break:break-all;">${escapeHtml(input.confirmUrl)}</a></p>
-    <p style="margin:8px 0 0;font-size:13px;color:#777;">This link expires in ${input.expiresHours} hours. If you did not request this, ignore this email and nothing will happen.</p>
+    <p style="margin:0 0 8px;font-size:13px;line-height:1.5;color:${EMAIL_COLORS.muted};font-family:${EMAIL_FONT};">Or paste this link into your browser:<br />
+      <a href="${escapeHtml(input.confirmUrl)}" style="color:${EMAIL_COLORS.muted};word-break:break-all;text-decoration:underline;">${escapeHtml(input.confirmUrl)}</a></p>
+    <p style="margin:8px 0 0;font-size:13px;color:${EMAIL_COLORS.faint};font-family:${EMAIL_FONT};">This link expires in ${input.expiresHours} hours. If you did not request this, ignore this email and nothing will happen.</p>
   `;
   const html = htmlShell({ ctx, preheader: input.explanation, bodyHtml: body, showManageFooter: false });
   const text = [
@@ -196,6 +178,7 @@ export function renderConfirmationEmail(
     `This link expires in ${input.expiresHours} hours. If you did not request this, ignore this email.`,
     ctx.privacyUrl ? `\nPrivacy: ${ctx.privacyUrl}` : "",
     ctx.poweredByRemoved ? "" : "Status updates delivered by Fajita (https://fajita.io).",
+    poweredByMemoText(),
   ].join("\n");
   return { subject, html, text };
 }
@@ -243,17 +226,17 @@ export function renderEventEmail(
   const rowsHtml = rows
     .map(
       (r) =>
-        `<tr><td style="padding:4px 12px 4px 0;font-size:13px;color:#777;vertical-align:top;white-space:nowrap;">${escapeHtml(r.label)}</td><td style="padding:4px 0;font-size:14px;color:#111;">${escapeHtml(r.value)}</td></tr>`,
+        `<tr><td style="padding:4px 12px 4px 0;font-size:13px;color:${EMAIL_COLORS.muted};vertical-align:top;white-space:nowrap;font-family:${EMAIL_FONT};">${escapeHtml(r.label)}</td><td style="padding:4px 0;font-size:14px;color:${EMAIL_COLORS.carbon};font-family:${EMAIL_FONT};">${escapeHtml(r.value)}</td></tr>`,
     )
     .join("");
   const summaryHtml = payload.summary
-    ? `<p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#333;white-space:pre-wrap;">${escapeHtml(payload.summary)}</p>`
+    ? `<p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:${EMAIL_COLORS.body};white-space:pre-wrap;font-family:${EMAIL_FONT};">${escapeHtml(payload.summary)}</p>`
     : "";
   const link = payload.incidentUrl || links.statusPageUrl;
 
   const body = `
-    <h1 style="margin:0 0 6px;font-size:21px;line-height:1.3;color:#111;">${escapeHtml(payload.title)}</h1>
-    <p style="margin:0 0 16px;font-size:14px;font-weight:600;color:${accent};">${escapeHtml(payload.statusLabel)}</p>
+    <h1 style="margin:0 0 6px;font-size:24px;line-height:1.25;color:${EMAIL_COLORS.carbon};font-family:${EMAIL_FONT};">${escapeHtml(payload.title)}</h1>
+    <p style="margin:0 0 16px;font-size:14px;font-weight:600;color:${accent};font-family:${EMAIL_FONT};">${escapeHtml(payload.statusLabel)}</p>
     ${summaryHtml}
     <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 4px;">${rowsHtml}</table>
     ${button("View status page", link, accent)}

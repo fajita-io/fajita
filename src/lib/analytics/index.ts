@@ -4,6 +4,7 @@ export {
   DATAFAST_SESSION_COOKIE,
   DATAFAST_VISITOR_COOKIE,
 } from "@/lib/analytics/config";
+export { googleAnalyticsConfig } from "@/lib/analytics/google-config";
 export {
   DataFastGoals,
   isValidGoalName,

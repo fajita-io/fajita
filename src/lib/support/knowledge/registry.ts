@@ -156,13 +156,13 @@ function toolSources(): KnowledgeSource[] {
 
 function pricingSource(): KnowledgeSource {
   const lines = publicPlans.map((p) => {
-    const limit =
-      p.monitorLimit === null ? "unlimited monitors" : `${p.monitorLimit} monitors`;
+    const limit = `${p.monitorLimit} monitors`;
+    const checks = `${p.checksLabel} checks/mo`;
     const price =
       pricingConfig.published && p.monthlyUsd != null
         ? `$${p.monthlyUsd}/mo, $${p.yearlyUsd}/yr`
         : "see pricing page";
-    return `${p.name}: ${limit}; ${price}. ${p.audience}`;
+    return `${p.name}: ${checks}, ${limit}; ${price}. ${p.audience}`;
   });
   return {
     sourceId: "registry:pricing",

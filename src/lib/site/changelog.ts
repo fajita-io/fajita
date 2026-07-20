@@ -19,6 +19,18 @@ export interface ChangelogEntry {
 
 export const changelog: ChangelogEntry[] = [
   {
+    id: "check-based-pricing",
+    date: "2026-07-20",
+    title: "Check-based pricing",
+    tag: "announcement",
+    body: [
+      "Plans are now Core, Team, and Scale. Each includes a monthly check allowance (100K, 500K, and 2M checks) aligned with how monitoring actually runs.",
+      "List prices are $12, $49, and $99 per month. Annual billing saves two months. Scale includes up to 150 monitors.",
+      "Your billing usage page shows check consumption for the current period.",
+      "When you reach your included checks, scheduled monitoring pauses until you upgrade or your billing period resets. No overage charges.",
+    ],
+  },
+  {
     id: "accounts-open",
     date: "2026-07-17",
     title: "Accounts are open",

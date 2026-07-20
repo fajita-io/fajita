@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/app/ui";
 import { PlanChooser, type PlanCardData } from "@/components/app/billing/plan-chooser";
 import { requireBillingContext } from "@/lib/app/billing-page";
 import { CATALOG_PLANS } from "@/lib/billing/catalog";
+import { formatChecksCompact } from "@/lib/billing/check-volume";
 import { intervalLabel } from "@/lib/monitoring/entitlements";
 
 export const metadata: Metadata = {
@@ -16,6 +17,9 @@ function highlightsFor(planKey: string): string[] {
   if (!plan) return [];
   const e = plan.entitlements;
   const list: string[] = [];
+  list.push(
+    `${formatChecksCompact(e.max_monthly_checks)} checks included per month`,
+  );
   list.push(
     e.max_active_monitors == null
       ? "Unlimited monitors"

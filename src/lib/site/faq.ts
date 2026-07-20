@@ -66,7 +66,17 @@ export const billingFaq: FaqItem[] = [
   {
     question: "What do the plans cost?",
     answer:
-      "Starter is $9 per month, Pro is $19 per month, and Business is $39 per month. Annual billing is available on every plan at a lower monthly equivalent. Exact amounts are on this page and match what Stripe charges at checkout.",
+      "Core is $12 per month with 100K checks included. Team is $49 per month with 500K checks. Scale is $99 per month with 2M checks. Annual billing saves two months on every plan. Exact amounts are on this page and match what Stripe charges at checkout.",
+  },
+  {
+    question: "What counts as a check?",
+    answer:
+      "Every scheduled monitor run that completes counts as one check. Website, API, SSL, and heartbeat monitors all use the same meter. Your usage resets each billing period.",
+  },
+  {
+    question: "What happens if I exceed my check allowance?",
+    answer:
+      "We show usage on your billing page before you hit the limit. When you reach your included checks, scheduled monitoring pauses until you upgrade or your billing period resets. There are no overage charges.",
   },
   {
     question: "Is there monthly and annual billing?",

@@ -8,6 +8,8 @@
  *   npx tsx scripts/auth-production-verify.ts --production
  */
 import { loadEnvConfig } from "@next/env";
+import { existsSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 import {
   authProductionReady,
@@ -18,6 +20,27 @@ import {
 loadEnvConfig(process.cwd());
 
 const production = process.argv.includes("--production");
+
+if (production) {
+  const prodPath = resolve(process.cwd(), ".env.production.local");
+  if (existsSync(prodPath)) {
+    for (const line of readFileSync(prodPath, "utf8").split("\n")) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith("#")) continue;
+      const eq = trimmed.indexOf("=");
+      if (eq <= 0) continue;
+      const key = trimmed.slice(0, eq);
+      let val = trimmed.slice(eq + 1);
+      if (
+        (val.startsWith('"') && val.endsWith('"')) ||
+        (val.startsWith("'") && val.endsWith("'"))
+      ) {
+        val = val.slice(1, -1);
+      }
+      process.env[key] = val;
+    }
+  }
+}
 
 const checks = evaluateAuthProductionReadiness({ production });
 
@@ -41,7 +64,9 @@ if (!ready) {
     console.error("3. Supabase Dashboard → Authentication → Third-party → Clerk (enable)");
     console.error("4. Stripe Dashboard → Webhooks → https://fajita.io/api/webhooks/stripe");
     console.error("5. Vercel Production env: pk_live_/sk_live_ Clerk keys, all webhook secrets");
-    console.error("6. Run: clerk env pull --instance prod (after clerk auth login)");
+    console.error("6. Cloudflare DNS: npm run dns:clerk (requires CLOUDFLARE_API_TOKEN)");
+    console.error("   Records: clerk.fajita.io, accounts.fajita.io, mail/DKIM CNAMEs");
+    console.error("7. Run: clerk auth login && clerk env pull .env.clerk.production --instance prod");
     console.error("See docs/operations/auth-production-setup.md");
   }
   process.exit(1);

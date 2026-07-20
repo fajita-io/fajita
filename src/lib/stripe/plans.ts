@@ -6,19 +6,20 @@ export type PlanDefinition = {
   id: PlanId;
   name: string;
   description: string;
-  monitorLimit: number | null;
+  monitorLimit: number;
   lookupKeys: Record<BillingInterval, string>;
 };
 
 /**
- * Stripe Prices should use matching lookup_keys in Dashboard or via API.
- * Example: fajita_starter_monthly, fajita_starter_yearly
+ * Stripe Prices use matching lookup_keys in Dashboard or via API.
+ * Internal keys (starter/pro/business) are stable for billing; customer-facing
+ * names are Core, Team, and Scale.
  */
 export const PLANS: Record<PlanId, PlanDefinition> = {
   starter: {
     id: "starter",
-    name: "Starter",
-    description: "For a handful of sites that need to stay up.",
+    name: "Core",
+    description: "One product. One person on call. Checks included.",
     monitorLimit: 10,
     lookupKeys: {
       month: "fajita_starter_monthly",
@@ -27,8 +28,8 @@ export const PLANS: Record<PlanId, PlanDefinition> = {
   },
   pro: {
     id: "pro",
-    name: "Pro",
-    description: "More monitors, faster alerts, room to grow.",
+    name: "Team",
+    description: "More monitors, faster checks, room for the whole crew.",
     monitorLimit: 50,
     lookupKeys: {
       month: "fajita_pro_monthly",
@@ -37,9 +38,9 @@ export const PLANS: Record<PlanId, PlanDefinition> = {
   },
   business: {
     id: "business",
-    name: "Business",
+    name: "Scale",
     description: "High-volume monitoring for teams that cannot miss a beat.",
-    monitorLimit: null,
+    monitorLimit: 150,
     lookupKeys: {
       month: "fajita_business_monthly",
       year: "fajita_business_yearly",

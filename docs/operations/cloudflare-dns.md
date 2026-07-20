@@ -27,6 +27,19 @@ All records are **DNS only** (Cloudflare proxy off) so Vercel terminates TLS.
 | A | `status.fajita.io` | `76.76.21.21` | Status page zone |
 | CNAME | `*.status.fajita.io` | `4106b7d014662895.vercel-dns-016.com` | Hosted status subdomains |
 | CNAME | `cname.status.fajita.io` | `4106b7d014662895.vercel-dns-016.com` | Customer custom-domain CNAME target |
+| CNAME | `clerk.fajita.io` | `frontend-api.clerk.services` | Clerk Frontend API (DNS only) |
+| CNAME | `accounts.fajita.io` | `accounts.clerk.services` | Clerk Accounts portal (DNS only) |
+| CNAME | `clkmail.fajita.io` | `mail.22giblw4f189.clerk.services` | Clerk transactional mail |
+| CNAME | `clk._domainkey.fajita.io` | `dkim1.22giblw4f189.clerk.services` | Clerk DKIM |
+| CNAME | `clk2._domainkey.fajita.io` | `dkim2.22giblw4f189.clerk.services` | Clerk DKIM |
+
+Apply Clerk records only:
+
+```bash
+CLOUDFLARE_API_TOKEN=your-token npm run dns:clerk
+```
+
+Without `clerk.fajita.io`, production Clerk keys (`pk_live_`) cannot authenticate users on `fajita.io`.
 
 Vercel domains attached to the project:
 

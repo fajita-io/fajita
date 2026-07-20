@@ -1,7 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Suspense } from "react";
 
 import { DataFastScript } from "@/components/analytics/datafast-script";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
+import { GoogleAnalyticsPageView } from "@/components/analytics/google-analytics-page-view";
 import {
   clerkSignInFallbackRedirectUrl,
   clerkSignInUrl,
@@ -90,6 +93,7 @@ export default function RootLayout({
     >
       <html lang="en" className={fontVariables} suppressHydrationWarning>
         <head>
+          <GoogleAnalytics />
           <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
           <script
             type="application/ld+json"
@@ -101,6 +105,9 @@ export default function RootLayout({
           />
         </head>
         <body>
+          <Suspense fallback={null}>
+            <GoogleAnalyticsPageView />
+          </Suspense>
           <DataFastScript />
           {children}
         </body>

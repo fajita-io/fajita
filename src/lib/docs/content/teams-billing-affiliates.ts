@@ -164,10 +164,11 @@ export const teamsBillingAffiliatePages: DocPage[] = [
       productVersion: PRODUCT_VERSION,
     },
     body: [
-      p("Plans include a monitor limit. When you reach it, Fajita stops you from creating more monitors and explains why."),
+      p("Plans include a monthly check allowance and a monitor limit. Fajita shows usage on your billing page before you hit either ceiling."),
       ul([
-        "Existing monitors keep running.",
-        "You are prompted to change plans to raise the limit.",
+        "When you reach your check allowance, scheduled monitoring pauses until you upgrade or your billing period resets.",
+        "When you reach your monitor limit, you cannot create more monitors until something changes.",
+        "Existing monitors and data are preserved.",
         "No overage charges are applied.",
       ]),
     ],

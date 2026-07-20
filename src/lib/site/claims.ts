@@ -78,7 +78,7 @@ export const publicClaims: PublicClaim[] = [
   {
     id: "check-intervals",
     statement:
-      "Check intervals from five minutes on Starter to one minute on Pro and Business. See pricing for plan limits.",
+      "Check intervals from five minutes on Core to one minute on Team and Scale. See pricing for plan limits.",
     status: "available-now",
     notes:
       "Do not publish a specific number of seconds anywhere until entitlements are final.",
@@ -186,11 +186,18 @@ export const publicClaims: PublicClaim[] = [
 
   /* Billing */
   {
+    id: "check-volume-limits",
+    statement:
+      "Each plan includes a monthly check allowance. Scheduled monitoring pauses when you reach it until you upgrade or the billing period resets.",
+    status: "available-now",
+    notes: "Enforced in the scheduler via billing_entitlement_snapshots and billing_usage_counters. No overage billing.",
+  },
+  {
     id: "plans",
     statement:
-      "Three plans: Starter (10 monitors), Pro (50 monitors), Business (unlimited monitors).",
+      "Three plans: Core (100K checks/mo, 10 monitors), Team (500K checks, 50 monitors), Scale (2M checks, 150 monitors).",
     status: "available-now",
-    notes: "Names and monitor limits locked in src/lib/stripe/plans.ts.",
+    notes: "Customer names in src/lib/stripe/plans.ts; limits in BILLING_CATALOG.",
   },
   {
     id: "pricing-amounts",

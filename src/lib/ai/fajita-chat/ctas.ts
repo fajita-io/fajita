@@ -92,7 +92,7 @@ export function suggestQuickReplies(text: string, page?: string): string[] {
   const t = text.toLowerCase();
   const chips: string[] = [];
 
-  if (page?.includes("/pricing") || /(plan|price|\$9|\$19|\$39)/i.test(t)) {
+  if (page?.includes("/pricing") || /(plan|price|\$12|\$49|\$99|check)/i.test(t)) {
     chips.push("Which plan fits a small SaaS?");
     chips.push("Why no free plan?");
   }
@@ -134,7 +134,7 @@ export function getFallbackResponse(userText: string): {
   if (/(price|cost|plan|\$)/i.test(t)) {
     return {
       content:
-        "Three plans. **Starter** ($9/mo, 10 monitors) for one product. **Pro** ($19/mo, 50 monitors) when you grow. **Business** ($39/mo, unlimited) for agencies. No free tier. Tap **See pricing** below for the full picture.",
+        "Three plans with checks included every month. **Core** ($12/mo, 100K checks) for one product. **Team** ($49/mo, 500K checks) when you grow. **Scale** ($99/mo, 2M checks) for agencies. No free tier. Tap **See pricing** below for the full picture.",
       ctas: buildDefaultWelcomeCtas(),
       quickReplies: ["Which plan fits a small SaaS?", "Why no free plan?"],
     };
@@ -142,7 +142,7 @@ export function getFallbackResponse(userText: string): {
   if (/(free|uptimerobot|cheap)/i.test(t)) {
     return {
       content:
-        "Free pings exist. Verified incidents, status pages, and heartbeats do not come free. Fajita charges because it confirms failures before it pages you. One real outage costs more than **Starter**.",
+        "Free pings exist. Verified incidents, status pages, and heartbeats do not come free. Fajita charges because it confirms failures before it pages you. One real outage costs more than **Core**.",
       ctas: buildDefaultWelcomeCtas(),
       quickReplies: ["How does verification work?", "Start monitoring"],
     };

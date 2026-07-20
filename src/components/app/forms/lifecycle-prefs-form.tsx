@@ -38,7 +38,7 @@ const ITEMS: {
   {
     key: "usage_notices",
     label: "Usage limit notices",
-    desc: "A heads-up at 80 and 100 percent of your plan's monitor limit.",
+    desc: "A heads-up at 80 and 100 percent of your plan's check allowance or monitor limit.",
   },
   {
     key: "reactivation_reminders",

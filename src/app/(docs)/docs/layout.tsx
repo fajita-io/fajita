@@ -1,5 +1,6 @@
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
+import { ReadingAttribution } from "@/components/site/reading-attribution";
 import { DocsNav } from "@/components/docs/docs-nav";
 import { DocsSearch } from "@/components/docs/search";
 import { AskFajitaMount } from "@/components/support/ask-fajita-mount";
@@ -27,6 +28,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
         </div>
         <main id="docs-main" className="fj-docs-shell__main">
           {children}
+          <ReadingAttribution />
         </main>
       </div>
       <SiteFooter />

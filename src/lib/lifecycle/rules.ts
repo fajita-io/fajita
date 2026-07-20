@@ -2,6 +2,7 @@ import "server-only";
 
 import { serviceClient } from "@/lib/supabase/service";
 import { getOrgEntitlements } from "@/lib/billing/engine";
+import { getUsageSnapshot } from "@/lib/billing/usage";
 import {
   assessLifecycleState,
   type LifecycleAssessment,
@@ -357,6 +358,45 @@ const usageLimitRule: LifecycleRule = async (ctx) => {
   return [{ rule: "usage_limit_notice", result }];
 };
 
+/** Usage notices at 80% and 100% of the monthly check allowance. */
+const checkUsageLimitRule: LifecycleRule = async (ctx) => {
+  const entitlements = await getOrgEntitlements(ctx.organizationId);
+  const limit = entitlements.max_monthly_checks;
+  if (!limit || limit <= 0) return notApplicable("check_usage_limit");
+
+  const snapshot = await getUsageSnapshot(ctx.organizationId);
+  const usage = snapshot.checksThisPeriod ?? 0;
+  if (usage <= 0) return notApplicable("check_usage_limit");
+
+  const ratio = usage / limit;
+  if (ratio < 0.8) return notApplicable("check_usage_limit");
+
+  const threshold: 80 | 100 = ratio >= 1 ? 100 : 80;
+  const period =
+    snapshot.checksPeriodStart?.slice(0, 7) ??
+    new Date(ctx.now).toISOString().slice(0, 7);
+  const result = await createLifecycleIntent({
+    organizationId: ctx.organizationId,
+    userId: ctx.ownerUserId,
+    messageKey: "usage_limit_notice",
+    dedupKey: dedupKeys.usageLimitNotice(
+      ctx.organizationId,
+      "monthly_checks",
+      threshold,
+      period,
+      ctx.ownerUserId,
+    ),
+    payload: {
+      organization_name: ctx.organizationName,
+      limit_key: "monthly_checks",
+      threshold,
+      usage,
+      limit,
+    },
+  });
+  return [{ rule: "check_usage_limit_notice", result }];
+};
+
 /** Cancellation, pre-deletion, and reactivation reminders. */
 const cancellationLifecycleRule: LifecycleRule = async (ctx) => {
   const db = serviceClient();
@@ -485,6 +525,7 @@ const RULES: LifecycleRule[] = [
   statusPageReminderRule,
   activationCompleteRule,
   usageLimitRule,
+  checkUsageLimitRule,
   cancellationLifecycleRule,
 ];
 

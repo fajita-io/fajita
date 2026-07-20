@@ -68,15 +68,19 @@ npm test
 npm run typecheck
 ```
 
-### Vercel production env (current gaps)
+### Vercel production env
 
-As of the last audit, Vercel Production had **empty** `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` placeholders, and was **missing** `CLERK_WEBHOOK_SIGNING_SECRET`, all Stripe keys, and a non-empty `NEXT_PUBLIC_APP_URL`. Production builds will fail the env gate in `next.config.ts` until these are set.
+Run `npm run wire:production` to sync `.env.production.local` → Vercel Production (webhooks, Clerk, Stripe, Supabase, Resend, worker tokens). Then `vercel --prod`.
 
-After `clerk auth login` and `clerk env pull .env.clerk.production --instance prod`:
+Verify:
 
 ```bash
-npm run auth:sync-vercel
+npm run auth:verify:prod
+npm run stripe:verify-prices
+SMOKE_BASE_URL=https://fajita.io npm run smoke:public
 ```
+
+Clerk custom domain DNS (`npm run dns:clerk`) requires `CLOUDFLARE_API_TOKEN` with Zone DNS Edit for `fajita.io`. See `docs/operations/cloudflare-dns.md`.
 
 Or set each variable manually in the Vercel dashboard.
 

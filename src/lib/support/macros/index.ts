@@ -226,7 +226,7 @@ export const SUPPORT_MACROS: SupportMacro[] = [
     id: "plan_limit_reached",
     triggers: [/plan\s+limit/i, /monitor\s+limit/i, /too\s+many\s+monitors/i, /upgrade/i],
     explanation:
-      "Active monitor limits come from the current plan. Starter allows 10, Pro allows 50, and Business has no fixed monitor cap in the public catalog.",
+      "Active limits come from the current plan. Core includes 100K checks/mo and 10 monitors. Team includes 500K checks and 50 monitors. Scale includes 2M checks and 150 monitors.",
     nextActions: ["Open usage", "Review pricing"],
     sourceLinks: [
       {

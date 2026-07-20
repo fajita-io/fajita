@@ -57,7 +57,8 @@
 }
 
 .fj-header__inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: var(--space-6);
   min-height: 4.25rem;
@@ -68,20 +69,21 @@
   align-items: center;
   border-radius: var(--radius-xs);
   flex: none;
+  justify-self: start;
 }
 
 .fj-header__nav {
   display: flex;
   align-items: center;
   gap: var(--space-1);
-  flex: 1;
+  justify-self: center;
 }
 
 .fj-header__actions {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  margin-left: auto;
+  justify-self: end;
 }
 
 .fj-nav-link {
@@ -240,13 +242,17 @@
 }
 
 @media (max-width: 63.75rem) {
+  .fj-header__inner {
+    display: flex;
+  }
+
   .fj-header__nav,
   .fj-header__actions .fj-header__login {
     display: none;
   }
 
-  .fj-header__menu-button {
-    display: inline-flex;
+  .fj-header__actions {
+    margin-left: auto;
   }
 
   .fj-mobile-panel {
@@ -1280,6 +1286,86 @@ body[data-nav-open="true"] {
   flex: none;
   position: relative;
   top: -2px;
+}
+
+/* Pricing volume slider */
+
+.fj-pricing-volume {
+  display: grid;
+  gap: var(--space-8);
+  margin-top: var(--space-6);
+}
+
+.fj-pricing-volume__controls {
+  display: grid;
+  gap: var(--space-8);
+}
+
+@media (min-width: 48rem) {
+  .fj-pricing-volume__controls {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.fj-pricing-volume__range {
+  width: 100%;
+  margin-top: var(--space-3);
+  accent-color: var(--color-brand-ember);
+}
+
+.fj-pricing-volume__calc {
+  padding: var(--space-5);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--color-background-primary);
+}
+
+.fj-pricing-volume__calc-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  align-items: center;
+  margin-top: var(--space-3);
+}
+
+.fj-pricing-volume__input {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  background: var(--color-background-primary);
+}
+
+.fj-pricing-volume__plans {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+@media (min-width: 48rem) {
+  .fj-pricing-volume__plans {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.fj-pricing-volume__plan {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--color-background-primary);
+}
+
+.fj-pricing-volume__plan--recommended {
+  border-color: var(--color-brand-ember);
+  box-shadow: var(--shadow-low);
+}
+
+.fj-pricing-volume__plan--dim {
+  opacity: 0.72;
 }
 
 /* Comparison table */

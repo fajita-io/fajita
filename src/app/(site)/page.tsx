@@ -308,10 +308,10 @@ export default function HomePage() {
         <div className="fj-container">
           <SectionHeading
             eyebrow="Pricing"
-            title="Three plans. No usage traps."
+            title="Core, Team, Scale"
             lede={
               pricingConfig.published
-                ? pricingConfig.publishedNote
+                ? "Checks included every month. Pick the plan that matches your volume."
                 : pricingConfig.unpublishedNote
             }
             as="h2"
@@ -329,8 +329,11 @@ export default function HomePage() {
                   {plan.audience}
                 </p>
                 <p className="fj-plan__monitors">
-                  {plan.monitorLimit ?? "Unlimited"}
-                  <span>monitors</span>
+                  {plan.checksLabel}
+                  <span>checks / mo</span>
+                </p>
+                <p className="fj-body-sm" style={{ margin: 0, color: "var(--color-text-muted)" }}>
+                  Up to {plan.monitorLimit} monitors
                 </p>
                 {pricingConfig.published && plan.monthlyUsd !== null ? (
                   <p className="fj-heading-3" style={{ margin: 0 }}>

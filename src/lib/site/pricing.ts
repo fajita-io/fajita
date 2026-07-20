@@ -3,32 +3,43 @@
  *
  * Dollar amounts mirror BILLING_CATALOG (cents → dollars). When `published`
  * is true, marketing surfaces show amounts. Checkout still resolves Stripe
- * Prices by lookup key; these numbers are the customer-facing catalog.
+ * Prices by lookup key; keep Dashboard prices aligned with these cents.
  */
-import { BILLING_CATALOG } from "@/lib/billing/catalog";
+import {
+  BILLING_CATALOG,
+  checksIncludedForPlan,
+} from "@/lib/billing/catalog";
+import {
+  formatChecksCompact,
+  VOLUME_TIERS,
+  type VolumeTier,
+} from "@/lib/billing/check-volume";
 import { PLANS, type PlanId } from "@/lib/stripe/plans";
 
 export interface PublicPlan {
   id: PlanId;
   name: string;
-  /** Who it is for, in one plain line. */
   audience: string;
-  monitorLimit: number | null;
-  /** Approved dollar amounts. Null until published. */
+  monitorLimit: number;
+  checksIncluded: number;
+  checksLabel: string;
   monthlyUsd: number | null;
   yearlyUsd: number | null;
   highlight: boolean;
 }
 
 export const pricingConfig = {
-  /** True when dollar amounts may appear on customer-facing surfaces. */
   published: true as boolean,
   unpublishedNote:
     "Pricing is on the pricing page. Pick a plan and start monitoring.",
-  /** Lede used when amounts are published (homepage preview, pricing hero). */
   publishedNote:
-    "Starter, Pro, and Business. Clear monitor limits. Monthly or annual. No usage traps.",
+    "Core, Team, and Scale. Checks included every month. Monthly or annual. No overage charges.",
+  limitNote:
+    "When you reach your included checks, scheduled monitoring pauses until you upgrade or your billing period resets.",
+  annualNote: "Annual billing saves two months on every plan.",
 } as const;
+
+export { VOLUME_TIERS, type VolumeTier };
 
 function dollarsFromCents(cents: number): number {
   return cents / 100;
@@ -40,6 +51,8 @@ export const publicPlans: PublicPlan[] = [
     name: PLANS.starter.name,
     audience: "For one product and the person who answers for it.",
     monitorLimit: PLANS.starter.monitorLimit,
+    checksIncluded: checksIncludedForPlan("starter"),
+    checksLabel: formatChecksCompact(checksIncludedForPlan("starter")),
     monthlyUsd: dollarsFromCents(BILLING_CATALOG.starter.pricing.monthlyCents),
     yearlyUsd: dollarsFromCents(BILLING_CATALOG.starter.pricing.yearlyCents),
     highlight: false,
@@ -49,6 +62,8 @@ export const publicPlans: PublicPlan[] = [
     name: PLANS.pro.name,
     audience: "For growing products that need more monitors and faster checks.",
     monitorLimit: PLANS.pro.monitorLimit,
+    checksIncluded: checksIncludedForPlan("pro"),
+    checksLabel: formatChecksCompact(checksIncludedForPlan("pro")),
     monthlyUsd: dollarsFromCents(BILLING_CATALOG.pro.pricing.monthlyCents),
     yearlyUsd: dollarsFromCents(BILLING_CATALOG.pro.pricing.yearlyCents),
     highlight: true,
@@ -58,6 +73,8 @@ export const publicPlans: PublicPlan[] = [
     name: PLANS.business.name,
     audience: "For teams and agencies watching many products at once.",
     monitorLimit: PLANS.business.monitorLimit,
+    checksIncluded: checksIncludedForPlan("business"),
+    checksLabel: formatChecksCompact(checksIncludedForPlan("business")),
     monthlyUsd: dollarsFromCents(BILLING_CATALOG.business.pricing.monthlyCents),
     yearlyUsd: dollarsFromCents(BILLING_CATALOG.business.pricing.yearlyCents),
     highlight: false,
@@ -72,7 +89,6 @@ export type ComparisonValue =
 
 export interface ComparisonRow {
   label: string;
-  /** One value per plan, in publicPlans order. */
   values: [ComparisonValue, ComparisonValue, ComparisonValue];
   note?: string;
 }
@@ -81,14 +97,23 @@ const yes: ComparisonValue = { kind: "yes" };
 const no: ComparisonValue = { kind: "no" };
 const text = (value: string): ComparisonValue => ({ kind: "text", value });
 
-/**
- * Comparison rows mirror catalog entitlements. Keep in sync when plan limits
- * change in BILLING_CATALOG.
- */
 export const comparisonRows: ComparisonRow[] = [
   {
+    label: "Checks included / month",
+    values: [
+      text(formatChecksCompact(checksIncludedForPlan("starter"))),
+      text(formatChecksCompact(checksIncludedForPlan("pro"))),
+      text(formatChecksCompact(checksIncludedForPlan("business"))),
+    ],
+    note: "Primary usage meter. Monitoring pauses at the limit until you upgrade.",
+  },
+  {
     label: "Monitors",
-    values: [text("10"), text("50"), text("Unlimited")],
+    values: [
+      text(String(PLANS.starter.monitorLimit)),
+      text(String(PLANS.pro.monitorLimit)),
+      text(String(PLANS.business.monitorLimit)),
+    ],
   },
   {
     label: "Website, API, SSL, and cron checks",

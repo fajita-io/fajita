@@ -5,6 +5,7 @@ import { AppSection } from "@/components/app/ui";
 import { BillingActions } from "@/components/app/billing/billing-actions";
 import { requireBillingContext } from "@/lib/app/billing-page";
 import { BILLING_CATALOG } from "@/lib/billing/catalog";
+import { formatChecksCompact } from "@/lib/billing/check-volume";
 import { subscriptionStatusLabel } from "@/lib/billing/subscription-state";
 
 export const metadata: Metadata = {
@@ -28,8 +29,21 @@ export default async function BillingOverviewPage() {
   const hasSubscription = state.status !== "none";
   const monitorLimit = state.entitlements.max_active_monitors;
 
+  const checkLimit = state.entitlements.max_monthly_checks;
+  const checksUsed = usage.checksThisPeriod ?? 0;
+  const atCheckLimit = checkLimit > 0 && checksUsed >= checkLimit;
+
   return (
     <>
+      {atCheckLimit ? (
+        <div className="fj-notice fj-notice--warning" role="status" style={{ marginBottom: "var(--space-4)" }}>
+          <p style={{ margin: 0 }}>
+            <strong>Check allowance reached.</strong> Scheduled monitoring is paused
+            until you upgrade or your billing period resets.{" "}
+            <Link href="/app/settings/billing/plans">Review plans</Link>
+          </p>
+        </div>
+      ) : null}
       {state.grace ? (
         <div className="fj-notice fj-notice--warning" role="status" style={{ marginBottom: "var(--space-4)" }}>
           <p style={{ margin: 0 }}>
@@ -104,6 +118,15 @@ export default async function BillingOverviewPage() {
         description="A quick view of this organization against plan limits."
       >
         <dl className="fj-stat-list">
+          <div>
+            <dt>Checks this period</dt>
+            <dd>
+              {usage.checksThisPeriod ?? "—"}
+              {checkLimit > 0
+                ? ` of ${formatChecksCompact(checkLimit)}`
+                : ""}
+            </dd>
+          </div>
           <div>
             <dt>Active monitors</dt>
             <dd>

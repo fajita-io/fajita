@@ -4,15 +4,12 @@
  * hardcode plan names or limits. Server enforcement, workers, and the UI all
  * read entitlements from here (through the entitlement engine and snapshots).
  *
- * Plan identity uses the approved internal keys `starter` / `pro` / `business`
- * from src/lib/stripe/plans.ts. The provisional "Sizzle / Skillet / Kitchen"
- * names in the phase brief were explicitly rejected in the brand and copy docs
- * (docs/website/public-copy-system.md); this catalog uses the approved matrix,
- * as the brief instructs when one already exists.
+ * Plan identity uses internal keys `starter` / `pro` / `business` (Stripe
+ * lookup keys unchanged). Customer-facing names are Core, Team, and Scale.
  *
- * This module is free of server-only imports so the pricing UI and limit-state
- * components can read the shape directly. Dollar amounts are provisional and
- * internal: public publishing stays gated by src/lib/site/pricing.ts.
+ * Pricing is check-volume based. Each plan includes a monthly check allowance
+ * aligned with target gross margins (75–85%). See check-volume.ts for overage
+ * and volume tier helpers.
  */
 import {
   PLANS,
@@ -20,28 +17,27 @@ import {
   type PlanId,
 } from "@/lib/stripe/plans";
 
+import { CHECK_OVERAGE_PER_100K_CENTS } from "./check-volume";
+
 /**
  * Entitlement version. Bump when the shape or plan values change in a way that
  * should force snapshot recalculation. Stored on every snapshot.
  */
-export const ENTITLEMENT_VERSION = 1;
+export const ENTITLEMENT_VERSION = 2;
 
 /** Access state the entitlement engine derives from billing state. */
 export type BillingAccessState =
-  | "none" // no subscription; product is locked to read-only
-  | "active" // paid and healthy (or trialing / scheduled cancellation)
-  | "grace_period" // payment failed, still within the fair recovery window
-  | "restricted" // recovery window elapsed; monitoring paused, data preserved
-  | "canceled"; // subscription ended; read-only retention window
+  | "none"
+  | "active"
+  | "grace_period"
+  | "restricted"
+  | "canceled";
 
-/**
- * Typed entitlement values. Only keys with a real enforcement path exist here.
- * `null` on a numeric limit means "no fixed cap" (fair-use), never "infinite".
- */
 export interface PlanEntitlements {
-  // Monitoring
   monitoring_enabled: boolean;
   max_active_monitors: number | null;
+  /** Included checks per billing period (primary usage meter). */
+  max_monthly_checks: number;
   minimum_check_interval_seconds: number;
   max_assertions_per_monitor: number;
   max_secret_headers_per_monitor: number;
@@ -49,18 +45,15 @@ export interface PlanEntitlements {
   ssl_monitoring_enabled: boolean;
   monitor_export_enabled: boolean;
 
-  // History retention (days)
   detailed_check_retention_days: number;
   incident_retention_days: number;
   response_time_history_days: number;
   audit_log_retention_days: number;
   delivery_log_retention_days: number;
 
-  // Team
   max_organization_members: number | null;
   max_pending_invitations: number;
 
-  // Alerts
   email_alerts_enabled: boolean;
   slack_alerts_enabled: boolean;
   discord_alerts_enabled: boolean;
@@ -68,32 +61,28 @@ export interface PlanEntitlements {
   max_alert_channels: number | null;
   max_alert_rules: number | null;
 
-  // Status pages
   max_status_pages: number | null;
   custom_status_domains_enabled: boolean;
   max_custom_status_domains: number;
   status_page_remove_powered_by: boolean;
 
-  // Subscribers
   max_confirmed_subscribers: number | null;
   subscriber_import_enabled: boolean;
   subscriber_export_enabled: boolean;
   subscriber_email_remove_powered_by: boolean;
 
-  // Exports
   organization_export_enabled: boolean;
   billing_export_enabled: boolean;
 }
 
 export type EntitlementKey = keyof PlanEntitlements;
 
-/** Provisional internal pricing (minor units, USD). NOT published publicly. */
 export interface PlanPricing {
   currency: "usd";
-  /** Amount in cents charged per month on the monthly plan. */
   monthlyCents: number;
-  /** Amount in cents charged per year on the annual plan. */
   yearlyCents: number;
+  /** Overage beyond max_monthly_checks, per 100K checks. */
+  overagePer100kChecksCents: number;
 }
 
 export interface CatalogPlan {
@@ -101,19 +90,15 @@ export interface CatalogPlan {
   name: string;
   description: string;
   displayOrder: number;
-  /** Stripe Price lookup keys per interval (immutable price mapping). */
   lookupKeys: Record<BillingInterval, string>;
   pricing: PlanPricing;
   entitlements: PlanEntitlements;
 }
 
-/**
- * Per-plan entitlement values. Centralized and editable. Limits are semantic,
- * enforced server-side and by workers, and surfaced in the usage UI.
- */
-const STARTER_ENTITLEMENTS: PlanEntitlements = {
+const CORE_ENTITLEMENTS: PlanEntitlements = {
   monitoring_enabled: true,
   max_active_monitors: 10,
+  max_monthly_checks: 100_000,
   minimum_check_interval_seconds: 300,
   max_assertions_per_monitor: 10,
   max_secret_headers_per_monitor: 5,
@@ -151,9 +136,10 @@ const STARTER_ENTITLEMENTS: PlanEntitlements = {
   billing_export_enabled: true,
 };
 
-const PRO_ENTITLEMENTS: PlanEntitlements = {
+const TEAM_ENTITLEMENTS: PlanEntitlements = {
   monitoring_enabled: true,
   max_active_monitors: 50,
+  max_monthly_checks: 500_000,
   minimum_check_interval_seconds: 60,
   max_assertions_per_monitor: 25,
   max_secret_headers_per_monitor: 10,
@@ -191,9 +177,10 @@ const PRO_ENTITLEMENTS: PlanEntitlements = {
   billing_export_enabled: true,
 };
 
-const BUSINESS_ENTITLEMENTS: PlanEntitlements = {
+const SCALE_ENTITLEMENTS: PlanEntitlements = {
   monitoring_enabled: true,
-  max_active_monitors: null,
+  max_active_monitors: 150,
+  max_monthly_checks: 2_000_000,
   minimum_check_interval_seconds: 60,
   max_assertions_per_monitor: 50,
   max_secret_headers_per_monitor: 20,
@@ -222,7 +209,7 @@ const BUSINESS_ENTITLEMENTS: PlanEntitlements = {
   max_custom_status_domains: 10,
   status_page_remove_powered_by: true,
 
-  max_confirmed_subscribers: 10000,
+  max_confirmed_subscribers: 10_000,
   subscriber_import_enabled: true,
   subscriber_export_enabled: true,
   subscriber_email_remove_powered_by: true,
@@ -231,14 +218,10 @@ const BUSINESS_ENTITLEMENTS: PlanEntitlements = {
   billing_export_enabled: true,
 };
 
-/**
- * The locked entitlement set applied when there is no active paid subscription
- * (`none` / `restricted` / `canceled`). Monitoring is off, no resource creation
- * is allowed, but data is never deleted and billing/export stay reachable.
- */
 export const LOCKED_ENTITLEMENTS: PlanEntitlements = {
   monitoring_enabled: false,
   max_active_monitors: 0,
+  max_monthly_checks: 0,
   minimum_check_interval_seconds: 300,
   max_assertions_per_monitor: 0,
   max_secret_headers_per_monitor: 0,
@@ -276,58 +259,21 @@ export const LOCKED_ENTITLEMENTS: PlanEntitlements = {
   billing_export_enabled: true,
 };
 
-/**
- * Beta grant applied to organizations that have no subscription while billing
- * is pre-launch. It preserves the pre-billing product behavior (generous but
- * real, server-enforced limits) so existing beta organizations are not locked
- * out before pricing opens. When billing launches (billing feature reaches a
- * customer-available stage), unbilled organizations resolve to LOCKED instead.
- * See `billingLaunched()` in the entitlement engine.
- */
 export const BETA_ENTITLEMENTS: PlanEntitlements = {
-  monitoring_enabled: true,
-  max_active_monitors: 50,
-  minimum_check_interval_seconds: 60,
-  max_assertions_per_monitor: 50,
-  max_secret_headers_per_monitor: 10,
-  heartbeat_monitoring_enabled: true,
-  ssl_monitoring_enabled: true,
-  monitor_export_enabled: true,
-
+  ...TEAM_ENTITLEMENTS,
   detailed_check_retention_days: 30,
-  incident_retention_days: 90,
   response_time_history_days: 30,
-  audit_log_retention_days: 90,
-  delivery_log_retention_days: 90,
-
-  max_organization_members: 5,
-  max_pending_invitations: 10,
-
-  email_alerts_enabled: true,
-  slack_alerts_enabled: true,
-  discord_alerts_enabled: true,
-  webhook_alerts_enabled: true,
-  max_alert_channels: 10,
-  max_alert_rules: 25,
-
-  max_status_pages: 3,
-  custom_status_domains_enabled: true,
-  max_custom_status_domains: 3,
   status_page_remove_powered_by: false,
+};
 
-  max_confirmed_subscribers: 2500,
-  subscriber_import_enabled: true,
-  subscriber_export_enabled: true,
-  subscriber_email_remove_powered_by: false,
-
-  organization_export_enabled: true,
-  billing_export_enabled: true,
+const sharedPricing = {
+  currency: "usd" as const,
+  overagePer100kChecksCents: CHECK_OVERAGE_PER_100K_CENTS,
 };
 
 /**
- * The catalog. Dollar amounts are the approved public list price in USD cents.
- * Marketing reads them through src/lib/site/pricing.ts. Checkout resolves
- * Stripe Prices by lookup key; keep Dashboard prices aligned with these cents.
+ * List prices target 75–85% gross margin at typical usage. Annual = 10 months
+ * (two months free). Stripe lookup keys unchanged for existing products.
  */
 export const BILLING_CATALOG: Record<PlanId, CatalogPlan> = {
   starter: {
@@ -336,8 +282,12 @@ export const BILLING_CATALOG: Record<PlanId, CatalogPlan> = {
     description: PLANS.starter.description,
     displayOrder: 1,
     lookupKeys: PLANS.starter.lookupKeys,
-    pricing: { currency: "usd", monthlyCents: 900, yearlyCents: 9000 },
-    entitlements: STARTER_ENTITLEMENTS,
+    pricing: {
+      ...sharedPricing,
+      monthlyCents: 1200,
+      yearlyCents: 12000,
+    },
+    entitlements: CORE_ENTITLEMENTS,
   },
   pro: {
     key: "pro",
@@ -345,8 +295,12 @@ export const BILLING_CATALOG: Record<PlanId, CatalogPlan> = {
     description: PLANS.pro.description,
     displayOrder: 2,
     lookupKeys: PLANS.pro.lookupKeys,
-    pricing: { currency: "usd", monthlyCents: 1900, yearlyCents: 19000 },
-    entitlements: PRO_ENTITLEMENTS,
+    pricing: {
+      ...sharedPricing,
+      monthlyCents: 4900,
+      yearlyCents: 49000,
+    },
+    entitlements: TEAM_ENTITLEMENTS,
   },
   business: {
     key: "business",
@@ -354,8 +308,12 @@ export const BILLING_CATALOG: Record<PlanId, CatalogPlan> = {
     description: PLANS.business.description,
     displayOrder: 3,
     lookupKeys: PLANS.business.lookupKeys,
-    pricing: { currency: "usd", monthlyCents: 3900, yearlyCents: 39000 },
-    entitlements: BUSINESS_ENTITLEMENTS,
+    pricing: {
+      ...sharedPricing,
+      monthlyCents: 9900,
+      yearlyCents: 99000,
+    },
+    entitlements: SCALE_ENTITLEMENTS,
   },
 };
 
@@ -363,17 +321,10 @@ export const CATALOG_PLANS: CatalogPlan[] = Object.values(BILLING_CATALOG).sort(
   (a, b) => a.displayOrder - b.displayOrder,
 );
 
-/** Entitlements for a plan key. */
 export function entitlementsForPlan(planKey: PlanId): PlanEntitlements {
   return BILLING_CATALOG[planKey].entitlements;
 }
 
-/**
- * Resolve the effective entitlement set for a plan and access state. A `none`,
- * `restricted`, or `canceled` state locks the product regardless of plan; only
- * `active` and `grace_period` grant the plan's entitlements. Grace period keeps
- * full entitlements so existing monitoring continues during recovery.
- */
 export function effectiveEntitlements(
   planKey: PlanId | null,
   access: BillingAccessState,
@@ -385,7 +336,6 @@ export function effectiveEntitlements(
   return LOCKED_ENTITLEMENTS;
 }
 
-/** Provisional recurring monthly value in cents, normalized to a month. */
 export function monthlyValueCents(
   planKey: PlanId,
   interval: BillingInterval,
@@ -394,4 +344,9 @@ export function monthlyValueCents(
   return interval === "year"
     ? Math.round(pricing.yearlyCents / 12)
     : pricing.monthlyCents;
+}
+
+/** Checks included for a plan (convenience for UI). */
+export function checksIncludedForPlan(planKey: PlanId): number {
+  return BILLING_CATALOG[planKey].entitlements.max_monthly_checks;
 }

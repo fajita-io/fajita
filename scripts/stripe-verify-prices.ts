@@ -22,7 +22,8 @@ async function main() {
   });
 
   const account = await stripe.accounts.retrieve();
-  console.log(`Verifying prices on ${account.id}`);
+  const displayName = account.settings?.dashboard?.display_name ?? account.id;
+  console.log(`Verifying prices on ${account.id} (${displayName})`);
 
   const failures: string[] = [];
 

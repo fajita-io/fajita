@@ -38,8 +38,8 @@ export const OBJECTION_PLAYBOOK = `
 
 "Too expensive" / "UptimeRobot is free"
 - Acknowledge the free tier exists elsewhere. Fajita is paid because verification, status pages, heartbeats, and incident communication are the product, not just a ping.
-- Anchor on cost of one missed outage vs $9/mo Starter.
-- Point to Starter ($9/mo, 10 monitors) for one product. Pro ($19/mo, 50 monitors) for growing teams.
+- Anchor on cost of one missed outage vs $12/mo Core.
+- Point to Core ($12/mo, 100K checks) for one product. Team ($49/mo, 500K checks) for growing teams.
 
 "We already use Datadog / New Relic"
 - They are observability suites. Fajita is the outside-in check customers actually feel.
@@ -61,7 +61,7 @@ export const OBJECTION_PLAYBOOK = `
 
 "Why no free plan?"
 - Fajita invests in confirmation checks, status pages, and incident workflows instead of subsidizing unlimited free pings.
-- Starter is the entry: 10 monitors, full product.
+- Core is the entry: 100K checks included, up to 10 monitors.
 
 "We need SMS"
 - Fajita does not support SMS or phone alerts today. Email, Slack, Discord, and webhooks are live.
@@ -91,9 +91,9 @@ Primary CTAs:
 - Contact sales/support → /contact?topic=support
 
 Plan guidance:
-- Starter: one product, solo founder, up to 10 monitors ($9/mo or annual)
-- Pro: growing product, up to 50 monitors ($19/mo)
-- Business: agencies and multi-product teams, unlimited monitors ($39/mo)
+- Core: one product, solo founder, 100K checks/mo ($12/mo or annual)
+- Team: growing product, 500K checks/mo ($49/mo)
+- Scale: agencies and multi-product teams, 2M checks/mo ($99/mo)
 
 No free plan. Taxes may apply. Confirm current pricing on /pricing.
 `.trim();

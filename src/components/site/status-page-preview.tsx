@@ -6,6 +6,7 @@ import { DemoFrame } from "@/components/design-system/primitives";
 import { StatusDot } from "@/components/design-system/status/status-badge";
 import { statusSpecs, type OperationalStatus } from "@/components/design-system/status/status";
 import { UptimeChart, type UptimeDay } from "@/components/design-system/uptime-chart";
+import { demoBrand } from "@/lib/site/demo-brand";
 
 type ScenarioId =
   | "operational"
@@ -36,7 +37,7 @@ interface Scenario {
 
 /**
  * The five states a status page must be good at. Fictional but plausible
- * customer ("Mesa Labs"), consistent with the rest of the site's demo data.
+ * customer ("Genius"), consistent with the rest of the site's demo data.
  */
 const scenarios: Scenario[] = [
   {
@@ -187,14 +188,14 @@ export function StatusPagePreview() {
         ))}
       </div>
 
-      <DemoFrame title="status.mesa-labs.dev · example status page">
+      <DemoFrame title={`${demoBrand.statusHost} · example status page`}>
         <div className="fj-statuspage">
           <div className="fj-statuspage__masthead">
             <span className="fj-statuspage__brand">
               <span className="fj-statuspage__brand-mark" aria-hidden>
-                M
+                {demoBrand.mark}
               </span>
-              Mesa Labs status
+              {demoBrand.name} status
             </span>
             <span className="fj-caption">Updated moments ago</span>
           </div>

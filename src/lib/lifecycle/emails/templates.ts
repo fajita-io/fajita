@@ -443,30 +443,49 @@ const renderUsageLimitNotice: Renderer = (p) => {
   const usage = num(p, "usage");
   const limit = num(p, "limit");
   const threshold = num(p, "threshold", 80);
+  const limitKey = str(p, "limit_key", "active_monitors");
   const atLimit = threshold >= 100;
+  const isChecks = limitKey === "monthly_checks";
+  const resourceLabel = isChecks ? "checks this period" : "active monitors";
   const subject = atLimit
-    ? "You have reached your monitor limit"
-    : "You are approaching your monitor limit";
-  const previewText = `${usage} of ${limit} active monitors in use.`;
+    ? isChecks
+      ? "Scheduled monitoring is paused"
+      : "You have reached your monitor limit"
+    : isChecks
+      ? "You are approaching your check allowance"
+      : "You are approaching your monitor limit";
+  const previewText = `${usage} of ${limit} ${resourceLabel} in use.`;
+  const atLimitBody = isChecks
+    ? `${org} has used ${usage} of ${limit} included checks this billing period. Scheduled monitoring is paused until you upgrade or the period resets.`
+    : `${org} is using ${usage} of ${limit} active monitors on the current plan. New monitors cannot be activated until something changes.`;
+  const warnBody = isChecks
+    ? `${org} has used ${usage} of ${limit} included checks this billing period. Nothing is paused yet.`
+    : `${org} is using ${usage} of ${limit} active monitors on the current plan.`;
+  const atLimitAction = isChecks
+    ? "Upgrade to a plan with more included checks, or wait for your billing period to reset. There are no overage charges."
+    : "You can pause a monitor you no longer need, or move to a plan with more room. Nothing running is affected, and there are no overage charges.";
+  const warnAction = isChecks
+    ? "If you expect usage to keep climbing, a larger plan avoids hitting the ceiling mid-period. There are no overage charges."
+    : "Nothing is affected yet. If you expect to add more, a larger plan avoids hitting the ceiling mid-setup. There are no overage charges either way.";
   const body = [
-    heading(atLimit ? "Monitor limit reached" : "Approaching your monitor limit"),
-    paragraph(
-      `${org} is using ${usage} of ${limit} active monitors on the current plan.${atLimit ? " New monitors cannot be activated until something changes." : ""}`,
-    ),
-    paragraph(
+    heading(
       atLimit
-        ? "You can pause a monitor you no longer need, or move to a plan with more room. Nothing running is affected, and there are no overage charges."
-        : "Nothing is affected yet. If you expect to add more, a larger plan avoids hitting the ceiling mid-setup. There are no overage charges either way.",
+        ? isChecks
+          ? "Check allowance reached"
+          : "Monitor limit reached"
+        : isChecks
+          ? "Approaching your check allowance"
+          : "Approaching your monitor limit",
     ),
+    paragraph(`${atLimit ? atLimitBody : warnBody}${atLimit && !isChecks ? " New monitors cannot be activated until something changes." : ""}`),
+    paragraph(atLimit ? atLimitAction : warnAction),
     primaryButton("Review usage and plans", appLink("/app/settings/billing/usage")),
   ].join("");
   const text = [
     subject,
     "",
-    `${org} is using ${usage} of ${limit} active monitors on the current plan.`,
-    atLimit
-      ? "New monitors cannot be activated until something changes. Pause a monitor or move to a larger plan. No overage charges."
-      : "Nothing is affected yet. There are no overage charges.",
+    atLimit ? atLimitBody : warnBody,
+    atLimit ? atLimitAction : warnAction,
     "",
     `Review usage and plans: ${appLink("/app/settings/billing/usage")}`,
     textFooter(true),

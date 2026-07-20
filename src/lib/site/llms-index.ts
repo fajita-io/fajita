@@ -11,10 +11,13 @@ function formatPlanPricing(): string {
   return publicPlans
     .map((plan) => {
       const limit =
-        plan.monitorLimit === null ? "unlimited monitors" : `${plan.monitorLimit} monitors`;
+        plan.monitorLimit === null
+          ? "unlimited monitors"
+          : `${plan.monitorLimit} monitors`;
+      const checks = `${plan.checksLabel} checks/mo`;
       const monthly =
         plan.monthlyUsd !== null ? `$${plan.monthlyUsd}/mo` : "monthly pricing on site";
-      return `${plan.name} (${limit}, ${monthly})`;
+      return `${plan.name} (${checks}, ${limit}, ${monthly})`;
     })
     .join("; ");
 }

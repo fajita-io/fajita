@@ -5,7 +5,7 @@
  *   STRIPE_SECRET_KEY=sk_test_... npx tsx scripts/stripe-seed-products.ts
  *
  * Creates products with lookup_keys matching BILLING_CATALOG / plans.ts.
- * Safe to re-run; skips prices that already exist.
+ * Safe to re-run; rotates lookup keys when catalog cents change.
  *
  * Do not run this against an unrelated Stripe account (for example another
  * Accomplish product). Confirm the account with Stripe Dashboard first.
@@ -15,6 +15,36 @@ import Stripe from "stripe";
 
 import { BILLING_CATALOG } from "../src/lib/billing/catalog";
 import { PLANS } from "../src/lib/stripe/plans";
+
+/** SaaS / website information services (business use). */
+const PRODUCT_TAX_CODE = "txcd_10701400";
+
+/** Known non-Fajita Stripe accounts. Seeding here is blocked. */
+const BLOCKED_STRIPE_ACCOUNT_IDS = new Set([
+  "acct_1ThLTk1n2unoCXjG", // Learn Domains (Cursor Stripe MCP default)
+]);
+
+function assertFajitaStripeAccount(account: Stripe.Account) {
+  if (BLOCKED_STRIPE_ACCOUNT_IDS.has(account.id)) {
+    throw new Error(
+      `Refusing to seed Stripe account ${account.id} (${account.settings?.dashboard?.display_name ?? "unknown"}). Use Fajita Stripe keys only.`,
+    );
+  }
+
+  const expectedAccountId = process.env.FAJITA_STRIPE_ACCOUNT_ID?.trim();
+  if (expectedAccountId && account.id !== expectedAccountId) {
+    throw new Error(
+      `STRIPE_SECRET_KEY account ${account.id} does not match FAJITA_STRIPE_ACCOUNT_ID=${expectedAccountId}.`,
+    );
+  }
+
+  const displayName = account.settings?.dashboard?.display_name?.toLowerCase() ?? "";
+  if (displayName.includes("learn domains")) {
+    throw new Error(
+      `Refusing to seed Learn Domains Stripe account (${account.id}). Use Fajita keys.`,
+    );
+  }
+}
 
 async function ensurePrice(
   stripe: Stripe,
@@ -32,14 +62,22 @@ async function ensurePrice(
 
   if (existing.data[0]) {
     const price = existing.data[0];
-    if (price.unit_amount !== unitAmount) {
-      console.warn(
-        `WARNING: ${lookupKey} exists at ${price.unit_amount} cents; catalog expects ${unitAmount}. Create a new price and retire the old lookup key.`,
-      );
-    } else {
+    if (
+      price.unit_amount === unitAmount &&
+      price.recurring?.interval === interval
+    ) {
       console.log(`Price exists: ${lookupKey} (${price.unit_amount} cents)`);
+      return price;
     }
-    return price;
+
+    console.warn(
+      `Rotating ${lookupKey}: was ${price.unit_amount} cents / ${price.recurring?.interval ?? "?"}; catalog expects ${unitAmount} / ${interval}.`,
+    );
+
+    await stripe.prices.update(price.id, {
+      lookup_key: null,
+      active: false,
+    });
   }
 
   const price = await stripe.prices.create({
@@ -58,6 +96,56 @@ async function ensurePrice(
   return price;
 }
 
+async function ensureProduct(
+  stripe: Stripe,
+  planId: keyof typeof PLANS,
+) {
+  const plan = PLANS[planId];
+  const catalog = BILLING_CATALOG[planId];
+  const productLookup = `fajita_product_${planId}`;
+
+  const existingProducts = await stripe.products.search({
+    query: `metadata['product_lookup']:'${productLookup}'`,
+    limit: 1,
+  });
+
+  let product = existingProducts.data[0];
+
+  if (!product) {
+    product = await stripe.products.create({
+      name: `Fajita ${plan.name}`,
+      description: plan.description,
+      tax_code: PRODUCT_TAX_CODE,
+      metadata: {
+        product_lookup: productLookup,
+        plan_id: planId,
+        monitor_limit: String(plan.monitorLimit),
+        checks_included_monthly: String(
+          catalog.entitlements.max_monthly_checks,
+        ),
+      },
+    });
+    console.log(`Created product: ${product.name} (${product.id})`);
+    return product;
+  }
+
+  product = await stripe.products.update(product.id, {
+    name: `Fajita ${plan.name}`,
+    description: plan.description,
+    tax_code: PRODUCT_TAX_CODE,
+    metadata: {
+      product_lookup: productLookup,
+      plan_id: planId,
+      monitor_limit: String(plan.monitorLimit),
+      checks_included_monthly: String(
+        catalog.entitlements.max_monthly_checks,
+      ),
+    },
+  });
+  console.log(`Product exists: ${product.name} (${product.id})`);
+  return product;
+}
+
 async function main() {
   const secretKey = process.env.STRIPE_SECRET_KEY;
   if (!secretKey) {
@@ -73,36 +161,14 @@ async function main() {
   });
 
   const account = await stripe.accounts.retrieve();
+  assertFajitaStripeAccount(account);
   console.log(
     `Seeding Stripe account ${account.id}${account.settings?.dashboard?.display_name ? ` (${account.settings.dashboard.display_name})` : ""}`,
   );
 
   for (const plan of Object.values(PLANS)) {
     const catalog = BILLING_CATALOG[plan.id];
-    const productLookup = `fajita_product_${plan.id}`;
-
-    const existingProducts = await stripe.products.search({
-      query: `metadata['product_lookup']:'${productLookup}'`,
-      limit: 1,
-    });
-
-    let product = existingProducts.data[0];
-
-    if (!product) {
-      product = await stripe.products.create({
-        name: `Fajita ${plan.name}`,
-        description: plan.description,
-        metadata: {
-          product_lookup: productLookup,
-          plan_id: plan.id,
-          monitor_limit:
-            plan.monitorLimit === null ? "unlimited" : String(plan.monitorLimit),
-        },
-      });
-      console.log(`Created product: ${product.name} (${product.id})`);
-    } else {
-      console.log(`Product exists: ${product.name} (${product.id})`);
-    }
+    const product = await ensureProduct(stripe, plan.id);
 
     await ensurePrice(
       stripe,

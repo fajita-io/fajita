@@ -6,6 +6,15 @@
  */
 
 import { WEBHOOK_SCHEMA_VERSION } from "@/lib/alerts/constants";
+import {
+  EMAIL_COLORS,
+  EMAIL_FONT,
+  emailShell,
+  emberButton,
+  escapeHtml,
+  fajitaHeaderHtml,
+  poweredByMemoText,
+} from "@/lib/email/shell";
 
 export interface AlertRenderContext {
   eventType: string;
@@ -123,15 +132,6 @@ function fields(ctx: AlertRenderContext): KeyValue[] {
   return rows;
 }
 
-function escapeHtml(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
 export interface RenderedEmail {
   subject: string;
   html: string;
@@ -148,29 +148,36 @@ export function renderEmail(ctx: AlertRenderContext): RenderedEmail {
   const rowsHtml = rows
     .map(
       (r) =>
-        `<tr><td style="padding:4px 16px 4px 0;color:#6b6b6b;font-size:13px;">${escapeHtml(r.label)}</td>` +
-        `<td style="padding:4px 0;color:#1a1a1a;font-size:13px;font-weight:600;">${escapeHtml(r.value)}</td></tr>`,
+        `<tr><td style="padding:4px 16px 4px 0;color:${EMAIL_COLORS.muted};font-size:13px;font-family:${EMAIL_FONT};">${escapeHtml(r.label)}</td>` +
+        `<td style="padding:4px 0;color:${EMAIL_COLORS.carbon};font-size:13px;font-weight:600;font-family:${EMAIL_FONT};">${escapeHtml(r.value)}</td></tr>`,
     )
     .join("");
 
-  const html = `<!doctype html><html lang="en"><head><meta charset="utf-8">` +
-    `<meta name="viewport" content="width=device-width,initial-scale=1"></head>` +
-    `<body style="margin:0;background:#f6f4ef;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;">` +
-    `<div style="max-width:520px;margin:0 auto;padding:24px 16px;">` +
-    `<div style="background:#ffffff;border:1px solid #e7e2d8;border-radius:12px;padding:24px;">` +
-    `<p style="margin:0 0 4px;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:#a15a2b;">Fajita alert</p>` +
-    `<h1 style="margin:0 0 12px;font-size:20px;line-height:1.3;color:#1a1a1a;">${escapeHtml(subject)}</h1>` +
-    `<p style="margin:0 0 20px;font-size:15px;line-height:1.5;color:#333;">${escapeHtml(summary)}</p>` +
+  const bodyHtml =
+    `<h1 style="margin:0 0 12px;font-size:22px;line-height:1.25;color:${EMAIL_COLORS.carbon};font-family:${EMAIL_FONT};font-weight:700;">${escapeHtml(subject)}</h1>` +
+    `<p style="margin:0 0 20px;font-size:15px;line-height:1.55;color:${EMAIL_COLORS.body};font-family:${EMAIL_FONT};">${escapeHtml(summary)}</p>` +
     `<table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;margin-bottom:20px;">${rowsHtml}</table>` +
     (ctx.latestUpdate
-      ? `<p style="margin:0 0 20px;font-size:14px;line-height:1.5;color:#333;border-left:3px solid #e7e2d8;padding-left:12px;">${escapeHtml(ctx.latestUpdate)}</p>`
+      ? `<p style="margin:0 0 20px;font-size:14px;line-height:1.55;color:${EMAIL_COLORS.body};font-family:${EMAIL_FONT};border-left:3px solid ${EMAIL_COLORS.border};padding-left:12px;">${escapeHtml(ctx.latestUpdate)}</p>`
       : "") +
-    (cta
-      ? `<a href="${escapeHtml(cta.href)}" style="display:inline-block;background:#1a1a1a;color:#fff;text-decoration:none;font-size:14px;font-weight:600;padding:12px 20px;border-radius:8px;">${escapeHtml(cta.label)}</a>`
-      : "") +
-    `</div>` +
-    `<p style="margin:16px 0 0;font-size:12px;color:#9a9a9a;text-align:center;">Fajita, 1001 S Main St, Ste 600, Kalispell, MT 59901</p>` +
-    `</div></body></html>`;
+    (cta ? emberButton(cta.label, cta.href) : "");
+
+  const footerHtml =
+    `<p style="margin:0 0 8px;font-size:13px;line-height:1.5;color:${EMAIL_COLORS.muted};font-family:${EMAIL_FONT};">` +
+    `Questions? Reply to this email or visit <a href="https://fajita.io/contact" style="color:${EMAIL_COLORS.carbon};text-decoration:underline;">fajita.io/contact</a>.` +
+    `</p>` +
+    `<p style="margin:0;font-size:12px;line-height:1.5;color:${EMAIL_COLORS.faint};font-family:${EMAIL_FONT};">` +
+    `Fajita · 1001 S Main St, Ste 600, Kalispell, MT 59901 · ` +
+    `<a href="https://fajita.io" style="color:${EMAIL_COLORS.faint};text-decoration:underline;">fajita.io</a>` +
+    `</p>`;
+
+  const html = emailShell({
+    previewText: summary,
+    title: subject,
+    headerHtml: fajitaHeaderHtml({ label: "Fajita alert" }),
+    bodyHtml,
+    footerHtml,
+  });
 
   const textLines = [
     subject,
@@ -181,7 +188,7 @@ export function renderEmail(ctx: AlertRenderContext): RenderedEmail {
   ];
   if (ctx.latestUpdate) textLines.push("", ctx.latestUpdate);
   if (cta) textLines.push("", `Open in Fajita: ${cta.href}`);
-  textLines.push("", "Fajita, 1001 S Main St, Ste 600, Kalispell, MT 59901");
+  textLines.push("", "Fajita, 1001 S Main St, Ste 600, Kalispell, MT 59901", poweredByMemoText());
 
   return { subject, html, text: textLines.join("\n") };
 }

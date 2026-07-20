@@ -114,8 +114,8 @@ export const AFFILIATE_PROGRAM_VERSIONS: readonly AffiliateProgramTerms[] = [
     attributionModel: "last_touch",
     attributionWindowDays: 30,
     commissionType: "recurring_percentage",
-    commissionRateBps: 2000, // 20%
-    recurringEligibilityMonths: 12,
+    commissionRateBps: 1500, // 15% (monitoring COGS higher than analytics)
+    recurringEligibilityMonths: 6,
     commissionHoldingDays: 30,
     minimumPayoutThresholdCents: 5000, // $50.00
     payoutFrequency: "monthly",

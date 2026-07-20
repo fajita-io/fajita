@@ -36,8 +36,8 @@ What Fajita deliberately is not:
 
 "Too expensive" / "UptimeRobot is free"
 - Acknowledge the free tier exists elsewhere. Fajita is paid because verification, status pages, heartbeats, and incident communication are the product, not just a ping.
-- Anchor on cost of one missed outage vs $9/mo Starter.
-- Point to Starter ($9/mo, 10 monitors) for one product. Pro ($19/mo, 50 monitors) for growing teams.
+- Anchor on cost of one missed outage vs $12/mo Core.
+- Point to Core ($12/mo, 100K checks) for one product. Team ($49/mo, 500K checks) for growing teams.
 
 "We already use Datadog / New Relic"
 - They are observability suites. Fajita is the outside-in check customers actually feel.
@@ -59,7 +59,7 @@ What Fajita deliberately is not:
 
 "Why no free plan?"
 - Fajita invests in confirmation checks, status pages, and incident workflows instead of subsidizing unlimited free pings.
-- Starter is the entry: 10 monitors, full product.
+- Core is the entry: 100K checks included, up to 10 monitors.
 
 "We need SMS"
 - Fajita does not support SMS or phone alerts today. Email, Slack, Discord, and webhooks are live.
@@ -87,9 +87,9 @@ Primary CTAs:
 - Contact sales/support → /contact?topic=support
 
 Plan guidance:
-- Starter: one product, solo founder, up to 10 monitors ($9/mo or annual)
-- Pro: growing product, up to 50 monitors ($19/mo)
-- Business: agencies and multi-product teams, unlimited monitors ($39/mo)
+- Core: one product, solo founder, 100K checks/mo ($12/mo or annual)
+- Team: growing product, 500K checks/mo ($49/mo)
+- Scale: agencies and multi-product teams, 2M checks/mo ($99/mo)
 
 No free plan. Taxes may apply. Confirm current pricing on /pricing.
 
@@ -105,7 +105,7 @@ Fajita watches SSL certificates for upcoming expiry and invalid chains, and warn
 Fajita monitors cron jobs and background work through heartbeat URLs and expected schedules, and alerts when a job goes quiet.
 Services can ping a private heartbeat URL; a missed ping counts as a failure.
 Fajita re-checks a failure before alerting anyone, so one dropped packet does not page the team.
-Check intervals from five minutes on Starter to one minute on Pro and Business. See pricing for plan limits.
+Check intervals from five minutes on Core to one minute on Team and Scale. See pricing for plan limits.
 Verified incidents alert the team by email.
 Verified incidents alert a Slack channel.
 Verified incidents alert a Discord channel.
@@ -120,7 +120,8 @@ Monitoring data and account data can be exported.
 Historical retention limits per plan.
 Team members share an account with access to monitors and incidents.
 Fajita needs no agent, no SDK, and no code change for website, API, and SSL checks. Cron monitoring needs one line: a request to a heartbeat URL.
-Three plans: Starter (10 monitors), Pro (50 monitors), Business (unlimited monitors).
+Each plan includes a monthly check allowance. Scheduled monitoring pauses when you reach it until you upgrade or the billing period resets.
+Three plans: Core (100K checks/mo, 10 monitors), Team (500K checks, 50 monitors), Scale (2M checks, 150 monitors).
 Dollar pricing per plan.
 Monthly and annual billing.
 Subscriptions can be canceled at any time from the billing portal; access runs to the end of the paid period.
@@ -148,14 +149,14 @@ support-chatbot-human-sla: Guaranteed human response time or 24/7 live agents. (
 ### Plans and pricing (registry:pricing)
 URL: /pricing
 Authority: 9
-Fajita plans: Starter: 10 monitors; $9/mo, $90/yr. For one product and the person who answers for it. Pro: 50 monitors; $19/mo, $190/yr. For growing products that need more monitors and faster checks. Business: unlimited monitors; $39/mo, $390/yr. For teams and agencies watching many products at once. No free plan. Taxes may apply.
+Fajita plans: Core: 100K checks/mo, 10 monitors; $12/mo, $120/yr. For one product and the person who answers for it. Team: 500K checks/mo, 50 monitors; $49/mo, $490/yr. For growing products that need more monitors and faster checks. Scale: 2M checks/mo, 150 monitors; $99/mo, $990/yr. For teams and agencies watching many products at once. No free plan. Taxes may apply.
 
 ---
 
 ### Plan limits (registry:entitlements)
 URL: /pricing
 Authority: 9
-Starter: 10 active monitors. For a handful of sites that need to stay up. Pro: 50 active monitors. More monitors, faster alerts, room to grow. Business: unlimited active monitors. High-volume monitoring for teams that cannot miss a beat.
+Core: 10 active monitors. One product. One person on call. Checks included. Team: 50 active monitors. More monitors, faster checks, room for the whole crew. Scale: 150 active monitors. High-volume monitoring for teams that cannot miss a beat.
 
 ---
 
@@ -1584,9 +1585,9 @@ Fajita offers three plans. Monitor limits below are generated from the billing c
 
 | Plan | Monitors |
 | --- | --- |
-| Starter | 10 |
-| Pro | 50 |
-| Business | Unlimited |
+| Core | 10 |
+| Team | 50 |
+| Scale | 150 |
 
 > NOTE: Dollar amounts are shown at checkout and on the pricing page. Fajita does not bill overage; when you reach a limit, you are prompted to change plans.
 
@@ -1601,10 +1602,11 @@ URL: /docs/billing/usage-limits
 Authority: 8
 Usage limits
 What happens when you reach a plan limit, and how to raise it.
-Plans include a monitor limit. When you reach it, Fajita stops you from creating more monitors and explains why.
+Plans include a monthly check allowance and a monitor limit. Fajita shows usage on your billing page before you hit either ceiling.
 
-- Existing monitors keep running.
-- You are prompted to change plans to raise the limit.
+- When you reach your check allowance, scheduled monitoring pauses until you upgrade or your billing period resets.
+- When you reach your monitor limit, you cannot create more monitors until something changes.
+- Existing monitors and data are preserved.
 - No overage charges are applied.
 
 ---

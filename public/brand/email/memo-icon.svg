@@ -1,0 +1,9 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Memo">
+  <title>Memo</title>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#15131A"/>
+  <g transform="translate(8, 8)">
+    <rect x="11" y="12" width="7" height="24" rx="2" fill="rgba(251, 247, 240, 0.35)"/>
+    <rect x="20" y="12" width="8" height="24" rx="2" fill="#FF5C3E"/>
+    <rect x="30" y="12" width="7" height="24" rx="2" fill="#FBF7F0"/>
+  </g>
+</svg>

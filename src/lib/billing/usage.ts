@@ -1,6 +1,52 @@
 import "server-only";
 
+import { loadCurrentSubscription } from "@/lib/billing/engine";
 import { serviceClient } from "@/lib/supabase/service";
+
+function startOfUtcMonth(date: Date): Date {
+  return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1));
+}
+
+/** Resolve billing period bounds for check usage (subscription period or calendar month). */
+export async function resolveCheckUsagePeriod(
+  organizationId: string,
+): Promise<{ start: string; end: string }> {
+  const subscription = await loadCurrentSubscription(organizationId);
+  const now = new Date();
+
+  if (subscription?.current_period_start && subscription?.current_period_end) {
+    return {
+      start: subscription.current_period_start,
+      end: subscription.current_period_end,
+    };
+  }
+
+  const monthStart = startOfUtcMonth(now);
+  const monthEnd = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1),
+  );
+  return {
+    start: monthStart.toISOString(),
+    end: monthEnd.toISOString(),
+  };
+}
+
+/** Count finalized check results in a time window. */
+export async function countChecksInPeriod(
+  organizationId: string,
+  periodStart: string,
+  periodEnd: string,
+): Promise<number> {
+  const db = serviceClient();
+  const { count, error } = await db
+    .from("check_results")
+    .select("id", { count: "exact", head: true })
+    .eq("organization_id", organizationId)
+    .gte("checked_at", periodStart)
+    .lt("checked_at", periodEnd);
+  if (error) throw error;
+  return count ?? 0;
+}
 
 export interface UsageSnapshot {
   activeMonitors: number;
@@ -12,6 +58,10 @@ export interface UsageSnapshot {
   alertChannels: number;
   alertRules: number;
   confirmedSubscribers: number;
+  /** Finalized checks in the current billing period, when period bounds are known. */
+  checksThisPeriod: number | null;
+  checksPeriodStart: string | null;
+  checksPeriodEnd: string | null;
 }
 
 type CountQuery = () => Promise<number>;
@@ -126,6 +176,18 @@ export async function rebuildUsageSnapshot(
     ),
   ]);
 
+  const period = await resolveCheckUsagePeriod(organizationId);
+  let checksThisPeriod: number | null = null;
+  try {
+    checksThisPeriod = await countChecksInPeriod(
+      organizationId,
+      period.start,
+      period.end,
+    );
+  } catch (error) {
+    console.error("[usage] check count failed", error);
+  }
+
   const snapshot: UsageSnapshot = {
     activeMonitors,
     totalMonitors,
@@ -136,6 +198,9 @@ export async function rebuildUsageSnapshot(
     alertChannels,
     alertRules,
     confirmedSubscribers,
+    checksThisPeriod,
+    checksPeriodStart: period.start,
+    checksPeriodEnd: period.end,
   };
 
   await db.from("billing_usage_counters").upsert(
@@ -171,6 +236,18 @@ export async function getUsageSnapshot(
 
   if (!data) return rebuildUsageSnapshot(organizationId);
 
+  const period = await resolveCheckUsagePeriod(organizationId);
+  let checksThisPeriod: number | null = null;
+  try {
+    checksThisPeriod = await countChecksInPeriod(
+      organizationId,
+      period.start,
+      period.end,
+    );
+  } catch (error) {
+    console.error("[usage] check count failed", error);
+  }
+
   return {
     activeMonitors: data.active_monitors,
     totalMonitors: data.total_monitors,
@@ -181,5 +258,8 @@ export async function getUsageSnapshot(
     alertChannels: data.alert_channels,
     alertRules: data.alert_rules,
     confirmedSubscribers: data.confirmed_subscribers,
+    checksThisPeriod,
+    checksPeriodStart: period.start,
+    checksPeriodEnd: period.end,
   };
 }

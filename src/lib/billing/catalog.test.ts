@@ -18,10 +18,25 @@ describe("billing catalog", () => {
     ]);
   });
 
-  it("increases capacity from starter to business", () => {
+  it("uses check-volume allowances and monitor caps", () => {
+    expect(BILLING_CATALOG.starter.entitlements.max_monthly_checks).toBe(
+      100_000,
+    );
+    expect(BILLING_CATALOG.pro.entitlements.max_monthly_checks).toBe(500_000);
+    expect(BILLING_CATALOG.business.entitlements.max_monthly_checks).toBe(
+      2_000_000,
+    );
     expect(BILLING_CATALOG.starter.entitlements.max_active_monitors).toBe(10);
     expect(BILLING_CATALOG.pro.entitlements.max_active_monitors).toBe(50);
-    expect(BILLING_CATALOG.business.entitlements.max_active_monitors).toBeNull();
+    expect(BILLING_CATALOG.business.entitlements.max_active_monitors).toBe(
+      150,
+    );
+  });
+
+  it("lists margin-aligned prices", () => {
+    expect(BILLING_CATALOG.starter.pricing.monthlyCents).toBe(1200);
+    expect(BILLING_CATALOG.pro.pricing.monthlyCents).toBe(4900);
+    expect(BILLING_CATALOG.business.pricing.monthlyCents).toBe(9900);
   });
 
   it("lets faster plans check more often", () => {
@@ -52,13 +67,12 @@ describe("billing catalog", () => {
   it("locks monitoring off with no create allowance", () => {
     expect(LOCKED_ENTITLEMENTS.monitoring_enabled).toBe(false);
     expect(LOCKED_ENTITLEMENTS.max_active_monitors).toBe(0);
-    // Data-related access stays reachable.
+    expect(LOCKED_ENTITLEMENTS.max_monthly_checks).toBe(0);
     expect(LOCKED_ENTITLEMENTS.billing_export_enabled).toBe(true);
   });
 
   it("normalizes annual price to a monthly value", () => {
-    // Provisional: starter is 9000 cents / year -> 750 cents / month.
-    expect(monthlyValueCents("starter", "year")).toBe(750);
-    expect(monthlyValueCents("starter", "month")).toBe(900);
+    expect(monthlyValueCents("starter", "year")).toBe(1000);
+    expect(monthlyValueCents("starter", "month")).toBe(1200);
   });
 });

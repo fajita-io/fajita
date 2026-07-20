@@ -1,0 +1,21 @@
+[
+  {
+    "type": "TXT",
+    "name": "resend._domainkey.fajita.io",
+    "content": "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDaaGbwZZWYq57QHJBIFfIE3hXGMYvPv9thcQS3Ps+OaroPesnZEgI7pGAJQBIPvTzyj9yI+lZJjV9PlXZVmG8JuStTAJ92YIDERvOi3uf0xpFvD15JBuF5QZNEeBDiaiStox1NtuW6oEmwdf9gPJgDXDtcYVWIGUw7zN6zlIWkcwIDAQAB",
+    "comment": "Resend DKIM (pending)"
+  },
+  {
+    "type": "MX",
+    "name": "send.fajita.io",
+    "content": "feedback-smtp.us-east-1.amazonses.com",
+    "priority": 10,
+    "comment": "Resend SPF (pending)"
+  },
+  {
+    "type": "TXT",
+    "name": "send.fajita.io",
+    "content": "v=spf1 include:amazonses.com ~all",
+    "comment": "Resend SPF (pending)"
+  }
+]

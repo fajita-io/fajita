@@ -13,6 +13,7 @@ interface UsageRow {
   label: string;
   used: number;
   limit: number | null;
+  atLimitHint?: string;
 }
 
 function UsageMeter({ row }: { row: UsageRow }) {
@@ -62,8 +63,8 @@ function UsageMeter({ row }: { row: UsageRow }) {
       ) : null}
       {atLimit ? (
         <p className="fj-notice fj-notice--warning" style={{ margin: 0 }}>
-          You have reached the {row.label.toLowerCase()} limit for this plan.
-          Pause or remove one, or choose a plan with more capacity.
+          {row.atLimitHint ??
+            `You have reached the ${row.label.toLowerCase()} limit for this plan. Pause or remove one, or choose a plan with more capacity.`}
         </p>
       ) : null}
     </div>
@@ -75,6 +76,13 @@ export default async function BillingUsagePage() {
   const e = state.entitlements;
 
   const rows: UsageRow[] = [
+    {
+      label: "Checks this period",
+      used: usage.checksThisPeriod ?? 0,
+      limit: e.max_monthly_checks > 0 ? e.max_monthly_checks : null,
+      atLimitHint:
+        "You have reached your check allowance. Scheduled monitoring is paused until you upgrade or your billing period resets.",
+    },
     { label: "Active monitors", used: usage.activeMonitors, limit: e.max_active_monitors },
     { label: "Team members", used: usage.teamMembers, limit: e.max_organization_members },
     { label: "Status pages", used: usage.statusPages, limit: e.max_status_pages },
@@ -88,7 +96,7 @@ export default async function BillingUsagePage() {
     <>
       <AppSection
         title="Usage against your plan"
-        description="Existing resources are always preserved. Limits apply to creating new ones."
+        description="Existing resources are preserved. Check limits pause scheduled monitoring. Monitor limits apply to creating new ones."
       >
         <div style={{ display: "grid", gap: "var(--space-5)" }}>
           {rows.map((row) => (

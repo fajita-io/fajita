@@ -5,8 +5,10 @@
  * CSS and collapses under prefers-reduced-motion. A text alternative
  * carries the same story for screen readers.
  */
+import { demoBrand } from "@/lib/site/demo-brand";
+
 const channels = [
-  { y: 40, label: "Email", detail: "team@mesa-labs.dev" },
+  { y: 40, label: "Email", detail: demoBrand.alertEmail },
   { y: 100, label: "Slack", detail: "#ops-alerts" },
   { y: 160, label: "Discord", detail: "#alerts" },
   { y: 220, label: "Webhook", detail: "signed JSON POST" },

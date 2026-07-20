@@ -5,6 +5,7 @@ import { useId, useRef, useState } from "react";
 import { BrandIcon, type BrandIconName } from "@/components/design-system/icons";
 import { DemoFrame } from "@/components/design-system/primitives";
 import { StatusBadge } from "@/components/design-system/status/status-badge";
+import { demoEndpoints } from "@/lib/site/demo-brand";
 
 interface CoverageKind {
   id: string;
@@ -24,7 +25,7 @@ const kinds: CoverageKind[] = [
     value:
       "Availability, status codes, and response time for every page that matters. A real request, not a ping.",
     lines: [
-      { text: "GET https://mesa-labs.dev" },
+      { text: `GET ${demoEndpoints.site.url}` },
       { text: "→ 200 OK · 212 ms", tone: "ok" },
       { text: "assert status == 200 ✓ response < 1000 ms ✓", tone: "ok" },
       { text: "next check on schedule" },
@@ -38,7 +39,7 @@ const kinds: CoverageKind[] = [
     value:
       "Check status codes, response speed, keywords, and JSON values before a broken endpoint reaches your customers.",
     lines: [
-      { text: "GET https://api.mesa-labs.dev/v1/health" },
+      { text: `GET ${demoEndpoints.apiHealth.url}` },
       { text: "→ 200 OK · 184 ms", tone: "ok" },
       { text: 'assert json body.status == "ok" ✓', tone: "ok" },
       { text: "assert response < 500 ms ✓", tone: "ok" },
@@ -52,7 +53,7 @@ const kinds: CoverageKind[] = [
     value:
       "Expiry dates, validity, and the certificate chain your visitors actually receive. Warnings long before the browser shows one.",
     lines: [
-      { text: "TLS mesa-labs.dev:443" },
+      { text: `TLS ${demoEndpoints.tls.label}` },
       { text: "→ valid · expires in 212 days", tone: "ok" },
       { text: "chain complete ✓ issuer trusted ✓", tone: "ok" },
       { text: "warn at 30 days · alert at 7 days" },

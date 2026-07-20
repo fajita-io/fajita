@@ -13,7 +13,7 @@ alert land, resolve, and review uptime history.
 ## Guarantees
 
 - **No network requests.** All data is deterministic fixtures
-  (`mesa-labs.dev` demo world). Test-enforced.
+  (`genius.ly` demo world). Test-enforced.
 - **No user-supplied URLs, no SSRF surface.** Endpoint choices are three
   fixed examples.
 - **No backend writes, no account.** The stage footer says

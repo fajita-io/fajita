@@ -5,15 +5,16 @@ import { SectionHeading } from "@/components/design-system/typography";
 import { CtaButtons } from "@/components/site/cta-buttons";
 import { FaqList } from "@/components/site/faq-list";
 import { PlanCards } from "@/components/site/plan-cards";
+import { PricingVolumeSection } from "@/components/site/pricing-volume-section";
 import { DataFastGoals } from "@/lib/analytics";
 import { billingFaq } from "@/lib/site/faq";
 import { buildMetadata } from "@/lib/site/metadata";
-import { comparisonRows, publicPlans, pricingConfig } from "@/lib/site/pricing";
+import { comparisonRows, pricingConfig, publicPlans } from "@/lib/site/pricing";
 
 export const metadata: Metadata = buildMetadata({
   title: "Pricing",
   description:
-    "Three plans for small software teams: Starter, Pro, and Business. Clear monitor limits and monthly or annual billing.",
+    "Core, Team, and Scale plans with included monthly checks. Volume-based pricing for solo founders and growing teams. Monthly or annual billing.",
   path: "/pricing",
 });
 
@@ -46,16 +47,13 @@ export default function PricingPage() {
     <>
       <section className="fj-page-hero">
         <div className="fj-container">
-          <p className="fj-eyebrow fj-page-hero__eyebrow">
-            Pricing
-          </p>
-          <h1 className="fj-display-2">
-            Pay for monitors, not for a sales call.
-          </h1>
+          <p className="fj-eyebrow fj-page-hero__eyebrow">Pricing</p>
+          <h1 className="fj-display-2">Pay for checks, not for a sales call.</h1>
           <p className="fj-body-lg fj-page-hero__lede">
-            Three plans that map to how much software you answer for.
+            Every plan includes a monthly check allowance. Pick the volume that
+            matches your monitors and interval.
             {pricingConfig.published
-              ? " Pick a plan, create an account, and start watching."
+              ? " Start on Core and move up when your stack grows."
               : ` ${pricingConfig.unpublishedNote}`}
           </p>
         </div>
@@ -63,43 +61,65 @@ export default function PricingPage() {
 
       <section className="fj-band--tight">
         <div className="fj-container">
+          <SectionHeading
+            eyebrow="Volume"
+            title="How much monitoring do you run?"
+            lede="Slide to your expected check volume, or use the calculator. Each plan includes a fixed check allowance with no overage charges."
+            as="h2"
+          />
+          <PricingVolumeSection />
+        </div>
+      </section>
+
+      <section className="fj-band--tight">
+        <div className="fj-container">
+          <SectionHeading
+            eyebrow="Plans"
+            title="Core, Team, Scale"
+            lede={
+              pricingConfig.published
+                ? pricingConfig.publishedNote
+                : pricingConfig.unpublishedNote
+            }
+            as="h2"
+          />
           <PlanCards />
 
-          <div className="fj-compare-scroll-outer">
+          <div className="fj-compare-scroll-outer" style={{ marginTop: "var(--space-10)" }}>
             <div className="fj-compare-scroll">
               <table className="fj-compare">
-              <caption className="fj-body-sm">
-                What each plan includes. Limits come from the billing catalog.
-              </caption>
-              <thead>
-                <tr>
-                  <th scope="col">
-                    <span className="fj-visually-hidden">Feature</span>
-                  </th>
-                  {publicPlans.map((p) => (
-                    <th key={p.id} scope="col">
-                      {p.name}
+                <caption className="fj-body-sm">
+                  What each plan includes. Limits come from the billing catalog.
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">
+                      <span className="fj-visually-hidden">Feature</span>
                     </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {comparisonRows.map((row) => (
-                  <tr key={row.label}>
-                    <th scope="row">
-                      {row.label}
-                      {row.note ? (
-                        <span className="fj-compare__note">{row.note}</span>
-                      ) : null}
-                    </th>
-                    {row.values.map((v, i) => (
-                      <td key={i}>
-                        <ComparisonCell value={v} />
-                      </td>
-                    ))}
+                    {publicPlans.map((p) => (
+                          <th key={p.id} scope="col">
+                            {p.name}
+                          </th>
+                        ))}
                   </tr>
-                ))}
-              </tbody>
+                </thead>
+                <tbody>
+                  {comparisonRows.map((row) => (
+                    <tr key={row.label}>
+                      <th scope="row">
+                        {row.label}
+                        {row.note ? (
+                          <span className="fj-compare__note">{row.note}</span>
+                        ) : null}
+                      </th>
+                      {row.values.map((v, i) => (
+                        <td key={i}>
+                          <ComparisonCell value={v} />
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
               </table>
             </div>
           </div>
@@ -114,6 +134,13 @@ export default function PricingPage() {
             as="h2"
           />
           <div className="fj-facts">
+            <div className="fj-fact">
+              <p className="fj-fact__label">Checks included</p>
+              <p className="fj-body">
+                Each plan includes a fixed number of checks per billing period.
+                {pricingConfig.published ? ` ${pricingConfig.limitNote}` : ""}
+              </p>
+            </div>
             <div className="fj-fact">
               <p className="fj-fact__label">Upgrades and downgrades</p>
               <p className="fj-body">
@@ -131,6 +158,10 @@ export default function PricingPage() {
               </p>
             </div>
             <div className="fj-fact">
+              <p className="fj-fact__label">Annual billing</p>
+              <p className="fj-body">{pricingConfig.annualNote}</p>
+            </div>
+            <div className="fj-fact">
               <p className="fj-fact__label">Refunds</p>
               <p className="fj-body">
                 A written refund policy lives in the{" "}
@@ -142,14 +173,6 @@ export default function PricingPage() {
                 </Link>
                 . The commitment: if Fajita is not working for you early on, you
                 will not have to argue about it.
-              </p>
-            </div>
-            <div className="fj-fact">
-              <p className="fj-fact__label">No usage traps</p>
-              <p className="fj-body">
-                No overage charges that surprise you, no strikethrough
-                theater, no countdown timers. If a limit matters, it is on
-                this page in plain numbers.
               </p>
             </div>
           </div>

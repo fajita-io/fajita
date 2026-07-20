@@ -8,6 +8,7 @@ import { StatusDot } from "@/components/design-system/status/status-badge";
 import { UptimeChart, type UptimeDay } from "@/components/design-system/uptime-chart";
 import { trackGoalOnce } from "@/lib/analytics/client";
 import { DataFastGoals } from "@/lib/analytics/goals";
+import { demoBrand, demoEndpoints } from "@/lib/site/demo-brand";
 import { cta } from "@/lib/site/site-config";
 
 /* ------------------------------------------------------------------ */
@@ -15,8 +16,8 @@ import { cta } from "@/lib/site/site-config";
 /* ------------------------------------------------------------------ */
 
 const endpoints = [
-  { id: "site", label: "mesa-labs.dev", meta: "marketing site", kind: "Website" },
-  { id: "api", label: "api.mesa-labs.dev/v1/health", meta: "API endpoint", kind: "API" },
+  { id: "site", label: demoEndpoints.site.label, meta: "marketing site", kind: "Website" },
+  { id: "api", label: demoEndpoints.apiHealth.label, meta: "API endpoint", kind: "API" },
   { id: "cron", label: "nightly-backup", meta: "heartbeat · every 24h", kind: "Cron" },
 ] as const;
 
@@ -28,7 +29,7 @@ const frequencies = [
 
 const channels = [
   { id: "slack", label: "Slack", meta: "#ops-alerts" },
-  { id: "email", label: "Email", meta: "team@mesa-labs.dev" },
+  { id: "email", label: "Email", meta: demoBrand.alertEmail },
   { id: "discord", label: "Discord", meta: "#alerts" },
   { id: "webhook", label: "Webhook", meta: "signed JSON POST" },
 ] as const;
@@ -251,7 +252,7 @@ export function ProductJourney() {
                   <div className="fj-card fj-journey-card">
                     <div className="fj-journey-card__row">
                       <span className="fj-mono">
-                        status.mesa-labs.dev
+                        {demoBrand.statusHost}
                       </span>
                       <StatusBadge status="operational" label="Live" />
                     </div>

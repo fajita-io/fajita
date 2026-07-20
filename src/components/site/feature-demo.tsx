@@ -3,6 +3,7 @@ import { StatusBadge } from "@/components/design-system/status/status-badge";
 import { AlertFlow } from "@/components/site/alert-flow";
 import { MonitorPreview } from "@/components/site/monitor-preview";
 import { StatusPagePreview } from "@/components/site/status-page-preview";
+import { demoEndpoints } from "@/lib/site/demo-brand";
 import type { FeatureSlug } from "@/lib/site/features";
 
 interface ConsoleDemo {
@@ -18,7 +19,7 @@ const consoleDemos: Partial<Record<FeatureSlug, ConsoleDemo>> = {
     status: "down",
     statusLabel: "Assertion failed",
     lines: [
-      { text: "GET https://api.mesa-labs.dev/v1/orders" },
+      { text: `GET ${demoEndpoints.apiOrders.url}` },
       { text: "→ 200 OK · 3,840 ms", tone: "bad" },
       { text: "assert response < 800 ms ✗ (3,840 ms)", tone: "bad" },
       { text: 'assert json body.status == "ok" ✓', tone: "ok" },
@@ -31,7 +32,7 @@ const consoleDemos: Partial<Record<FeatureSlug, ConsoleDemo>> = {
     status: "operational",
     statusLabel: "Watching",
     lines: [
-      { text: "TLS mesa-labs.dev:443" },
+      { text: `TLS ${demoEndpoints.tls.label}` },
       { text: "→ valid · expires 2027-02-13 (212 days)", tone: "ok" },
       { text: "chain complete ✓ issuer trusted ✓", tone: "ok" },
       { text: "reminders at 30 days and 7 days" },

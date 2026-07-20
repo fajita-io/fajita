@@ -2,12 +2,14 @@ import type { NextConfig } from "next";
 
 const clerkHost = "https://*.clerk.accounts.dev";
 const datafastHost = "https://datafa.st";
+const googleAnalyticsHost = "https://www.google-analytics.com";
+const googleTagManagerHost = "https://www.googletagmanager.com";
 const supabaseHost = "https://*.supabase.co";
 const sentryHost = "https://*.ingest.sentry.io";
 
 /**
  * Production security headers for marketing, auth, app, and API routes.
- * CSP allows Clerk, DataFast, Supabase, and Sentry while blocking framing
+ * CSP allows Clerk, DataFast, Google Analytics, Supabase, and Sentry while blocking framing
  * and tightening defaults elsewhere.
  */
 export function buildSecurityHeaders(): NonNullable<
@@ -18,12 +20,17 @@ export function buildSecurityHeaders(): NonNullable<
     [
       "script-src 'self' 'unsafe-inline'",
       datafastHost,
+      googleTagManagerHost,
       clerkHost,
       "https://challenges.cloudflare.com",
     ].join(" "),
     [
       "connect-src 'self'",
       datafastHost,
+      googleAnalyticsHost,
+      googleTagManagerHost,
+      "https://analytics.google.com",
+      "https://region1.google-analytics.com",
       clerkHost,
       supabaseHost,
       sentryHost,

@@ -1,6 +1,7 @@
 import { DemoFrame, Metric, ChannelChip } from "@/components/design-system/primitives";
 import { StatusBadge } from "@/components/design-system/status/status-badge";
 import { UptimeChart, type UptimeDay } from "@/components/design-system/uptime-chart";
+import { demoEndpoints } from "@/lib/site/demo-brand";
 
 /**
  * Exactly the story the copy tells: 90 days, one 14-minute incident
@@ -109,7 +110,7 @@ export function MonitorPreview() {
       <div className="fj-monitor-preview">
         <div className="fj-monitor-preview__head">
           <span className="fj-monitor-preview__endpoint">
-            GET api.mesa-labs.dev/v1/health
+            GET {demoEndpoints.apiHealth.label}
           </span>
           <StatusBadge status="operational" />
         </div>
@@ -125,7 +126,7 @@ export function MonitorPreview() {
 
         <UptimeChart
           days={previewDays()}
-          label="api.mesa-labs.dev · last 90 days"
+          label={`${demoEndpoints.apiHealth.label} · last 90 days`}
         />
 
         <div className="fj-monitor-preview__facts">
