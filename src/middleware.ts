@@ -156,7 +156,12 @@ export default clerkMiddleware(
       await auth.protect();
     }
 
-    return NextResponse.next();
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set("x-pathname", request.nextUrl.pathname);
+
+    return NextResponse.next({
+      request: { headers: requestHeaders },
+    });
   },
 );
 

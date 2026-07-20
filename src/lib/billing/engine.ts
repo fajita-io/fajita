@@ -18,7 +18,7 @@ import {
   type InternalSubscriptionStatus,
 } from "@/lib/billing/subscription-state";
 import { gracePhase, type GracePhase } from "@/lib/billing/grace-period";
-import { BILLING_ENFORCEMENT_ENABLED } from "@/lib/billing/enforcement";
+import { BILLING_BETA_GRANT_ENABLED } from "@/lib/billing/enforcement";
 
 type SubscriptionRow =
   Database["public"]["Tables"]["billing_subscriptions"]["Row"];
@@ -45,12 +45,15 @@ export interface OrgBillingState {
   isBetaGrant: boolean;
 }
 
-/** Whether paid billing has launched (unbilled orgs get locked, not beta). */
+/**
+ * Whether paid billing has launched (unbilled orgs get locked, not beta).
+ * Active when billing is customer-visible unless BILLING_BETA_GRANT_ENABLED
+ * opts back into free beta entitlements for staging or local dev.
+ */
 export function billingLaunched(): boolean {
-  return (
-    BILLING_ENFORCEMENT_ENABLED &&
-    isStageAvailable(FEATURE_REGISTRY.billing.stage)
-  );
+  if (!isStageAvailable(FEATURE_REGISTRY.billing.stage)) return false;
+  if (BILLING_BETA_GRANT_ENABLED) return false;
+  return true;
 }
 
 /** The current live subscription for an org, or the most recent one. */

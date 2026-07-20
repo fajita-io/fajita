@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
 import { AppShell } from "@/components/app/app-shell";
 import { sidebarInitScript } from "@/lib/app/sidebar-script";
@@ -10,6 +11,11 @@ import { listMemberships, resolveActiveOrg } from "@/lib/app/organizations";
 import { readActiveOrgId } from "@/lib/app/active-org";
 import { resolveFeatureMap } from "@/lib/app/feature-flags.server";
 import { computeOrgBillingState } from "@/lib/billing/engine";
+import {
+  canEnterProductSetup,
+  isAppPathExemptFromPaymentGate,
+} from "@/lib/billing/setup-access";
+import { buildPaymentSetupUrl } from "@/lib/auth/paid-signup-flow";
 import { PLANS } from "@/lib/stripe/plans";
 import { serviceClient } from "@/lib/supabase/service";
 
@@ -68,6 +74,21 @@ export default async function AppLayout({
   ]);
 
   const billing = billingResult;
+
+  const pathname = (await headers()).get("x-pathname") ?? "";
+  if (
+    active &&
+    billing &&
+    !isAppPathExemptFromPaymentGate(pathname) &&
+    !(await canEnterProductSetup(active.organization.id, billing))
+  ) {
+    redirect(
+      buildPaymentSetupUrl(
+        billing.planKey ?? undefined,
+        billing.interval ?? undefined,
+      ),
+    );
+  }
 
   const context: AppContextValue = {
     profile: {

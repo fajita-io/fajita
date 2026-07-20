@@ -1,16 +1,12 @@
 /**
  * Billing enforcement is separate from billing UI availability.
  *
- * Feature stage `billing` controls whether checkout and billing settings are
- * customer-visible. This flag controls whether organizations without a
- * subscription are locked out of product entitlements.
+ * Unbilled organizations are locked out of product entitlements once billing
+ * is GA unless BILLING_BETA_GRANT_ENABLED opts them back into BETA_ENTITLEMENTS
+ * for staging or local development.
  *
- * Default is off. Enable in the deployment environment only after:
- * 1. Stripe Prices exist for every catalog lookup key
- * 2. `npm run stripe:verify-prices` passes against that Stripe account
- * 3. Controlled payment test (docs/operations/real-payment-test.md) passes
- *
- * While off, unbilled orgs receive BETA_ENTITLEMENTS (see catalog.ts).
+ * BILLING_ENFORCEMENT_ENABLED remains an explicit production signal for
+ * readiness checks and health reporting.
  */
 
 function envFlagEnabled(name: string): boolean {
@@ -20,4 +16,9 @@ function envFlagEnabled(name: string): boolean {
 
 export const BILLING_ENFORCEMENT_ENABLED = envFlagEnabled(
   "BILLING_ENFORCEMENT_ENABLED",
+);
+
+/** When true, unbilled orgs keep BETA_ENTITLEMENTS even though billing is GA. */
+export const BILLING_BETA_GRANT_ENABLED = envFlagEnabled(
+  "BILLING_BETA_GRANT_ENABLED",
 );
