@@ -71,10 +71,6 @@ export const fajitaVsUptimeRobot = defineComparison({
     llmInclude: true,
   },
   body: [
-    p(
-      "Last reviewed 2026-07-17. Research method: [comparison methodology](/compare/comparison-methodology). Competitor details can change. Confirm pricing and limits on official UptimeRobot pages before you buy.",
-    ),
-
     h2("Direct summary"),
     p(
       "Choose UptimeRobot when you specifically want their free or paid offering as described on their site today. Choose Fajita when you want a paid small-team monitor with failure confirmation, heartbeats, status pages, and subscriber email as first-class product surfaces, and you are fine without a free forever monitoring tier.",

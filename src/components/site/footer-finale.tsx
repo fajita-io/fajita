@@ -1,3 +1,5 @@
+import { FooterCredit } from "./footer-credit";
+
 const marqueePrimary = [
   "verified before alert",
   "recovery on the same paths",
@@ -56,7 +58,17 @@ function MarqueeTrack({
   variant: "primary" | "secondary";
   reverse?: boolean;
 }) {
-  const loop = [...items, ...items];
+  const renderItems = (keyPrefix: string) =>
+    items.map((item) => (
+      <span key={`${keyPrefix}-${item}`} className="fj-footer-finale__marquee-item">
+        {variant === "secondary" && item === "FAJITA.IO" ? (
+          <strong className="fj-footer-finale__marquee-mark">{item}</strong>
+        ) : (
+          item
+        )}
+        <span className="fj-footer-finale__marquee-dot" aria-hidden="true" />
+      </span>
+    ));
 
   return (
     <div
@@ -64,16 +76,10 @@ function MarqueeTrack({
       aria-hidden="true"
     >
       <div className="fj-footer-finale__marquee-track">
-        {loop.map((item, index) => (
-          <span key={`${item}-${index}`} className="fj-footer-finale__marquee-item">
-            {variant === "secondary" && item === "FAJITA.IO" ? (
-              <strong className="fj-footer-finale__marquee-mark">{item}</strong>
-            ) : (
-              item
-            )}
-            <span className="fj-footer-finale__marquee-dot" aria-hidden="true" />
-          </span>
-        ))}
+        <div className="fj-footer-finale__marquee-group">{renderItems("a")}</div>
+        <div className="fj-footer-finale__marquee-group" aria-hidden="true">
+          {renderItems("b")}
+        </div>
       </div>
     </div>
   );
@@ -152,7 +158,7 @@ export function FooterFinale({ year }: { year: number }) {
           <p className="fj-footer-finale__copyright">
             © {year} Fajita
           </p>
-          <p className="fj-footer-finale__made">Made in Montana</p>
+          <FooterCredit className="fj-footer-finale__credit" />
         </div>
       </div>
     </div>

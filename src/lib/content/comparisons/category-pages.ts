@@ -66,10 +66,6 @@ export const uptimeToolsSoloSaas = defineComparison({
     llmInclude: true,
   },
   body: [
-    p(
-      "Last reviewed 2026-07-17. This is a category guide, not a ranked leaderboard and not a star-rating page. Method: [comparison methodology](/compare/comparison-methodology).",
-    ),
-
     h2("Evaluation rubric for solo founders"),
     table(
       ["Question", "Why it matters"],
@@ -161,10 +157,6 @@ export const statusPageToolsSmallTeams = defineComparison({
     llmInclude: true,
   },
   body: [
-    p(
-      "Last reviewed 2026-07-17. Method: [comparison methodology](/compare/comparison-methodology). Confirm Atlassian Statuspage plans at https://www.atlassian.com/software/statuspage.",
-    ),
-
     h2("Decision frame"),
     table(
       ["Choose an integrated monitor + status product when", "Choose a dedicated status product when"],

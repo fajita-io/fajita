@@ -6,6 +6,7 @@ import { ThemeToggle } from "@/components/design-system/theme-toggle";
 import { featureOrder, features } from "@/lib/site/features";
 import { social } from "@/lib/site/site-config";
 
+import { FooterCredit, FooterCreditLink } from "./footer-credit";
 import { FooterCta } from "./footer-cta";
 import { FooterFinale } from "./footer-finale";
 import { FooterMoment } from "./footer-moment";
@@ -156,7 +157,7 @@ export function SiteFooter() {
 
       <div className="fj-footer__mobile-close fj-container">
         <p className="fj-caption">
-          © {new Date().getFullYear()} Fajita · Made in Montana
+          © {new Date().getFullYear()} Fajita · <FooterCreditLink />
         </p>
       </div>
     </footer>

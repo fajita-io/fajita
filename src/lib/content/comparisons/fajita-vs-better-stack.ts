@@ -70,10 +70,6 @@ export const fajitaVsBetterStack = defineComparison({
     llmInclude: true,
   },
   body: [
-    p(
-      "Last reviewed 2026-07-17. Method: [comparison methodology](/compare/comparison-methodology). Better Stack product packaging changes; confirm details at https://betterstack.com/.",
-    ),
-
     h2("Direct summary"),
     p(
       "If you want a wider reliability suite under one vendor brand, evaluate Better Stack on their official materials. If you want a focused monitoring and status product for a small SaaS without logs or agents, evaluate Fajita.",

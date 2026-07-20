@@ -2084,11 +2084,41 @@ a.fj-integration-card:focus-visible {
   color: var(--color-text-secondary);
   text-decoration: none;
   border-radius: var(--radius-xs);
-  transition: color var(--motion-fast) var(--ease-standard);
+  transition:
+    color var(--motion-medium) var(--ease-thermal),
+    transform var(--motion-medium) var(--ease-thermal);
 }
 
 .fj-footer__links a:hover {
   color: var(--color-text-primary);
+  transform: translateX(2px);
+}
+
+.fj-footer-credit__link {
+  color: inherit;
+  text-decoration: none;
+  text-underline-offset: 0.18em;
+  transition:
+    color var(--motion-medium) var(--ease-thermal),
+    opacity var(--motion-medium) var(--ease-thermal);
+}
+
+.fj-footer-credit__link:hover {
+  color: var(--color-brand-heat);
+}
+
+.fj-footer-credit__link:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+.fj-footer-finale__credit .fj-footer-credit__link {
+  color: color-mix(in srgb, var(--color-text-inverse) 78%, var(--color-brand-heat));
+}
+
+.fj-footer-finale__credit .fj-footer-credit__link:hover {
+  color: var(--color-brand-heat);
 }
 
 /* Full-bleed kinetic finale (wiki.co editorial rhythm, Fajita thermal voice) */
@@ -2108,12 +2138,20 @@ a.fj-integration-card:focus-visible {
   color: var(--color-text-inverse);
   border-top: 1px solid color-mix(in srgb, var(--color-brand-heat) 28%, transparent);
   overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .fj-footer-finale__marquee {
   overflow: hidden;
   border-bottom: 1px solid color-mix(in srgb, var(--color-text-inverse) 8%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 10%,
+    #000 90%,
+    transparent 100%
+  );
 }
 
 .fj-footer-finale__marquee--primary {
@@ -2128,13 +2166,24 @@ a.fj-integration-card:focus-visible {
 .fj-footer-finale__marquee-track {
   display: flex;
   width: max-content;
-  gap: var(--space-6);
-  animation: fj-footer-marquee 52s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+  animation: fj-footer-marquee 72s linear infinite;
 }
 
 .fj-footer-finale__marquee--reverse .fj-footer-finale__marquee-track {
   animation-direction: reverse;
-  animation-duration: 38s;
+  animation-duration: 54s;
+}
+
+.fj-footer-finale__marquee-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  flex-shrink: 0;
+  min-width: max-content;
+  padding-right: var(--space-6);
 }
 
 .fj-footer-finale__marquee-item {
@@ -2172,12 +2221,14 @@ a.fj-integration-card:focus-visible {
   background: var(--color-brand-heat);
   flex-shrink: 0;
   box-shadow: 0 0 0.65rem color-mix(in srgb, var(--color-brand-heat) 55%, transparent);
+  animation: fj-footer-dot-glow 3.6s var(--ease-thermal) infinite;
 }
 
 .fj-footer-finale__body {
   padding: var(--space-12) 0 var(--space-10);
   display: grid;
   gap: var(--space-10);
+  animation: fj-footer-finale-rise var(--motion-narrative) var(--ease-thermal) both;
 }
 
 .fj-footer-finale__mosaic {
@@ -2196,6 +2247,18 @@ a.fj-integration-card:focus-visible {
   gap: var(--space-2);
   align-content: start;
   min-height: 7.5rem;
+  transition:
+    border-color var(--motion-slow) var(--ease-thermal),
+    background-color var(--motion-slow) var(--ease-thermal),
+    transform var(--motion-slow) var(--ease-thermal),
+    box-shadow var(--motion-slow) var(--ease-thermal);
+}
+
+.fj-footer-finale__tile:hover {
+  border-color: color-mix(in srgb, var(--color-brand-heat) 42%, var(--color-text-inverse));
+  background: color-mix(in srgb, var(--color-text-inverse) 7%, transparent);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 36px color-mix(in srgb, var(--fj-carbon-950) 28%, transparent);
 }
 
 .fj-footer-finale__tile--wide {
@@ -2209,6 +2272,11 @@ a.fj-integration-card:focus-visible {
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: color-mix(in srgb, var(--color-brand-heat) 78%, var(--color-text-inverse));
+  transition: color var(--motion-slow) var(--ease-thermal);
+}
+
+.fj-footer-finale__tile:hover .fj-footer-finale__tile-label {
+  color: var(--color-brand-heat);
 }
 
 .fj-footer-finale__tile-title {
@@ -2241,8 +2309,10 @@ a.fj-integration-card:focus-visible {
       color-mix(in srgb, var(--color-text-inverse) 72%, var(--color-brand-heat)) 42%,
       var(--color-brand-heat) 100%
     );
+  background-size: 180% 100%;
   background-clip: text;
   -webkit-background-clip: text;
+  animation: fj-footer-domain-shimmer 12s var(--ease-thermal) infinite alternate;
 }
 
 .fj-footer-finale__tagline {
@@ -2264,7 +2334,7 @@ a.fj-integration-card:focus-visible {
 
 .fj-footer-finale__pulse-line {
   stroke-dasharray: 8 12;
-  animation: fj-signal-travel 2.8s linear infinite;
+  animation: fj-signal-travel 4.2s linear infinite;
 }
 
 .fj-footer-finale__base {
@@ -2277,7 +2347,7 @@ a.fj-integration-card:focus-visible {
 }
 
 .fj-footer-finale__copyright,
-.fj-footer-finale__made {
+.fj-footer-finale__credit {
   margin: 0;
   font-family: var(--font-mono, var(--font-fallback-mono));
   font-size: var(--text-caption);
@@ -2285,16 +2355,48 @@ a.fj-integration-card:focus-visible {
   color: color-mix(in srgb, var(--color-text-inverse) 58%, transparent);
 }
 
-.fj-footer-finale__made {
+.fj-footer-finale__credit {
   margin-left: auto;
 }
 
 @keyframes fj-footer-marquee {
   from {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes fj-footer-finale-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fj-footer-domain-shimmer {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes fj-footer-dot-glow {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
   }
 }
 
@@ -2317,8 +2419,20 @@ a.fj-integration-card:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   .fj-footer-finale__marquee-track,
-  .fj-footer-finale__pulse-line {
+  .fj-footer-finale__pulse-line,
+  .fj-footer-finale__domain,
+  .fj-footer-finale__marquee-dot,
+  .fj-footer-finale__body {
     animation: none;
+  }
+
+  .fj-footer__links a:hover {
+    transform: none;
+  }
+
+  .fj-footer-finale__tile:hover {
+    transform: none;
+    box-shadow: none;
   }
 
   .fj-footer-finale__marquee-track {
