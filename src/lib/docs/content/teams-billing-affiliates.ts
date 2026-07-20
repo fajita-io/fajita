@@ -226,7 +226,7 @@ export const teamsBillingAffiliatePages: DocPage[] = [
       p("The affiliate program pays commissions for customers you refer. Program terms are set in the affiliate agreement."),
       h2("How it works"),
       ul([
-        "You apply and, once approved, get referral links.",
+        "Apply from the app or the affiliate page. Your referral link goes live immediately after you accept the program terms.",
         "A referred visitor is attributed to you within the attribution window.",
         "A conversion is a paid subscription confirmed through Stripe.",
         "Commissions become payable after a holding period that accounts for refunds and disputes.",

@@ -16,6 +16,7 @@ const ROLE_LABELS: Record<OrgRole, string> = {
 
 export type GeniusOpenSource =
   | "floating"
+  | "sidebar"
   | "command_palette"
   | "account_menu"
   | "inline"

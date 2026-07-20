@@ -55,7 +55,7 @@ export async function profileIsAffiliate(profileId: string): Promise<boolean> {
 /**
  * Submit an application. Enforces one live application per user, respects prior
  * rejection cooldown and blocked/terminated status, and records terms
- * acceptance. Auto-approval is never performed here.
+ * acceptance. Approval is handled by the caller after submit.
  */
 export async function submitApplication(
   profileId: string,

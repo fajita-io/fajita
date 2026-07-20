@@ -18,6 +18,7 @@ import {
   programPublished,
 } from "@/lib/affiliates/config";
 import { getApplicationForProfile } from "@/lib/affiliates/applications";
+import { ensureAffiliateAccount } from "@/lib/affiliates/provisioning";
 
 export const dynamic = "force-dynamic";
 
@@ -34,14 +35,14 @@ const APPLICANT_STATUS_COPY: Record<
   { badge: "operational" | "verifying" | "maintenance" | "down"; label: string; body: string }
 > = {
   submitted: {
-    badge: "verifying",
-    label: "In review",
-    body: "Your application is in. We review each one by hand. You will hear from us by email.",
+    badge: "operational",
+    label: "Finishing setup",
+    body: "Your account is almost ready. Open your dashboard to copy your referral link.",
   },
   under_review: {
-    badge: "verifying",
-    label: "In review",
-    body: "A person is looking at your application now. We will be in touch shortly.",
+    badge: "operational",
+    label: "Finishing setup",
+    body: "Your account is almost ready. Open your dashboard to copy your referral link.",
   },
   needs_information: {
     badge: "maintenance",
@@ -49,9 +50,9 @@ const APPLICANT_STATUS_COPY: Record<
     body: "We need one more thing before we can decide. Check your email for what we asked.",
   },
   waitlisted: {
-    badge: "maintenance",
-    label: "In queue",
-    body: "Your application is queued. We review in order and email you when there is a decision.",
+    badge: "operational",
+    label: "Ready",
+    body: "Your referral link is live. Open your dashboard to start sharing.",
   },
   rejected: {
     badge: "down",
@@ -92,6 +93,27 @@ export default async function AffiliatesPage() {
       );
     } else {
       const application = await getApplicationForProfile(profile.id);
+      const liveStates = new Set([
+        "submitted",
+        "under_review",
+        "needs_information",
+        "waitlisted",
+      ]);
+      if (application && liveStates.has(application.state)) {
+        await ensureAffiliateAccount({
+          profileId: profile.id,
+          email: application.email,
+          displayName: profile.display_name,
+          country: application.country,
+          websiteUrl: application.website_url,
+          termsSource: "application_auto",
+        });
+        cta = (
+          <div className="fj-hero__ctas">
+            <BrandButtonLink href="/affiliate">Open your dashboard</BrandButtonLink>
+          </div>
+        );
+      } else {
       const status = application
         ? APPLICANT_STATUS_COPY[application.state]
         : null;
@@ -128,6 +150,7 @@ export default async function AffiliatesPage() {
             </BrandButtonLink>
           </div>
         );
+      }
       }
     }
   }
@@ -229,8 +252,8 @@ export default async function AffiliatesPage() {
                   Apply
                 </h3>
                 <p className="fj-body-sm" style={{ margin: "var(--space-2) 0 0" }}>
-                  Tell us who you reach and how. We review every application by
-                  hand. No bots, no instant links.
+                  Tell us who you reach and how. Accept the terms and your
+                  referral link goes live immediately.
                 </p>
               </div>
             </li>

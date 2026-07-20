@@ -101,7 +101,7 @@ export function CommandPalette({
         label: "Share product feedback",
         group: "Actions",
         icon: "support",
-        keywords: "idea feature request bug praise genius",
+        keywords: "idea feature request bug praise feedback signal",
         run: () => {
           onClose();
           openGeniusFeedback({ source: "command_palette" });

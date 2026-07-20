@@ -1,66 +1,5 @@
 /* Genius feedback triggers — Fajita brand, app shell only. */
 
-.fj-genius-anchor {
-  position: fixed;
-  left: max(var(--space-4), env(safe-area-inset-left));
-  bottom: max(var(--space-4), env(safe-area-inset-bottom));
-  z-index: 55;
-  pointer-events: none;
-}
-
-.fj-genius-anchor > * {
-  pointer-events: auto;
-}
-
-.fj-genius-launcher {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-height: 2.75rem;
-  padding: 0.55rem 0.95rem 0.55rem 0.75rem;
-  border: 1px solid color-mix(in srgb, var(--color-brand-ember) 35%, var(--color-border-strong));
-  border-radius: var(--radius-pill, 999px);
-  background: var(--color-background-elevated);
-  color: var(--color-text-primary);
-  box-shadow: var(--shadow-card, 0 12px 32px rgb(0 0 0 / 0.14));
-  font: inherit;
-  font-size: var(--text-sm, 0.875rem);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  cursor: pointer;
-  transition:
-    transform 0.18s ease,
-    border-color 0.18s ease,
-    box-shadow 0.18s ease;
-}
-
-.fj-genius-launcher:hover {
-  transform: translateY(-1px);
-  border-color: color-mix(in srgb, var(--color-brand-ember) 55%, var(--color-border-strong));
-  box-shadow: var(--shadow-card-hover, 0 16px 40px rgb(0 0 0 / 0.18));
-}
-
-.fj-genius-launcher:focus-visible {
-  outline: 2px solid var(--color-focus-ring);
-  outline-offset: 2px;
-}
-
-.fj-genius-launcher__mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: var(--radius-pill, 999px);
-  background: color-mix(in srgb, var(--color-brand-ember) 14%, transparent);
-  color: var(--color-brand-ember);
-}
-
-.fj-genius-launcher__label {
-  padding-right: 0.15rem;
-  white-space: nowrap;
-}
-
 .fj-genius-inline-trigger {
   display: inline;
   padding: 0;
@@ -83,27 +22,4 @@
   outline: 2px solid var(--color-focus-ring);
   outline-offset: 2px;
   border-radius: var(--radius-xs);
-}
-
-@media (max-width: 480px) {
-  .fj-genius-launcher__label {
-    display: none;
-  }
-
-  .fj-genius-launcher {
-    width: 2.75rem;
-    height: 2.75rem;
-    padding: 0;
-    justify-content: center;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .fj-genius-launcher {
-    transition: none;
-  }
-
-  .fj-genius-launcher:hover {
-    transform: none;
-  }
 }

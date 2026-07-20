@@ -6,6 +6,7 @@ import { useEffect } from "react";
 
 import { BrandIcon } from "@/components/design-system/icons";
 import { FajitaMark } from "@/components/brand/logo/fajita-mark";
+import { GeniusSidebarTrigger } from "@/components/genius/genius-sidebar-trigger";
 import { AvailabilityBadge } from "./ui";
 import { OrgSwitcher } from "./org-switcher";
 import { useApp } from "@/lib/app/app-context";
@@ -101,6 +102,9 @@ export function MobileNav({
               })}
             </div>
           ))}
+          <div className="fj-mobilenav__feedback">
+            <GeniusSidebarTrigger collapsed={false} />
+          </div>
         </nav>
       </div>
     </div>

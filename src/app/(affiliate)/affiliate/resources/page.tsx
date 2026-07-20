@@ -3,6 +3,7 @@ import { CopyField } from "@/components/affiliate/copy-field";
 import { CopySnippet } from "@/components/affiliate/copy-snippet";
 import { requireAffiliate } from "@/lib/affiliates/context";
 import { buildReferralUrl, getDefaultCode } from "@/lib/affiliates/links";
+import { buildAffiliateShareSnippets } from "@/lib/affiliates/share-copy";
 import { serviceClient } from "@/lib/supabase/service";
 
 export const dynamic = "force-dynamic";
@@ -43,22 +44,7 @@ export default async function AffiliateResourcesPage() {
     ? buildReferralUrl({ code: defaultCode.code, destination: "/" })
     : null;
 
-  const snippets = link
-    ? [
-        {
-          label: "One-liner",
-          value: `Fajita watches your sites, APIs, and cron jobs and tells you before your customers do. ${link}`,
-        },
-        {
-          label: "Short post",
-          value: `Downtime is expensive and quiet. Fajita monitors your websites, APIs, SSL certificates, and cron jobs, then alerts your team the moment something starts to slip. Try it: ${link}`,
-        },
-        {
-          label: "For a newsletter",
-          value: `I run my uptime monitoring on Fajita. It checks sites, APIs, certificates, and scheduled jobs, and it pings me before anything reaches a customer. Public status pages come built in. If you own something that has to stay up, take a look: ${link}`,
-        },
-      ]
-    : [];
+  const snippets = link ? buildAffiliateShareSnippets(link) : [];
 
   return (
     <>

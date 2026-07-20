@@ -3,10 +3,11 @@
 import type { ReactNode } from "react";
 
 import type { GeniusOpenSource } from "@/lib/genius/client";
+import { GENIUS_FEEDBACK_LABEL } from "@/lib/genius/config";
 import type { GeniusCategory } from "@/lib/genius/types";
 
 export function GeniusTriggerButton({
-  children = "Got a genius idea?",
+  children = GENIUS_FEEDBACK_LABEL,
   source = "button",
   category,
   className,

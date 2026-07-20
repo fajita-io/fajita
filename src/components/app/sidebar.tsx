@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { FajitaMark } from "@/components/brand/logo/fajita-mark";
 import { BrandIcon } from "@/components/design-system/icons";
 import { Tooltip } from "@/components/design-system/primitives";
+import { GeniusSidebarTrigger } from "@/components/genius/genius-sidebar-trigger";
 import { AvailabilityBadge } from "./ui";
 import { OrgSwitcher } from "./org-switcher";
 import { useApp } from "@/lib/app/app-context";
@@ -115,6 +116,10 @@ export function Sidebar({
           </div>
         ))}
       </nav>
+
+      <div className="fj-sidebar__feedback">
+        <GeniusSidebarTrigger collapsed={collapsed} />
+      </div>
 
       <button
         type="button"

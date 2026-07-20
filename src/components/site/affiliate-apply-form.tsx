@@ -73,6 +73,7 @@ export function AffiliateApplyForm({
 
     if (result.ok) {
       setStatus({ kind: "sent" });
+      router.push("/affiliate");
       router.refresh();
     } else {
       setStatus({ kind: "failed", detail: result.error });
@@ -82,9 +83,8 @@ export function AffiliateApplyForm({
   if (status.kind === "sent") {
     return (
       <div className="fj-form-status fj-form-status--success" role="status">
-        <strong>Your application is in.</strong> We review each one by hand and
-        will reach you by email. You do not have a referral link yet. Nothing is
-        approved until you hear from us.
+        <strong>You are in.</strong> Your referral link is live. Opening your
+        affiliate dashboard.
       </div>
     );
   }

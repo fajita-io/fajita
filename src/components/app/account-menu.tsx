@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { BrandIcon } from "@/components/design-system/icons";
+import { FajitaMark } from "@/components/brand/logo/fajita-mark";
 import { Avatar } from "./ui";
 import { useApp } from "@/lib/app/app-context";
 import { resetGenius } from "@/lib/genius/client";
@@ -110,7 +111,10 @@ export function AccountMenu() {
               data-genius-source="account_menu"
               onClick={() => setOpen(false)}
             >
-              <BrandIcon name="support" size={16} /> Share feedback
+              <span className="fj-sidenav__icon" aria-hidden="true">
+                <FajitaMark size={16} label="" tone="auto" />
+              </span>
+              Share feedback
             </button>
             <button
               type="button"

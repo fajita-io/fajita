@@ -3,7 +3,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 
 import { GeniusMount } from "@/components/genius/genius-mount";
-import { AskFajitaMount } from "@/components/support/ask-fajita-mount";
 import { AppProvider, type AppContextValue } from "@/lib/app/app-context";
 import { ToastProvider } from "./toast";
 import { Sidebar } from "./sidebar";
@@ -81,12 +80,6 @@ export function AppShell({
         <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} />
         <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
         <GeniusMount />
-        {context.features.pamphletSupport ? (
-          <AskFajitaMount
-            mode="authenticated"
-            pageContext={{ route: "/app", productArea: "application" }}
-          />
-        ) : null}
       </ToastProvider>
     </AppProvider>
   );

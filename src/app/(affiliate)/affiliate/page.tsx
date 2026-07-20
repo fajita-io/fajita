@@ -105,7 +105,7 @@ export default async function AffiliateOverviewPage() {
 
       <AppSection
         title="What the program pays"
-        description="Provisional until the program launches. These numbers live in one place and never change quietly."
+        description="These numbers come from the published Program Terms. They change only when the program version changes."
       >
         <div className="fj-affiliate__stats">
           <Stat label="Commission" value={commissionRatePercentLabel()} />

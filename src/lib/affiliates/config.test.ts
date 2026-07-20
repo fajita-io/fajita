@@ -19,7 +19,7 @@ describe("affiliate program config", () => {
     const terms = activeTerms();
     expect(terms.version).toBe(ACTIVE_PROGRAM_VERSION);
     expect(terms.attributionWindowDays).toBe(30);
-    expect(terms.recurringEligibilityMonths).toBe(12);
+    expect(terms.recurringEligibilityMonths).toBe(6);
     expect(terms.commissionHoldingDays).toBe(30);
     expect(terms.minimumPayoutThresholdCents).toBe(5000);
     expect(Number.isInteger(terms.commissionRateBps)).toBe(true);
@@ -42,7 +42,7 @@ describe("affiliate program config", () => {
   });
 
   it("labels the commission rate from basis points", () => {
-    expect(commissionRatePercentLabel()).toBe("20%");
+    expect(commissionRatePercentLabel()).toBe("15%");
   });
 
   it("treats configured plan keys as eligible", () => {

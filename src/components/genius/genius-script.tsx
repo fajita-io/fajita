@@ -5,7 +5,7 @@ import Script from "next/script";
 import { trackGoal } from "@/lib/analytics/client";
 import { DataFastGoals } from "@/lib/analytics/goals";
 import { bindGeniusSubmitHandler } from "@/lib/genius/client";
-import { GENIUS_PROJECT_KEY, GENIUS_WIDGET_SRC } from "@/lib/genius/config";
+import { GENIUS_FEEDBACK_LABEL, GENIUS_PROJECT_KEY, GENIUS_WIDGET_SRC } from "@/lib/genius/config";
 import { notifyGeniusReady } from "@/lib/genius/ready";
 
 /**
@@ -21,6 +21,7 @@ export function GeniusScript() {
       defer
       data-project={GENIUS_PROJECT_KEY}
       data-theme="auto"
+      data-label={GENIUS_FEEDBACK_LABEL}
       onLoad={() => {
         trackGoal(DataFastGoals.geniusWidgetReady);
         bindGeniusSubmitHandler();

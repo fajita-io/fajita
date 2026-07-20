@@ -12,13 +12,14 @@ import {
   getAffiliateForCurrentUser,
 } from "@/lib/affiliates/context";
 import { getApplicationForProfile } from "@/lib/affiliates/applications";
+import { ensureAffiliateAccount } from "@/lib/affiliates/provisioning";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = buildMetadata({
   title: "Apply to the affiliate program",
   description:
-    "Apply to refer teams to Fajita and earn recurring commission. Every application is reviewed by hand.",
+    "Join the Fajita affiliate program and get your referral link immediately. Earn recurring commission on eligible subscriptions.",
   path: "/affiliates/apply",
   noindex: false,
 });
@@ -26,6 +27,7 @@ export const metadata: Metadata = buildMetadata({
 const LIVE_STATES = new Set([
   "submitted",
   "under_review",
+  "needs_information",
   "waitlisted",
 ]);
 
@@ -42,8 +44,8 @@ export default async function AffiliateApplyPage() {
           </p>
           <h1 className="fj-display-2">Sign in to apply.</h1>
           <p className="fj-body-lg fj-page-hero__lede">
-            Your application is tied to your Fajita account, so we know who to
-            pay. Sign in or create an account, then come back here.
+            Your account is tied to your referral link and payouts. Sign in or
+            create an account, then come back here.
           </p>
           <div className="fj-hero__ctas">
             <BrandButtonLink href="/login?redirect=/affiliates/apply">
@@ -66,22 +68,15 @@ export default async function AffiliateApplyPage() {
 
   const application = await getApplicationForProfile(profile.id);
   if (application && LIVE_STATES.has(application.state)) {
-    return (
-      <section className="fj-page-hero">
-        <div className="fj-container fj-container--narrow">
-          <h1 className="fj-display-2">Your application is in.</h1>
-          <p className="fj-body-lg fj-page-hero__lede">
-            We review each one by hand. You will hear from us by email. There is
-            nothing else to do right now.
-          </p>
-          <div className="fj-hero__ctas">
-            <BrandButtonLink href="/affiliates" variant="secondary">
-              Back to the program
-            </BrandButtonLink>
-          </div>
-        </div>
-      </section>
-    );
+    await ensureAffiliateAccount({
+      profileId: profile.id,
+      email: application.email,
+      displayName: profile.display_name,
+      country: application.country,
+      websiteUrl: application.website_url,
+      termsSource: "application_auto",
+    });
+    redirect("/affiliate");
   }
 
   return (
@@ -91,11 +86,10 @@ export default async function AffiliateApplyPage() {
           <p className="fj-eyebrow fj-page-hero__eyebrow">
             Affiliate program
           </p>
-          <h1 className="fj-display-2">Apply to join.</h1>
+          <h1 className="fj-display-2">Get your link today.</h1>
           <p className="fj-body-lg fj-page-hero__lede">
-            Tell us who you reach and how you would share Fajita. A person reads
-            every application. Approval is not automatic, and submitting this
-            does not create a referral link.
+            Tell us how you reach people. Accept the program terms and your
+            referral link goes live as soon as you submit.
           </p>
         </div>
       </section>

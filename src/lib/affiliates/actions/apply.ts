@@ -16,6 +16,7 @@ import {
 } from "../config";
 import { requireAffiliateProgramAccess } from "../context";
 import { submitApplication } from "../applications";
+import { ensureAffiliateAccount } from "../provisioning";
 
 const applySchema = z.object({
   email: z.string().trim().email("Enter a valid email.").max(254),
@@ -63,20 +64,20 @@ const applySchema = z.object({
 export type ApplyInput = z.input<typeof applySchema>;
 
 /**
- * Submit an affiliate application. Requires sign-in (identity comes from the
- * session, never a form field). Gated to the published program, or platform
- * admins during pre-launch preview. Never auto-approves.
+ * Submit an affiliate application and provision the account immediately after
+ * terms acceptance. Gated to the published program, or platform admins during
+ * pre-launch preview.
  */
 export async function submitApplicationAction(
   input: ApplyInput,
-): Promise<ActionResult<{ status: "submitted" }>> {
+): Promise<ActionResult<{ status: "approved"; defaultLink: string }>> {
   try {
     await requireAffiliateProgramAccess();
     const profile = await requireAuthenticatedUser();
     const parsed = applySchema.parse(input);
     const terms = activeTerms();
 
-    await submitApplication(
+    const application = await submitApplication(
       profile.id,
       {
         email: parsed.email,
@@ -98,16 +99,29 @@ export async function submitApplicationAction(
       { country: parsed.country, acceptedAt: new Date().toISOString() },
     );
 
+    const provisioned = await ensureAffiliateAccount({
+      profileId: profile.id,
+      email: parsed.email,
+      displayName: profile.display_name,
+      country: parsed.country,
+      websiteUrl: parsed.websiteUrl,
+      termsVersion: AFFILIATE_TERMS_VERSION,
+      privacyVersion: AFFILIATE_PRIVACY_VERSION,
+      termsSource: "application_auto",
+    });
+
     await recordAuditEvent({
       organizationId: null,
       actorUserId: profile.id,
       action: "affiliate.application_submitted",
       targetType: "affiliate_application",
-      summary: "Affiliate application submitted",
+      targetId: application.id,
+      summary: "Affiliate application submitted and approved",
       metadata: {
         country: parsed.country,
         existingCustomer: parsed.isExistingCustomer,
         programVersion: terms.version,
+        affiliateId: provisioned.affiliate.id,
       },
     });
 
@@ -115,9 +129,18 @@ export async function submitApplicationAction(
       name: DataFastGoals.affiliateApplicationSubmitted,
       metadata: { existing_customer: parsed.isExistingCustomer },
     });
+    await trackServerGoal({
+      name: DataFastGoals.affiliateApplicationApproved,
+      metadata: { source: "application_auto" },
+    });
 
     revalidatePath("/affiliates");
-    return { ok: true, data: { status: "submitted" } };
+    revalidatePath("/affiliate");
+    revalidatePath("/app/referrals");
+    return {
+      ok: true,
+      data: { status: "approved", defaultLink: provisioned.defaultLink },
+    };
   } catch (error) {
     return toActionError(error);
   }

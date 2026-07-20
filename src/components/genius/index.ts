@@ -1,4 +1,4 @@
-export { GeniusFloatingTrigger } from "./genius-floating-trigger";
+export { GeniusSidebarTrigger } from "./genius-sidebar-trigger";
 export { GeniusInlineTrigger } from "./genius-inline-trigger";
 export { GeniusMount } from "./genius-mount";
 export { GeniusScript } from "./genius-script";
