@@ -34,6 +34,10 @@
   --sp-nodata: #b8b5af;
   --sp-nodata-bg: #efedea;
 
+  /* Brand lockup tokens for FajitaLogo on the service status page. */
+  --color-text-primary: var(--sp-text);
+  --color-brand-ember: var(--sp-accent);
+
   background: var(--sp-bg);
   color: var(--sp-text);
   min-height: 100vh;
@@ -112,6 +116,24 @@
   align-items: center;
   gap: 12px;
   min-width: 0;
+}
+
+.sp-brand__link {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.sp-brand__link:hover {
+  opacity: 0.92;
+}
+
+.sp-brand__link:focus-visible {
+  outline: 2px solid var(--sp-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 .sp-brand__logo {

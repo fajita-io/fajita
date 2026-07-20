@@ -20,12 +20,8 @@ export default async function NewMaintenancePage() {
   const monitors = await listMonitorsForSelect(ctx.organizationId);
 
   return (
-    <div>
-      <Link
-        className="fj-link-button"
-        href="/app/maintenance"
-        style={{ marginBottom: "var(--space-4)", display: "inline-flex" }}
-      >
+    <div className="fj-maintenance-page">
+      <Link className="fj-back-link" href="/app/maintenance">
         <BrandIcon name="chevron-right" size={14} className="fj-flip-up" />
         All maintenance
       </Link>
@@ -35,7 +31,7 @@ export default async function NewMaintenancePage() {
         description="Fajita keeps checking during the window. For the monitors you choose, expected failures will not open an incident."
       />
 
-      <AppSection>
+      <AppSection className="fj-app-section--form">
         <MaintenanceForm
           organizationId={ctx.organizationId}
           monitors={monitors}

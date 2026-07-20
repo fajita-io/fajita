@@ -39,6 +39,7 @@ export type BrandIconName =
   | "close"
   | "menu"
   | "chevron-down"
+  | "chevron-left"
   | "chevron-right"
   | "check"
   | "external"
@@ -260,6 +261,7 @@ const glyphs: Record<BrandIconName, React.ReactElement> = {
   close: <path d="M5 5l10 10M15 5L5 15" />,
   menu: <path d="M3 6h14M3 10h14M3 14h14" />,
   "chevron-down": <path d="M5 7.5l5 5 5-5" />,
+  "chevron-left": <path d="M12.5 5l-5 5 5 5" />,
   "chevron-right": <path d="M7.5 5l5 5-5 5" />,
   check: <path d="M4 10.5l4 4 8-9" />,
   external: (

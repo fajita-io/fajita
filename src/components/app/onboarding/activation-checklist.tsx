@@ -58,7 +58,9 @@ function StepRow({
         </span>
       </span>
       {step.optional && !step.done ? (
-        <span className="fj-role-badge">{step.skipped ? "Skipped" : "Optional"}</span>
+        <span className="fj-checklist__badge fj-role-badge">
+          {step.skipped ? "Skipped" : "Optional"}
+        </span>
       ) : null}
     </>
   );

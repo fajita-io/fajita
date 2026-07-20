@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { BrandButtonLink } from "@/components/design-system/primitives";
 import { AppSection, PageHeader } from "@/components/app/ui";
 import { GeniusInlineTrigger, GeniusTriggerButton } from "@/components/genius";
 import { requireActiveContext } from "@/lib/app/page-context";
@@ -51,12 +52,11 @@ export default async function AppSupportPage() {
         </div>
       </AppSection>
       <AppSection title="Contact support">
-        <p>{SUPPORT_COPY.providerUnavailableBody}</p>
-        <ul className="fj-support-list">
-          <li>
-            <a href={FALLBACK_SUPPORT_HREF}>{SUPPORT_COPY.contactSupport}</a>
-          </li>
-        </ul>
+        <div className="fj-support-actions">
+          <BrandButtonLink href={FALLBACK_SUPPORT_HREF} variant="secondary">
+            {SUPPORT_COPY.contactSupport}
+          </BrandButtonLink>
+        </div>
       </AppSection>
     </>
   );

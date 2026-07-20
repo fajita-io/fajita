@@ -1,3 +1,4 @@
+import { FajitaLogo } from "@/components/brand/logo/fajita-logo";
 import { OVERALL_STATE_LABEL } from "@/lib/status-pages/constants";
 import { formatInstant, formatUptimePercent, relativeAge } from "@/lib/status-pages/format";
 import type {
@@ -25,6 +26,7 @@ export function StatusPageView({
   basePath,
   generatedAt,
   subscribeSlug,
+  brandLockup,
 }: {
   data: PublicSnapshotData;
   basePath: string;
@@ -35,6 +37,8 @@ export function StatusPageView({
    * shown, so we never render a dead control.
    */
   subscribeSlug?: string;
+  /** When set to "fajita", render the Fajita lockup instead of plain page name text. */
+  brandLockup?: "fajita";
 }) {
   const { page, theme, display, overall } = data;
   const allComponents = [
@@ -57,11 +61,13 @@ export function StatusPageView({
       <div className="sp-shell">
         <header className="sp-header">
           <div className="sp-brand">
-            {theme.logoUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img className="sp-brand__logo" src={theme.logoUrl} alt={`${page.name} logo`} />
-            ) : null}
-            <span className="sp-brand__name">{page.name}</span>
+            {page.websiteUrl ? (
+              <a className="sp-brand__link" href={page.websiteUrl} rel="noopener nofollow">
+                <StatusBrandMark brandLockup={brandLockup} page={page} theme={theme} />
+              </a>
+            ) : (
+              <StatusBrandMark brandLockup={brandLockup} page={page} theme={theme} />
+            )}
           </div>
           <nav className="sp-header__links" aria-label="Company links">
             {page.websiteUrl ? (
@@ -228,6 +234,30 @@ export function StatusPageView({
         </footer>
       </div>
     </div>
+  );
+}
+
+function StatusBrandMark({
+  brandLockup,
+  page,
+  theme,
+}: {
+  brandLockup?: "fajita";
+  page: PublicSnapshotData["page"];
+  theme: PublicSnapshotData["theme"];
+}) {
+  if (brandLockup === "fajita") {
+    return <FajitaLogo orientation="horizontal" size={30} label="Fajita" />;
+  }
+
+  return (
+    <>
+      {theme.logoUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img className="sp-brand__logo" src={theme.logoUrl} alt={`${page.name} logo`} />
+      ) : null}
+      <span className="sp-brand__name">{page.name}</span>
+    </>
   );
 }
 

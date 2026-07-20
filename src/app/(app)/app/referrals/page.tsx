@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import type { ReactNode } from "react";
 
 import { AppSection, PageHeader } from "@/components/app/ui";
+import { ReferralStatGrid } from "@/components/app/referrals/referral-stat-grid";
 import { CopyField } from "@/components/affiliate/copy-field";
 import { CopySnippet } from "@/components/affiliate/copy-snippet";
 import { ReferralsActivateForm } from "@/components/app/referrals-activate-form";
@@ -39,13 +41,8 @@ function formatUsd(cents: number): string {
   })}`;
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="fj-affiliate__stat">
-      <span className="fj-affiliate__stat-value">{value}</span>
-      <span className="fj-affiliate__stat-label">{label}</span>
-    </div>
-  );
+function ReferralsPageShell({ children }: { children: ReactNode }) {
+  return <div className="fj-referrals-page">{children}</div>;
 }
 
 /**
@@ -75,7 +72,7 @@ export default async function ReferralsPage() {
     const application = await getApplicationForProfile(profile.id);
     if (application?.state === "blocked") {
       return (
-        <>
+        <ReferralsPageShell>
           <PageHeader
             title="Referrals"
             description="Share Fajita and earn recurring commission when teams you refer subscribe."
@@ -88,7 +85,7 @@ export default async function ReferralsPage() {
               <Link href="/app/support">Contact support</Link>
             </p>
           </AppSection>
-        </>
+        </ReferralsPageShell>
       );
     }
 
@@ -116,7 +113,7 @@ export default async function ReferralsPage() {
   if (!affiliate) {
     const terms = activeTerms();
     return (
-      <>
+      <ReferralsPageShell>
         <PageHeader
           title="Referrals"
           description="Share Fajita. Earn recurring commission when teams you send subscribe."
@@ -127,31 +124,36 @@ export default async function ReferralsPage() {
         >
           <ReferralsActivateForm />
         </AppSection>
-        <AppSection title="What you earn">
-          <div className="fj-affiliate__stats">
-            <Stat label="Commission" value={commissionRatePercentLabel()} />
-            <Stat
-              label="Recurring"
-              value={`${terms.recurringEligibilityMonths} mo`}
-            />
-            <Stat
-              label="Minimum payout"
-              value={formatUsd(terms.minimumPayoutThresholdCents)}
-            />
-          </div>
-          <p className="fj-muted" style={{ marginTop: "var(--space-4)" }}>
+        <AppSection
+          title="What you earn"
+          description="Recurring commission on eligible paid plans. Payouts follow program review."
+        >
+          <ReferralStatGrid
+            stats={[
+              { label: "Commission", value: commissionRatePercentLabel() },
+              {
+                label: "Recurring",
+                value: `${terms.recurringEligibilityMonths} mo`,
+              },
+              {
+                label: "Minimum payout",
+                value: formatUsd(terms.minimumPayoutThresholdCents),
+              },
+            ]}
+          />
+          <p className="fj-referrals-note">
             Full program terms live in the{" "}
             <Link href="/legal/affiliate-agreement">Affiliate Program Agreement</Link>.
           </p>
         </AppSection>
-      </>
+      </ReferralsPageShell>
     );
   }
 
   const state = affiliate.membership_state as MembershipState;
   if (state === "terminated" || state === "closed") {
     return (
-      <>
+      <ReferralsPageShell>
         <PageHeader
           title="Referrals"
           description="Your affiliate account is closed. History stays available in the affiliate dashboard."
@@ -162,13 +164,13 @@ export default async function ReferralsPage() {
             <Link href="/affiliate">Open affiliate history</Link>
           </p>
         </AppSection>
-      </>
+      </ReferralsPageShell>
     );
   }
 
   if (state === "suspended") {
     return (
-      <>
+      <ReferralsPageShell>
         <PageHeader
           title="Referrals"
           description="Your affiliate account is under review."
@@ -179,7 +181,7 @@ export default async function ReferralsPage() {
             <Link href="/affiliate">your affiliate dashboard</Link>.
           </p>
         </AppSection>
-      </>
+      </ReferralsPageShell>
     );
   }
 
@@ -196,7 +198,7 @@ export default async function ReferralsPage() {
   const snippets = link ? buildAffiliateShareSnippets(link) : [];
 
   return (
-    <>
+    <ReferralsPageShell>
       <PageHeader
         title="Referrals"
         description="Your link is live. Share it anywhere you already have trust."
@@ -222,26 +224,30 @@ export default async function ReferralsPage() {
         title="Earnings"
         description="Holding clears after the review period. Payable is ready for payout."
       >
-        <div className="fj-affiliate__stats">
-          <Stat label="Holding" value={formatUsd(earnings.holdingCents)} />
-          <Stat label="Payable" value={formatUsd(earnings.payableCents)} />
-          <Stat label="Paid" value={formatUsd(earnings.paidCents)} />
-        </div>
-        <p className="fj-muted" style={{ marginTop: "var(--space-4)" }}>
+        <ReferralStatGrid
+          stats={[
+            { label: "Holding", value: formatUsd(earnings.holdingCents) },
+            { label: "Payable", value: formatUsd(earnings.payableCents) },
+            { label: "Paid", value: formatUsd(earnings.paidCents) },
+          ]}
+        />
+        <p className="fj-referrals-note">
           <Link href="/affiliate/payouts">Set up payouts</Link> when you are ready
           to get paid.
         </p>
       </AppSection>
 
       <AppSection title="Performance">
-        <div className="fj-affiliate__stats">
-          <Stat label="Eligible clicks" value={String(performance.eligibleClicks)} />
-          <Stat label="Referred signups" value={String(performance.referredSignups)} />
-          <Stat
-            label="Active referrals"
-            value={String(performance.activeConversions)}
-          />
-        </div>
+        <ReferralStatGrid
+          stats={[
+            { label: "Eligible clicks", value: String(performance.eligibleClicks) },
+            { label: "Referred signups", value: String(performance.referredSignups) },
+            {
+              label: "Active referrals",
+              value: String(performance.activeConversions),
+            },
+          ]}
+        />
       </AppSection>
 
       <AppSection
@@ -262,6 +268,6 @@ export default async function ReferralsPage() {
           </div>
         )}
       </AppSection>
-    </>
+    </ReferralsPageShell>
   );
 }

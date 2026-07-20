@@ -40,7 +40,10 @@ function OpsMetric({
   return (
     <div className="fj-inc-metric" data-tone={value > 0 ? tone : undefined}>
       <div className="fj-inc-metric__label">
-        <BrandIcon name={icon} size={14} /> {label}
+        <span className="fj-inc-metric__icon" data-icon={icon} aria-hidden>
+          <BrandIcon name={icon} size={16} />
+        </span>
+        <span className="fj-inc-metric__label-text">{label}</span>
       </div>
       <div className="fj-inc-metric__value fj-numeric">{value}</div>
     </div>

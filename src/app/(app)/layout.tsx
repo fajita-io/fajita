@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { AppShell } from "@/components/app/app-shell";
+import { sidebarInitScript } from "@/lib/app/sidebar-script";
 import { AccountStateScreen } from "@/components/app/account-state-screen";
 import type { AppContextValue } from "@/lib/app/app-context";
 import { getCurrentProfile, isPlatformAdmin } from "@/lib/auth/context";
@@ -101,5 +102,10 @@ export default async function AppLayout({
     ),
   };
 
-  return <AppShell context={context}>{children}</AppShell>;
+  return (
+    <>
+      <script dangerouslySetInnerHTML={{ __html: sidebarInitScript }} />
+      <AppShell context={context}>{children}</AppShell>
+    </>
+  );
 }

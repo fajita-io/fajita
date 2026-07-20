@@ -142,111 +142,129 @@ export function MaintenanceForm({
   }
 
   return (
-    <div className="fj-inc-form">
-      <div className="fj-field">
-        <label htmlFor="mw-name">Name</label>
-        <input
-          id="mw-name"
-          className="fj-input"
-          value={name}
-          maxLength={160}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Database maintenance"
-        />
-      </div>
-
-      <div className="fj-inc-composer__row">
+    <div className="fj-maintenance-form">
+      <div className="fj-maintenance-form__section">
         <div className="fj-field">
-          <label htmlFor="mw-start">Start</label>
+          <label htmlFor="mw-name">Name</label>
           <input
-            id="mw-start"
-            type="datetime-local"
+            id="mw-name"
             className="fj-input"
-            value={startsLocal}
-            onChange={(e) => setStartsLocal(e.target.value)}
-          />
-        </div>
-        <div className="fj-field">
-          <label htmlFor="mw-end">End</label>
-          <input
-            id="mw-end"
-            type="datetime-local"
-            className="fj-input"
-            value={endsLocal}
-            onChange={(e) => setEndsLocal(e.target.value)}
+            value={name}
+            maxLength={160}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Database maintenance"
           />
         </div>
       </div>
-      <p className="fj-field__hint">
-        Times are in {timezone}. Fajita stores the exact instant and shows it in your organization
-        timezone.
-      </p>
 
-      <div className="fj-field">
-        <label htmlFor="mw-policy">Suppression</label>
-        <select
-          id="mw-policy"
-          className="fj-input"
-          value={suppressionPolicy}
-          onChange={(e) =>
-            setSuppressionPolicy(e.target.value as (typeof SUPPRESSION_POLICIES)[number])
-          }
-        >
-          {SUPPRESSION_POLICIES.map((p) => (
-            <option key={p} value={p}>
-              {SUPPRESSION_LABEL[p]}
-            </option>
-          ))}
-        </select>
-        <p className="fj-field__hint">
-          Checks keep running during maintenance. This controls whether failures open an incident.
-        </p>
+      <div className="fj-maintenance-form__section">
+        <p className="fj-maintenance-form__section-label">Time window</p>
+        <div className="fj-maintenance-form__time-panel">
+          <div className="fj-inc-composer__row">
+            <div className="fj-field">
+              <label htmlFor="mw-start">Start</label>
+              <input
+                id="mw-start"
+                type="datetime-local"
+                className="fj-input"
+                value={startsLocal}
+                onChange={(e) => setStartsLocal(e.target.value)}
+              />
+            </div>
+            <div className="fj-field">
+              <label htmlFor="mw-end">End</label>
+              <input
+                id="mw-end"
+                type="datetime-local"
+                className="fj-input"
+                value={endsLocal}
+                onChange={(e) => setEndsLocal(e.target.value)}
+              />
+            </div>
+          </div>
+          <p className="fj-field__hint">
+            Times are in {timezone}. Fajita stores the exact instant and shows it in your
+            organization timezone.
+          </p>
+        </div>
       </div>
 
-      <div className="fj-field">
-        <label htmlFor="mw-desc">Internal description (optional)</label>
-        <textarea
-          id="mw-desc"
-          className="fj-input"
-          rows={2}
-          maxLength={4000}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
+      <div className="fj-maintenance-form__section">
+        <div className="fj-field">
+          <label htmlFor="mw-policy">Suppression</label>
+          <select
+            id="mw-policy"
+            className="fj-input"
+            value={suppressionPolicy}
+            onChange={(e) =>
+              setSuppressionPolicy(e.target.value as (typeof SUPPRESSION_POLICIES)[number])
+            }
+          >
+            {SUPPRESSION_POLICIES.map((p) => (
+              <option key={p} value={p}>
+                {SUPPRESSION_LABEL[p]}
+              </option>
+            ))}
+          </select>
+          <p className="fj-field__hint">
+            Checks keep running during maintenance. This controls whether failures open an incident.
+          </p>
+        </div>
       </div>
 
-      <div className="fj-field">
-        <label htmlFor="mw-public">Public summary (optional)</label>
-        <textarea
-          id="mw-public"
-          className="fj-input"
-          rows={2}
-          maxLength={4000}
-          value={publicSummary}
-          onChange={(e) => setPublicSummary(e.target.value)}
-        />
-        <p className="fj-field__hint">Saved for a future status page. Nothing is published yet.</p>
+      <div className="fj-maintenance-form__section">
+        <p className="fj-maintenance-form__section-label">Notes (optional)</p>
+        <div className="fj-maintenance-form__notes">
+          <div className="fj-field">
+            <label htmlFor="mw-desc">Internal description</label>
+            <textarea
+              id="mw-desc"
+              className="fj-input fj-maintenance-form__textarea"
+              rows={3}
+              maxLength={4000}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
+
+          <div className="fj-field">
+            <label htmlFor="mw-public">Public summary</label>
+            <textarea
+              id="mw-public"
+              className="fj-input fj-maintenance-form__textarea"
+              rows={3}
+              maxLength={4000}
+              value={publicSummary}
+              onChange={(e) => setPublicSummary(e.target.value)}
+            />
+            <p className="fj-field__hint">
+              Saved for a future status page. Nothing is published yet.
+            </p>
+          </div>
+        </div>
       </div>
 
       {monitors.length > 0 ? (
-        <div className="fj-field">
-          <span className="fj-field__label">Affected monitors</span>
-          <div className="fj-inc-monitor-picker">
-            {monitors.map((m) => (
-              <label key={m.id} className="fj-check-chip">
-                <input
-                  type="checkbox"
-                  checked={monitorIds.includes(m.id)}
-                  onChange={() => toggleMonitor(m.id)}
-                />
-                {m.name}
-              </label>
-            ))}
+        <div className="fj-maintenance-form__section">
+          <div className="fj-field">
+            <span className="fj-field__label">Affected monitors</span>
+            <div className="fj-inc-monitor-picker">
+              {monitors.map((m) => (
+                <label key={m.id} className="fj-check-chip">
+                  <input
+                    type="checkbox"
+                    checked={monitorIds.includes(m.id)}
+                    onChange={() => toggleMonitor(m.id)}
+                  />
+                  {m.name}
+                </label>
+              ))}
+            </div>
           </div>
         </div>
       ) : null}
 
-      <div className="fj-inc-composer__actions">
+      <div className="fj-maintenance-form__actions">
         <BrandButton disabled={pending} onClick={submit}>
           {isEdit ? "Save changes" : "Schedule maintenance"}
         </BrandButton>

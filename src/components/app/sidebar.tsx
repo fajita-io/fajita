@@ -30,7 +30,9 @@ function SidebarLink({
 }) {
   const inner = (
     <>
-      <BrandIcon name={item.icon} size={18} />
+      <span className="fj-sidenav__icon" aria-hidden="true">
+        <BrandIcon name={item.icon} size={18} />
+      </span>
       {!collapsed ? (
         <>
           <span className="fj-sidenav__label">{item.label}</span>
@@ -92,11 +94,9 @@ export function Sidebar({
         </Link>
       </div>
 
-      {!collapsed ? (
-        <div className="fj-sidebar__org">
-          <OrgSwitcher />
-        </div>
-      ) : null}
+      <div className="fj-sidebar__org">
+        <OrgSwitcher compact={collapsed} />
+      </div>
 
       <nav className="fj-sidebar__nav" aria-label="Application sections">
         {groups.map((group, gi) => (
@@ -128,7 +128,7 @@ export function Sidebar({
         aria-pressed={collapsed}
         onClick={onToggle}
       >
-        <BrandIcon name={collapsed ? "chevron-right" : "chevron-down"} size={16} />
+        <BrandIcon name={collapsed ? "chevron-right" : "chevron-left"} size={16} />
         {!collapsed ? <span>Collapse</span> : null}
       </button>
     </aside>

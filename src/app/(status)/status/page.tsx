@@ -40,6 +40,7 @@ export default async function FajitaServiceStatusPage() {
       data={status.data}
       basePath="/status"
       generatedAt={status.generatedAt}
+      brandLockup="fajita"
       subscribeSlug={
         status.source === "snapshot" && status.data.display.showSubscriberForm
           ? status.subscribeSlug

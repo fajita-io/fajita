@@ -179,7 +179,9 @@ export async function listOrgMembers(
   const db = serviceClient();
   const { data, error } = await db
     .from("organization_members")
-    .select("id, user_id, role, status, joined_at, user_profiles!inner(display_name, primary_email, avatar_url)")
+    .select(
+      "id, user_id, role, status, joined_at, user_profiles!organization_members_user_id_fkey(display_name, primary_email, avatar_url)",
+    )
     .eq("organization_id", organizationId)
     .neq("status", "removed")
     .order("joined_at", { ascending: true });
@@ -190,15 +192,15 @@ export async function listOrgMembers(
       display_name: string | null;
       primary_email: string | null;
       avatar_url: string | null;
-    };
+    } | null;
     return {
       membershipId: row.id,
       profileId: row.user_id,
       role: row.role as OrgRole,
       status: row.status,
-      displayName: profile.display_name,
-      email: profile.primary_email,
-      avatarUrl: profile.avatar_url,
+      displayName: profile?.display_name ?? null,
+      email: profile?.primary_email ?? null,
+      avatarUrl: profile?.avatar_url ?? null,
       joinedAt: row.joined_at,
       isYou: row.user_id === currentProfileId,
     };

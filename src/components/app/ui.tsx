@@ -38,14 +38,16 @@ export function AppSection({
   description,
   children,
   footer,
+  className,
 }: {
   title?: string;
   description?: string;
   children: ReactNode;
   footer?: ReactNode;
+  className?: string;
 }) {
   return (
-    <section className="fj-app-section">
+    <section className={["fj-app-section", className].filter(Boolean).join(" ")}>
       {title ? (
         <div className="fj-app-section__head">
           <h2 className="fj-app-section__title">{title}</h2>

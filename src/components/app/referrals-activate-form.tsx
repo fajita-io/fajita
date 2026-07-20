@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { ReferralStatGrid } from "@/components/app/referrals/referral-stat-grid";
 import { BrandButton } from "@/components/design-system/primitives";
 import { activateAffiliateAction } from "@/lib/affiliates/actions/activate";
 import {
@@ -12,6 +13,18 @@ import {
 } from "@/lib/affiliates/config";
 
 const terms = activeTerms();
+
+const activationStats = [
+  { value: commissionRatePercentLabel(), label: "Recurring commission" },
+  {
+    value: `${terms.recurringEligibilityMonths} mo`,
+    label: "Per referral",
+  },
+  {
+    value: `${terms.attributionWindowDays} days`,
+    label: "Attribution window",
+  },
+] as const;
 
 /**
  * One-step affiliate activation from the in-app referrals page. Accepts program
@@ -44,48 +57,33 @@ export function ReferralsActivateForm() {
   };
 
   return (
-    <form className="fj-form" onSubmit={onSubmit}>
-      <div className="fj-affiliate__stats">
-        <div className="fj-affiliate__stat">
-          <span className="fj-affiliate__stat-value">
-            {commissionRatePercentLabel()}
+    <form className="fj-referrals-activate" onSubmit={onSubmit}>
+      <ReferralStatGrid stats={[...activationStats]} />
+
+      <div className="fj-referrals-activate__terms">
+        <label className="fj-check">
+          <input type="checkbox" name="acceptTerms" required />
+          <span>
+            I agree to the{" "}
+            <Link href="/legal/affiliate-agreement">Affiliate Program Agreement</Link>{" "}
+            and{" "}
+            <Link href="/legal/affiliate-privacy">Affiliate Privacy Notice</Link>.
+            Income is not guaranteed.
           </span>
-          <span className="fj-affiliate__stat-label">Recurring commission</span>
-        </div>
-        <div className="fj-affiliate__stat">
-          <span className="fj-affiliate__stat-value">
-            {terms.recurringEligibilityMonths} mo
-          </span>
-          <span className="fj-affiliate__stat-label">Per referral</span>
-        </div>
-        <div className="fj-affiliate__stat">
-          <span className="fj-affiliate__stat-value">
-            {terms.attributionWindowDays} days
-          </span>
-          <span className="fj-affiliate__stat-label">Attribution window</span>
-        </div>
+        </label>
       </div>
 
-      <label className="fj-checkbox">
-        <input type="checkbox" name="acceptTerms" required />
-        <span>
-          I agree to the{" "}
-          <Link href="/legal/affiliate-agreement">Affiliate Program Agreement</Link>{" "}
-          and{" "}
-          <Link href="/legal/affiliate-privacy">Affiliate Privacy Notice</Link>.
-          Income is not guaranteed.
-        </span>
-      </label>
-
       {status.kind === "failed" ? (
-        <p className="fj-form-error" role="alert">
+        <p className="fj-form-status fj-form-status--error" role="alert">
           {status.detail}
         </p>
       ) : null}
 
-      <BrandButton type="submit" disabled={status.kind === "working"}>
-        {status.kind === "working" ? "Setting up your link…" : "Get my referral link"}
-      </BrandButton>
+      <div className="fj-referrals-activate__action">
+        <BrandButton type="submit" disabled={status.kind === "working"}>
+          {status.kind === "working" ? "Setting up your link…" : "Get my referral link"}
+        </BrandButton>
+      </div>
     </form>
   );
 }

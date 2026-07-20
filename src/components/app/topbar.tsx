@@ -42,10 +42,8 @@ function crumbsFor(pathname: string): Crumb[] {
 
 export function Topbar({
   onOpenCommand,
-  onOpenMobileNav,
 }: {
   onOpenCommand: () => void;
-  onOpenMobileNav: () => void;
 }) {
   const { unreadNotifications } = useApp();
   const pathname = usePathname();
@@ -54,15 +52,6 @@ export function Topbar({
   return (
     <header className="fj-topbar">
       <div className="fj-topbar__left">
-        <button
-          type="button"
-          className="fj-icon-button fj-topbar__menu"
-          aria-label="Open navigation"
-          onClick={onOpenMobileNav}
-        >
-          <BrandIcon name="menu" size={20} />
-        </button>
-
         <nav aria-label="Breadcrumb" className="fj-breadcrumbs">
           <ol>
             {crumbs.map((c, i) => (

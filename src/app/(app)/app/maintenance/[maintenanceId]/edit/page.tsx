@@ -47,19 +47,15 @@ export default async function EditMaintenancePage({
   if (!win) notFound();
 
   return (
-    <div>
-      <Link
-        className="fj-link-button"
-        href={`/app/maintenance/${win.id}`}
-        style={{ marginBottom: "var(--space-4)", display: "inline-flex" }}
-      >
+    <div className="fj-maintenance-page">
+      <Link className="fj-back-link" href={`/app/maintenance/${win.id}`}>
         <BrandIcon name="chevron-right" size={14} className="fj-flip-up" />
         Back to window
       </Link>
 
       <PageHeader title="Edit maintenance" description="Update the window details, times, or affected monitors." />
 
-      <AppSection>
+      <AppSection className="fj-app-section--form">
         <MaintenanceForm
           organizationId={ctx.organizationId}
           monitors={monitors}

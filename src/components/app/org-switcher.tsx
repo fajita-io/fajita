@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 
 import { BrandIcon } from "@/components/design-system/icons";
+import { Tooltip } from "@/components/design-system/primitives";
 import { OrgAvatar, RoleBadge } from "./ui";
 import { useApp } from "@/lib/app/app-context";
 import { switchOrganizationAction } from "@/lib/app/actions/org";
@@ -16,7 +17,7 @@ import { useToast } from "./toast";
  * switch it sets the active-org cookie server-side and refreshes so tenant data
  * reloads cleanly with no stale flash.
  */
-export function OrgSwitcher() {
+export function OrgSwitcher({ compact = false }: { compact?: boolean }) {
   const { activeOrg, organizations } = useApp();
   const router = useRouter();
   const toast = useToast();
@@ -66,28 +67,50 @@ export function OrgSwitcher() {
   };
 
   if (!activeOrg) {
-    return (
-      <Link href="/app/new-organization" className="fj-orgswitcher fj-orgswitcher--empty">
+    const empty = (
+      <Link
+        href="/app/new-organization"
+        className={`fj-orgswitcher fj-orgswitcher--empty${compact ? " fj-orgswitcher__trigger--compact" : ""}`}
+      >
         <OrgAvatar name="New" size={24} />
-        <span>Create organization</span>
+        {!compact ? <span>Create organization</span> : null}
       </Link>
     );
+
+    if (compact) {
+      return (
+        <div className="fj-orgswitcher fj-orgswitcher--compact">
+          <Tooltip content="Create organization">{empty}</Tooltip>
+        </div>
+      );
+    }
+
+    return empty;
   }
 
+  const trigger = (
+    <button
+      type="button"
+      className={`fj-orgswitcher__trigger${compact ? " fj-orgswitcher__trigger--compact" : ""}`}
+      aria-haspopup="listbox"
+      aria-expanded={open}
+      aria-controls={listId}
+      aria-label={compact ? activeOrg.name : undefined}
+      onClick={() => setOpen((o) => !o)}
+    >
+      <OrgAvatar name={activeOrg.name} src={activeOrg.logoUrl} size={24} />
+      {!compact ? (
+        <>
+          <span className="fj-orgswitcher__name">{activeOrg.name}</span>
+          <BrandIcon name="chevron-down" size={14} />
+        </>
+      ) : null}
+    </button>
+  );
+
   return (
-    <div className="fj-orgswitcher" ref={rootRef}>
-      <button
-        type="button"
-        className="fj-orgswitcher__trigger"
-        aria-haspopup="listbox"
-        aria-expanded={open}
-        aria-controls={listId}
-        onClick={() => setOpen((o) => !o)}
-      >
-        <OrgAvatar name={activeOrg.name} src={activeOrg.logoUrl} size={24} />
-        <span className="fj-orgswitcher__name">{activeOrg.name}</span>
-        <BrandIcon name="chevron-down" size={14} />
-      </button>
+    <div className={`fj-orgswitcher${compact ? " fj-orgswitcher--compact" : ""}`} ref={rootRef}>
+      {compact ? <Tooltip content={activeOrg.name}>{trigger}</Tooltip> : trigger}
 
       {open ? (
         <div className="fj-orgswitcher__menu" id={listId} role="listbox" aria-label="Organizations">
