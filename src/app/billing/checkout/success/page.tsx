@@ -14,26 +14,31 @@ export const metadata: Metadata = {
 
 async function resolveState(intentId: string | undefined, profileId: string) {
   if (!intentId) return null;
-  const db = serviceClient();
-  const { data: intent } = await db
-    .from("billing_checkout_intents")
-    .select("organization_id, plan_key")
-    .eq("id", intentId)
-    .maybeSingle();
-  if (!intent) return null;
+  try {
+    const db = serviceClient();
+    const { data: intent } = await db
+      .from("billing_checkout_intents")
+      .select("organization_id, plan_key")
+      .eq("id", intentId)
+      .maybeSingle();
+    if (!intent) return null;
 
-  // Verify the caller belongs to the intent's organization before revealing.
-  const { data: membership } = await db
-    .from("organization_members")
-    .select("id")
-    .eq("organization_id", intent.organization_id)
-    .eq("user_id", profileId)
-    .eq("status", "active")
-    .maybeSingle();
-  if (!membership) return null;
+    // Verify the caller belongs to the intent's organization before revealing.
+    const { data: membership } = await db
+      .from("organization_members")
+      .select("id")
+      .eq("organization_id", intent.organization_id)
+      .eq("user_id", profileId)
+      .eq("status", "active")
+      .maybeSingle();
+    if (!membership) return null;
 
-  const state = await computeOrgBillingState(intent.organization_id);
-  return { state, planKey: intent.plan_key as keyof typeof BILLING_CATALOG };
+    const state = await computeOrgBillingState(intent.organization_id);
+    return { state, planKey: intent.plan_key as keyof typeof BILLING_CATALOG };
+  } catch (error) {
+    console.error("[checkout success] resolveState failed", error);
+    return null;
+  }
 }
 
 export default async function CheckoutSuccessPage({

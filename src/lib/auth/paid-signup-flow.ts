@@ -1,5 +1,6 @@
 import type { BillingInterval, PlanId } from "@/lib/stripe/plans";
 import { isBillingInterval, isPlanId } from "@/lib/stripe/plans";
+import type { BillingAccessState } from "@/lib/billing/catalog";
 
 export const DEFAULT_SIGNUP_PLAN: PlanId = "pro";
 export const DEFAULT_SIGNUP_INTERVAL: BillingInterval = "month";
@@ -55,4 +56,15 @@ export function buildPaymentSetupUrl(
 
 export function hasActiveSubscription(status: string): boolean {
   return ["active", "trialing", "cancellation_scheduled"].includes(status);
+}
+
+/** Product access for setup and the app shell (beta grant, grace, or paid). */
+export function hasBillingAccess(billing: {
+  status: string;
+  accessState: BillingAccessState;
+}): boolean {
+  if (billing.accessState === "active" || billing.accessState === "grace_period") {
+    return true;
+  }
+  return hasActiveSubscription(billing.status);
 }

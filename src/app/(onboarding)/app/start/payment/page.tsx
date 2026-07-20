@@ -6,9 +6,9 @@ import { PaymentSetup } from "@/components/app/billing/payment-setup";
 import { resolveActiveOrg } from "@/lib/app/organizations";
 import { readActiveOrgId } from "@/lib/app/active-org";
 import {
-  hasActiveSubscription,
   parseSignupPlanParams,
 } from "@/lib/auth/paid-signup-flow";
+import { shouldSkipPaymentStep } from "@/lib/billing/setup-access";
 import { requireAuthenticatedUser } from "@/lib/auth/context";
 import { CATALOG_PLANS } from "@/lib/billing/catalog";
 import { formatChecksCompact } from "@/lib/billing/check-volume";
@@ -47,7 +47,7 @@ export default async function PaymentSetupPage({
   if (!active) redirect("/app/new-organization");
 
   const billing = await computeOrgBillingState(active.organization.id);
-  if (hasActiveSubscription(billing.status)) {
+  if (await shouldSkipPaymentStep(active.organization.id, billing)) {
     redirect("/app/onboarding");
   }
 

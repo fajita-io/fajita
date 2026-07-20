@@ -5,6 +5,7 @@ import {
   buildPaymentSetupUrl,
   buildSignupUrl,
   hasActiveSubscription,
+  hasBillingAccess,
   parseSignupPlanParams,
 } from "@/lib/auth/paid-signup-flow";
 
@@ -36,5 +37,17 @@ describe("paid signup flow", () => {
     expect(hasActiveSubscription("active")).toBe(true);
     expect(hasActiveSubscription("trialing")).toBe(true);
     expect(hasActiveSubscription("none")).toBe(false);
+  });
+
+  it("allows setup during beta grant or grace", () => {
+    expect(
+      hasBillingAccess({ status: "none", accessState: "active" }),
+    ).toBe(true);
+    expect(
+      hasBillingAccess({ status: "past_due", accessState: "grace_period" }),
+    ).toBe(true);
+    expect(
+      hasBillingAccess({ status: "none", accessState: "none" }),
+    ).toBe(false);
   });
 });

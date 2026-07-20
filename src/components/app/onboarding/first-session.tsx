@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { BrandButton, BrandButtonLink } from "@/components/design-system/primitives";
 import { BrandIcon, type BrandIconName } from "@/components/design-system/icons";
-import { saveOnboardingContextAction } from "@/lib/app/actions/onboarding";
+import { saveOnboardingContextAction, completeOnboardingAction } from "@/lib/app/actions/onboarding";
 import {
   FIRST_CONCERN_OPTIONS,
   RESPONSIBILITY_ROLES,
@@ -80,8 +80,17 @@ export function FirstSession({
   async function onFinishLater() {
     if (pending) return;
     setPending(true);
-    await save();
-    setPending(false);
+    const saved = await save();
+    if (!saved) {
+      setPending(false);
+      return;
+    }
+    const completed = await completeOnboardingAction(organizationId);
+    if (!completed.ok) {
+      toast.show(completed.error, "error");
+      setPending(false);
+      return;
+    }
     router.push("/app");
     router.refresh();
   }

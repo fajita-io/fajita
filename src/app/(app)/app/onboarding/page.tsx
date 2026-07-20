@@ -10,8 +10,8 @@ import { requireActiveContext } from "@/lib/app/page-context";
 import { getOnboardingState } from "@/lib/app/onboarding";
 import {
   buildPaymentSetupUrl,
-  hasActiveSubscription,
 } from "@/lib/auth/paid-signup-flow";
+import { canEnterProductSetup } from "@/lib/billing/setup-access";
 import { can } from "@/lib/auth/roles";
 import { computeOrgBillingState } from "@/lib/billing/engine";
 
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 export default async function OnboardingPage() {
   const { membership } = await requireActiveContext();
   const billing = await computeOrgBillingState(membership.organization.id);
-  if (!hasActiveSubscription(billing.status)) {
+  if (!(await canEnterProductSetup(membership.organization.id, billing))) {
     redirect(buildPaymentSetupUrl(billing.planKey ?? undefined, billing.interval ?? undefined));
   }
 

@@ -44,18 +44,29 @@ export default async function AppLayout({
   // first-organization flow (its own minimal layout, so no redirect loop).
   if (memberships.length === 0) redirect("/app/new-organization");
 
-  const [features, billing] = await Promise.all([
+  const [features, billingResult, notificationsResult] = await Promise.all([
     resolveFeatureMap(active?.organization.id ?? null),
     active
-      ? computeOrgBillingState(active.organization.id)
+      ? computeOrgBillingState(active.organization.id).catch((error) => {
+          console.error("[app layout] billing state failed", error);
+          return null;
+        })
       : Promise.resolve(null),
+    serviceClient()
+      .from("notifications")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", profile.id)
+      .is("read_at", null)
+      .then(({ count, error }) => {
+        if (error) {
+          console.error("[app layout] notifications count failed", error);
+          return 0;
+        }
+        return count ?? 0;
+      }),
   ]);
 
-  const { count: unread } = await serviceClient()
-    .from("notifications")
-    .select("id", { count: "exact", head: true })
-    .eq("user_id", profile.id)
-    .is("read_at", null);
+  const billing = billingResult;
 
   const context: AppContextValue = {
     profile: {
@@ -83,7 +94,7 @@ export default async function AppLayout({
     permissions: active ? permissionsFor(active.role) : [],
     isPlatformAdmin: admin,
     features,
-    unreadNotifications: unread ?? 0,
+    unreadNotifications: notificationsResult,
     billingPlanLabel: billingPlanLabelFor(
       billing?.planKey ?? null,
       billing?.isBetaGrant ?? false,

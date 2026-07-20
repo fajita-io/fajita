@@ -96,7 +96,7 @@
 .fj-authshell__flow {
   display: grid;
   gap: var(--space-8);
-  width: min(100%, 22.5rem);
+  width: min(100%, 26rem);
 }
 
 .fj-authshell__flow-header {

@@ -7,6 +7,7 @@ import {
   ONBOARDING_V2_STEPS,
 } from "@/lib/onboarding/definitions";
 import {
+  getActivationSignals,
   syncActivationMilestones,
   type ActivationSignals,
 } from "@/lib/onboarding/activation";
@@ -63,9 +64,15 @@ export async function getOnboardingState(
 ): Promise<OnboardingState> {
   const db = serviceClient();
 
-  // Sync persists newly reached milestones (idempotent, guarded updates) and
-  // returns live signals. For activated organizations this is read-only.
-  const signals = await syncActivationMilestones(organizationId);
+  let signals: ActivationSignals;
+  try {
+    // Sync persists newly reached milestones (idempotent, guarded updates) and
+    // returns live signals. For activated organizations this is read-only.
+    signals = await syncActivationMilestones(organizationId);
+  } catch (error) {
+    console.error("[onboarding] syncActivationMilestones failed", error);
+    signals = await getActivationSignals(organizationId);
+  }
 
   const [{ data: row }, memberCount, { data: skipRows }] = await Promise.all([
     db
