@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { AppSection, PageHeader } from "@/components/app/ui";
+import { GeniusInlineTrigger, GeniusTriggerButton } from "@/components/genius";
 import { AskFajitaChat } from "@/components/support/ask-fajita-chat";
 import { PoweredByPamphlet } from "@/components/support/powered-by-pamphlet";
 import { requireActiveContext } from "@/lib/app/page-context";
@@ -38,6 +39,15 @@ export default async function AppSupportPage() {
           })}
         />
         <PoweredByPamphlet />
+      </AppSection>
+      <AppSection title="Product feedback">
+        <p>
+          Short notes on what would make Fajita better land with the product team.{" "}
+          <GeniusInlineTrigger source="support_page" /> or open the form directly.
+        </p>
+        <div className="fj-support-actions">
+          <GeniusTriggerButton source="support_page" />
+        </div>
       </AppSection>
       <AppSection title="If chat is unavailable">
         <p>{SUPPORT_COPY.providerUnavailableBody}</p>

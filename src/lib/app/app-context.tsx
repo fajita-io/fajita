@@ -28,6 +28,8 @@ export interface AppContextValue {
   isPlatformAdmin: boolean;
   features: FeatureMap;
   unreadNotifications: number;
+  /** Customer-facing plan label for the active organization (Genius, support). */
+  billingPlanLabel: string;
 }
 
 const AppContext = createContext<AppContextValue | null>(null);

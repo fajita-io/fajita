@@ -10,6 +10,7 @@ import { buildNav, isPlannedItem } from "@/lib/app/nav-model";
 import { useTheme } from "@/lib/theme/use-theme";
 import { trackGoal } from "@/lib/analytics/client";
 import { DataFastGoals } from "@/lib/analytics/goals";
+import { openGeniusFeedback, resetGenius } from "@/lib/genius/client";
 import { switchOrganizationAction } from "@/lib/app/actions/org";
 
 interface Command {
@@ -96,6 +97,17 @@ export function CommandPalette({
         },
       },
       {
+        id: "action:feedback",
+        label: "Share product feedback",
+        group: "Actions",
+        icon: "support",
+        keywords: "idea feature request bug praise genius",
+        run: () => {
+          onClose();
+          openGeniusFeedback({ source: "command_palette" });
+        },
+      },
+      {
         id: "action:support",
         label: "Open support",
         group: "Actions",
@@ -119,6 +131,7 @@ export function CommandPalette({
         icon: "logout",
         run: () => {
           onClose();
+          resetGenius();
           void signOut(() => router.push("/"));
         },
       },

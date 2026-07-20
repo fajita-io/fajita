@@ -8,7 +8,18 @@ import { permissionsFor } from "@/lib/auth/roles";
 import { listMemberships, resolveActiveOrg } from "@/lib/app/organizations";
 import { readActiveOrgId } from "@/lib/app/active-org";
 import { resolveFeatureMap } from "@/lib/app/feature-flags.server";
+import { computeOrgBillingState } from "@/lib/billing/engine";
+import { PLANS } from "@/lib/stripe/plans";
 import { serviceClient } from "@/lib/supabase/service";
+
+function billingPlanLabelFor(
+  planKey: keyof typeof PLANS | null,
+  isBetaGrant: boolean,
+): string {
+  if (planKey && planKey in PLANS) return PLANS[planKey].name;
+  if (isBetaGrant) return "Beta";
+  return "Free";
+}
 
 export default async function AppLayout({
   children,
@@ -33,7 +44,12 @@ export default async function AppLayout({
   // first-organization flow (its own minimal layout, so no redirect loop).
   if (memberships.length === 0) redirect("/app/new-organization");
 
-  const features = await resolveFeatureMap(active?.organization.id ?? null);
+  const [features, billing] = await Promise.all([
+    resolveFeatureMap(active?.organization.id ?? null),
+    active
+      ? computeOrgBillingState(active.organization.id)
+      : Promise.resolve(null),
+  ]);
 
   const { count: unread } = await serviceClient()
     .from("notifications")
@@ -68,6 +84,10 @@ export default async function AppLayout({
     isPlatformAdmin: admin,
     features,
     unreadNotifications: unread ?? 0,
+    billingPlanLabel: billingPlanLabelFor(
+      billing?.planKey ?? null,
+      billing?.isBetaGrant ?? false,
+    ),
   };
 
   return <AppShell context={context}>{children}</AppShell>;

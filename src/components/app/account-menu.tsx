@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { BrandIcon } from "@/components/design-system/icons";
 import { Avatar } from "./ui";
 import { useApp } from "@/lib/app/app-context";
+import { resetGenius } from "@/lib/genius/client";
 import { useTheme } from "@/lib/theme/use-theme";
 
 /**
@@ -104,8 +105,22 @@ export function AccountMenu() {
             <button
               type="button"
               role="menuitem"
+              className="fj-menu-item"
+              data-genius-open
+              data-genius-source="account_menu"
+              onClick={() => setOpen(false)}
+            >
+              <BrandIcon name="support" size={16} /> Share feedback
+            </button>
+            <button
+              type="button"
+              role="menuitem"
               className="fj-menu-item fj-menu-item--danger"
-              onClick={() => signOut(() => router.push("/"))}
+              onClick={() => {
+                setOpen(false);
+                resetGenius();
+                signOut(() => router.push("/"));
+              }}
             >
               <BrandIcon name="logout" size={16} /> Sign out
             </button>

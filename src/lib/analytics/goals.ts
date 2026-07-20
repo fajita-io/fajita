@@ -300,6 +300,13 @@ export const DataFastGoals = {
   supportPamphletClicked: "support_pamphlet_clicked",
   supportSensitiveWarning: "support_sensitive_warning",
   supportInjectionDetected: "support_injection_detected",
+
+  /* Genius in-app feedback (authenticated app only). Never carry emails, org
+     names, feedback bodies, or route query strings. Coarse enums only. */
+  geniusWidgetReady: "genius_widget_ready",
+  geniusOpened: "genius_opened",
+  geniusClosed: "genius_closed",
+  geniusSubmitted: "genius_submitted",
 } as const;
 
 export type DataFastGoalName =
