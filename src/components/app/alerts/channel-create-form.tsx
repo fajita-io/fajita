@@ -125,7 +125,7 @@ export function ChannelCreateForm({
     return (
       <div className="fj-reveal">
         <div className="fj-reveal__head">
-          <BrandIcon name="shield" size={18} />
+          <BrandIcon name="secret-lock" size={18} />
           <h2>Save your signing secret</h2>
         </div>
         <p>

@@ -52,7 +52,7 @@ export default function IntegrationsPage() {
                 >
                   <div className="fj-integration-card__head">
                     <span className="fj-integration-card__glyph">
-                      <BrandIcon name={INTEGRATION_CHANNEL_ICON[integration.id]} size={20} />
+                      <BrandIcon name={INTEGRATION_CHANNEL_ICON[integration.id]} size={22} />
                     </span>
                     <div>
                       <h2 className="fj-heading-3 fj-integration-card__title">

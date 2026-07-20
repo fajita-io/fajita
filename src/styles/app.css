@@ -3046,7 +3046,8 @@
 .fj-alerts-nudge svg { color: var(--color-status-degraded-bold); flex-shrink: 0; }
 
 /* Provider mark */
-.fj-provider-mark { display: inline-flex; align-items: center; justify-content: center; width: 2.1rem; height: 2.1rem; border-radius: var(--radius-sm); background: var(--color-background-inset); color: var(--color-text-secondary); flex-shrink: 0; }
+.fj-provider-mark { display: inline-flex; align-items: center; justify-content: center; width: 2.35rem; height: 2.35rem; border-radius: var(--radius-sm); background: var(--color-background-inset); color: var(--color-text-secondary); flex-shrink: 0; }
+.fj-provider-mark svg { display: block; }
 .fj-provider-mark--slack { color: #611f69; }
 .fj-provider-mark--discord { color: #5865f2; }
 .fj-provider-mark--email { color: var(--color-status-maintenance-bold); }

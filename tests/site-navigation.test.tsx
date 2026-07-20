@@ -109,5 +109,7 @@ describe("site footer", () => {
     expect(container.textContent).toContain("The watch before the fire.");
     expect(container.textContent).toContain("Made in Montana");
     expect(container.textContent).not.toContain("Kalispell, MT 59901");
+    expect(container.querySelector(".fj-footer-finale")).not.toBeNull();
+    expect(container.querySelector(".fj-footer__mobile-close")).not.toBeNull();
   });
 });

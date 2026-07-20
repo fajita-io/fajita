@@ -54,7 +54,7 @@ export function SecretManager({
         <ul className="fj-security-list">
           {secrets.map((s) => (
             <li className="fj-secret-row" key={s.id}>
-              <BrandIcon name="shield" size={18} />
+              <BrandIcon name="secret-lock" size={18} />
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div className="fj-secret-row__label">
                   {secretTypeLabel(s.secretType)}

@@ -150,8 +150,14 @@ export function SiteFooter() {
             </ul>
           </nav>
         </div>
+      </div>
 
-        <FooterFinale year={new Date().getFullYear()} />
+      <FooterFinale year={new Date().getFullYear()} />
+
+      <div className="fj-footer__mobile-close fj-container">
+        <p className="fj-caption">
+          © {new Date().getFullYear()} Fajita · Made in Montana
+        </p>
       </div>
     </footer>
   );

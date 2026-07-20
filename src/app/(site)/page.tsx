@@ -375,61 +375,35 @@ export default function HomePage() {
                 </BrandButtonLink>
               </p>
             </div>
-            <ul
-              style={{
-                listStyle: "none",
-                margin: 0,
-                padding: 0,
-                display: "grid",
-                gap: "var(--space-4)",
-                alignContent: "start",
-              }}
-            >
+            <ul className="fj-trust-points">
               {[
                 {
-                  icon: "monitor-ssl" as const,
+                  icon: "tenant-isolation" as const,
                   title: "Tenant separation",
                   body: "Customer data is separated per account at the database layer.",
                 },
                 {
-                  icon: "webhook" as const,
+                  icon: "secret-lock" as const,
                   title: "Encrypted secrets",
                   body: "Monitor credentials are encrypted at rest and never shown back in full.",
                 },
                 {
-                  icon: "region" as const,
+                  icon: "probe-boundary" as const,
                   title: "Restricted probes",
                   body: "Checks refuse private networks, so Fajita cannot scan what it should not reach.",
                 },
                 {
-                  icon: "recovery" as const,
+                  icon: "data-export" as const,
                   title: "Your data stays yours",
                   body: "Export everything. Delete your account and its data on request.",
                 },
               ].map((item) => (
-                <li
-                  key={item.title}
-                  style={{ display: "flex", gap: "var(--space-4)", alignItems: "flex-start" }}
-                >
-                  <span
-                    style={{
-                      color: "var(--color-brand-ember)",
-                      flex: "none",
-                      marginTop: "2px",
-                    }}
-                  >
-                    <BrandIcon name={item.icon} size={20} />
+                <li key={item.title} className="fj-trust-point">
+                  <span className="fj-trust-point__icon" aria-hidden="true">
+                    <BrandIcon name={item.icon} size={22} />
                   </span>
-                  <span>
-                    <strong
-                      style={{
-                        display: "block",
-                        color: "var(--color-text-primary)",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {item.title}
-                    </strong>
+                  <span className="fj-trust-point__copy">
+                    <strong className="fj-trust-point__title">{item.title}</strong>
                     <span className="fj-body-sm">{item.body}</span>
                   </span>
                 </li>

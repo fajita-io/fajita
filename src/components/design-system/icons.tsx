@@ -23,6 +23,10 @@ export type BrandIconName =
   | "channel-email"
   | "channel-slack"
   | "channel-discord"
+  | "tenant-isolation"
+  | "secret-lock"
+  | "probe-boundary"
+  | "data-export"
   | "recovery"
   | "maintenance"
   | "overview"
@@ -125,51 +129,84 @@ const glyphs: Record<BrandIconName, React.ReactElement> = {
       <path d="M13 5.5h3v3" />
     </>
   ),
-  // Globe with a check point
+  // Globe meridians for probe regions
   region: (
     <>
-      <circle cx="10" cy="10" r="7.5" />
-      <path d="M2.5 10h15" />
-      <path d="M10 2.5c2.4 2.2 3.5 4.7 3.5 7.5s-1.1 5.3-3.5 7.5c-2.4-2.2-3.5-4.7-3.5-7.5s1.1-5.3 3.5-7.5z" />
+      <circle cx="10" cy="10" r="6.5" />
+      <path d="M3.5 10h13" />
+      <path d="M10 3.5v13" />
     </>
   ),
   // Signed payload arriving at your endpoint
   webhook: (
     <>
-      <path d="M6.5 5.5c-2.5 0-4.5 2-4.5 4.5s2 4.5 4.5 4.5" />
-      <path d="M6.5 14v3" />
-      <circle cx="6.5" cy="18" r="1.2" fill="currentColor" stroke="none" />
-      <path d="M11 10h6.5" />
-      <path d="M15 7.5l2.5 2.5L15 12.5" />
+      <path d="M5.5 8.5a3.5 3.5 0 0 0 0 7" />
+      <path d="M5.5 15.5v2" />
+      <circle cx="5.5" cy="18.5" r="1.1" fill="currentColor" stroke="none" />
+      <path d="M10.5 12h6" />
+      <path d="M14.5 9.5l2.5 2.5-2.5 2.5" />
     </>
   ),
   // Envelope for direct mail alerts
   "channel-email": (
     <>
-      <rect x="3" y="5.5" width="14" height="9.5" rx="1.5" />
+      <path d="M3 6.5h14v8a1.5 1.5 0 0 1-1.5 1.5H4.5A1.5 1.5 0 0 1 3 14.5v-8z" />
       <path d="M3 6.5l7 4.5 7-4.5" />
     </>
   ),
   // Channel hash for team chat routing
   "channel-slack": (
     <>
-      <rect x="3" y="3" width="14" height="14" rx="2.5" />
-      <path d="M8 6v8M12 6v8" />
-      <path d="M6 9.5h8M6 12.5h8" />
+      <path d="M7.5 5.5v9M12.5 5.5v9" />
+      <path d="M5.5 8.5h9M5.5 11.5h9" />
     </>
   ),
-  // Embed-style bubble for community chat
+  // Community chat bubble
   "channel-discord": (
     <>
-      <path d="M4.5 4.5h11a1.5 1.5 0 0 1 1.5 1.5v5.5a1.5 1.5 0 0 1-1.5 1.5H9.5L7 15.5V12H4.5a1.5 1.5 0 0 1-1.5-1.5V6a1.5 1.5 0 0 1 1.5-1.5z" />
-      <path d="M7 8h6M7 10.5h4" />
+      <path d="M4 6.5h12a2 2 0 0 1 2 2v4.5a2 2 0 0 1-2 2H9l-2.5 2.5V15H4a2 2 0 0 1-2-2V8.5a2 2 0 0 1 2-2z" />
+      <circle cx="8" cy="10" r="0.9" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="10" r="0.9" fill="currentColor" stroke="none" />
+      <path d="M8.5 12h3" />
     </>
   ),
-  // Wave settling back down
+  // Partitioned tenants
+  "tenant-isolation": (
+    <>
+      <rect x="3" y="5" width="5.5" height="11" rx="1.5" />
+      <rect x="11.5" y="5" width="5.5" height="11" rx="1.5" />
+      <path d="M10 7v7" />
+    </>
+  ),
+  // Encrypted credential storage
+  "secret-lock": (
+    <>
+      <rect x="6" y="9" width="8" height="7" rx="1.5" />
+      <path d="M8 9V7.5a2 2 0 0 1 4 0V9" />
+      <circle cx="10" cy="12.5" r="1" fill="currentColor" stroke="none" />
+    </>
+  ),
+  // Probes blocked from private targets
+  "probe-boundary": (
+    <>
+      <circle cx="10" cy="10" r="6.5" />
+      <path d="M5.5 5.5l9 9" />
+    </>
+  ),
+  // Customer-owned export
+  "data-export": (
+    <>
+      <path d="M4 7.5h12" />
+      <path d="M6 7.5V16a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V7.5" />
+      <path d="M10 4v7" />
+      <path d="M7.5 6.5L10 4l2.5 2.5" />
+    </>
+  ),
+  // Service settling back to healthy
   recovery: (
     <>
-      <path d="M2.5 7c2.5 0 3 5 5.5 5s3-2.5 5-2.5 2.5 1.5 4.5 1.5" />
-      <path d="M13.5 15.5h4v-4" strokeDasharray="0" />
+      <path d="M3 11c2.5-2.5 5-2.5 7 0s4.5 2.5 7 0" />
+      <path d="M14.5 12.5l2 2 4-4.5" />
     </>
   ),
   maintenance: (
@@ -298,6 +335,7 @@ export function BrandIcon({
       strokeWidth="1.75"
       strokeLinecap="round"
       strokeLinejoin="round"
+      shapeRendering="geometricPrecision"
       role={label ? "img" : undefined}
       aria-label={label}
       aria-hidden={label ? undefined : true}
