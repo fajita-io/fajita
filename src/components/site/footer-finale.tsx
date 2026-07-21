@@ -1,5 +1,3 @@
-import { FooterCredit } from "./footer-credit";
-
 const marqueePrimary = [
   "verified before alert",
   "recovery on the same paths",
@@ -158,7 +156,6 @@ export function FooterFinale({ year }: { year: number }) {
           <p className="fj-footer-finale__copyright">
             © {year} Fajita
           </p>
-          <FooterCredit className="fj-footer-finale__credit" />
         </div>
       </div>
     </div>

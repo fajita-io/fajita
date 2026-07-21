@@ -2178,33 +2178,6 @@ body[data-nav-open="true"] {
   transform: translateX(2px);
 }
 
-.fj-footer-credit__link {
-  color: inherit;
-  text-decoration: none;
-  text-underline-offset: 0.18em;
-  transition:
-    color var(--motion-medium) var(--ease-thermal),
-    opacity var(--motion-medium) var(--ease-thermal);
-}
-
-.fj-footer-credit__link:hover {
-  color: var(--color-brand-heat);
-}
-
-.fj-footer-credit__link:focus-visible {
-  outline: 2px solid var(--color-border-focus);
-  outline-offset: 2px;
-  border-radius: var(--radius-xs);
-}
-
-.fj-footer-finale__credit .fj-footer-credit__link {
-  color: color-mix(in srgb, var(--color-text-inverse) 78%, var(--color-brand-heat));
-}
-
-.fj-footer-finale__credit .fj-footer-credit__link:hover {
-  color: var(--color-brand-heat);
-}
-
 /* Full-bleed kinetic finale (wiki.co editorial rhythm, Fajita thermal voice) */
 .fj-footer-finale {
   --fj-footer-finale-glow: color-mix(in srgb, var(--color-brand-heat) 16%, transparent);
@@ -2430,17 +2403,12 @@ body[data-nav-open="true"] {
   border-top: 1px solid color-mix(in srgb, var(--color-text-inverse) 10%, transparent);
 }
 
-.fj-footer-finale__copyright,
-.fj-footer-finale__credit {
+.fj-footer-finale__copyright {
   margin: 0;
   font-family: var(--font-mono, var(--font-fallback-mono));
   font-size: var(--text-caption);
   letter-spacing: 0.04em;
   color: color-mix(in srgb, var(--color-text-inverse) 58%, transparent);
-}
-
-.fj-footer-finale__credit {
-  margin-left: auto;
 }
 
 @keyframes fj-footer-marquee {
