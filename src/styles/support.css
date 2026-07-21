@@ -1,4 +1,13 @@
-/* Ask Fajita AI chat — Thrive-style floating panel, Fajita brand tokens. */
+/* Ask Fajita AI chat — Thrive-style floating panel, full-screen mobile conversation. */
+
+html[data-fj-chat-open] {
+  overflow: hidden;
+}
+
+html[data-fj-chat-open] body {
+  overflow: hidden;
+  touch-action: none;
+}
 
 .fj-chat-anchor {
   position: fixed;
@@ -143,6 +152,7 @@
 .fj-chat-panel {
   display: flex;
   flex-direction: column;
+  min-height: 0;
   width: min(26rem, calc(100vw - 2rem));
   max-height: min(40rem, calc(100dvh - 6rem));
   border: 1px solid var(--color-border-strong);
@@ -264,7 +274,10 @@
 
 .fj-chat-panel__body {
   flex: 1;
+  min-height: 0;
   overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   padding: var(--space-4);
 }
 
@@ -611,23 +624,105 @@
 
 @media (max-width: 40rem) {
   .fj-chat-anchor--open {
+    position: fixed;
     inset: 0;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
     align-items: stretch;
+    justify-content: flex-end;
+    padding: 0;
+    margin: 0;
+    background: var(--color-background-elevated);
   }
 
   .fj-chat-anchor--open .fj-chat-panel:not(.fj-chat-panel--page) {
     width: 100%;
     max-width: none;
     max-height: none;
-    height: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+    border: 0;
     border-radius: 0;
-    border-left: 0;
-    border-right: 0;
-    border-bottom: 0;
+    box-shadow: none;
+    opacity: 1;
+    transform: translateY(100%);
+    transform-origin: bottom center;
+    transition: transform 0.34s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .fj-chat-anchor--open .fj-chat-panel--visible:not(.fj-chat-panel--page) {
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .fj-chat-panel__header {
+    flex-shrink: 0;
+    padding-top: calc(var(--space-4) + env(safe-area-inset-top, 0px));
+    padding-inline: max(var(--space-4), env(safe-area-inset-left, 0px))
+      max(var(--space-4), env(safe-area-inset-right, 0px));
+    padding-bottom: var(--space-3);
+  }
+
+  .fj-chat-panel__body {
+    flex: 1;
+    min-height: 0;
+    padding-inline: max(var(--space-4), env(safe-area-inset-left, 0px))
+      max(var(--space-4), env(safe-area-inset-right, 0px));
+    padding-block: var(--space-3) var(--space-4);
+  }
+
+  .fj-chat-messages {
+    gap: var(--space-3);
+  }
+
+  .fj-chat-msg {
+    max-width: 88%;
+  }
+
+  .fj-chat-msg__bubble {
+    padding: 0.75rem 0.95rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .fj-chat-msg--user .fj-chat-msg__bubble {
+    border-bottom-right-radius: 0.35rem;
+  }
+
+  .fj-chat-msg--assistant .fj-chat-msg__bubble {
+    border-bottom-left-radius: 0.35rem;
+  }
+
+  .fj-chat-panel__footer {
+    flex-shrink: 0;
+    padding-top: var(--space-2);
+    padding-inline: max(var(--space-3), env(safe-area-inset-left, 0px))
+      max(var(--space-3), env(safe-area-inset-right, 0px));
+    padding-bottom: calc(var(--space-3) + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--color-border-subtle);
+    background: var(--color-background-elevated);
+  }
+
+  .fj-chat-composer {
+    gap: var(--space-2);
+  }
+
+  .fj-chat-composer__input {
+    min-height: 2.875rem;
+    padding: 0.7rem 0.85rem;
+    border-radius: 1.25rem;
+  }
+
+  .fj-chat-composer__send {
+    border-radius: 999px;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+
+  .fj-chat-chips__btn {
+    min-height: 2.25rem;
+    font-size: 0.8125rem;
   }
 }
 
@@ -640,5 +735,11 @@
   .fj-chat-cursor {
     animation: none;
     transition: none;
+  }
+
+  @media (max-width: 40rem) {
+    .fj-chat-anchor--open .fj-chat-panel:not(.fj-chat-panel--page) {
+      transform: none;
+    }
   }
 }

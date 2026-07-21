@@ -1,5 +1,6 @@
 import { trackGoal } from "@/lib/analytics/client";
 import { DataFastGoals } from "@/lib/analytics/goals";
+import { toGeniusApiSource } from "@/lib/genius/api-source";
 import type { GeniusCategory, GeniusProductContext } from "@/lib/genius/types";
 
 export interface SubmitFeedbackInput {
@@ -25,13 +26,18 @@ export async function submitGeniusFeedback(
     };
   }
 
+  const apiSource = toGeniusApiSource(input.source);
+
   return new Promise((resolve) => {
     void submit(
       {
         category: input.category,
         body: input.body,
-        source: input.source,
-        context: input.context,
+        source: apiSource,
+        context: {
+          ...input.context,
+          ...(input.source !== apiSource ? { triggerSource: input.source } : {}),
+        },
         elapsedMs: input.elapsedMs,
       },
       {

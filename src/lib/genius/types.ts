@@ -14,6 +14,8 @@ export interface GeniusProductContext {
   pageTitle?: string;
   selectedTab?: string;
   helpTopic?: string;
+  /** Fajita-only trigger label when mapped to a Genius-safe API source. */
+  triggerSource?: string;
 }
 
 export interface GeniusAccountContext {

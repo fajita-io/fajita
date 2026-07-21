@@ -24,7 +24,7 @@ import {
   type FeedbackOpenDetail,
 } from "@/lib/genius/feedback-events";
 import { submitGeniusFeedback } from "@/lib/genius/submit-feedback";
-import type { GeniusCategory } from "@/lib/genius/types";
+import type { GeniusCategory, GeniusProductContext } from "@/lib/genius/types";
 
 const BODY_MIN = 2;
 const BODY_MAX = 2000;
@@ -88,6 +88,7 @@ function CategoryIcon({ category }: { category: GeniusCategory }) {
 export function FeedbackDialog() {
   const [open, setOpen] = useState(false);
   const [source, setSource] = useState<GeniusOpenSource>("button");
+  const [openContext, setOpenContext] = useState<Partial<GeniusProductContext>>();
   const [category, setCategory] = useState<GeniusCategory | null>(null);
   const [body, setBody] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -103,6 +104,7 @@ export function FeedbackDialog() {
 
   const resetForm = useCallback(() => {
     setCategory(null);
+    setOpenContext(undefined);
     setBody("");
     setError(null);
     setSubmitting(false);
@@ -119,6 +121,7 @@ export function FeedbackDialog() {
     (detail: FeedbackOpenDetail) => {
       resetForm();
       setSource(detail.source);
+      setOpenContext(detail.context);
       setCategory(detail.category ?? null);
       openedAtRef.current = Date.now();
       setOpen(true);
@@ -175,6 +178,7 @@ export function FeedbackDialog() {
       category: selected.value,
       body: trimmed,
       source,
+      context: openContext,
       elapsedMs: Date.now() - openedAtRef.current,
     });
 

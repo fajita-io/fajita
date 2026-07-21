@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 import {
   buildDefaultWelcomeCtas,
@@ -121,6 +122,7 @@ export function AskFajitaChat({
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [teaserVisible, setTeaserVisible] = useState(false);
+  const [panelEntered, setPanelEntered] = useState(variant === "page");
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const abortRef = useRef<AbortController | null>(null);
@@ -158,11 +160,42 @@ export function AskFajitaChat({
   }, [open, welcomeQuickReplies]);
 
   useEffect(() => {
-    if (open) {
-      trackGoal(DataFastGoals.supportLauncherOpened, { mode });
-      inputRef.current?.focus();
+    if (!panelEntered || variant === "page") return;
+    const t = window.setTimeout(() => inputRef.current?.focus(), 320);
+    return () => window.clearTimeout(t);
+  }, [panelEntered, variant]);
+
+  useEffect(() => {
+    if (!open || variant === "page") {
+      setPanelEntered(variant === "page");
+      return;
     }
-  }, [open, mode]);
+    setPanelEntered(false);
+    const frame = requestAnimationFrame(() => {
+      requestAnimationFrame(() => setPanelEntered(true));
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [open, variant]);
+
+  useEffect(() => {
+    if (!open || variant === "page") return;
+
+    const root = document.documentElement;
+    root.dataset.fjChatOpen = "true";
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        trackGoal(DataFastGoals.supportLauncherClosed, { mode });
+      }
+    };
+
+    window.addEventListener("keydown", onKey);
+    return () => {
+      delete root.dataset.fjChatOpen;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [mode, open, setOpen, variant]);
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
@@ -360,13 +393,15 @@ export function AskFajitaChat({
         ? "fj-chat-panel fj-chat-panel--sheet"
         : "fj-chat-panel";
 
-  return (
+  const panelVisible = variant === "page" || panelEntered;
+
+  const chatShell = (
     <div
       className={variant === "page" ? "fj-chat-page-wrap" : "fj-chat-anchor fj-chat-anchor--open"}
       data-testid="ask-fajita-root"
     >
       <div
-        className={`${panelClass}${open || variant === "page" ? " fj-chat-panel--visible" : ""}`}
+        className={`${panelClass}${panelVisible ? " fj-chat-panel--visible" : ""}`}
         role={variant === "page" ? undefined : "dialog"}
         aria-modal={variant === "page" ? undefined : true}
         aria-labelledby={titleId}
@@ -517,4 +552,10 @@ export function AskFajitaChat({
       </div>
     </div>
   );
+
+  if (variant !== "page" && typeof document !== "undefined") {
+    return createPortal(chatShell, document.body);
+  }
+
+  return chatShell;
 }
