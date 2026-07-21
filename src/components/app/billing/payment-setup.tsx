@@ -29,17 +29,22 @@ export function PaymentSetup({
     started.current = true;
 
     void (async () => {
-      const result = await startCheckoutAction(
-        organizationId,
-        planKey,
-        interval,
-      );
-      if (!result.ok || !result.data?.url) {
-        setError(result.ok ? "Could not start checkout." : result.error);
+      try {
+        const result = await startCheckoutAction(
+          organizationId,
+          planKey,
+          interval,
+        );
+        if (!result.ok || !result.data?.url) {
+          setError(result.ok ? "Could not start checkout." : result.error);
+          started.current = false;
+          return;
+        }
+        window.location.href = result.data.url;
+      } catch {
+        setError("Checkout did not open. Try again in a moment.");
         started.current = false;
-        return;
       }
-      window.location.href = result.data.url;
     })();
   }, [organizationId, planKey, interval]);
 
@@ -47,17 +52,22 @@ export function PaymentSetup({
     if (!planKey || retrying) return;
     setRetrying(true);
     setError(null);
-    const result = await startCheckoutAction(
-      organizationId,
-      planKey,
-      interval,
-    );
-    setRetrying(false);
-    if (!result.ok || !result.data?.url) {
-      toast.error(result.ok ? "Could not start checkout." : result.error);
-      return;
+    try {
+      const result = await startCheckoutAction(
+        organizationId,
+        planKey,
+        interval,
+      );
+      if (!result.ok || !result.data?.url) {
+        toast.error(result.ok ? "Could not start checkout." : result.error);
+        return;
+      }
+      window.location.href = result.data.url;
+    } catch {
+      toast.error("Checkout did not open. Try again in a moment.");
+    } finally {
+      setRetrying(false);
     }
-    window.location.href = result.data.url;
   }
 
   if (planKey) {

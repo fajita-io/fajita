@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import Stripe from "stripe";
 import { z } from "zod";
 
 import {
@@ -29,6 +30,27 @@ const planSchema = z.object({
   planKey: z.string().refine(isPlanId, "Unknown plan."),
   interval: z.string().refine(isBillingInterval, "Unknown interval."),
 });
+
+function checkoutStartErrorMessage(error: unknown): string | null {
+  if (error instanceof Stripe.errors.StripeError) {
+    const message = error.message.toLowerCase();
+    if (message.includes("no valid payment method types")) {
+      return "Checkout is not available yet. Payment setup is still finishing. Try again in a few minutes.";
+    }
+    if (message.includes("charges are currently disabled")) {
+      return "Live payments are not enabled on our billing account yet. Try again shortly or contact support.";
+    }
+    if (message.includes("no active stripe price found")) {
+      return "That plan is not available for checkout right now. Pick another plan or contact support.";
+    }
+  }
+  if (error instanceof Error) {
+    if (error.message.includes("STRIPE_SECRET_KEY is not configured")) {
+      return "Billing is temporarily unavailable. Try again in a few minutes.";
+    }
+  }
+  return null;
+}
 
 /** Load org name + a billing email for Stripe customer creation. */
 async function orgBillingIdentity(organizationId: string): Promise<{
@@ -87,6 +109,11 @@ export async function startCheckoutAction(
 
     return { ok: true, data: { url } };
   } catch (error) {
+    const checkoutMessage = checkoutStartErrorMessage(error);
+    if (checkoutMessage) {
+      console.error("[billing] checkout start failed", error);
+      return { ok: false, error: checkoutMessage };
+    }
     return toActionError(error);
   }
 }

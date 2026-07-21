@@ -9,7 +9,7 @@ import {
   parseSignupPlanParams,
 } from "@/lib/auth/paid-signup-flow";
 import { shouldSkipPaymentStep } from "@/lib/billing/setup-access";
-import { requireAuthenticatedUser } from "@/lib/auth/context";
+import { getCurrentProfile } from "@/lib/auth/context";
 import { CATALOG_PLANS } from "@/lib/billing/catalog";
 import { formatChecksCompact } from "@/lib/billing/check-volume";
 import { computeOrgBillingState } from "@/lib/billing/engine";
@@ -41,12 +41,37 @@ export default async function PaymentSetupPage({
 }: {
   searchParams: Promise<{ plan?: string; interval?: string }>;
 }) {
-  const profile = await requireAuthenticatedUser();
+  const profile = await getCurrentProfile();
+  if (!profile || profile.deleted_at) redirect("/login");
+
   const requestedOrgId = await readActiveOrgId();
   const active = await resolveActiveOrg(profile.id, requestedOrgId);
   if (!active) redirect("/app/new-organization");
 
-  const billing = await computeOrgBillingState(active.organization.id);
+  const billing = await computeOrgBillingState(active.organization.id).catch(
+    (error) => {
+      console.error("[payment setup] billing state failed", error);
+      return null;
+    },
+  );
+  if (!billing) {
+    return (
+      <>
+        <ol className="fj-flow__steps" aria-hidden="true">
+          <li className="fj-flow__step" data-complete />
+          <li className="fj-flow__step" data-active />
+          <li className="fj-flow__step" />
+        </ol>
+        <div className="fj-flow__card" style={{ display: "grid", gap: "var(--space-4)" }}>
+          <h1 className="fj-flow__title">Billing is unavailable</h1>
+          <p className="fj-flow__lede">
+            We could not load billing for this organization. Your account is fine.
+            Try again in a moment.
+          </p>
+        </div>
+      </>
+    );
+  }
   if (shouldSkipPaymentStep(billing)) {
     redirect("/app/onboarding");
   }

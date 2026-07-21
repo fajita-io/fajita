@@ -89,6 +89,9 @@ export async function startCheckout(
     {
       mode: "subscription",
       customer: customerId,
+      // Required while Stripe card payments finish activating on the account.
+      // Without this, Checkout returns "No valid payment method types".
+      payment_method_types: ["card"],
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${base}/billing/checkout/success?intent=${intent.id}`,
       cancel_url: `${base}/billing/checkout/canceled?intent=${intent.id}`,
