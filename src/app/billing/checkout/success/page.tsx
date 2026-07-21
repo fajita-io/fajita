@@ -82,10 +82,18 @@ export default async function CheckoutSuccessPage({
           </>
         )}
         <div style={{ display: "flex", gap: "var(--space-3)", flexWrap: "wrap" }}>
-          <BrandButtonLink href="/app/onboarding">Continue setup</BrandButtonLink>
-          <BrandButtonLink href="/app/settings/billing" variant="secondary">
-            Go to billing
-          </BrandButtonLink>
+          {active ? (
+            <BrandButtonLink href="/app/onboarding">Continue setup</BrandButtonLink>
+          ) : (
+            <BrandButtonLink href="/app/settings/billing" variant="secondary">
+              Open billing settings
+            </BrandButtonLink>
+          )}
+          {active ? (
+            <BrandButtonLink href="/app/settings/billing" variant="secondary">
+              Go to billing
+            </BrandButtonLink>
+          ) : null}
         </div>
       </div>
     </main>

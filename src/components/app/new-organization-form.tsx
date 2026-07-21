@@ -64,12 +64,13 @@ export function NewOrganizationForm({
       planKey,
       interval,
     });
-    // On success the action redirects; we only reach here on failure.
-    if (result && !result.ok) {
+    if (!result.ok) {
       setPending(false);
       if (result.kind === "conflict") setSlugError(result.error);
       else setError(result.error);
+      return;
     }
+    window.location.assign(result.data!.paymentUrl);
   }
 
   return (

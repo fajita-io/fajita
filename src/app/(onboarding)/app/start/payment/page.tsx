@@ -47,7 +47,7 @@ export default async function PaymentSetupPage({
   if (!active) redirect("/app/new-organization");
 
   const billing = await computeOrgBillingState(active.organization.id);
-  if (await shouldSkipPaymentStep(active.organization.id, billing)) {
+  if (shouldSkipPaymentStep(billing)) {
     redirect("/app/onboarding");
   }
 

@@ -3,8 +3,10 @@ import { describe, expect, it } from "vitest";
 import type { OrgBillingState } from "@/lib/billing/engine";
 import { BETA_ENTITLEMENTS, LOCKED_ENTITLEMENTS } from "@/lib/billing/catalog";
 import {
+  canEnterProductSetup,
   hasPaidProductAccess,
   isAppPathExemptFromPaymentGate,
+  shouldSkipPaymentStep,
 } from "@/lib/billing/setup-access";
 
 function billingState(
@@ -76,5 +78,26 @@ describe("setup access", () => {
       true,
     );
     expect(isAppPathExemptFromPaymentGate("/app")).toBe(false);
+  });
+
+  it("does not skip payment for beta grants or checkout-only access", () => {
+    const beta = billingState({
+      accessState: "active",
+      entitlements: BETA_ENTITLEMENTS,
+      isBetaGrant: true,
+    });
+    expect(shouldSkipPaymentStep(beta)).toBe(false);
+    expect(canEnterProductSetup(beta)).toBe(false);
+  });
+
+  it("allows product setup only with a real subscription", () => {
+    const paid = billingState({
+      status: "active",
+      accessState: "active",
+      isBetaGrant: false,
+      subscriptionId: "sub-1",
+    });
+    expect(shouldSkipPaymentStep(paid)).toBe(true);
+    expect(canEnterProductSetup(paid)).toBe(true);
   });
 });

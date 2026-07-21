@@ -1,7 +1,6 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import {
@@ -198,7 +197,7 @@ export async function updateOrganizationSlugAction(
 /** Convenience wrapper used by the onboarding create form. */
 export async function createFirstOrganizationAndContinue(
   input: z.input<typeof createSchema>,
-): Promise<ActionResult<{ slug: string }>> {
+): Promise<ActionResult<{ slug: string; paymentUrl: string }>> {
   const result = await createOrganizationAction(input);
   if (!result.ok) return result;
 
@@ -211,5 +210,11 @@ export async function createFirstOrganizationAndContinue(
       ? input.interval
       : DEFAULT_SIGNUP_INTERVAL;
 
-  redirect(buildPaymentSetupUrl(planKey, interval));
+  return {
+    ok: true,
+    data: {
+      slug: result.data!.slug,
+      paymentUrl: buildPaymentSetupUrl(planKey, interval),
+    },
+  };
 }

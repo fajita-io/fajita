@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 export default async function OnboardingPage() {
   const { membership } = await requireActiveContext();
   const billing = await computeOrgBillingState(membership.organization.id);
-  if (!(await canEnterProductSetup(membership.organization.id, billing))) {
+  if (!canEnterProductSetup(billing)) {
     redirect(buildPaymentSetupUrl(billing.planKey ?? undefined, billing.interval ?? undefined));
   }
 

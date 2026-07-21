@@ -76,18 +76,18 @@ export default async function AppLayout({
   const billing = billingResult;
 
   const pathname = (await headers()).get("x-pathname") ?? "";
-  if (
-    active &&
-    billing &&
-    !isAppPathExemptFromPaymentGate(pathname) &&
-    !(await canEnterProductSetup(active.organization.id, billing))
-  ) {
-    redirect(
-      buildPaymentSetupUrl(
-        billing.planKey ?? undefined,
-        billing.interval ?? undefined,
-      ),
-    );
+  if (active && !isAppPathExemptFromPaymentGate(pathname)) {
+    if (!billing) {
+      redirect(buildPaymentSetupUrl());
+    }
+    if (!canEnterProductSetup(billing)) {
+      redirect(
+        buildPaymentSetupUrl(
+          billing.planKey ?? undefined,
+          billing.interval ?? undefined,
+        ),
+      );
+    }
   }
 
   const context: AppContextValue = {
