@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import type { PlanCardData } from "@/components/app/billing/plan-chooser";
 import { PaymentSetup } from "@/components/app/billing/payment-setup";
+import { startCheckoutAction } from "@/lib/app/actions/billing";
 import { resolveActiveOrg } from "@/lib/app/organizations";
 import { readActiveOrgId } from "@/lib/app/active-org";
 import {
@@ -44,8 +45,14 @@ export default async function PaymentSetupPage({
   const profile = await getCurrentProfile();
   if (!profile || profile.deleted_at) redirect("/login");
 
-  const requestedOrgId = await readActiveOrgId();
-  const active = await resolveActiveOrg(profile.id, requestedOrgId);
+  let active;
+  try {
+    const requestedOrgId = await readActiveOrgId();
+    active = await resolveActiveOrg(profile.id, requestedOrgId);
+  } catch (error) {
+    console.error("[payment setup] active org resolution failed", error);
+    active = null;
+  }
   if (!active) redirect("/app/new-organization");
 
   const billing = await computeOrgBillingState(active.organization.id).catch(
@@ -84,6 +91,21 @@ export default async function PaymentSetupPage({
     highlights: highlightsFor(p.key),
   }));
 
+  let checkoutError: string | null = null;
+  if (params.plan) {
+    const checkout = await startCheckoutAction(
+      active.organization.id,
+      params.plan,
+      params.interval,
+    );
+    if (checkout.ok && checkout.data?.url) {
+      redirect(checkout.data.url);
+    }
+    checkoutError = checkout.ok
+      ? "Could not start checkout."
+      : checkout.error;
+  }
+
   return (
     <>
       <ol className="fj-flow__steps" aria-hidden="true">
@@ -96,6 +118,7 @@ export default async function PaymentSetupPage({
         planKey={params.plan}
         interval={params.interval}
         plans={plans}
+        initialError={checkoutError}
       />
     </>
   );

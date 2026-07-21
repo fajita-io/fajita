@@ -70,7 +70,7 @@ export function NewOrganizationForm({
       else setError(result.error);
       return;
     }
-    window.location.assign(result.data!.paymentUrl);
+    // Success redirects server-side to payment setup.
   }
 
   return (

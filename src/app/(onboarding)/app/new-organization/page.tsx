@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 import { NewOrganizationForm } from "@/components/app/new-organization-form";
 import { parseSignupPlanParams } from "@/lib/auth/paid-signup-flow";
-import { requireAuthenticatedUser } from "@/lib/auth/context";
+import { getCurrentProfile } from "@/lib/auth/context";
 import { listMemberships } from "@/lib/app/organizations";
 
 export const metadata: Metadata = {
@@ -27,8 +28,16 @@ export default async function NewOrganizationPage({
 }: {
   searchParams: Promise<{ plan?: string; interval?: string }>;
 }) {
-  const profile = await requireAuthenticatedUser();
-  const memberships = await listMemberships(profile.id);
+  const profile = await getCurrentProfile();
+  if (!profile || profile.deleted_at) redirect("/login");
+
+  let memberships;
+  try {
+    memberships = await listMemberships(profile.id);
+  } catch (error) {
+    console.error("[new organization] membership lookup failed", error);
+    memberships = [];
+  }
   const isFirst = memberships.length === 0;
   const { plan, interval } = parseSignupPlanParams(await searchParams);
 
