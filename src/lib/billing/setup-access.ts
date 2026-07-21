@@ -30,10 +30,15 @@ export function isAppPathExemptFromPaymentGate(pathname: string): boolean {
 
 /** Payment step is done; send the user into product setup instead of checkout. */
 export function shouldSkipPaymentStep(billing: OrgBillingState): boolean {
-  return hasPaidProductAccess(billing);
+  if (hasPaidProductAccess(billing)) return true;
+  // Included access while billing is pre-launch or live Stripe cannot charge yet.
+  if (billing.isBetaGrant) return true;
+  return false;
 }
 
 /** Whether an organization may enter paid signup setup (/app/onboarding) and the main app shell. */
 export function canEnterProductSetup(billing: OrgBillingState): boolean {
-  return hasPaidProductAccess(billing);
+  if (hasPaidProductAccess(billing)) return true;
+  if (billing.isBetaGrant) return true;
+  return false;
 }

@@ -19,6 +19,7 @@ import {
 } from "@/lib/billing/subscription-state";
 import { gracePhase, type GracePhase } from "@/lib/billing/grace-period";
 import { BILLING_BETA_GRANT_ENABLED } from "@/lib/billing/enforcement";
+import { stripeLivePaymentsReady } from "@/lib/billing/stripe-account";
 
 type SubscriptionRow =
   Database["public"]["Tables"]["billing_subscriptions"]["Row"];
@@ -119,17 +120,19 @@ export async function computeOrgBillingState(
   const db = serviceClient();
   const subscription = await loadCurrentSubscription(organizationId);
 
-  // No subscription: beta grant while pre-launch, otherwise locked.
+  // No subscription: beta grant while pre-launch or live Stripe cannot charge yet.
   if (!subscription) {
     const launched = billingLaunched();
+    const paymentsReady = await stripeLivePaymentsReady();
+    const checkoutRequired = launched && paymentsReady;
     const overrides = await loadActiveOverrides(organizationId);
-    const base = launched ? LOCKED_ENTITLEMENTS : BETA_ENTITLEMENTS;
+    const base = checkoutRequired ? LOCKED_ENTITLEMENTS : BETA_ENTITLEMENTS;
     return {
       organizationId,
       planKey: null,
       interval: null,
       status: "none",
-      accessState: launched ? "none" : "active",
+      accessState: checkoutRequired ? "none" : "active",
       entitlements: applyOverrides(base, overrides),
       stripeCustomerId: null,
       stripeSubscriptionId: null,
@@ -140,7 +143,7 @@ export async function computeOrgBillingState(
       recurringAmountCents: 0,
       currency: "usd",
       grace: null,
-      isBetaGrant: !launched,
+      isBetaGrant: !checkoutRequired,
     };
   }
 

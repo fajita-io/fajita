@@ -14,6 +14,7 @@ import { getCurrentProfile } from "@/lib/auth/context";
 import { CATALOG_PLANS } from "@/lib/billing/catalog";
 import { formatChecksCompact } from "@/lib/billing/check-volume";
 import { computeOrgBillingState } from "@/lib/billing/engine";
+import { stripeLivePaymentsReady } from "@/lib/billing/stripe-account";
 import { intervalLabel } from "@/lib/monitoring/entitlements";
 
 export const metadata: Metadata = {
@@ -91,8 +92,13 @@ export default async function PaymentSetupPage({
     highlights: highlightsFor(p.key),
   }));
 
+  const paymentsReady = await stripeLivePaymentsReady().catch((error) => {
+    console.error("[payment setup] stripe payments readiness failed", error);
+    return false;
+  });
+
   let checkoutError: string | null = null;
-  if (params.plan) {
+  if (params.plan && paymentsReady) {
     const checkout = await startCheckoutAction(
       active.organization.id,
       params.plan,
@@ -119,6 +125,7 @@ export default async function PaymentSetupPage({
         interval={params.interval}
         plans={plans}
         initialError={checkoutError}
+        paymentsReady={paymentsReady}
       />
     </>
   );

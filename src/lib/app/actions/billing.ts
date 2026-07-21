@@ -20,6 +20,7 @@ import {
 } from "@/lib/stripe/plans";
 import { resolvePriceId } from "@/lib/stripe/entitlements";
 import { startCheckout } from "@/lib/billing/checkout";
+import { stripePaymentsUnavailableMessage } from "@/lib/billing/stripe-account";
 import { createOrgPortalSession } from "@/lib/billing/portal";
 import { loadCurrentSubscription, writeEntitlementSnapshot } from "@/lib/billing/engine";
 import { monthlyValueCents } from "@/lib/billing/catalog";
@@ -38,7 +39,7 @@ function checkoutStartErrorMessage(error: unknown): string | null {
       return "Checkout is not available yet. Payment setup is still finishing. Try again in a few minutes.";
     }
     if (message.includes("charges are currently disabled")) {
-      return "Live payments are not enabled on our billing account yet. Try again shortly or contact support.";
+      return stripePaymentsUnavailableMessage();
     }
     if (message.includes("no active stripe price found")) {
       return "That plan is not available for checkout right now. Pick another plan or contact support.";

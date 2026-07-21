@@ -7,6 +7,10 @@ import { resolvePriceId } from "@/lib/stripe/entitlements";
 import type { BillingInterval, PlanId } from "@/lib/stripe/plans";
 import { getOrCreateOrgStripeCustomer } from "@/lib/billing/customers";
 import { loadCurrentSubscription } from "@/lib/billing/engine";
+import {
+  stripeLivePaymentsReady,
+  stripePaymentsUnavailableMessage,
+} from "@/lib/billing/stripe-account";
 
 const INTENT_TTL_MINUTES = 60;
 
@@ -36,6 +40,10 @@ interface StartCheckoutInput {
 export async function startCheckout(
   input: StartCheckoutInput,
 ): Promise<{ url: string; intentId: string }> {
+  if (!(await stripeLivePaymentsReady())) {
+    throw Conflict(stripePaymentsUnavailableMessage());
+  }
+
   const db = serviceClient();
 
   // Duplicate subscription prevention: never open a base-plan checkout for an

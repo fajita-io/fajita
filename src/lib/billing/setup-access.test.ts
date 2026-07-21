@@ -80,14 +80,14 @@ describe("setup access", () => {
     expect(isAppPathExemptFromPaymentGate("/app")).toBe(false);
   });
 
-  it("does not skip payment for beta grants or checkout-only access", () => {
+  it("skips payment and allows setup during beta grant", () => {
     const beta = billingState({
       accessState: "active",
       entitlements: BETA_ENTITLEMENTS,
       isBetaGrant: true,
     });
-    expect(shouldSkipPaymentStep(beta)).toBe(false);
-    expect(canEnterProductSetup(beta)).toBe(false);
+    expect(shouldSkipPaymentStep(beta)).toBe(true);
+    expect(canEnterProductSetup(beta)).toBe(true);
   });
 
   it("allows product setup only with a real subscription", () => {
