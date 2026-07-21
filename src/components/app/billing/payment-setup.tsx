@@ -69,7 +69,9 @@ export function PaymentSetup({
         <p className="fj-flow__lede">
           {checkoutError
             ? "Checkout did not open. Try again, or pick a different plan below."
-            : "Continue to Stripe to complete payment for your organization."}
+            : paymentsReady
+              ? "Continue to Stripe to complete payment for your organization."
+              : "Live card payments are still activating. Apply a promo code in Stripe if you have one. When the total is $0, subscribe without a card."}
         </p>
         {checkoutError ? (
           <p className="fj-form-status fj-form-status--error" role="alert">

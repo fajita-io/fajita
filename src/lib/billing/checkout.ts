@@ -7,10 +7,7 @@ import { resolvePriceId } from "@/lib/stripe/entitlements";
 import type { BillingInterval, PlanId } from "@/lib/stripe/plans";
 import { getOrCreateOrgStripeCustomer } from "@/lib/billing/customers";
 import { loadCurrentSubscription } from "@/lib/billing/engine";
-import {
-  stripeLivePaymentsReady,
-  stripePaymentsUnavailableMessage,
-} from "@/lib/billing/stripe-account";
+import { stripeLivePaymentsReady } from "@/lib/billing/stripe-account";
 
 const INTENT_TTL_MINUTES = 60;
 
@@ -40,10 +37,6 @@ interface StartCheckoutInput {
 export async function startCheckout(
   input: StartCheckoutInput,
 ): Promise<{ url: string; intentId: string }> {
-  if (!(await stripeLivePaymentsReady())) {
-    throw Conflict(stripePaymentsUnavailableMessage());
-  }
-
   const db = serviceClient();
 
   // Duplicate subscription prevention: never open a base-plan checkout for an
@@ -92,15 +85,23 @@ export async function startCheckout(
   const priceId = await resolvePriceId(input.planKey, input.interval);
   const stripe = getStripe();
   const base = appUrl();
+  const paymentsReady = await stripeLivePaymentsReady();
 
   const session = await stripe.checkout.sessions.create(
     {
       mode: "subscription",
       customer: customerId,
-      // Required while Stripe card payments finish activating on the account.
-      // Without this, Checkout returns "No valid payment method types".
-      payment_method_types: ["card"],
       line_items: [{ price: priceId, quantity: 1 }],
+      // When a promo zeroes the total, do not collect a card. Required for $0
+      // subscriptions while Stripe account review is still pending.
+      payment_method_collection: "if_required",
+      ...(paymentsReady
+        ? { automatic_payment_methods: { enabled: true } }
+        : {
+            // Session can still open while card_payments is pending; card is only
+            // collected when the total due is greater than zero.
+            payment_method_types: ["card"],
+          }),
       success_url: `${base}/billing/checkout/success?intent=${intent.id}`,
       cancel_url: `${base}/billing/checkout/canceled?intent=${intent.id}`,
       allow_promotion_codes: true,
