@@ -20,7 +20,7 @@ import {
 } from "@/lib/stripe/plans";
 import { resolvePriceId } from "@/lib/stripe/entitlements";
 import { startCheckout } from "@/lib/billing/checkout";
-import { stripePaymentsUnavailableMessage } from "@/lib/billing/stripe-account";
+import { stripePaymentsUnavailableMessage } from "@/lib/billing/stripe-messages";
 import { createOrgPortalSession } from "@/lib/billing/portal";
 import { loadCurrentSubscription, writeEntitlementSnapshot } from "@/lib/billing/engine";
 import { monthlyValueCents } from "@/lib/billing/catalog";
