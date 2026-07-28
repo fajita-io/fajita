@@ -21,7 +21,6 @@ import {
   buildAppsumoRedeemUrl,
   buildPaymentSetupUrl,
   DEFAULT_SIGNUP_INTERVAL,
-  DEFAULT_SIGNUP_PLAN,
 } from "@/lib/auth/paid-signup-flow";
 import { isBillingInterval, isPlanId } from "@/lib/stripe/plans";
 import { DataFastGoals } from "@/lib/analytics/goals";
@@ -205,9 +204,7 @@ export async function createFirstOrganizationAndContinue(
   if (!result.ok) return result;
 
   const planKey =
-    input.planKey && isPlanId(input.planKey)
-      ? input.planKey
-      : DEFAULT_SIGNUP_PLAN;
+    input.planKey && isPlanId(input.planKey) ? input.planKey : undefined;
   const interval =
     input.interval && isBillingInterval(input.interval)
       ? input.interval
@@ -217,5 +214,7 @@ export async function createFirstOrganizationAndContinue(
     redirect(buildAppsumoRedeemUrl(input.licenseKey));
   }
 
-  redirect(buildPaymentSetupUrl(planKey, interval));
+  redirect(
+    planKey ? buildPaymentSetupUrl(planKey, interval) : buildPaymentSetupUrl(),
+  );
 }

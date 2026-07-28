@@ -20,7 +20,7 @@ export default async function NewMaintenancePage() {
   const monitors = await listMonitorsForSelect(ctx.organizationId);
 
   return (
-    <div className="fj-maintenance-page">
+    <div className="fj-form-page">
       <Link className="fj-back-link" href="/app/maintenance">
         <BrandIcon name="chevron-right" size={14} className="fj-flip-up" />
         All maintenance

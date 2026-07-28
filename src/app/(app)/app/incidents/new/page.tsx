@@ -23,12 +23,8 @@ export default async function NewIncidentPage() {
   ]);
 
   return (
-    <div>
-      <Link
-        className="fj-link-button"
-        href="/app/incidents"
-        style={{ marginBottom: "var(--space-4)", display: "inline-flex" }}
-      >
+    <div className="fj-form-page">
+      <Link className="fj-back-link" href="/app/incidents">
         <BrandIcon name="chevron-right" size={14} className="fj-flip-up" />
         All incidents
       </Link>
@@ -38,7 +34,7 @@ export default async function NewIncidentPage() {
         description="For issues you found outside Fajita, or a heads-up you want tracked before a monitor confirms it. Manual incidents never forge check history."
       />
 
-      <AppSection>
+      <AppSection className="fj-app-section--form">
         <ManualIncidentForm
           organizationId={ctx.organizationId}
           monitors={monitors}

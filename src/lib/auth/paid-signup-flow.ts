@@ -6,7 +6,8 @@ export const DEFAULT_SIGNUP_PLAN: PlanId = "pro";
 export const DEFAULT_SIGNUP_INTERVAL: BillingInterval = "month";
 
 export interface SignupPlanParams {
-  plan: PlanId;
+  /** Set only when the visitor picked a plan on marketing or pricing. */
+  plan: PlanId | null;
   interval: BillingInterval;
 }
 
@@ -19,7 +20,7 @@ export function parseSignupPlanParams(
     : input.interval;
 
   return {
-    plan: rawPlan && isPlanId(rawPlan) ? rawPlan : DEFAULT_SIGNUP_PLAN,
+    plan: rawPlan && isPlanId(rawPlan) ? rawPlan : null,
     interval:
       rawInterval && isBillingInterval(rawInterval)
         ? rawInterval
@@ -28,19 +29,29 @@ export function parseSignupPlanParams(
 }
 
 export function buildSignupUrl(
-  plan: PlanId = DEFAULT_SIGNUP_PLAN,
+  plan?: PlanId,
   interval: BillingInterval = DEFAULT_SIGNUP_INTERVAL,
 ): string {
-  const params = new URLSearchParams({ plan, interval });
-  return `/signup?${params.toString()}`;
+  const params = new URLSearchParams();
+  if (plan) {
+    params.set("plan", plan);
+    params.set("interval", interval);
+  }
+  const query = params.toString();
+  return query ? `/signup?${query}` : "/signup";
 }
 
 export function buildNewOrganizationUrl(
-  plan: PlanId = DEFAULT_SIGNUP_PLAN,
+  plan?: PlanId,
   interval: BillingInterval = DEFAULT_SIGNUP_INTERVAL,
 ): string {
-  const params = new URLSearchParams({ plan, interval });
-  return `/app/new-organization?${params.toString()}`;
+  const params = new URLSearchParams();
+  if (plan) {
+    params.set("plan", plan);
+    params.set("interval", interval);
+  }
+  const query = params.toString();
+  return query ? `/app/new-organization?${query}` : "/app/new-organization";
 }
 
 export function buildPaymentSetupUrl(

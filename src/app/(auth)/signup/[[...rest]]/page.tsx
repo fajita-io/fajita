@@ -21,7 +21,9 @@ export default async function SignupPage({
   searchParams: Promise<{ plan?: string; interval?: string }>;
 }) {
   const { plan, interval } = parseSignupPlanParams(await searchParams);
-  const afterSignupUrl = buildNewOrganizationUrl(plan, interval);
+  const afterSignupUrl = plan
+    ? buildNewOrganizationUrl(plan, interval)
+    : buildNewOrganizationUrl();
 
   return (
     <div className="fj-authshell__flow">

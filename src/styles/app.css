@@ -4,6 +4,8 @@
  * the Phase 1 token system; no new colors invented here.
  */
 
+@import "./forms.css";
+
 /* ------------------------------------------------------------------ */
 /* Auth shell (/login, /signup, /forgot-password, /verify-email)       */
 /* ------------------------------------------------------------------ */
@@ -1459,6 +1461,8 @@ html[data-sidebar-collapsed="1"] .fj-orgswitcher--empty {
 }
 .fj-dialog__body {
   margin-top: var(--space-4);
+  display: grid;
+  gap: var(--space-4);
 }
 .fj-dialog__actions {
   display: flex;
@@ -3352,13 +3356,6 @@ html[data-sidebar-collapsed="1"] .fj-orgswitcher--empty {
   font-weight: 600;
   letter-spacing: 0.01em;
 }
-.fj-field__label {
-  display: block;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin-bottom: var(--space-2);
-}
 .fj-table-scroll { overflow-x: auto; }
 .fj-check-chip {
   display: inline-flex;
@@ -3620,10 +3617,11 @@ html[data-sidebar-collapsed="1"] .fj-orgswitcher--empty {
 .fj-inc-composer__row { display: flex; gap: var(--space-3); flex-wrap: wrap; }
 .fj-inc-composer__row .fj-field { flex: 1; min-width: 12rem; }
 .fj-inc-composer__actions { display: flex; justify-content: flex-end; }
-.fj-inc-form { display: grid; gap: var(--space-4); max-width: 46rem; }
+.fj-inc-form { display: grid; gap: var(--space-6); }
 .fj-inc-monitor-picker { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
-/* Maintenance schedule / edit form */
+/* Shared full-page form layout (maintenance, manual incidents, etc.) */
+.fj-form-page .fj-page-header,
 .fj-maintenance-page .fj-page-header {
   margin-bottom: var(--space-5);
 }
@@ -3647,22 +3645,29 @@ html[data-sidebar-collapsed="1"] .fj-orgswitcher--empty {
   padding: 0;
 }
 
-.fj-maintenance-form {
+.fj-app-form,
+.fj-maintenance-form,
+.fj-inc-form {
   display: grid;
   gap: var(--space-6);
 }
 
-.fj-maintenance-form__section {
+.fj-app-form__section,
+.fj-maintenance-form__section,
+.fj-inc-form__section {
   display: grid;
   gap: var(--space-3);
   padding-inline: var(--space-6);
   max-width: 42rem;
 }
 
-.fj-maintenance-form__section:first-child {
+.fj-app-form__section:first-child,
+.fj-maintenance-form__section:first-child,
+.fj-inc-form__section:first-child {
   padding-top: var(--space-6);
 }
 
+.fj-app-form__section-label,
 .fj-maintenance-form__section-label {
   margin: 0;
   font-size: 0.85rem;
@@ -3670,8 +3675,10 @@ html[data-sidebar-collapsed="1"] .fj-orgswitcher--empty {
   color: var(--color-text-primary);
 }
 
+.fj-app-form__panel,
 .fj-maintenance-form__time-panel,
-.fj-maintenance-form__notes {
+.fj-maintenance-form__notes,
+.fj-inc-form__panel {
   display: grid;
   gap: var(--space-4);
   padding: var(--space-4);
@@ -3680,22 +3687,28 @@ html[data-sidebar-collapsed="1"] .fj-orgswitcher--empty {
   background: var(--color-background-secondary);
 }
 
+.fj-app-form__panel .fj-inc-composer__row,
 .fj-maintenance-form__time-panel .fj-inc-composer__row {
   margin: 0;
 }
 
+.fj-app-form__panel .fj-field__hint,
 .fj-maintenance-form__time-panel .fj-field__hint,
-.fj-maintenance-form__notes .fj-field__hint {
+.fj-maintenance-form__notes .fj-field__hint,
+.fj-inc-form__panel .fj-field__hint {
   margin: 0;
 }
 
+.fj-app-form__textarea,
 .fj-maintenance-form__textarea {
   min-height: 5.5rem;
   resize: vertical;
   line-height: 1.5;
 }
 
-.fj-maintenance-form__actions {
+.fj-app-form__actions,
+.fj-maintenance-form__actions,
+.fj-inc-form__actions {
   display: flex;
   justify-content: flex-end;
   gap: var(--space-3);
@@ -3705,18 +3718,29 @@ html[data-sidebar-collapsed="1"] .fj-orgswitcher--empty {
 }
 
 @media (max-width: 40rem) {
-  .fj-maintenance-form__section {
+  .fj-app-form__section,
+  .fj-maintenance-form__section,
+  .fj-inc-form__section {
     padding-inline: var(--space-4);
   }
 
-  .fj-maintenance-form__section:first-child {
+  .fj-app-form__section:first-child,
+  .fj-maintenance-form__section:first-child,
+  .fj-inc-form__section:first-child {
     padding-top: var(--space-4);
   }
 
-  .fj-maintenance-form__actions {
+  .fj-app-form__actions,
+  .fj-maintenance-form__actions,
+  .fj-inc-form__actions {
     padding-inline: var(--space-4);
     padding-bottom: var(--space-4);
   }
+}
+
+/* Maintenance schedule / edit form (legacy aliases) */
+.fj-maintenance-page .fj-page-header {
+  margin-bottom: var(--space-5);
 }
 
 .fj-inc-detaillist { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); margin: 0; }

@@ -47,7 +47,7 @@ export default async function EditMaintenancePage({
   if (!win) notFound();
 
   return (
-    <div className="fj-maintenance-page">
+    <div className="fj-form-page">
       <Link className="fj-back-link" href={`/app/maintenance/${win.id}`}>
         <BrandIcon name="chevron-right" size={14} className="fj-flip-up" />
         Back to window

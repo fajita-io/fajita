@@ -10,6 +10,8 @@
  * component inside keeps correct semantic tokens.
  */
 
+@import "./forms.css";
+
 /* ---------------------------------------------------------------- */
 /* Skip link                                                          */
 /* ---------------------------------------------------------------- */
@@ -1548,95 +1550,6 @@
 .fj-faq__answer {
   padding: 0 0 var(--space-6);
   max-width: 40rem;
-}
-
-/* ---------------------------------------------------------------- */
-/* Forms                                                              */
-/* ---------------------------------------------------------------- */
-
-.fj-field {
-  display: grid;
-  gap: var(--space-2);
-}
-
-.fj-field label {
-  font-size: var(--text-body-sm);
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-
-.fj-field__hint {
-  font-size: var(--text-caption);
-  color: var(--color-text-muted);
-}
-
-.fj-input,
-.fj-select,
-.fj-textarea {
-  font-family: inherit;
-  font-size: var(--text-body);
-  color: var(--color-text-primary);
-  background: var(--color-background-elevated);
-  border: 1.5px solid var(--color-border-strong);
-  border-radius: var(--radius-sm);
-  padding: var(--space-3) var(--space-4);
-  min-height: var(--touch-target-lg);
-  width: 100%;
-  transition: border-color var(--motion-fast) var(--ease-standard);
-}
-
-.fj-input:focus-visible,
-.fj-select:focus-visible,
-.fj-textarea:focus-visible {
-  outline: 2px solid var(--color-focus-ring);
-  outline-offset: 1px;
-  border-color: var(--color-brand-ember);
-}
-
-.fj-input[aria-invalid="true"],
-.fj-textarea[aria-invalid="true"] {
-  border-color: var(--color-status-down);
-}
-
-.fj-textarea {
-  min-height: 9rem;
-  resize: vertical;
-}
-
-.fj-field__error {
-  font-size: var(--text-body-sm);
-  color: var(--color-status-down);
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.fj-form-status {
-  border-radius: var(--radius-md);
-  padding: var(--space-4) var(--space-5);
-  font-size: var(--text-body-sm);
-}
-
-.fj-form-status--success {
-  background: var(--color-status-operational-soft);
-  color: var(--color-status-operational);
-  border: 1px solid color-mix(in srgb, var(--color-status-operational) 25%, transparent);
-}
-
-.fj-form-status--error {
-  background: var(--color-status-down-soft);
-  color: var(--color-status-down);
-  border: 1px solid color-mix(in srgb, var(--color-status-down) 25%, transparent);
-}
-
-/* Honeypot field: hidden from people, visible to naive bots. */
-.fj-hp {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
 }
 
 /* ---------------------------------------------------------------- */

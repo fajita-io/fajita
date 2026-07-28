@@ -10,9 +10,9 @@ import {
 } from "@/lib/auth/paid-signup-flow";
 
 describe("paid signup flow", () => {
-  it("parses plan params with defaults", () => {
+  it("parses explicit plan params and leaves plan null otherwise", () => {
     expect(parseSignupPlanParams({})).toEqual({
-      plan: "pro",
+      plan: null,
       interval: "month",
     });
     expect(parseSignupPlanParams({ plan: "starter", interval: "year" })).toEqual({
@@ -22,12 +22,15 @@ describe("paid signup flow", () => {
   });
 
   it("builds signup and onboarding URLs", () => {
+    expect(buildSignupUrl()).toBe("/signup");
     expect(buildSignupUrl("starter", "year")).toBe(
       "/signup?plan=starter&interval=year",
     );
+    expect(buildNewOrganizationUrl()).toBe("/app/new-organization");
     expect(buildNewOrganizationUrl("pro", "month")).toBe(
       "/app/new-organization?plan=pro&interval=month",
     );
+    expect(buildPaymentSetupUrl()).toBe("/app/start/payment");
     expect(buildPaymentSetupUrl("business", "year")).toBe(
       "/app/start/payment?plan=business&interval=year",
     );
