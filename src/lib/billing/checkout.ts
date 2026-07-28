@@ -8,7 +8,6 @@ import { resolvePriceId } from "@/lib/stripe/entitlements";
 import type { BillingInterval, PlanId } from "@/lib/stripe/plans";
 import { getOrCreateOrgStripeCustomer } from "@/lib/billing/customers";
 import { loadCurrentSubscription } from "@/lib/billing/engine";
-import { stripeLivePaymentsReady } from "@/lib/billing/stripe-account";
 
 const INTENT_TTL_MINUTES = 60;
 
@@ -86,7 +85,6 @@ export async function startCheckout(
   const priceId = await resolvePriceId(input.planKey, input.interval);
   const stripe = getStripe();
   const base = appUrl();
-  const paymentsReady = await stripeLivePaymentsReady();
   const metadata = await getStripeDataFastMetadata({
     organization_id: input.organizationId,
     checkout_intent_id: intent.id,
@@ -103,13 +101,9 @@ export async function startCheckout(
       // When a promo zeroes the total, do not collect a card. Required for $0
       // subscriptions while Stripe account review is still pending.
       payment_method_collection: "if_required",
-      ...(paymentsReady
-        ? { automatic_payment_methods: { enabled: true } }
-        : {
-            // Session can still open while card_payments is pending; card is only
-            // collected when the total due is greater than zero.
-            payment_method_types: ["card"],
-          }),
+      // Subscription Checkout on our Stripe API version rejects
+      // automatic_payment_methods. Card works for paid totals and $0 promos.
+      payment_method_types: ["card"],
       success_url: `${base}/billing/checkout/success?intent=${intent.id}`,
       cancel_url: `${base}/billing/checkout/canceled?intent=${intent.id}`,
       allow_promotion_codes: true,

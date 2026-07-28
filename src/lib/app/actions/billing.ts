@@ -35,6 +35,12 @@ const planSchema = z.object({
 function checkoutStartErrorMessage(error: unknown): string | null {
   if (error instanceof Stripe.errors.StripeError) {
     const message = error.message.toLowerCase();
+    if (
+      message.includes("automatic_payment_methods") ||
+      message.includes("unknown parameter")
+    ) {
+      return "Checkout could not open with the current billing configuration. Try again in a moment.";
+    }
     if (message.includes("no valid payment method types")) {
       return "Checkout is not available yet. Payment setup is still finishing. Try again in a few minutes.";
     }
