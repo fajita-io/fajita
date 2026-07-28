@@ -105,4 +105,22 @@ describe("verifyResendSignature", () => {
       verifyResendSignature(secret, { id: null, timestamp: ts, signature: sign(ts) }, body, now),
     ).toBe(false);
   });
+
+  it("accepts secrets whose base64 payload includes plus signs", () => {
+    const plusSecret = "whsec_uNosY1U+E11L3p8vQ2B4+n6mtOtF+5tw";
+    const now = Date.now();
+    const ts = String(Math.floor(now / 1000));
+    const keyBytes = Buffer.from(plusSecret.slice(6), "base64");
+    const sig = createHmac("sha256", keyBytes)
+      .update(`${id}.${ts}.${body}`)
+      .digest("base64");
+    expect(
+      verifyResendSignature(
+        plusSecret,
+        { id, timestamp: ts, signature: `v1,${sig}` },
+        body,
+        now,
+      ),
+    ).toBe(true);
+  });
 });
