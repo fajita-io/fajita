@@ -38,7 +38,7 @@ export default async function DeliveryDetailPage({
 
   return (
     <div className="fj-alerts">
-      <Link className="fj-link-button" href="/app/integrations/deliveries" style={{ marginBottom: "var(--space-4)", display: "inline-flex" }}>
+      <Link className="fj-back-link" href="/app/integrations/deliveries">
         <BrandIcon name="chevron-right" size={14} className="fj-flip-up" /> Deliveries
       </Link>
 

@@ -44,7 +44,7 @@ export default async function ChannelDetailPage({
 
   return (
     <div className="fj-alerts">
-      <Link className="fj-link-button" href="/app/integrations" style={{ marginBottom: "var(--space-4)", display: "inline-flex" }}>
+      <Link className="fj-back-link" href="/app/integrations">
         <BrandIcon name="chevron-right" size={14} className="fj-flip-up" /> Integrations
       </Link>
 

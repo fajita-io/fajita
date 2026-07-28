@@ -11,6 +11,7 @@ import { useToast } from "./toast";
 import {
   changeMemberRoleAction,
   createInvitationAction,
+  leaveOrganizationAction,
   removeMemberAction,
   resendInvitationAction,
   revokeInvitationAction,
@@ -42,6 +43,7 @@ export interface TeamCapabilities {
   canManageInvites: boolean;
   canChangeRole: boolean;
   canRemove: boolean;
+  canLeave: boolean;
   /** Roles the viewer may assign, most-privileged first. */
   assignableRoles: OrgRole[];
 }
@@ -69,6 +71,7 @@ export function TeamManager({
   const [inviteError, setInviteError] = useState<string | null>(null);
   const [lastLink, setLastLink] = useState<{ email: string; link: string } | null>(null);
   const [removeTarget, setRemoveTarget] = useState<TeamMemberView | null>(null);
+  const [leaveOpen, setLeaveOpen] = useState(false);
 
   async function onInvite(event: React.FormEvent) {
     event.preventDefault();
@@ -317,6 +320,23 @@ export function TeamManager({
         </section>
       ) : null}
 
+      {caps.canLeave ? (
+        <section className="fj-app-section">
+          <div className="fj-app-section__head">
+            <h2 className="fj-app-section__title">Leave organization</h2>
+            <p className="fj-app-section__desc">
+              You will lose access to this organization. An owner can invite you
+              back later.
+            </p>
+          </div>
+          <div className="fj-app-section__body">
+            <BrandButton className="fj-button--danger" onClick={() => setLeaveOpen(true)}>
+              Leave organization
+            </BrandButton>
+          </div>
+        </section>
+      ) : null}
+
       <ConfirmDialog
         open={removeTarget !== null}
         onClose={() => setRemoveTarget(null)}
@@ -334,6 +354,21 @@ export function TeamManager({
           if (!result.ok) throw new Error(result.error);
           toast.success("Member removed.");
           router.refresh();
+        }}
+      />
+
+      <ConfirmDialog
+        open={leaveOpen}
+        onClose={() => setLeaveOpen(false)}
+        title="Leave this organization?"
+        description="You will lose access immediately. Owners must delete the organization instead of leaving."
+        confirmLabel="Leave organization"
+        destructive
+        onConfirm={async () => {
+          const result = await leaveOrganizationAction(organizationId);
+          if (!result.ok) throw new Error(result.error);
+          toast.success("You left the organization.");
+          window.location.href = "/app";
         }}
       />
     </>

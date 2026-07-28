@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { BrandButtonLink } from "@/components/design-system/primitives";
 import { AppSection, PageHeader } from "@/components/app/ui";
@@ -50,6 +51,19 @@ export default async function AppSupportPage() {
         <div className="fj-support-actions">
           <GeniusTriggerButton source="support_page" />
         </div>
+      </AppSection>
+      <AppSection title="Privacy & data">
+        <p>
+          Export requests, deletion scheduling, and account controls live in{" "}
+          <Link className="fj-link-button" href="/app/settings/data">
+            Data &amp; account settings
+          </Link>
+          . Support privacy details are in{" "}
+          <Link className="fj-link-button" href="/app/settings/privacy/support">
+            Support privacy
+          </Link>
+          .
+        </p>
       </AppSection>
       <AppSection title="Contact support">
         <div className="fj-support-actions">

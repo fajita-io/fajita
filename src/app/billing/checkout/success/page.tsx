@@ -23,7 +23,6 @@ async function resolveState(intentId: string | undefined, profileId: string) {
       .maybeSingle();
     if (!intent) return null;
 
-    // Verify the caller belongs to the intent's organization before revealing.
     const { data: membership } = await db
       .from("organization_members")
       .select("id")
@@ -60,28 +59,28 @@ export default async function CheckoutSuccessPage({
     : null;
 
   return (
-    <main className="fj-checkout-return" style={{ maxWidth: 560, margin: "0 auto", padding: "var(--space-8) var(--space-4)" }}>
+    <>
       <CheckoutPoller done={active} />
-      <div className="fj-notice" style={{ display: "grid", gap: "var(--space-4)" }}>
+      <div className="fj-checkout-card">
         {active ? (
           <>
-            <h1 style={{ margin: 0 }}>You are all set</h1>
-            <p style={{ margin: 0 }}>
+            <h1 className="fj-checkout-card__title">You are all set</h1>
+            <p className="fj-checkout-card__lede">
               Your{planName ? ` ${planName}` : ""} subscription is active. Full
               Fajita access is ready. Continuing to setup…
             </p>
           </>
         ) : (
           <>
-            <h1 style={{ margin: 0 }}>Confirming your subscription</h1>
-            <p style={{ margin: 0 }}>
+            <h1 className="fj-checkout-card__title">Confirming your subscription</h1>
+            <p className="fj-checkout-card__lede">
               Stripe accepted the checkout. Fajita is confirming your
               subscription. This usually takes a few seconds. This page updates
               on its own.
             </p>
           </>
         )}
-        <div style={{ display: "flex", gap: "var(--space-3)", flexWrap: "wrap" }}>
+        <div className="fj-checkout-card__actions">
           {active ? (
             <BrandButtonLink href="/app/onboarding">Continue setup</BrandButtonLink>
           ) : (
@@ -96,6 +95,6 @@ export default async function CheckoutSuccessPage({
           ) : null}
         </div>
       </div>
-    </main>
+    </>
   );
 }

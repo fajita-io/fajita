@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { AppSection, PageHeader } from "@/components/app/ui";
 import { PoweredByPamphlet } from "@/components/support/powered-by-pamphlet";
@@ -19,7 +20,7 @@ export default async function SupportPrivacySettingsPage() {
         description="How Ask Fajita handles conversations, retention, and handoff."
       />
       <AppSection title="What we keep">
-        <ul>
+        <ul className="fj-support-list">
           <li>Authenticated support conversations: kept for continuity, then expired by policy.</li>
           <li>Public anonymous chats: short retention unless handed off.</li>
           <li>Billing and security reports: longer restricted retention.</li>
@@ -27,14 +28,27 @@ export default async function SupportPrivacySettingsPage() {
         </ul>
       </AppSection>
       <AppSection title="What you can do">
-        <ul>
+        <ul className="fj-support-list">
           <li>
-            <a href="/app/support">Review your support conversations</a>
+            <Link className="fj-link-button" href="/app/support">
+              Open support
+            </Link>{" "}
+            for docs, service status, and product feedback.
           </li>
-          <li>Request export from a conversation you own</li>
-          <li>Request deletion where policy and legal holds allow</li>
+          <li>
+            <Link className="fj-link-button" href="/app/settings/data">
+              Request a data export
+            </Link>{" "}
+            from Data &amp; account settings.
+          </li>
+          <li>
+            <Link className="fj-link-button" href="/app/settings/data">
+              Schedule account or organization deletion
+            </Link>{" "}
+            where policy and legal holds allow.
+          </li>
         </ul>
-        <p>
+        <p className="fj-app-section__desc">
           Required security and billing notices are not controlled from this
           page. Support contact is not marketing consent.
         </p>

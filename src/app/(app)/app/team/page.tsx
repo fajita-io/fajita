@@ -59,6 +59,7 @@ export default async function TeamPage() {
     canManageInvites,
     canChangeRole: can(role, "members:change_role"),
     canRemove: can(role, "members:remove"),
+    canLeave: role !== "owner",
     assignableRoles: assignableRoles.length > 0 ? assignableRoles : ["member"],
   };
 

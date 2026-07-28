@@ -46,7 +46,7 @@ export default async function OrganizationSettingsPage() {
 
       <AppSection
         title="Ownership"
-        description="The owner controls billing, deletion, and ownership transfer."
+        description="The owner controls billing, deletion, and who can manage the organization."
       >
         <dl className="fj-stat-list">
           <div>

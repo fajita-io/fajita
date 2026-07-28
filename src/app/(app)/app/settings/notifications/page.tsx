@@ -44,6 +44,10 @@ export default async function NotificationSettingsPage() {
           <Link className="fj-link-button" href="/app/settings/notifications/history">
             View recent email delivery
           </Link>
+          {" · "}
+          <Link className="fj-link-button" href="/app/settings/notifications/support">
+            Support notification policy
+          </Link>
         </p>
       </AppSection>
 

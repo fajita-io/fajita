@@ -37,7 +37,7 @@ export default async function EditRulePage({
 
   return (
     <div className="fj-alerts">
-      <Link className="fj-link-button" href="/app/integrations/rules" style={{ marginBottom: "var(--space-4)", display: "inline-flex" }}>
+      <Link className="fj-back-link" href="/app/integrations/rules">
         <BrandIcon name="chevron-right" size={14} className="fj-flip-up" /> Routing rules
       </Link>
 

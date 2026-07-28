@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { AppSection, EmptyState } from "@/components/app/ui";
 import { SubscriberSettingsForm } from "@/components/app/subscribers/settings-form";
 import { requireSubscriberContext } from "@/lib/app/subscriber-context";
 import {
@@ -55,43 +56,41 @@ export default async function SubscribersPage({ params, searchParams }: Props) {
   ];
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24, maxWidth: 960 }}>
-      <header>
-        <h1 style={{ margin: "0 0 4px", fontSize: 22 }}>Subscribers</h1>
-        <p style={{ margin: 0, fontSize: 14, color: "var(--muted, #666)" }}>
-          {ctx.statusPage.name} · operational status-page email
-        </p>
-      </header>
+    <div className="fj-subscribers-page">
+      <p className="fj-subscribers-page__lede">
+        Operational status-page email for {ctx.statusPage.name}. No marketing
+        sends.
+      </p>
 
-      <section
-        aria-label="Subscriber metrics"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
-          gap: 12,
-        }}
-      >
+      <section aria-label="Subscriber metrics" className="fj-inc-metrics">
         {metrics.map((m) => (
-          <div
-            key={m.label}
-            className="card"
-            style={{ padding: 14, borderRadius: 10, border: "1px solid #e5e5e7" }}
-          >
-            <div style={{ fontSize: 24, fontWeight: 700 }}>{m.value}</div>
-            <div style={{ fontSize: 12, color: "var(--muted, #666)" }}>{m.label}</div>
+          <div key={m.label} className="fj-inc-metric">
+            <div className="fj-inc-metric__value">{m.value}</div>
+            <div className="fj-inc-metric__label">{m.label}</div>
           </div>
         ))}
       </section>
 
-      <section
-        aria-label="Delivery health"
-        style={{ display: "flex", gap: 20, flexWrap: "wrap", fontSize: 13 }}
-      >
-        <span>Delivered: {health.delivered}</span>
-        <span>Pending: {health.pending}</span>
-        <span>Failed: {health.failed}</span>
-        <span>Dead-lettered: {health.deadLettered}</span>
-      </section>
+      <AppSection title="Delivery health">
+        <dl className="fj-stat-list fj-stat-list--inline">
+          <div>
+            <dt>Delivered</dt>
+            <dd>{health.delivered}</dd>
+          </div>
+          <div>
+            <dt>Pending</dt>
+            <dd>{health.pending}</dd>
+          </div>
+          <div>
+            <dt>Failed</dt>
+            <dd>{health.failed}</dd>
+          </div>
+          <div>
+            <dt>Dead-lettered</dt>
+            <dd>{health.deadLettered}</dd>
+          </div>
+        </dl>
+      </AppSection>
 
       {settings ? (
         <SubscriberSettingsForm
@@ -102,43 +101,37 @@ export default async function SubscribersPage({ params, searchParams }: Props) {
         />
       ) : null}
 
-      <section aria-label="Subscriber list">
-        <h2 style={{ fontSize: 16, margin: "0 0 12px" }}>
-          Subscribers ({list.total})
-        </h2>
+      <AppSection title={`Subscribers (${list.total})`}>
         {list.items.length === 0 ? (
-          <p style={{ fontSize: 14, color: "var(--muted, #666)" }}>
-            No subscribers yet. When someone subscribes from the public status
-            page and confirms, they appear here.
-          </p>
+          <EmptyState
+            icon="status-page"
+            title="No subscribers yet"
+            description="When someone subscribes from the public status page and confirms, they appear here."
+          />
         ) : (
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+          <div className="fj-table-scroll">
+            <table className="fj-table fj-subscribers-table">
               <thead>
-                <tr style={{ textAlign: "left", borderBottom: "1px solid #e5e5e7" }}>
-                  <th style={{ padding: "8px 10px" }}>Email</th>
-                  <th style={{ padding: "8px 10px" }}>Status</th>
-                  <th style={{ padding: "8px 10px" }}>Scope</th>
-                  <th style={{ padding: "8px 10px" }}>Source</th>
-                  <th style={{ padding: "8px 10px" }}>Confirmed</th>
+                <tr>
+                  <th>Email</th>
+                  <th>Status</th>
+                  <th>Scope</th>
+                  <th>Source</th>
+                  <th>Confirmed</th>
                 </tr>
               </thead>
               <tbody>
                 {list.items.map((item) => (
-                  <tr key={item.id} style={{ borderBottom: "1px solid #f0f0f2" }}>
-                    <td style={{ padding: "8px 10px", fontFamily: "ui-monospace, monospace" }}>
-                      {item.email}
-                    </td>
-                    <td style={{ padding: "8px 10px" }}>
-                      {STATUS_LABELS[item.status] ?? item.status}
-                    </td>
-                    <td style={{ padding: "8px 10px" }}>
+                  <tr key={item.id}>
+                    <td className="fj-subscribers-table__email">{item.email}</td>
+                    <td>{STATUS_LABELS[item.status] ?? item.status}</td>
+                    <td>
                       {item.allComponents === false ? "Selected" : "All"}
                       {item.incidentUpdates === false ? ", no incidents" : ""}
                       {item.maintenanceUpdates === false ? ", no maintenance" : ""}
                     </td>
-                    <td style={{ padding: "8px 10px" }}>{item.source}</td>
-                    <td style={{ padding: "8px 10px" }}>
+                    <td>{item.source}</td>
+                    <td>
                       {item.confirmedAt
                         ? new Date(item.confirmedAt).toLocaleDateString()
                         : "—"}
@@ -149,7 +142,7 @@ export default async function SubscribersPage({ params, searchParams }: Props) {
             </table>
           </div>
         )}
-      </section>
+      </AppSection>
     </div>
   );
 }

@@ -64,12 +64,13 @@ export function DataAccountPanel({
     <>
       <AppSection
         title="Export your data"
-        description="Request a copy of your data. Exports are prepared server-side, delivered through a short-lived private link, and logged."
+        description="Request a copy of your data. Exports are prepared server-side and delivered through a short-lived private link when ready."
       >
         <p className="fj-app-section__desc" style={{ marginBottom: "var(--space-4)" }}>
-          Right now an export covers your profile, organizations, memberships,
-          preferences, and audit history. Monitoring records join the export when
-          the monitoring engine ships. We record the request so it is ready then.
+          An export includes your profile, organizations, memberships, preferences,
+          audit history, and monitoring records for this account. After you
+          request one, it stays queued until our export processor prepares the
+          file. Contact support if you need data urgently.
         </p>
         <div style={{ display: "flex", gap: "var(--space-2)", flexWrap: "wrap" }}>
           <BrandButton
@@ -107,10 +108,14 @@ export function DataAccountPanel({
                 <div>
                   <div className="fj-member-cell__name">{req.label}</div>
                   <div className="fj-member-cell__email">
-                    {req.status}
-                    {req.scheduledFor
-                      ? ` · scheduled ${relativeTime(req.scheduledFor)}`
-                      : ` · ${relativeTime(req.when)}`}
+                    {req.kind === "export" && req.status === "pending"
+                      ? `Queued · requested ${relativeTime(req.when)}`
+                      : [
+                          req.status,
+                          req.scheduledFor
+                            ? `scheduled ${relativeTime(req.scheduledFor)}`
+                            : `requested ${relativeTime(req.when)}`,
+                        ].join(" · ")}
                   </div>
                 </div>
                 {req.kind === "deletion" && (req.status === "pending" || req.status === "scheduled") ? (
@@ -132,9 +137,9 @@ export function DataAccountPanel({
       {canDeleteOrg ? (
         <AppSection title="Delete organization">
           <p className="fj-app-section__desc" style={{ marginBottom: "var(--space-4)" }}>
-            Deleting {organizationName} removes its team, settings, and future
-            monitoring data after a {7}-day cooling-off period. You can cancel
-            during that window.
+            Deleting {organizationName} schedules removal of its team, settings,
+            and monitoring data after a {7}-day cooling-off period. You can cancel
+            during that window. Deletion is scheduled for the end of that period.
           </p>
           <BrandButton
             className="fj-button--danger"
@@ -165,9 +170,9 @@ export function DataAccountPanel({
         ) : (
           <div className="fj-notice fj-notice--warning">
             <p style={{ margin: "0 0 var(--space-2)" }}>
-              You own organizations that other people depend on. Transfer
-              ownership or delete them before deleting your account, so nobody is
-              left without access.
+              You own organizations that other people depend on. Delete those
+              organizations first, or ask another owner to remove you, before
+              deleting your account.
             </p>
             <ul style={{ margin: 0, paddingLeft: "1.2em" }}>
               {ownedOrganizations.map((org) => (
