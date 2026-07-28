@@ -48,6 +48,14 @@ select.fj-input,
   cursor: pointer;
 }
 
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--color-brand-ember);
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
 textarea.fj-input,
 .fj-textarea {
   min-height: 9rem;

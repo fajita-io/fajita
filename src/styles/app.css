@@ -3738,11 +3738,6 @@ html[data-sidebar-collapsed="1"] .fj-orgswitcher--empty {
   }
 }
 
-/* Maintenance schedule / edit form (legacy aliases) */
-.fj-maintenance-page .fj-page-header {
-  margin-bottom: var(--space-5);
-}
-
 .fj-inc-detaillist { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); margin: 0; }
 .fj-inc-detaillist dt { font-size: 0.75rem; color: var(--color-text-muted); }
 .fj-inc-detaillist dd { margin: 0.1rem 0 0; color: var(--color-text-primary); font-size: 0.9rem; }
