@@ -74,6 +74,7 @@ export default async function NewOrganizationPage({
       </p>
       <NewOrganizationForm
         suggestedName={suggestName(profile.display_name, profile.primary_email)}
+        defaultTimezone={profile.timezone}
         planKey={plan ?? undefined}
         interval={interval}
         licenseKey={licenseKey}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 function supportedTimezones(): string[] {
   try {
@@ -53,10 +53,17 @@ export function TimezoneSelect({
   onChange: (value: string) => void;
   disabled?: boolean;
 }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const zones = useMemo(() => {
+    if (!mounted) return [value];
     const list = supportedTimezones();
     return list.includes(value) ? list : [value, ...list];
-  }, [value]);
+  }, [mounted, value]);
 
   return (
     <select
@@ -65,6 +72,7 @@ export function TimezoneSelect({
       className="fj-input"
       value={value}
       disabled={disabled}
+      suppressHydrationWarning
       onChange={(e) => onChange(e.target.value)}
     >
       {zones.map((zone) => (

@@ -225,31 +225,33 @@ export function MonitorWizard({
   const canTest = Boolean(name.trim() && url.trim());
 
   return (
-    <div className="fj-wiz">
+    <>
       <div aria-live="polite" className="fj-visually-hidden" ref={liveRef} />
-      <ol className="fj-wiz__steps" aria-label="Setup steps">
-        {steps.map((label, i) => (
-          <li key={label}>
-            <button
-              type="button"
-              className="fj-wiz__step"
-              data-active={i === step ? "" : undefined}
-              data-done={i < step ? "" : undefined}
-              disabled={i > step}
-              onClick={() => i <= step && setStep(i)}
-              aria-current={i === step ? "step" : undefined}
-            >
-              <span className="fj-wiz__stepnum">{i < step ? "✓" : i + 1}</span>
-              <span className="fj-wiz__steplabel">{label}</span>
-            </button>
-          </li>
-        ))}
-      </ol>
+      <div className="fj-wiz">
+        <ol className="fj-wiz__steps" aria-label="Setup steps">
+          {steps.map((label, i) => (
+            <li key={label}>
+              <button
+                type="button"
+                className="fj-wiz__step"
+                data-active={i === step ? "" : undefined}
+                data-done={i < step ? "" : undefined}
+                disabled={i > step}
+                onClick={() => i <= step && setStep(i)}
+                aria-current={i === step ? "step" : undefined}
+              >
+                <span className="fj-wiz__stepnum">{i < step ? "✓" : i + 1}</span>
+                <span className="fj-wiz__steplabel">{label}</span>
+              </button>
+            </li>
+          ))}
+        </ol>
 
-      <div className="fj-wiz__panel">
-        {renderStep()}
+        <div className="fj-wiz__panel">
+          {renderStep()}
+        </div>
       </div>
-    </div>
+    </>
   );
 
   function renderStep() {

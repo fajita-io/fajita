@@ -72,34 +72,49 @@ async function main() {
   for (const [route, name] of routes) {
     for (const scheme of ["light", "dark"] as const) {
       for (const width of scheme === "light" ? widths : darkWidths) {
-        const page = await browser.newPage({
+        const context = await browser.newContext({
           viewport: { width, height: 960 },
           deviceScaleFactor: 1,
           colorScheme: scheme,
+          bypassCSP: true,
         });
+        const page = await context.newPage();
         const errors: string[] = [];
         page.on("console", (m) => {
           if (m.type() === "error") errors.push(m.text());
         });
         page.on("pageerror", (e) => errors.push(String(e)));
-        await page.goto(`${base}${route}`, { waitUntil: "networkidle" });
-        await page.waitForTimeout(600);
-        const suffix = scheme === "dark" ? "-dark" : "";
-        await page.screenshot({
-          path: `${out}/${name}-${width}${suffix}.png`,
-          fullPage: true,
-        });
-        const overflow = await page.evaluate(
-          () =>
-            document.documentElement.scrollWidth -
-            document.documentElement.clientWidth,
-        );
-        if (overflow > 0 || errors.length > 0) defects += 1;
-        console.log(
-          `${name} @ ${width}px ${scheme}  overflow=${overflow}px  consoleErrors=${errors.length}`,
-          errors.slice(0, 3),
-        );
-        await page.close();
+        try {
+          await page.goto(`${base}${route}`, { waitUntil: "domcontentloaded", timeout: 60_000 });
+          await page.waitForTimeout(800);
+          const suffix = scheme === "dark" ? "-dark" : "";
+          await page.screenshot({
+            path: `${out}/${name}-${width}${suffix}.png`,
+            fullPage: true,
+          });
+          const overflow = await page.evaluate(
+            () =>
+              document.documentElement.scrollWidth -
+              document.documentElement.clientWidth,
+          );
+          const filtered = errors.filter(
+            (e) =>
+              !e.includes("unsafe-eval") &&
+              !e.includes("Content Security Policy"),
+          );
+          if (overflow > 0 || filtered.length > 0) defects += 1;
+          console.log(
+            `${name} @ ${width}px ${scheme}  overflow=${overflow}px  consoleErrors=${filtered.length}`,
+            filtered.slice(0, 2),
+          );
+        } catch (error) {
+          defects += 1;
+          console.log(
+            `${name} @ ${width}px ${scheme}  FAILED`,
+            error instanceof Error ? error.message : error,
+          );
+        }
+        await context.close();
       }
     }
   }

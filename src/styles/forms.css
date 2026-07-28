@@ -18,8 +18,9 @@
 .fj-field__hint {
   margin: 0;
   font-size: var(--text-caption);
-  line-height: 1.45;
+  line-height: 1.5;
   color: var(--color-text-muted);
+  text-wrap: pretty;
 }
 
 .fj-input,

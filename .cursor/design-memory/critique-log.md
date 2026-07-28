@@ -196,3 +196,50 @@ Remaining issue: None.
 ```
 
 *Run `visual-qa-critic` after Phase 4 visual slice and again in Phase 10.*
+
+```text
+Iteration: 2
+Route: /app/monitors/new/[type] (website, api)
+Breakpoint: 1440, 768, 360
+Category: Layout
+Severity: Critical
+Observation: aria-live div was the first child of .fj-wiz CSS grid, auto-placing steps in the wide column and squeezing the form panel into the 15rem column. Step highlight stretched full width; form hints broke mid-word.
+Required correction: Move live region outside grid; assign explicit grid-template-areas on .fj-wiz.
+Resolution: monitor-wizard.tsx + app.css wizard pass (2026-07-27).
+Remaining issue: None.
+```
+
+```text
+Iteration: 2
+Route: /app/settings/profile, /app/settings/organization, /app/status-pages/new
+Breakpoint: 1440
+Category: Hydration / Layout
+Severity: High
+Observation: TimezoneSelect rendered different IANA option lists on server (Node Intl) vs client (browser Intl), causing hydration mismatch console errors.
+Required correction: Defer full timezone list until after mount; pass profile.timezone into NewOrganizationForm instead of detectTimezone() on first render.
+Resolution: timezone-select.tsx, new-organization-form.tsx, new-organization/page.tsx (2026-07-27).
+Remaining issue: None.
+```
+
+```text
+Iteration: 2
+Route: /app/monitors/new/website
+Breakpoint: 360px
+Category: Layout
+Severity: Low
+Observation: 1px horizontal document overflow on mobile wizard route.
+Required correction: Clip horizontal bleed on .fj-app__main.
+Resolution: overflow-x: clip on .fj-app__main in app.css (2026-07-27).
+Remaining issue: None.
+```
+
+```text
+Iteration: 2 (app shell QA pass)
+Routes: 27 authenticated app routes at 1440/1280/1024/768/430/390/360
+Category: Visual QA automation
+Severity: N/A
+Observation: Added scripts/screenshot-app-qa.ts with @clerk/testing/playwright auth. Captures to .qa-screens/app/. npm run qa:screens:app.
+Resolution: Zero overflow after fixes; no hydration errors on profile/org/status-new spot-check.
+Remaining issue: Public marketing QA (npm run qa:screens) may need domcontentloaded timeout bump on heavy feature pages.
+Status: App shell pass with documented automation.
+```

@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 
 import { BrandButton } from "@/components/design-system/primitives";
 import { createFirstOrganizationAndContinue } from "@/lib/app/actions/org";
@@ -16,11 +16,13 @@ export function NewOrganizationForm({
   planKey,
   interval,
   licenseKey,
+  defaultTimezone = "UTC",
 }: {
   suggestedName: string;
   planKey?: PlanId;
   interval?: BillingInterval;
   licenseKey?: string;
+  defaultTimezone?: string;
 }) {
   const nameId = useId();
   const slugId = useId();
@@ -29,7 +31,13 @@ export function NewOrganizationForm({
   const [name, setName] = useState(suggestedName);
   const [slug, setSlug] = useState(suggestSlug(suggestedName));
   const [slugTouched, setSlugTouched] = useState(false);
-  const [timezone, setTimezone] = useState(detectTimezone());
+  const [timezone, setTimezone] = useState(defaultTimezone);
+
+  useEffect(() => {
+    if (defaultTimezone !== "UTC") return;
+    const detected = detectTimezone();
+    if (detected && detected !== "UTC") setTimezone(detected);
+  }, [defaultTimezone]);
   const [error, setError] = useState<string | null>(null);
   const [slugError, setSlugError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
