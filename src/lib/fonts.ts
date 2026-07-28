@@ -19,12 +19,16 @@ export const displayFont = Fraunces({
   axes: ["opsz", "SOFT", "WONK"],
   variable: "--font-display",
   display: "swap",
+  adjustFontFallback: true,
+  preload: true,
 });
 
 export const interfaceFont = Instrument_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
+  adjustFontFallback: true,
+  preload: true,
 });
 
 export const monoFont = Spline_Sans_Mono({
@@ -32,6 +36,8 @@ export const monoFont = Spline_Sans_Mono({
   weight: ["400", "500"],
   variable: "--font-mono",
   display: "swap",
+  adjustFontFallback: true,
+  preload: false,
 });
 
 export const fontVariables = `${displayFont.variable} ${interfaceFont.variable} ${monoFont.variable}`;

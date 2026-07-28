@@ -201,7 +201,7 @@ export function ProductJourney() {
               <>
                 <StageHead
                   title="Prove the check works before trusting it."
-                  body="One test request, run on demand. In the product this hits your real endpoint; here it is a simulation."
+                  body="One test request, run on demand. In the product this hits your real endpoint; here it uses interactive sample data."
                 />
                 {tested ? (
                   <pre className="fj-console" aria-label="Test check result">
@@ -412,7 +412,7 @@ export function ProductJourney() {
               </span>
             ) : null}
             <span className="fj-caption">
-              Simulation. No account, no requests leave this page.
+              Interactive product tour. No account required, and no requests leave this page.
             </span>
           </div>
         </div>

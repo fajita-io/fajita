@@ -16,11 +16,10 @@ import { GLOSSARY_SYNONYMS, resolveSynonymSlug } from "@/lib/glossary/synonyms";
 import { validatePublicClaimsForGlossary } from "@/lib/glossary/claims";
 
 describe("glossary registry", () => {
-  it("has unique slugs and published terms include Powered by Wiki", () => {
+  it("has unique slugs and published terms meet editorial rules", () => {
     const slugs = allTerms().map((t) => t.meta.slug);
     expect(new Set(slugs).size).toBe(slugs.length);
     for (const term of publicTerms()) {
-      expect(term.meta.poweredByWiki).toBe(true);
       expect(term.meta.shortAnswer.trim().split(/\s+/).length).toBeGreaterThanOrEqual(35);
       expect(term.meta.shortAnswer.trim().split(/\s+/).length).toBeLessThanOrEqual(70);
     }
@@ -78,11 +77,10 @@ describe("glossary redirects and synonyms", () => {
 });
 
 describe("glossary serialize and formulas", () => {
-  it("includes wiki attribution in plain text", () => {
+  it("includes publisher attribution in plain text", () => {
     const term = getTerm("uptime-monitoring")!;
     const plain = termToPlainText(term);
-    expect(plain).toContain("https://wiki.co");
-    expect(plain).toContain("Powered by Wiki");
+    expect(plain).toContain("Publisher: Fajita");
     expect(plain).not.toMatch(/\u2014/);
   });
 

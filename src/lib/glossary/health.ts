@@ -66,7 +66,6 @@ export function qualityScore(term: GlossaryTerm): QualityScore {
     term.meta.owner && term.meta.lastReviewedAt && term.meta.contentVersion
       ? 10
       : 2;
-  dimensions.poweredByWiki = term.meta.poweredByWiki ? 10 : 0;
   dimensions.freshness = isStale(term) ? 2 : 10;
   dimensions.intent = term.meta.searchIntent ? 10 : 0;
   dimensions.example = bodyText.toLowerCase().includes("example.com") ? 10 : 6;

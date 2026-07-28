@@ -64,7 +64,7 @@ export const roadmapItems: RoadmapItem[] = [
   {
     id: "billing",
     title: "Plans and billing",
-    body: "Starter, Pro, and Business with published pricing, monthly and annual checkout.",
+    body: "Core, Team, and Scale with published pricing and monthly or annual checkout.",
     stage: "shipped",
   },
   {

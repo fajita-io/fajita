@@ -2,6 +2,8 @@
 
 Structured journey templates for Fajita. Populate via `product-experience-director`. Do not invent unsupported product facts.
 
+**Production verification (2026-07-27):** Public smoke (57 routes), authenticated-adjacent smoke (cron, billing webhooks, status page), live billing fixtures (API + Checkout UI), and alert fixtures passed on `https://fajita.io`. Browser login E2E remains optional before Stage 2.
+
 **Product (master directive 0.0):** Uptime monitoring for websites, APIs, certificates, and cron jobs, with alerting and public status pages. Core surfaces: Monitors, Incidents, Status Pages, Alert Channels, Maintenance, Team, Billing, Settings.
 
 ---

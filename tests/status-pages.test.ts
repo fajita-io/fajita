@@ -34,8 +34,13 @@ describe("public component state", () => {
     expect(monitorToPublicState({ internalState: "down", isCritical: false })).toBe("partial_outage");
   });
 
-  it("does not manufacture an outage from unknown data", () => {
-    expect(monitorToPublicState({ internalState: "unknown", isCritical: true })).toBe("operational");
+  it("surfaces missing monitor data as degraded, not a confirmed outage", () => {
+    expect(
+      monitorToPublicState({ internalState: "unknown", isCritical: true, hasData: false }),
+    ).toBe("degraded_performance");
+    expect(monitorToPublicState({ internalState: "unknown", isCritical: true })).toBe(
+      "operational",
+    );
   });
 
   it("any_critical mode reflects the worst critical monitor", () => {

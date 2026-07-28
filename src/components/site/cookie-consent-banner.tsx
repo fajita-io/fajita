@@ -12,6 +12,7 @@ import {
   defaultConsentDenied,
   encodeConsent,
 } from "@/lib/consent/preferences";
+import { dispatchConsentUpdated } from "@/lib/consent/events";
 
 function readConsentRaw(): string | null {
   if (typeof document === "undefined") return null;
@@ -50,6 +51,7 @@ export function CookieConsentBanner() {
   const decide = (acceptAll: boolean) => {
     const prefs = acceptAll ? consentAcceptAll() : defaultConsentDenied();
     writeConsent(encodeConsent(prefs));
+    dispatchConsentUpdated(prefs);
     setVisible(false);
   };
 

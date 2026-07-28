@@ -54,11 +54,7 @@ export function termToPlainText(term: GlossaryTerm): string {
     }
   }
 
-  lines.push(
-    "",
-    "Source note: Powered by Wiki (https://wiki.co).",
-    `Publisher: Fajita (${siteUrl}).`,
-  );
+  lines.push("", `Publisher: Fajita (${siteUrl}).`);
 
   return `${lines.join("\n")}\n`;
 }

@@ -2,6 +2,8 @@
 
 import dynamic from "next/dynamic";
 
+import "@/styles/support.css";
+
 import type { ConversationMode, PageContext } from "@/lib/support/types";
 
 const AskFajitaChat = dynamic(

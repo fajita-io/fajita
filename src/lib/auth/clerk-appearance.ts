@@ -67,6 +67,8 @@ export const clerkAppearance = {
       display: "grid",
       gap: "var(--space-5)",
       padding: 0,
+      width: "100%",
+      gridTemplateColumns: "minmax(0, 1fr)",
     },
     header: { display: "none" },
     headerTitle: { display: "none" },
@@ -80,6 +82,7 @@ export const clerkAppearance = {
       boxShadow: "none",
       padding: 0,
       margin: 0,
+      width: "100%",
       backgroundColor: "transparent",
     },
     socialButtons: {
@@ -128,13 +131,18 @@ export const clerkAppearance = {
     form: {
       display: "grid",
       gap: "var(--space-5)",
+      width: "100%",
+      gridTemplateColumns: "minmax(0, 1fr)",
     },
     formFieldRow: {
       margin: 0,
+      width: "100%",
     },
     formField: {
       display: "grid",
       gap: "var(--space-2)",
+      width: "100%",
+      gridTemplateColumns: "minmax(0, 1fr)",
     },
     formFieldLabel: {
       fontWeight: 600,
@@ -146,6 +154,8 @@ export const clerkAppearance = {
       border: "1px solid var(--color-border-strong)",
       boxShadow: "none",
       minHeight: "3rem",
+      width: "100%",
+      maxWidth: "none",
       padding: "0.75rem 1rem",
       borderRadius: "0.625rem",
       fontSize: "var(--text-body)",

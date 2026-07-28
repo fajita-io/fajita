@@ -75,8 +75,9 @@ export function monitorToPublicState(
       return "under_maintenance";
     case "unknown":
     default:
-      // Unknown is not a confirmed outage. Reflected as operational for the
-      // live badge; the uptime history shows the real no-data gap.
+      if (monitor.hasData === false) {
+        return "degraded_performance";
+      }
       return "operational";
   }
 }

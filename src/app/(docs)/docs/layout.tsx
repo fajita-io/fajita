@@ -1,10 +1,13 @@
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
-import { ReadingAttribution } from "@/components/site/reading-attribution";
 import { DocsNav } from "@/components/docs/docs-nav";
 import { DocsSearch } from "@/components/docs/search";
 import { AskFajitaMount } from "@/components/support/ask-fajita-mount";
 import { buildNavigation } from "@/lib/docs/registry";
+
+import "@/styles/site.css";
+import "@/styles/docs.css";
+import "@/styles/reading.css";
 
 /**
  * Documentation shell: the marketing header and footer wrap a persistent
@@ -28,7 +31,6 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
         </div>
         <main id="docs-main" className="fj-docs-shell__main">
           {children}
-          <ReadingAttribution />
         </main>
       </div>
       <SiteFooter />

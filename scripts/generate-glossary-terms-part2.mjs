@@ -504,7 +504,6 @@ function emitTerm(spec) {
     indexable: true,
     canonical: true,
     redirects: [],
-    poweredByWiki: true,
     cta: spec.cta ?? "none",
     requiresLegalReview: !!spec.requiresLegalReview,
     requiresSecurityReview: !!spec.requiresSecurityReview,

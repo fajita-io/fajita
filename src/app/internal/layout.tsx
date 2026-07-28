@@ -9,6 +9,7 @@ import {
 import { platformDb } from "@/lib/platform/db";
 import { PLATFORM_PERMISSIONS } from "@/lib/platform/permissions";
 import "@/styles/internal-ops.css";
+import "@/styles/app.css";
 
 export const metadata: Metadata = {
   title: {

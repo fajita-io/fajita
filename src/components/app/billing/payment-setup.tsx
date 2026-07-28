@@ -5,7 +5,6 @@ import { useState } from "react";
 import { BrandButton } from "@/components/design-system/primitives";
 import { useToast } from "@/components/app/toast";
 import { startCheckoutAction } from "@/lib/app/actions/billing";
-import { stripePaymentsUnavailableMessage } from "@/lib/billing/stripe-messages";
 import type { BillingInterval, PlanId } from "@/lib/stripe/plans";
 import { PlanChooser, type PlanCardData } from "@/components/app/billing/plan-chooser";
 
@@ -32,12 +31,6 @@ export function PaymentSetup({
 
   async function openCheckout() {
     if (!planKey || retrying) return;
-    if (!paymentsReady) {
-      const message = stripePaymentsUnavailableMessage();
-      setError(message);
-      toast.error(message);
-      return;
-    }
     setRetrying(true);
     setError(null);
     try {

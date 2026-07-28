@@ -115,7 +115,7 @@ export const fajitaVsUptimeRobot = defineComparison({
 
     h2("Pricing"),
     p(
-      "Fajita plans are listed on [/pricing](/pricing): Starter, Pro, and Business with monthly and annual options. UptimeRobot pricing should be confirmed on their official pricing page. We do not convert currencies or invent promotional rates.",
+      "Fajita plans are listed on [/pricing](/pricing): Core, Team, and Scale with monthly and annual options. UptimeRobot pricing should be confirmed on their official pricing page. We do not convert currencies or invent promotional rates.",
     ),
 
     h2("Important limitations"),

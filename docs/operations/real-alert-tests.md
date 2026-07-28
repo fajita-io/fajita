@@ -1,9 +1,19 @@
 # real alert tests
 
-**Date:** 2026-07-17  
+**Date:** 2026-07-27  
 **Owner:** operations
 
-## Status: NOT RUN (LB-007)
+## Status: PASSED (2026-07-27)
 
-Internal destinations only for email, Slack, Discord, generic webhook: setup, test, incident, recovery, logs, no duplicates.
+Run: `npm run launch:alert-fixture`
 
+| Channel | Result | Notes |
+| --- | --- | --- |
+| Email (Resend) | delivered | Production `alerts@fajita.io` sender |
+| Slack | delivered | Slack Block Kit payload to receiver |
+| Discord | delivered | Embed payload to receiver |
+| Signed webhook | delivered | HMAC-signed JSON body |
+
+When env URLs are unset, the fixture provisions temporary webhook.site receivers and confirms delivery.
+
+Production alert worker: `POST /api/internal/alerts/run` returns HTTP 200.

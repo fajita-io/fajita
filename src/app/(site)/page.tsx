@@ -1,29 +1,87 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 
 import { BrandIcon } from "@/components/design-system/icons";
 import { BrandButtonLink } from "@/components/design-system/primitives";
 import { SectionHeading } from "@/components/design-system/typography";
 import { AlertFlow } from "@/components/site/alert-flow";
+import { AvailabilityBadge } from "@/components/site/availability-badge";
 import { CtaButtons } from "@/components/site/cta-buttons";
-import { FaqList } from "@/components/site/faq-list";
-import { CoverageExplorer } from "@/components/site/home/coverage-explorer";
-import { HeroNarrative } from "@/components/site/home/hero-narrative";
-import { ProductJourney } from "@/components/site/home/product-journey";
 import { MonitorPreview } from "@/components/site/monitor-preview";
-import { StatusPagePreview } from "@/components/site/status-page-preview";
 import { DataFastGoals } from "@/lib/analytics";
+import { buildSignupUrl } from "@/lib/auth/paid-signup-flow";
 import { homeFaq } from "@/lib/site/faq";
 import { publicPlans, pricingConfig } from "@/lib/site/pricing";
 import { buildMetadata } from "@/lib/site/metadata";
 import { siteUrl } from "@/lib/site/site-config";
 
-export const metadata: Metadata = buildMetadata({
-  title: "Uptime monitoring and status pages",
-  description:
-    "Fajita monitors your websites, APIs, certificates, and cron jobs. When something starts cooking, your team hears about it before your customers do.",
-  path: "/",
-});
+const HeroNarrative = dynamic(
+  () =>
+    import("@/components/site/home/hero-narrative").then(
+      (m) => m.HeroNarrative,
+    ),
+  {
+    loading: () => (
+      <div
+        className="fj-deferred-slot fj-deferred-slot--hero-narrative"
+        aria-hidden="true"
+      />
+    ),
+  },
+);
+
+const CoverageExplorer = dynamic(
+  () =>
+    import("@/components/site/home/coverage-explorer").then(
+      (m) => m.CoverageExplorer,
+    ),
+  { loading: () => <div className="fj-deferred-slot fj-deferred-slot--coverage" aria-hidden="true" /> },
+);
+
+const ProductJourney = dynamic(
+  () =>
+    import("@/components/site/home/product-journey").then(
+      (m) => m.ProductJourney,
+    ),
+  { loading: () => <div className="fj-deferred-slot fj-deferred-slot--journey" aria-hidden="true" /> },
+);
+
+const StatusPagePreview = dynamic(
+  () =>
+    import("@/components/site/status-page-preview").then(
+      (m) => m.StatusPagePreview,
+    ),
+  { loading: () => <div className="fj-deferred-slot fj-deferred-slot--status" aria-hidden="true" /> },
+);
+
+const FaqList = dynamic(
+  () => import("@/components/site/faq-list").then((m) => m.FaqList),
+  { loading: () => <div className="fj-deferred-slot fj-deferred-slot--faq" aria-hidden="true" /> },
+);
+
+export const metadata: Metadata = {
+  ...buildMetadata({
+    title: "Uptime monitoring and status pages",
+    description:
+      "Monitor websites, APIs, SSL certificates, cron jobs, and heartbeats. Verify failures, alert your team, and keep customers informed with Fajita.",
+    path: "/",
+  }),
+  openGraph: {
+    title: "Your customers should not be your monitoring system.",
+    description:
+      "Fajita verifies outages, alerts your team, and publishes clear status updates before customers are left wondering.",
+    url: siteUrl,
+    siteName: "Fajita",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Your customers should not be your monitoring system.",
+    description:
+      "Fajita verifies outages, alerts your team, and publishes clear status updates before customers are left wondering.",
+  },
+};
 
 const faqJsonLd = {
   "@context": "https://schema.org",
@@ -62,6 +120,7 @@ export default function HomePage() {
       <section className="fj-hero">
         <div className="fj-container fj-hero__grid">
           <div className="fj-hero__copy">
+            <AvailabilityBadge />
             <h1 className="fj-display-1">
               Know when your software gets too hot.
             </h1>
@@ -71,12 +130,19 @@ export default function HomePage() {
               before your customers do.
             </p>
             <CtaButtons goal={DataFastGoals.heroCta} />
+            <p className="fj-hero__trust">
+              No waitlist. Set up your first monitor in minutes.
+            </p>
             <ul className="fj-hero__proof">
               <li>Website, API, SSL, and cron monitoring</li>
               <li>Verified team alerts</li>
               <li>Hosted status pages</li>
               <li>Set up in minutes</li>
             </ul>
+            <p className="fj-hero__status-link fj-body-sm">
+              Fajita monitors its own production services, too.{" "}
+              <Link href="/status">View live Fajita status</Link>
+            </p>
           </div>
           <HeroNarrative />
         </div>
@@ -90,7 +156,7 @@ export default function HomePage() {
               <SectionHeading
                 eyebrow="The product"
                 title="One quiet screen that answers the loud question."
-                lede="Every monitor shows its status, response time, certificate health, and history in one place. This is the interface Fajita is building, with demonstration data."
+                lede="Every monitor shows its status, response time, certificate health, and history in one place. A preview of the monitoring experience available in Fajita today, shown with sample data so you can explore it without creating an account."
               />
               <p className="fj-body" style={{ marginTop: "var(--space-4)" }}>
                 No dashboards to assemble. No query language. A monitor is a
@@ -296,7 +362,7 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="How it works"
             title="Run the whole thing, right here."
-            lede="Nine steps from first monitor to uptime history, including the part where it breaks. No account, nothing leaves the page."
+            lede="Explore the complete monitoring flow, from first check to incident recovery. No account required, and no requests leave this page."
             as="h2"
           />
           <ProductJourney />
@@ -347,6 +413,15 @@ export default function HomePage() {
                     </span>
                   </p>
                 ) : null}
+                <BrandButtonLink
+                  href={buildSignupUrl(plan.id, "month")}
+                  size="sm"
+                  variant={plan.highlight ? "primary" : "secondary"}
+                  data-fast-goal={DataFastGoals.planSelected}
+                  data-fast-goal-plan={plan.id}
+                >
+                  Start {plan.name}
+                </BrandButtonLink>
               </div>
             ))}
           </div>

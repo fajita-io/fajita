@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { BrandIcon } from "@/components/design-system/icons";
+import { BrandButtonLink } from "@/components/design-system/primitives";
 import { SectionHeading } from "@/components/design-system/typography";
-import { CtaButtons } from "@/components/site/cta-buttons";
+import { DataFastGoals } from "@/lib/analytics";
 import { INTEGRATION_CHANNEL_ICON } from "@/lib/alerts/channel-icons";
 import { buildMetadata } from "@/lib/site/metadata";
+import { cta } from "@/lib/site/site-config";
 import { integrations } from "@/lib/site/integrations";
 
 export const metadata: Metadata = buildMetadata({
@@ -76,13 +78,25 @@ export default function IntegrationsPage() {
         <div className="fj-container">
           <SectionHeading
             eyebrow="Next"
-            title="Connect a channel in the demo."
+            title="Send your first alert somewhere useful."
             as="h2"
           />
-          <CtaButtons
-            secondaryHref="/#how-it-works"
-            secondaryLabel="Run the demo"
-          />
+          <p className="fj-body" style={{ marginTop: "var(--space-4)", maxWidth: "36rem" }}>
+            Create an account, add a monitor, and connect the channel your team
+            already watches.
+          </p>
+          <div className="fj-hero__ctas" style={{ marginTop: "var(--space-6)" }}>
+            <BrandButtonLink href={cta.primary.href} data-fast-goal={DataFastGoals.heroCta}>
+              Start monitoring
+            </BrandButtonLink>
+            <BrandButtonLink href="/docs/getting-started/connect-an-alert-channel" variant="secondary">
+              Read alert documentation
+            </BrandButtonLink>
+          </div>
+          <p className="fj-body-sm fj-band-note" style={{ marginTop: "var(--space-6)" }}>
+            <Link href="/#how-it-works">Explore the alert flow</Link> in the
+            interactive product tour.
+          </p>
         </div>
       </section>
     </>

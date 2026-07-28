@@ -24,7 +24,6 @@ export default function InternalGlossaryTermsPage() {
             <th>Reviewed</th>
             <th>Next</th>
             <th>Score</th>
-            <th>Wiki</th>
           </tr>
         </thead>
         <tbody>
@@ -42,7 +41,6 @@ export default function InternalGlossaryTermsPage() {
               <td>{t.meta.lastReviewedAt}</td>
               <td>{t.meta.nextReviewDue}</td>
               <td>{qualityScore(t).total}</td>
-              <td>{t.meta.poweredByWiki ? "yes" : "NO"}</td>
             </tr>
           ))}
         </tbody>

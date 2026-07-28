@@ -18,6 +18,9 @@ export default defineConfig({
         new URL("./test/stubs/server-only.ts", import.meta.url),
       ),
       "@": fileURLToPath(new URL("./src", import.meta.url)),
+      "@contracts/contract": fileURLToPath(
+        new URL("./packages/monitor-contracts/contract.ts", import.meta.url),
+      ),
     },
   },
   test: {

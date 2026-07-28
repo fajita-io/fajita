@@ -2,6 +2,8 @@
 
 State matrix per surface. Update via `interface-state-director`. Mark Implementation and Testing status as work progresses.
 
+**Production verification (2026-07-27):** Automated smoke covers public routes, `/status`, billing enforcement flag, monitor cron execution, and webhook signature guards. Per-surface manual testing status below may lag shipped implementation.
+
 **Legend:** N/A = not applicable · Pending = not built · Done = implemented and tested
 
 ---

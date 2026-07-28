@@ -12,8 +12,8 @@ export const siteUrl =
 export const cta = {
   /** The one dominant action across the site. */
   primary: {
-    label: "Create account",
-    href: "/pricing",
+    label: "Start monitoring",
+    href: "/signup",
   },
   secondary: {
     label: "See how it works",
@@ -29,6 +29,7 @@ export const company = {
 
 export const social = {
   linkedIn: "https://www.linkedin.com/company/fajita-io",
+  x: "https://x.com/fajita_io",
 } as const;
 
 /**

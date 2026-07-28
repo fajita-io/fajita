@@ -96,7 +96,8 @@
 .fj-authshell__flow {
   display: grid;
   gap: var(--space-8);
-  width: min(100%, 26rem);
+  width: min(100%, 28rem);
+  min-width: 0;
 }
 
 .fj-authshell__flow-header {
@@ -143,7 +144,7 @@
   font-size: var(--text-body);
   line-height: var(--leading-tight);
   color: var(--color-text-secondary);
-  max-width: 30ch;
+  max-width: none;
 }
 
 .fj-authshell__clerk {
@@ -167,10 +168,17 @@
   overflow: visible;
 }
 
+.fj-authshell .cl-card {
+  align-items: stretch;
+}
+
 .fj-authshell .cl-main {
   display: grid;
   gap: var(--space-5);
   padding: 0;
+  width: 100%;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .fj-authshell .cl-socialButtonsRoot {
@@ -178,6 +186,8 @@
   box-shadow: none;
   padding: 0;
   margin: 0;
+  width: 100%;
+  min-width: 0;
   background: transparent;
 }
 
@@ -241,15 +251,33 @@
 .fj-authshell .cl-form {
   display: grid;
   gap: var(--space-5);
+  width: 100%;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .fj-authshell .cl-formFieldRow {
   margin: 0;
+  width: 100%;
+  min-width: 0;
+}
+
+.fj-authshell .cl-formFieldRow > div {
+  width: 100%;
+  min-width: 0;
 }
 
 .fj-authshell .cl-formField {
   display: grid;
   gap: var(--space-2);
+  width: 100%;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.fj-authshell .cl-formField > div:not(.cl-formFieldLabelRow):not(.cl-formFieldHintText):not(.cl-formFieldErrorText) {
+  width: 100%;
+  min-width: 0;
 }
 
 .fj-authshell .cl-formFieldLabelRow {
@@ -267,6 +295,8 @@
 }
 
 .fj-authshell .cl-formFieldInput {
+  width: 100%;
+  max-width: none;
   min-height: 3rem;
   padding: 0.75rem 1rem;
   border: 1px solid var(--color-border-strong);
@@ -357,7 +387,7 @@
 
 .fj-authshell__flow-legal {
   margin: 0;
-  max-width: 34ch;
+  max-width: none;
   font-size: var(--text-body-sm);
   line-height: 1.55;
   color: var(--color-text-muted);
@@ -410,7 +440,7 @@
 
   .fj-authshell__panel {
     min-height: 100svh;
-    padding: var(--space-6);
+    padding: var(--space-6) var(--container-gutter);
   }
 
   .fj-authshell__panel-mobile-logo {
@@ -421,6 +451,21 @@
   .fj-authshell__form {
     align-items: flex-start;
     padding: var(--space-4) 0 var(--space-6);
+  }
+
+  .fj-authshell__flow {
+    width: 100%;
+    gap: var(--space-6);
+  }
+}
+
+@media (max-width: 30rem) {
+  .fj-authshell__panel {
+    padding-block: var(--space-5);
+  }
+
+  .fj-authshell__flow-title {
+    font-size: clamp(1.625rem, 1.35rem + 0.9vw, 1.875rem);
   }
 }
 

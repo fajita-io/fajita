@@ -119,7 +119,6 @@ export const termFrontmatterSchema = z.object({
   indexable: z.boolean().default(true),
   canonical: z.boolean().default(true),
   redirects: z.array(kebab).default([]),
-  poweredByWiki: z.boolean().default(true),
   cta: z.enum(CTA_VARIANTS).default("none"),
   requiresLegalReview: z.boolean().default(false),
   requiresSecurityReview: z.boolean().default(false),

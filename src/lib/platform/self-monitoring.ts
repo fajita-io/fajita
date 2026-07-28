@@ -35,6 +35,15 @@ export const FAJITA_STATUS_COMPONENTS = [
   },
 ] as const;
 
+/** Production health paths used by the /status fallback when no snapshot slug is set. */
+export const FAJITA_COMPONENT_HEALTH_PATHS: Partial<
+  Record<(typeof FAJITA_STATUS_COMPONENTS)[number]["key"], string>
+> = {
+  website: "/api/health",
+  app: "/login",
+  public_status_pages: "/status",
+};
+
 export const FAJITA_SELF_MONITORS = [
   { key: "homepage", path: "/", kind: "http" as const },
   { key: "pricing", path: "/pricing", kind: "http" as const },

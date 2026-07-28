@@ -6,6 +6,11 @@ const unsuspendUserProfile = vi.fn();
 const softDeleteUserProfile = vi.fn();
 const verifyWebhook = vi.fn();
 
+vi.mock("@/lib/analytics", () => ({
+  DataFastGoals: { signup: "signup" },
+  trackServerGoal: vi.fn().mockResolvedValue(undefined),
+}));
+
 vi.mock("@/lib/auth/provisioning", () => ({
   ensureUserProfile,
   suspendUserProfile,

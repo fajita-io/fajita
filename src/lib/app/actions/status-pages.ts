@@ -7,13 +7,16 @@ import { DataFastGoals } from "@/lib/analytics/goals";
 import { trackGoal } from "@/lib/analytics/server";
 import { recordAuditEvent, type AuditAction } from "@/lib/app/audit";
 import { type ActionResult, toActionError } from "@/lib/app/actions/shared";
-import { isFeatureEnabled } from "@/lib/app/feature-flags.server";
+import {
+  requireStatusPagesEntitlement,
+} from "@/lib/billing/product-access";
+import { getOrgEntitlements } from "@/lib/billing/engine";
 import {
   isPlatformAdmin,
   requireOrganizationPermission,
   type OrgAccess,
 } from "@/lib/auth/context";
-import { Forbidden, RateLimited } from "@/lib/auth/errors";
+import { RateLimited } from "@/lib/auth/errors";
 import { rateLimit } from "@/lib/site/rate-limit";
 import {
   COMPONENT_CALCULATION_MODES,
@@ -67,16 +70,14 @@ import {
 async function requireManage(organizationId: string): Promise<OrgAccess> {
   const access = await requireOrganizationPermission(organizationId, "status_pages:manage");
   const admin = await isPlatformAdmin();
-  const enabled = await isFeatureEnabled("statusPages", organizationId);
-  if (!admin && !enabled) throw Forbidden("Status pages are unavailable on your current plan.");
+  if (!admin) await requireStatusPagesEntitlement(organizationId);
   return access;
 }
 
 async function requirePublish(organizationId: string): Promise<OrgAccess> {
   const access = await requireOrganizationPermission(organizationId, "status_pages:publish");
   const admin = await isPlatformAdmin();
-  const enabled = await isFeatureEnabled("statusPages", organizationId);
-  if (!admin && !enabled) throw Forbidden("Status pages are unavailable on your current plan.");
+  if (!admin) await requireStatusPagesEntitlement(organizationId);
   return access;
 }
 
@@ -271,14 +272,17 @@ export async function updateDisplayAction(
     const access = await requireManage(organizationId);
     limitOrThrow(access.profile.id, "display", 60);
     const data = displaySchema.parse(input);
-    // Powered-by removal requires the entitlement (billing not yet live).
     if (data.poweredByVisible === false) {
       const admin = await isPlatformAdmin();
       if (!admin) {
-        return {
-          ok: false,
-          error: "Removing the Powered by Fajita attribution is not available on your plan yet.",
-        };
+        const entitlements = await getOrgEntitlements(organizationId);
+        if (!entitlements.status_page_remove_powered_by) {
+          return {
+            ok: false,
+            error:
+              "Removing the Powered by Fajita attribution is not available on your plan yet.",
+          };
+        }
       }
     }
     await updateStatusPage(organizationId, statusPageId, access.profile.id, data);

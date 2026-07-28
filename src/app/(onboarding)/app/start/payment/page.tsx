@@ -43,7 +43,13 @@ export default async function PaymentSetupPage({
 }: {
   searchParams: Promise<{ plan?: string; interval?: string }>;
 }) {
-  const profile = await getCurrentProfile();
+  let profile;
+  try {
+    profile = await getCurrentProfile();
+  } catch (error) {
+    console.error("[payment setup] profile load failed", error);
+    redirect("/login");
+  }
   if (!profile || profile.deleted_at) redirect("/login");
 
   let active;
@@ -98,7 +104,7 @@ export default async function PaymentSetupPage({
   });
 
   let checkoutError: string | null = null;
-  if (params.plan && paymentsReady) {
+  if (params.plan) {
     const checkout = await startCheckoutAction(
       active.organization.id,
       params.plan,

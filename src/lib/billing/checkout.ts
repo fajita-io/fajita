@@ -1,5 +1,6 @@
 import "server-only";
 
+import { getStripeDataFastMetadata } from "@/lib/analytics/stripe";
 import { getStripe } from "@/lib/stripe/server";
 import { serviceClient } from "@/lib/supabase/service";
 import { Conflict } from "@/lib/auth/errors";
@@ -86,6 +87,13 @@ export async function startCheckout(
   const stripe = getStripe();
   const base = appUrl();
   const paymentsReady = await stripeLivePaymentsReady();
+  const metadata = await getStripeDataFastMetadata({
+    organization_id: input.organizationId,
+    checkout_intent_id: intent.id,
+    plan_key: input.planKey,
+    billing_interval: input.interval,
+    environment: process.env.NODE_ENV ?? "development",
+  });
 
   const session = await stripe.checkout.sessions.create(
     {
@@ -115,13 +123,7 @@ export async function startCheckout(
           billing_interval: input.interval,
         },
       },
-      metadata: {
-        organization_id: input.organizationId,
-        checkout_intent_id: intent.id,
-        plan_key: input.planKey,
-        billing_interval: input.interval,
-        environment: process.env.NODE_ENV ?? "development",
-      },
+      metadata,
     },
     { idempotencyKey: `checkout-${intent.id}` },
   );

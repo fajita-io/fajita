@@ -42,7 +42,7 @@ export function GET() {
     `Research: ${research.length}`,
     "Complete public documentation, approved glossary, and approved editorial content.",
     "See /llms.txt for a shorter index.",
-    "Glossary attribution: Powered by Wiki (https://wiki.co). Publisher: Fajita.",
+    "Glossary publisher: Fajita.",
     "",
     "=== DOCUMENTATION ===",
     "",

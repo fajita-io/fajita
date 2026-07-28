@@ -1,6 +1,7 @@
 import { FajitaLogo } from "@/components/brand/logo/fajita-logo";
+import Link from "next/link";
 import { OVERALL_STATE_LABEL } from "@/lib/status-pages/constants";
-import { formatInstant, formatUptimePercent, relativeAge } from "@/lib/status-pages/format";
+import { formatInstant, formatUptimePercent } from "@/lib/status-pages/format";
 import type {
   PublicComponent,
   PublicIncident,
@@ -198,25 +199,33 @@ export function StatusPageView({
             </section>
           ) : null}
 
-          {display.showIncidentHistory && data.recentIncidents.length > 0 ? (
+          {display.showIncidentHistory ? (
             <section className="sp-section" aria-label="Recent incident history">
               <h2 className="sp-section__title">Past incidents</h2>
-              {data.recentIncidents.map((incident) => (
-                <div key={incident.slug} className="sp-card" data-tone={incident.severity ?? "resolved"}>
-                  <p className="sp-card__title">
-                    <a href={`${basePath}/incidents/${incident.slug}`}>{incident.title}</a>
+              {data.recentIncidents.length > 0 ? (
+                <>
+                  {data.recentIncidents.map((incident) => (
+                    <div key={incident.slug} className="sp-card" data-tone={incident.severity ?? "resolved"}>
+                      <p className="sp-card__title">
+                        <a href={`${basePath}/incidents/${incident.slug}`}>{incident.title}</a>
+                      </p>
+                      <p className="sp-card__meta">
+                        {incident.resolvedAt ? "Resolved" : "Ongoing"} ·{" "}
+                        {formatInstant(incident.startedAt, page.timezone, page.locale)}
+                      </p>
+                    </div>
+                  ))}
+                  <p style={{ marginTop: "8px" }}>
+                    <a className="sp-back" href={`${basePath}/history`}>
+                      View full incident history
+                    </a>
                   </p>
-                  <p className="sp-card__meta">
-                    {incident.resolvedAt ? "Resolved" : "Ongoing"} ·{" "}
-                    {formatInstant(incident.startedAt, page.timezone, page.locale)}
-                  </p>
-                </div>
-              ))}
-              <p style={{ marginTop: "8px" }}>
-                <a className="sp-back" href={`${basePath}/history`}>
-                  View full incident history
-                </a>
-              </p>
+                </>
+              ) : (
+                <p className="sp-empty">
+                  No incidents have been recorded since monitoring began.
+                </p>
+              )}
             </section>
           ) : null}
 
@@ -227,9 +236,17 @@ export function StatusPageView({
 
         <footer className="sp-footer">
           <span>© {new Date().getFullYear()} {page.name}</span>
-          {display.poweredByVisible ? <PoweredBy /> : <span />}
+          {brandLockup === "fajita" ? (
+            <Link className="sp-back" href="/signup">
+              Start monitoring your own stack
+            </Link>
+          ) : display.poweredByVisible ? (
+            <PoweredBy />
+          ) : (
+            <span />
+          )}
           <span className="sp-freshness">
-            Refreshed {relativeAge(generatedAt)}
+            Last checked {formatInstant(generatedAt, page.timezone, page.locale)}
           </span>
         </footer>
       </div>

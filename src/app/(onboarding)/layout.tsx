@@ -4,7 +4,10 @@ import Link from "next/link";
 
 import { FajitaLogo } from "@/components/brand/logo/fajita-logo";
 import { AccountStateScreen } from "@/components/app/account-state-screen";
-import { getCurrentProfile } from "@/lib/auth/context";
+import { FajitaClerkProvider } from "@/components/auth/fajita-clerk-provider";
+import { getCurrentProfile, getSessionUserId } from "@/lib/auth/context";
+
+import "@/styles/app.css";
 
 export const metadata: Metadata = {
   title: "Set up Fajita",
@@ -22,11 +25,68 @@ export default async function OnboardingLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const profile = await getCurrentProfile();
-  if (!profile) redirect("/login");
+  let profile;
+  try {
+    profile = await getCurrentProfile();
+  } catch (error) {
+    console.error("[onboarding layout] profile load failed", error);
+    return (
+      <FajitaClerkProvider>
+        <div className="fj-flow">
+          <main id="main" className="fj-flow__main">
+            <div
+              className="fj-flow__card"
+              style={{ display: "grid", gap: "var(--space-4)" }}
+            >
+              <p
+                className="fj-body-sm"
+                style={{ margin: 0, color: "var(--color-text-muted)" }}
+              >
+                Setup interrupted
+              </p>
+              <h1 className="fj-flow__title">We could not load your account.</h1>
+              <p className="fj-flow__lede">
+                Your sign-in looks fine. Give us a moment, then refresh to
+                continue setup.
+              </p>
+            </div>
+          </main>
+        </div>
+      </FajitaClerkProvider>
+    );
+  }
+  if (!profile) {
+    const userId = await getSessionUserId();
+    if (!userId) redirect("/login");
+    return (
+      <FajitaClerkProvider>
+        <div className="fj-flow">
+          <main id="main" className="fj-flow__main">
+            <div
+              className="fj-flow__card"
+              style={{ display: "grid", gap: "var(--space-4)" }}
+            >
+              <p
+                className="fj-body-sm"
+                style={{ margin: 0, color: "var(--color-text-muted)" }}
+              >
+                Finishing sign-in
+              </p>
+              <h1 className="fj-flow__title">Setting up your account.</h1>
+              <p className="fj-flow__lede">
+                This usually takes a second right after signup. Refresh to
+                continue.
+              </p>
+            </div>
+          </main>
+        </div>
+      </FajitaClerkProvider>
+    );
+  }
   if (profile.suspended_at) return <AccountStateScreen kind="suspended" />;
 
   return (
+    <FajitaClerkProvider>
     <div className="fj-flow">
       <header className="fj-flow__bar">
         <Link href="/app" aria-label="Fajita">
@@ -37,5 +97,6 @@ export default async function OnboardingLayout({
         {children}
       </main>
     </div>
+    </FajitaClerkProvider>
   );
 }

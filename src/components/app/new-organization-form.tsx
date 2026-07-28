@@ -15,10 +15,12 @@ export function NewOrganizationForm({
   suggestedName,
   planKey,
   interval,
+  licenseKey,
 }: {
   suggestedName: string;
   planKey?: PlanId;
   interval?: BillingInterval;
+  licenseKey?: string;
 }) {
   const nameId = useId();
   const slugId = useId();
@@ -63,6 +65,7 @@ export function NewOrganizationForm({
       timezone,
       planKey,
       interval,
+      licenseKey,
     });
     if (!result.ok) {
       setPending(false);

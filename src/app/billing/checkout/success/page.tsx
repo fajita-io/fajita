@@ -68,7 +68,7 @@ export default async function CheckoutSuccessPage({
             <h1 style={{ margin: 0 }}>You are all set</h1>
             <p style={{ margin: 0 }}>
               Your{planName ? ` ${planName}` : ""} subscription is active. Full
-              Fajita access is ready.
+              Fajita access is ready. Continuing to setup…
             </p>
           </>
         ) : (

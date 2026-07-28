@@ -29,12 +29,10 @@ const terms = allTerms();
 const known = new Set(terms.map((t) => t.meta.slug));
 
 for (const term of terms) {
-  const { slug, status, owner, lastReviewedAt, poweredByWiki, shortAnswer } =
-    term.meta;
+  const { slug, status, owner, lastReviewedAt, shortAnswer } = term.meta;
   if (status === "published") {
     if (!owner) err(`${slug}: published term has no owner`);
     if (!lastReviewedAt) err(`${slug}: published term has no lastReviewedAt`);
-    if (!poweredByWiki) err(`${slug}: published term missing poweredByWiki`);
     const words = shortAnswer.trim().split(/\s+/).length;
     if (words < 35 || words > 70) {
       err(`${slug}: shortAnswer has ${words} words (need 35–70)`);
@@ -98,15 +96,6 @@ const forbidden: Array<[string, RegExp]> = [
 ];
 for (const [label, re] of forbidden) {
   if (re.test(corpus)) err(`llm corpus contains ${label}`);
-}
-
-// Powered by Wiki must appear in plain-text output
-if (!corpus.includes("https://wiki.co")) {
-  err("llm corpus missing Powered by Wiki URL");
-}
-
-if (!corpus.toLowerCase().includes("powered by wiki")) {
-  err("llm corpus missing Powered by Wiki attribution text");
 }
 
 console.log(`Glossary terms: ${terms.length}`);

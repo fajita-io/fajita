@@ -1,0 +1,29 @@
+# Fly.io app for the Go monitor worker (always-on scheduler).
+# Provision: fly launch --no-deploy --copy-config --name fajita-monitor-worker
+# Secrets: fly secrets set MONITOR_WORKER_DATABASE_URL=... MONITOR_SECRET_KEYS='{"1":"..."}' ...
+
+app = "fajita-monitor-worker"
+primary_region = "iad"
+
+[build]
+  dockerfile = "services/monitor-worker/Dockerfile"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    grace_period = "20s"
+    interval = "30s"
+    method = "GET"
+    path = "/readyz"
+    timeout = "5s"
+
+[env]
+  MONITOR_WORKER_ENV = "production"
+  MONITOR_WORKER_REGION = "iad"
+  MONITOR_WORKER_KEY = "fly-primary"
+  MONITOR_WORKER_LOG_LEVEL = "info"

@@ -1,8 +1,11 @@
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
-import { ReadingAttribution } from "@/components/site/reading-attribution";
 import { GlossarySearch } from "@/components/glossary/search";
 import { AskFajitaMount } from "@/components/support/ask-fajita-mount";
+
+import "@/styles/site.css";
+import "@/styles/glossary.css";
+import "@/styles/reading.css";
 
 export default function GlossaryLayout({
   children,
@@ -21,7 +24,6 @@ export default function GlossaryLayout({
         </div>
         <main id="glossary-main" className="fj-glossary-shell__main">
           {children}
-          <ReadingAttribution />
         </main>
       </div>
       <SiteFooter />

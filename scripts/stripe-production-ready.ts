@@ -307,13 +307,28 @@ async function main(): Promise<void> {
   printChecks("Webhooks", [webhookCheck]);
 
   const enforcement = process.env.BILLING_ENFORCEMENT_ENABLED?.trim();
+  let enforcementOn =
+    enforcement === "true" || enforcement === "1" || enforcement === "yes";
+  if (!enforcementOn) {
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL?.trim() ?? "https://fajita.io";
+    try {
+      const healthRes = await fetch(`${appUrl}/api/health`, { cache: "no-store" });
+      if (healthRes.ok) {
+        const health = (await healthRes.json()) as {
+          billingEnforcementEnabled?: boolean;
+        };
+        enforcementOn = health.billingEnforcementEnabled === true;
+      }
+    } catch {
+      // Local env only.
+    }
+  }
   const enforcementCheck: Check = {
     id: "billing_enforcement",
-    ok: enforcement === "true" || enforcement === "1",
-    detail:
-      enforcement === "true" || enforcement === "1"
-        ? "BILLING_ENFORCEMENT_ENABLED is on"
-        : "off (enable after docs/operations/real-payment-test.md passes)",
+    ok: enforcementOn,
+    detail: enforcementOn
+      ? "BILLING_ENFORCEMENT_ENABLED is on"
+      : "off (enable after docs/operations/real-payment-test.md passes)",
   };
   printChecks("App enforcement", [enforcementCheck]);
 

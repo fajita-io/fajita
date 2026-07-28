@@ -37,7 +37,7 @@ export const changelog: ChangelogEntry[] = [
     tag: "announcement",
     body: [
       "You can create a Fajita account, add monitors for websites, APIs, SSL certificates, and cron heartbeats, and route verified alerts to email, Slack, Discord, and webhooks.",
-      "Starter, Pro, and Business pricing is published. Plans, limits, and checkout amounts live on the pricing page before anyone is asked to pay.",
+      "Core, Team, and Scale pricing is published. Plans, limits, and checkout amounts live on the pricing page before anyone is asked to pay.",
       "Docs, the reliability glossary, and the blog are public for anyone evaluating the product.",
     ],
   },

@@ -34,7 +34,6 @@ export function GET() {
       replacementUrl: term.meta.replacementSlug
         ? `${siteUrl}/glossary/${term.meta.replacementSlug}`
         : null,
-      poweredByWiki: term.meta.poweredByWiki,
       contentHash: createHash("sha256").update(plain).digest("hex").slice(0, 16),
     };
   });
@@ -43,7 +42,6 @@ export function GET() {
     glossaryVersion: GLOSSARY_VERSION,
     generatedAt: new Date().toISOString().slice(0, 10),
     publisher: "Fajita",
-    poweredByWiki: "https://wiki.co",
     termCount: terms.length,
     terms,
   };

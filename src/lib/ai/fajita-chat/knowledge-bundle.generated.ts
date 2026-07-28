@@ -1635,7 +1635,7 @@ The affiliate program pays commissions for customers you refer. Program terms ar
 
 ## How it works
 
-- You apply and, once approved, get referral links.
+- Apply from the app or the affiliate page. Your referral link goes live immediately after you accept the program terms.
 - A referred visitor is attributed to you within the attribution window.
 - A conversion is a paid subscription confirmed through Stripe.
 - Commissions become payable after a holding period that accounts for refunds and disputes.
@@ -1743,7 +1743,7 @@ If you believe you have found a security issue, we want to hear from you.
 
 Send a report through the security topic on Contact support. Include steps to reproduce and avoid sharing others' data.
 
-> NOTE: Fajita does not currently advertise a paid bug bounty. Safe-harbor terms are subject to counsel review.
+> NOTE: Fajita does not currently advertise a paid bug bounty. Safe-harbor terms are documented in the Responsible Disclosure Policy.
 
 ---
 
@@ -3651,6 +3651,6 @@ Interactive checklist for ownership, components, incidents, maintenance, subscri
 
 export const FAJITA_CHAT_KNOWLEDGE_META = {
   sourceCount: 227,
-  generatedAt: "2026-07-20",
+  generatedAt: "2026-07-27",
   version: "2026.07",
 } as const;

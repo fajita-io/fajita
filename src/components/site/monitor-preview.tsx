@@ -1,6 +1,7 @@
 import { DemoFrame, Metric, ChannelChip } from "@/components/design-system/primitives";
 import { StatusBadge } from "@/components/design-system/status/status-badge";
 import { UptimeChart, type UptimeDay } from "@/components/design-system/uptime-chart";
+import { InteractiveSampleLabel } from "@/components/site/interactive-sample-label";
 import { demoEndpoints } from "@/lib/site/demo-brand";
 
 /**
@@ -100,9 +101,8 @@ function ResponseChart() {
 }
 
 /**
- * Product proof: one monitor, presented in the demo frame that marks every
- * simulated product surface on the marketing site. Demonstration data;
- * labeled as a preview by the frame title.
+ * Product proof: one monitor in the marketing demo frame. Sample data only;
+ * labeled as an interactive preview.
  */
 export function MonitorPreview() {
   return (
@@ -112,7 +112,10 @@ export function MonitorPreview() {
           <span className="fj-monitor-preview__endpoint">
             GET {demoEndpoints.apiHealth.label}
           </span>
-          <StatusBadge status="operational" />
+          <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)", flexWrap: "wrap" }}>
+            <StatusBadge status="operational" />
+            <InteractiveSampleLabel detail="Check passing" />
+          </div>
         </div>
 
         <div className="fj-monitor-preview__metrics">

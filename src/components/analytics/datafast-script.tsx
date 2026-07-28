@@ -11,7 +11,7 @@ export function DataFastScript() {
 
   return (
     <>
-      <Script id="datafast-queue" strategy="beforeInteractive">
+      <Script id="datafast-queue" strategy="lazyOnload">
         {`
           window.datafast = window.datafast || function() {
             (window.datafast.q = window.datafast.q || []).push(arguments);
@@ -24,7 +24,7 @@ export function DataFastScript() {
         data-website-id={websiteId}
         data-domain={domain}
         {...(allowLocalhost ? { "data-allow-localhost": "true" } : {})}
-        strategy="afterInteractive"
+        strategy="lazyOnload"
       />
     </>
   );

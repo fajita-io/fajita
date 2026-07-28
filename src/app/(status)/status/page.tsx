@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const statusLabel = OVERALL_STATE_LABEL[status.overallStatus];
   const description =
     status.data.page.description ??
-    `Current status of Fajita services. ${statusLabel}.`;
+    `Live status for Fajita production services. ${statusLabel}.`;
 
   return {
     title,

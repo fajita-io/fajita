@@ -7,6 +7,7 @@ import {
   suspendUserProfile,
   unsuspendUserProfile,
 } from "@/lib/auth/provisioning";
+import { DataFastGoals, trackServerGoal } from "@/lib/analytics";
 
 export const runtime = "nodejs";
 
@@ -51,7 +52,21 @@ export async function POST(req: NextRequest) {
     const data = evt.data as unknown as ClerkUserData;
 
     switch (type) {
-      case "user.created":
+      case "user.created": {
+        await ensureUserProfile({
+          id: data.id,
+          primaryEmail: primaryEmail(data),
+          displayName: displayName(data),
+          avatarUrl: data.image_url ?? null,
+        });
+        await trackServerGoal({ name: DataFastGoals.signup }).catch(() => {});
+        if (data.banned) {
+          await suspendUserProfile(data.id);
+        } else {
+          await unsuspendUserProfile(data.id);
+        }
+        break;
+      }
       case "user.updated": {
         await ensureUserProfile({
           id: data.id,

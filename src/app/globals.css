@@ -3,14 +3,6 @@
 @import "../styles/typography.css";
 @import "../styles/motion.css";
 @import "../styles/components.css";
-@import "../styles/site.css";
-@import "../styles/app.css";
-@import "../styles/docs.css";
-@import "../styles/glossary.css";
-@import "../styles/content.css";
-@import "../styles/support.css";
-@import "../styles/genius.css";
-@import "../styles/reading.css";
 
 *,
 *::before,

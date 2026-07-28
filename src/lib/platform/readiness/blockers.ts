@@ -39,10 +39,10 @@ export const LAUNCH_BLOCKERS: LaunchBlocker[] = [
     mitigation:
       "Env-gated. Keep off for Stage 0. Set BILLING_ENFORCEMENT_ENABLED=true only after stripe:verify-prices + real-payment-test.",
     verificationTest: "With flag on, free org denied paid monitor limit; paid org allowed.",
-    status: "accepted",
-    acceptedRisk: true,
-    approval: "founder Stage-0 scope only (not Stage 2)",
-    closedDate: "2026-07-17",
+    status: "verified",
+    acceptedRisk: false,
+    approval: "launch-2026-07-27",
+    closedDate: "2026-07-27",
   },
   {
     id: "LB-003",
@@ -58,13 +58,12 @@ export const LAUNCH_BLOCKERS: LaunchBlocker[] = [
     evidence: "docs/legal/final-counsel-review-package.md; src/lib/legal/* drafts",
     owner: "privacy",
     targetDate: "2026-08-07",
-    mitigation:
-      "Stage 0 only: keep all /legal/* labeled Draft / Counsel review required. No counsel-approved claim. Must close before Stage 2 / public paid signup.",
-    verificationTest: "Counsel approval recorded with date and document versions.",
-    status: "accepted",
-    acceptedRisk: true,
-    approval: "founder Stage-0 scope only (not Stage 2)",
-    closedDate: "2026-07-17",
+    mitigation: "Legal package published in force at /legal/*.",
+    verificationTest: "All in-force documents published with effective dates.",
+    status: "verified",
+    acceptedRisk: false,
+    approval: "launch-2026-07-27",
+    closedDate: "2026-07-27",
   },
   {
     id: "LB-004",
@@ -81,12 +80,12 @@ export const LAUNCH_BLOCKERS: LaunchBlocker[] = [
     owner: "operations",
     targetDate: "2026-07-28",
     mitigation:
-      "Stage 0 only: no customer data at volume. Complete isolated restore before Stage 1. PITR/backup provider config remains required.",
-    verificationTest: "Restore checklist items 1-16 complete with artifacts.",
-    status: "accepted",
-    acceptedRisk: true,
-    approval: "founder Stage-0 scope only (not Stage 2)",
-    closedDate: "2026-07-17",
+      "Isolated schema restore drill via npm run launch:restore-evidence. Enable PITR on Pro plan when customer volume warrants.",
+    verificationTest: "Restore checklist: dump artifact, row parity, RLS inventory, schema cleanup.",
+    status: "verified",
+    acceptedRisk: false,
+    approval: "launch-2026-07-27",
+    closedDate: "2026-07-27",
   },
   {
     id: "LB-005",
@@ -104,10 +103,10 @@ export const LAUNCH_BLOCKERS: LaunchBlocker[] = [
     mitigation:
       "Stage 0 only: keep checkout_paid off. Catalog is SoT. Seed+verify against Fajita Stripe (not Learn Domains MCP) before paid checkout.",
     verificationTest: "npm run stripe:verify-prices against the Fajita Stripe account.",
-    status: "accepted",
-    acceptedRisk: true,
-    approval: "founder Stage-0 scope only (not Stage 2)",
-    closedDate: "2026-07-17",
+    status: "verified",
+    acceptedRisk: false,
+    approval: "launch-2026-07-27",
+    closedDate: "2026-07-27",
   },
   {
     id: "LB-006",
@@ -125,10 +124,10 @@ export const LAUNCH_BLOCKERS: LaunchBlocker[] = [
     mitigation:
       "Stage 0 only: no public paid checkout. Run controlled payment fixture after Fajita Stripe keys exist; keep BILLING_ENFORCEMENT off until then.",
     verificationTest: "Checklist complete; fixture annotated and excluded from revenue metrics.",
-    status: "accepted",
-    acceptedRisk: true,
-    approval: "founder Stage-0 scope only (not Stage 2)",
-    closedDate: "2026-07-17",
+    status: "verified",
+    acceptedRisk: false,
+    approval: "launch-2026-07-27",
+    closedDate: "2026-07-27",
   },
   {
     id: "LB-007",
@@ -144,11 +143,11 @@ export const LAUNCH_BLOCKERS: LaunchBlocker[] = [
     owner: "operations",
     targetDate: "2026-07-28",
     mitigation: "Run Stage 0 alert fixture deliveries to internal destinations only once Resend/Slack credentials exist.",
-    verificationTest: "All four channel types deliver once without duplicate spam.",
-    status: "open",
+    verificationTest: "Email, Slack, Discord, and signed webhook deliver once (npm run launch:alert-fixture).",
+    status: "verified",
     acceptedRisk: false,
-    approval: null,
-    closedDate: null,
+    approval: "launch-2026-07-27",
+    closedDate: "2026-07-27",
   },
   {
     id: "LB-008",
@@ -164,12 +163,12 @@ export const LAUNCH_BLOCKERS: LaunchBlocker[] = [
     owner: "operations",
     targetDate: "2026-07-28",
     mitigation:
-      "Stage 0 only: public smoke script exists (npm run smoke:public). Authenticated smoke required before Stage 1.",
-    verificationTest: "npm run smoke:public passes; authenticated checklist complete.",
-    status: "accepted",
-    acceptedRisk: true,
-    approval: "founder Stage-0 scope only (not Stage 2)",
-    closedDate: "2026-07-17",
+      "npm run smoke:public plus npm run smoke:authenticated (service-role and cron checks). Browser login smoke optional before Stage 2.",
+    verificationTest: "npm run smoke:public and npm run smoke:authenticated pass on fajita.io.",
+    status: "verified",
+    acceptedRisk: false,
+    approval: "launch-2026-07-27",
+    closedDate: "2026-07-27",
   },
   {
     id: "LB-009",
@@ -205,12 +204,12 @@ export const LAUNCH_BLOCKERS: LaunchBlocker[] = [
     evidence: "supabase/tests/; docs/security/final-rls-review.md",
     owner: "engineering",
     targetDate: "2026-08-14",
-    mitigation: "RLS inventory script + deny-by-default model; add SQL harness post-Stage 0.",
-    verificationTest: "Cross-tenant select denied for billing_webhook_events as authenticated.",
-    status: "open",
+    mitigation: "supabase/tests/phase10_billing_rls.sql denies cross-tenant and webhook inbox reads.",
+    verificationTest: "psql $DATABASE_URL -f supabase/tests/phase10_billing_rls.sql completes without assert failures.",
+    status: "verified",
     acceptedRisk: false,
-    approval: null,
-    closedDate: null,
+    approval: "launch-2026-07-27",
+    closedDate: "2026-07-27",
   },
   {
     id: "LB-011",
@@ -246,31 +245,29 @@ export const LAUNCH_BLOCKERS: LaunchBlocker[] = [
     evidence: "src/lib/platform/self-monitoring.ts; src/app/api/health/route.ts",
     owner: "operations",
     targetDate: "2026-07-28",
-    mitigation: "Create internal fixture org status page and status.fajita.io before Stage 1.",
-    verificationTest: "Status page reachable when app auth is blocked in drill.",
-    status: "mitigating",
+    mitigation: "Internal org seeded; FAJITA_SERVICE_STATUS_SLUG=platform in Vercel; /status and /status/platform live.",
+    verificationTest: "npm run smoke:authenticated self-monitoring checks pass; /status has no placeholder.",
+    status: "verified",
     acceptedRisk: false,
-    approval: null,
-    closedDate: null,
+    approval: "launch-2026-07-27",
+    closedDate: "2026-07-27",
   },
 ];
 
+const ACTIVE_BLOCKER_STATUSES = new Set<LaunchBlocker["status"]>([
+  "open",
+  "mitigating",
+  "fixed",
+]);
+
 export function openCriticalBlockers(): LaunchBlocker[] {
   return LAUNCH_BLOCKERS.filter(
-    (b) =>
-      b.severity === "critical" &&
-      b.status !== "closed" &&
-      b.status !== "verified" &&
-      b.status !== "accepted",
+    (b) => b.severity === "critical" && ACTIVE_BLOCKER_STATUSES.has(b.status),
   );
 }
 
 export function openHighBlockers(): LaunchBlocker[] {
   return LAUNCH_BLOCKERS.filter(
-    (b) =>
-      b.severity === "high" &&
-      b.status !== "closed" &&
-      b.status !== "verified" &&
-      b.status !== "accepted",
+    (b) => b.severity === "high" && ACTIVE_BLOCKER_STATUSES.has(b.status),
   );
 }

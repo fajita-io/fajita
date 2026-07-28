@@ -84,3 +84,11 @@ export function referralConsentGranted(raw: string | undefined | null): boolean 
   if (!prefs) return true;
   return prefs.referral === true;
 }
+
+/** Product analytics may run only after an explicit accept-all choice. */
+export function analyticsConsentGranted(
+  raw: string | undefined | null,
+): boolean {
+  const prefs = decodeConsent(raw);
+  return prefs?.analytics === true;
+}

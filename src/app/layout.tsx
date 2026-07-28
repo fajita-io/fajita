@@ -1,17 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { ClerkProvider } from "@clerk/nextjs";
-import { Suspense } from "react";
 
-import { DataFastScript } from "@/components/analytics/datafast-script";
-import { GoogleAnalytics } from "@/components/analytics/google-analytics";
-import { GoogleAnalyticsPageView } from "@/components/analytics/google-analytics-page-view";
-import {
-  clerkSignInFallbackRedirectUrl,
-  clerkSignInUrl,
-  clerkSignUpFallbackRedirectUrl,
-  clerkSignUpUrl,
-} from "@/lib/auth/clerk-config";
-import { clerkAppearance } from "@/lib/auth/clerk-appearance";
+import { ConsentGatedAnalyticsLazy } from "@/components/analytics/consent-gated-analytics-lazy";
+import { ResourceHints } from "@/components/site/resource-hints";
 import { fontVariables } from "@/lib/fonts";
 import { themeInitScript } from "@/lib/theme/theme-script";
 
@@ -27,21 +17,30 @@ export const metadata: Metadata = {
     template: "%s · Fajita",
   },
   description:
-    "Fajita monitors your websites, APIs, certificates, and cron jobs. When something starts cooking, your team hears about it before your customers do.",
+    "Monitor websites, APIs, SSL certificates, cron jobs, and heartbeats. Verify failures, alert your team, and keep customers informed with Fajita.",
   alternates: { canonical: "/" },
   openGraph: {
     siteName: "Fajita",
     type: "website",
     url: siteUrl,
-    title: "Fajita · Know when your software gets too hot",
+    title: "Your customers should not be your monitoring system.",
     description:
-      "Fajita monitors your websites, APIs, certificates, and cron jobs. When something starts cooking, your team hears about it before your customers do.",
+      "Fajita verifies outages, alerts your team, and publishes clear status updates before customers are left wondering.",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Fajita. Know when your software gets too hot.",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Fajita · Know when your software gets too hot",
+    title: "Your customers should not be your monitoring system.",
     description:
-      "Uptime monitoring for websites, APIs, certificates, and cron jobs. Your team hears about it before your customers do.",
+      "Fajita verifies outages, alerts your team, and publishes clear status updates before customers are left wondering.",
+    images: ["/opengraph-image"],
   },
 };
 
@@ -84,34 +83,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider
-      appearance={clerkAppearance}
-      signInUrl={clerkSignInUrl}
-      signUpUrl={clerkSignUpUrl}
-      signInFallbackRedirectUrl={clerkSignInFallbackRedirectUrl}
-      signUpFallbackRedirectUrl={clerkSignUpFallbackRedirectUrl}
-    >
-      <html lang="en" className={fontVariables} suppressHydrationWarning>
-        <head>
-          <GoogleAnalytics />
-          <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-          />
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-          />
-        </head>
-        <body>
-          <Suspense fallback={null}>
-            <GoogleAnalyticsPageView />
-          </Suspense>
-          <DataFastScript />
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en" className={fontVariables} suppressHydrationWarning>
+      <head>
+        <ResourceHints />
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+      </head>
+      <body>
+        <ConsentGatedAnalyticsLazy />
+        {children}
+      </body>
+    </html>
   );
 }

@@ -4,6 +4,9 @@ import Link from "next/link";
 import { getCurrentProfile } from "@/lib/auth/context";
 import { getAffiliateForCurrentUser } from "@/lib/affiliates/context";
 import { AffiliateNav } from "@/components/affiliate/affiliate-nav";
+import { FajitaClerkProvider } from "@/components/auth/fajita-clerk-provider";
+
+import "@/styles/app.css";
 
 export const dynamic = "force-dynamic";
 
@@ -29,6 +32,7 @@ export default async function AffiliateLayout({
   if (!affiliate) redirect("/affiliates");
 
   return (
+    <FajitaClerkProvider>
     <div className="fj-affiliate">
       <header className="fj-affiliate__topbar">
         <div className="fj-container fj-affiliate__topbar-inner">
@@ -40,5 +44,6 @@ export default async function AffiliateLayout({
       </header>
       <main className="fj-container fj-affiliate__main">{children}</main>
     </div>
+    </FajitaClerkProvider>
   );
 }

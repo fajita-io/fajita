@@ -45,6 +45,7 @@ export const DataFastGoals = {
   onboardingStepCompleted: "onboarding_step_completed",
   onboardingSkipped: "onboarding_skipped",
   onboardingResumed: "onboarding_resumed",
+  appsumoLicenseRedeemed: "appsumo_license_redeemed",
   teamInviteInitiated: "team_invite_initiated",
   teamInviteCreated: "team_invite_created",
   teamInviteAccepted: "team_invite_accepted",
@@ -229,7 +230,6 @@ export const DataFastGoals = {
   glossaryDocsLinkSelected: "glossary_docs_link_selected",
   glossaryProductCta: "glossary_product_cta",
   glossaryFeedback: "glossary_feedback",
-  glossaryWikiClicked: "glossary_wiki_clicked",
   glossaryRawRequested: "glossary_raw_requested",
   glossaryManifestRequested: "glossary_manifest_requested",
 

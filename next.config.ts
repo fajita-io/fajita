@@ -30,6 +30,9 @@ assertProductionAuthEnv();
 
 const nextConfig: NextConfig = {
   headers: buildSecurityHeaders(),
+  experimental: {
+    optimizePackageImports: ["@clerk/nextjs"],
+  },
 };
 
 export default withSentryConfig(nextConfig, {

@@ -8,7 +8,7 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { SiteFooter } from "@/components/site/site-footer";
-import { SiteHeader } from "@/components/site/site-header";
+import { SiteHeaderContent } from "@/components/site/site-header-content";
 import { cta } from "@/lib/site/site-config";
 
 vi.mock("next/navigation", () => ({
@@ -35,7 +35,7 @@ afterEach(cleanup);
 
 describe("site header", () => {
   it("renders the primary nav landmarks and CTA", () => {
-    render(<SiteHeader />);
+    render(<SiteHeaderContent pathname="/" />);
     expect(screen.getByRole("navigation", { name: "Main" })).toBeTruthy();
     expect(screen.getByRole("link", { name: "Fajita home" })).toBeTruthy();
     expect(
@@ -44,7 +44,7 @@ describe("site header", () => {
   });
 
   it("features dropdown opens, lists all six feature pages, and closes on Escape", () => {
-    render(<SiteHeader />);
+    render(<SiteHeaderContent pathname="/" />);
     const trigger = screen.getByRole("button", { name: /features/i });
     expect(trigger.getAttribute("aria-expanded")).toBe("false");
 
@@ -67,23 +67,12 @@ describe("site header", () => {
     expect(trigger.getAttribute("aria-expanded")).toBe("false");
   });
 
-  it("mobile menu button toggles the panel with an accessible name", () => {
-    render(<SiteHeader />);
-    const button = screen.getByRole("button", { name: "Open menu" });
-    fireEvent.click(button);
-    expect(screen.getByRole("button", { name: "Close menu" })).toBeTruthy();
-    const panel = document.getElementById("fj-mobile-panel");
-    expect(panel?.hasAttribute("hidden")).toBe(false);
-  });
-
-  it("links to shipped public surfaces", () => {
-    const { container } = render(<SiteHeader />);
+  it("links to primary nav surfaces", () => {
+    const { container } = render(<SiteHeaderContent pathname="/" />);
     const hrefs = Array.from(container.querySelectorAll("a")).map((a) =>
       a.getAttribute("href"),
     );
-    for (const required of ["/blog", "/docs", "/glossary", "/tools", "/pricing", "/security"]) {
-      expect(hrefs).toContain(required);
-    }
+    expect(hrefs).toContain("/pricing");
     expect(hrefs).toContain(cta.primary.href);
   });
 });

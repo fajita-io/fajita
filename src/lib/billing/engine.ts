@@ -18,8 +18,12 @@ import {
   type InternalSubscriptionStatus,
 } from "@/lib/billing/subscription-state";
 import { gracePhase, type GracePhase } from "@/lib/billing/grace-period";
-import { BILLING_BETA_GRANT_ENABLED } from "@/lib/billing/enforcement";
+import {
+  BILLING_BETA_GRANT_ENABLED,
+  BILLING_ENFORCEMENT_ENABLED,
+} from "@/lib/billing/enforcement";
 import { stripeLivePaymentsReady } from "@/lib/billing/stripe-account";
+import { loadActiveLicenseForOrg } from "@/lib/appsumo/licenses";
 
 type SubscriptionRow =
   Database["public"]["Tables"]["billing_subscriptions"]["Row"];
@@ -44,6 +48,9 @@ export interface OrgBillingState {
   grace: { startedAt: string; restrictionAt: string | null; phase: GracePhase } | null;
   /** True when the org has no subscription and beta grant applies. */
   isBetaGrant: boolean;
+  /** True when access comes from an active AppSumo lifetime license. */
+  isAppsumoGrant: boolean;
+  appsumoLicenseKey: string | null;
 }
 
 /**
@@ -76,6 +83,43 @@ export async function loadCurrentSubscription(
       r.status !== "none",
   );
   return live ?? rows[0] ?? null;
+}
+
+async function isInternalOrganization(
+  organizationId: string,
+): Promise<boolean> {
+  const db = serviceClient();
+  const { data, error } = await db
+    .from("organizations")
+    .select("is_internal")
+    .eq("id", organizationId)
+    .maybeSingle();
+  if (error) throw error;
+  return data?.is_internal === true;
+}
+
+/** Platform self-monitoring orgs bypass billing lockout and always run checks. */
+function internalOrgBillingState(organizationId: string): OrgBillingState {
+  return {
+    organizationId,
+    planKey: null,
+    interval: null,
+    status: "none",
+    accessState: "active",
+    entitlements: BETA_ENTITLEMENTS,
+    stripeCustomerId: null,
+    stripeSubscriptionId: null,
+    subscriptionId: null,
+    currentPeriodEnd: null,
+    cancelAtPeriodEnd: false,
+    cancellationEffectiveAt: null,
+    recurringAmountCents: 0,
+    currency: "usd",
+    grace: null,
+    isBetaGrant: true,
+    isAppsumoGrant: false,
+    appsumoLicenseKey: null,
+  };
 }
 
 async function loadActiveOverrides(
@@ -117,14 +161,59 @@ export function applyOverrides(
 export async function computeOrgBillingState(
   organizationId: string,
 ): Promise<OrgBillingState> {
+  if (await isInternalOrganization(organizationId)) {
+    return internalOrgBillingState(organizationId);
+  }
+
   const db = serviceClient();
   const subscription = await loadCurrentSubscription(organizationId);
+  let appsumoLicense = null;
+  try {
+    appsumoLicense = await loadActiveLicenseForOrg(organizationId);
+  } catch (error) {
+    console.error("[billing] AppSumo license lookup failed", error);
+  }
+
+  // AppSumo lifetime license (no Stripe subscription required).
+  if (appsumoLicense && !subscription) {
+    const planKey = isPlanId(appsumoLicense.plan_key)
+      ? appsumoLicense.plan_key
+      : null;
+    const overrides = await loadActiveOverrides(organizationId);
+    const base = effectiveEntitlements(planKey, "active");
+    return {
+      organizationId,
+      planKey,
+      interval: null,
+      status: "none",
+      accessState: "active",
+      entitlements: applyOverrides(base, overrides),
+      stripeCustomerId: null,
+      stripeSubscriptionId: null,
+      subscriptionId: null,
+      currentPeriodEnd: null,
+      cancelAtPeriodEnd: false,
+      cancellationEffectiveAt: null,
+      recurringAmountCents: 0,
+      currency: "usd",
+      grace: null,
+      isBetaGrant: false,
+      isAppsumoGrant: true,
+      appsumoLicenseKey: appsumoLicense.license_key,
+    };
+  }
 
   // No subscription: beta grant while pre-launch or live Stripe cannot charge yet.
   if (!subscription) {
     const launched = billingLaunched();
-    const paymentsReady = await stripeLivePaymentsReady();
-    const checkoutRequired = launched && paymentsReady;
+    let paymentsReady = false;
+    try {
+      paymentsReady = await stripeLivePaymentsReady();
+    } catch (error) {
+      console.error("[billing] Stripe payments readiness check failed", error);
+    }
+    const checkoutRequired =
+      launched && paymentsReady && BILLING_ENFORCEMENT_ENABLED;
     const overrides = await loadActiveOverrides(organizationId);
     const base = checkoutRequired ? LOCKED_ENTITLEMENTS : BETA_ENTITLEMENTS;
     return {
@@ -144,6 +233,8 @@ export async function computeOrgBillingState(
       currency: "usd",
       grace: null,
       isBetaGrant: !checkoutRequired,
+      isAppsumoGrant: false,
+      appsumoLicenseKey: null,
     };
   }
 
@@ -196,6 +287,8 @@ export async function computeOrgBillingState(
         }
       : null,
     isBetaGrant: false,
+    isAppsumoGrant: false,
+    appsumoLicenseKey: null,
   };
 }
 

@@ -14,13 +14,13 @@ import {
 } from "@/lib/platform/readiness";
 
 describe("Phase 18 readiness registry", () => {
-  it("classifies Conditionally Ready for Stage 0 with accepted critical risks", () => {
+  it("classifies Conditionally Ready for Stage 0 with blockers verified", () => {
     expect(computeClassification()).toBe("conditionally_ready");
     expect(classificationLabel("conditionally_ready")).toBe(
       "Conditionally Ready",
     );
     expect(openCriticalBlockers()).toHaveLength(0);
-    expect(openHighBlockers().length).toBeGreaterThan(0);
+    expect(openHighBlockers()).toHaveLength(0);
   });
 
   it("keeps every gate with evidence text", () => {
@@ -46,7 +46,7 @@ describe("Phase 18 readiness registry", () => {
     expect(approval.productOwner).toBe("approved");
     expect(approval.confirmationNoHiddenFailures).toBe(true);
     expect(approval.confirmationNoUnsupportedClaims).toBe(true);
-    expect(approval.conditions.some((c) => c.includes("checkout_paid"))).toBe(
+    expect(approval.conditions.some((c) => c.includes("Sentry"))).toBe(
       true,
     );
   });

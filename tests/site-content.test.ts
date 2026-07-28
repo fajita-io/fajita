@@ -63,9 +63,9 @@ describe("pricing centralization", () => {
     const monitorsRow = comparisonRows.find((r) => r.label === "Monitors");
     expect(monitorsRow).toBeDefined();
     expect(monitorsRow!.values.map((v) => (v.kind === "text" ? v.value : null))).toEqual([
-      "10",
-      "50",
-      "Unlimited",
+      String(PLANS.starter.monitorLimit),
+      String(PLANS.pro.monitorLimit),
+      String(PLANS.business.monitorLimit),
     ]);
   });
 });

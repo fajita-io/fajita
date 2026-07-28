@@ -6,6 +6,7 @@ import { DemoFrame } from "@/components/design-system/primitives";
 import { StatusDot } from "@/components/design-system/status/status-badge";
 import { statusSpecs, type OperationalStatus } from "@/components/design-system/status/status";
 import { UptimeChart, type UptimeDay } from "@/components/design-system/uptime-chart";
+import { InteractiveSampleLabel } from "@/components/site/interactive-sample-label";
 import { demoBrand } from "@/lib/site/demo-brand";
 
 type ScenarioId =
@@ -197,7 +198,7 @@ export function StatusPagePreview() {
               </span>
               {demoBrand.name} status
             </span>
-            <span className="fj-caption">Updated moments ago</span>
+            <InteractiveSampleLabel />
           </div>
 
           <div className="fj-statuspage__banner" style={bannerVars} role="status">

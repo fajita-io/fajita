@@ -2,6 +2,11 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 
 import { AppShell } from "@/components/app/app-shell";
+import { FajitaClerkProvider } from "@/components/auth/fajita-clerk-provider";
+
+import "@/styles/app.css";
+import "@/styles/genius.css";
+import "@/styles/support.css";
 import { sidebarInitScript } from "@/lib/app/sidebar-script";
 import { AccountStateScreen } from "@/components/app/account-state-screen";
 import type { AppContextValue } from "@/lib/app/app-context";
@@ -14,6 +19,7 @@ import { computeOrgBillingState } from "@/lib/billing/engine";
 import {
   canEnterProductSetup,
   isAppPathExemptFromPaymentGate,
+  isOnboardingSetupPath,
 } from "@/lib/billing/setup-access";
 import { buildPaymentSetupUrl } from "@/lib/auth/paid-signup-flow";
 import { PLANS } from "@/lib/stripe/plans";
@@ -22,7 +28,11 @@ import { serviceClient } from "@/lib/supabase/service";
 function billingPlanLabelFor(
   planKey: keyof typeof PLANS | null,
   isBetaGrant: boolean,
+  isAppsumoGrant: boolean,
 ): string {
+  if (isAppsumoGrant && planKey && planKey in PLANS) {
+    return `${PLANS[planKey].name} (AppSumo)`;
+  }
   if (planKey && planKey in PLANS) return PLANS[planKey].name;
   if (isBetaGrant) return "Beta";
   return "Free";
@@ -33,7 +43,22 @@ export default async function AppLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const profile = await getCurrentProfile();
+  const pathname = (await headers()).get("x-pathname") ?? "";
+
+  // Signup setup routes live in the onboarding route group with their own
+  // layout. If this shell layout ever wraps them, pass through to avoid a
+  // redirect loop on /app/new-organization and to keep the minimal setup UI.
+  if (isOnboardingSetupPath(pathname)) {
+    return children;
+  }
+
+  let profile;
+  try {
+    profile = await getCurrentProfile();
+  } catch (error) {
+    console.error("[app layout] profile load failed", error);
+    redirect("/login");
+  }
   if (!profile) redirect("/login");
   if (profile.deleted_at) redirect("/login");
   if (profile.suspended_at) {
@@ -42,8 +67,14 @@ export default async function AppLayout({
 
   const requestedOrgId = await readActiveOrgId();
   const [memberships, active, admin] = await Promise.all([
-    listMemberships(profile.id),
-    resolveActiveOrg(profile.id, requestedOrgId),
+    listMemberships(profile.id).catch((error) => {
+      console.error("[app layout] membership lookup failed", error);
+      return [];
+    }),
+    resolveActiveOrg(profile.id, requestedOrgId).catch((error) => {
+      console.error("[app layout] active org resolution failed", error);
+      return null;
+    }),
     isPlatformAdmin(),
   ]);
 
@@ -75,7 +106,6 @@ export default async function AppLayout({
 
   const billing = billingResult;
 
-  const pathname = (await headers()).get("x-pathname") ?? "";
   if (active && !isAppPathExemptFromPaymentGate(pathname)) {
     if (!billing) {
       redirect(buildPaymentSetupUrl());
@@ -120,13 +150,14 @@ export default async function AppLayout({
     billingPlanLabel: billingPlanLabelFor(
       billing?.planKey ?? null,
       billing?.isBetaGrant ?? false,
+      billing?.isAppsumoGrant ?? false,
     ),
   };
 
   return (
-    <>
+    <FajitaClerkProvider>
       <script dangerouslySetInnerHTML={{ __html: sidebarInitScript }} />
       <AppShell context={context}>{children}</AppShell>
-    </>
+    </FajitaClerkProvider>
   );
 }

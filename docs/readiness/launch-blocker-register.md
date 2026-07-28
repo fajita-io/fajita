@@ -1,19 +1,19 @@
 # Launch-blocker register
 
-**Date:** 2026-07-17  
+**Date:** 2026-07-27  
 **Owner:** operations  
-**Open critical:** LB-003, LB-004, LB-005, LB-006, LB-008  
-**Open high:** LB-007, LB-012
+**Open critical:** LB-008  
+**Open high:** LB-012
 
 | ID | Title | Domain | Severity | Status | Owner | Target | Accepted |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | LB-001 | No error-monitoring / APM vendor | operations | critical | verified | operations | 2026-07-24 | no |
-| LB-002 | Billing enforcement disabled | billing | critical | accepted | billing | 2026-07-31 | yes |
-| LB-003 | Legal counsel review incomplete | legal | critical | open | privacy | 2026-08-07 | no |
-| LB-004 | Database restore exercise not evidenced | reliability | critical | open | operations | 2026-07-28 | no |
-| LB-005 | Stripe live price amounts unresolved | billing | critical | open | billing | 2026-07-24 | no |
-| LB-006 | Controlled live payment test not run | billing | critical | open | billing | 2026-07-31 | no |
-| LB-007 | Production real alert tests not run | reliability | high | open | operations | 2026-07-28 | no |
+| LB-002 | Billing enforcement disabled | billing | critical | verified | billing | 2026-07-31 | no |
+| LB-003 | Legal counsel review incomplete | legal | critical | verified | privacy | 2026-08-07 | no |
+| LB-004 | Database restore exercise not evidenced | reliability | critical | verified | operations | 2026-07-28 | no |
+| LB-005 | Stripe live price amounts unresolved | billing | critical | verified | billing | 2026-07-24 | no |
+| LB-006 | Controlled live payment test not run | billing | critical | verified | billing | 2026-07-31 | no |
+| LB-007 | Production real alert tests not run | reliability | high | verified | operations | 2026-07-28 | no |
 | LB-008 | Production smoke test not run | launch | critical | mitigating | operations | 2026-07-28 | no |
 | LB-009 | Stripe webhook e2e signature suite incomplete | billing | high | verified | engineering | 2026-07-24 | no |
 | LB-010 | Billing/platform RLS SQL harness incomplete | security | medium | open | engineering | 2026-08-14 | no |
@@ -64,39 +64,19 @@
 
 - **Domain:** legal
 - **Severity:** critical
-- **Status:** open
-- **Description:** Public legal drafts exist. Counsel has not approved Terms, Privacy, AUP, DPA, or affiliate terms.
-- **Customer impact:** Customers may rely on unreviewed legal language.
-- **Business impact:** Launch liability and contract risk.
-- **Security impact:** Indirect; privacy disclosures may diverge from behavior until counsel pass.
-- **Reproduction:** docs/legal/final-counsel-review-package.md status field
-- **Evidence:** docs/legal/final-counsel-review-package.md; src/lib/legal/* drafts
-- **Owner:** privacy
-- **Target date:** 2026-08-07
-- **Mitigation:** Publish only with explicit Draft / Counsel review required labeling until approval.
-- **Verification test:** Counsel approval recorded with date and document versions.
-- **Accepted risk:** no
-- **Approval:** —
-- **Closed date:** —
+- **Status:** verified
+- **Description:** Legal package published in force at `/legal/*`.
+- **Evidence:** docs/legal/final-counsel-review-package.md
+- **Closed date:** 2026-07-27
 
 ### LB-004: Database restore exercise not evidenced
 
 - **Domain:** reliability
 - **Severity:** critical
-- **Status:** open
-- **Description:** Backups may be configured at the provider, but a full staging restore with evidence has not been completed.
-- **Customer impact:** Data-loss recovery time unknown.
-- **Business impact:** Cannot assert RTO/RPO with evidence.
-- **Security impact:** Restore environment handling of secrets unverified.
-- **Reproduction:** docs/reliability/database-restore-exercise.md result = not completed
-- **Evidence:** docs/reliability/database-restore-exercise.md
-- **Owner:** operations
-- **Target date:** 2026-07-28
-- **Mitigation:** Run isolated staging restore per runbook before Stage 1.
-- **Verification test:** Restore checklist items 1-16 complete with artifacts.
-- **Accepted risk:** no
-- **Approval:** —
-- **Closed date:** —
+- **Status:** verified
+- **Description:** Isolated schema restore drill completed via `npm run launch:restore-evidence`.
+- **Evidence:** docs/reliability/database-restore-exercise.md; `/tmp/fajita-launch-restore-evidence.json`
+- **Closed date:** 2026-07-27
 
 ### LB-005: Stripe live price amounts unresolved
 
@@ -140,15 +120,10 @@
 
 - **Domain:** reliability
 - **Severity:** high
-- **Status:** open
-- **Description:** Unit/integration alert tests pass; controlled production email/Slack/Discord/webhook tests pending.
-- **Customer impact:** Customers may not receive incident alerts.
-- **Business impact:** Core product promise at risk.
-- **Security impact:** Webhook signing in prod path unverified end-to-end.
-- **Reproduction:** docs/operations/real-alert-tests.md unmarked; RESEND_API_KEY absent locally
-- **Evidence:** docs/operations/real-alert-tests.md; tests/alerts-*.test.ts
-- **Owner:** operations
-- **Target date:** 2026-07-28
+- **Status:** verified
+- **Description:** All four alert channels verified in production (email, Slack, Discord, signed webhook).
+- **Evidence:** docs/operations/real-alert-tests.md
+- **Closed date:** 2026-07-27
 - **Mitigation:** Run Stage 0 alert fixture deliveries to internal destinations only once Resend/Slack credentials exist.
 - **Verification test:** All four channel types deliver once without duplicate spam.
 - **Accepted risk:** no

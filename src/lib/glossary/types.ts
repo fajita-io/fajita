@@ -44,12 +44,6 @@ export function defineTerm(input: TermInput): GlossaryTerm {
     );
   }
 
-  if (!result.data.poweredByWiki && result.data.status === "published") {
-    throw new Error(
-      `Glossary term "${result.data.slug}": published terms must include Powered by Wiki attribution`,
-    );
-  }
-
   return {
     meta: result.data,
     body: input.body,

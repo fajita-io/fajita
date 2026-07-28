@@ -37,19 +37,33 @@ export async function getSessionUserId(): Promise<string | null> {
  * that need a usable account use `requireAuthenticatedUser`.
  */
 export async function getCurrentProfile(): Promise<ProfileRow | null> {
-  const userId = await getSessionUserId();
+  let userId: string | null;
+  try {
+    userId = await getSessionUserId();
+  } catch (error) {
+    console.error("[auth] session lookup failed", error);
+    return null;
+  }
   if (!userId) return null;
 
   const db = serviceClient();
-  const { data } = await db
+  const { data, error: readError } = await db
     .from("user_profiles")
     .select("*")
     .eq("external_id", userId)
     .maybeSingle();
+  if (readError) throw readError;
   if (data) return data;
 
-  // First authenticated hit: provision from the Clerk identity.
-  const user = await currentUser();
+  // First authenticated hit: provision from the Clerk identity. currentUser can
+  // briefly return null right after signup while the session cookie settles.
+  let user;
+  try {
+    user = await currentUser();
+  } catch (error) {
+    console.error("[auth] currentUser failed during provisioning", error);
+    return null;
+  }
   if (!user) return null;
   const primaryEmail =
     user.emailAddresses.find((e) => e.id === user.primaryEmailAddressId)

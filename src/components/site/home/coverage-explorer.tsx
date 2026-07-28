@@ -5,6 +5,7 @@ import { useId, useRef, useState } from "react";
 import { BrandIcon, type BrandIconName } from "@/components/design-system/icons";
 import { DemoFrame } from "@/components/design-system/primitives";
 import { StatusBadge } from "@/components/design-system/status/status-badge";
+import { InteractiveSampleLabel } from "@/components/site/interactive-sample-label";
 import { demoEndpoints } from "@/lib/site/demo-brand";
 
 interface CoverageKind {
@@ -156,7 +157,7 @@ export function CoverageExplorer() {
           <div style={{ display: "grid", gap: "var(--space-4)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)", flexWrap: "wrap" }}>
               <StatusBadge status="operational" label="Passing" />
-              <span className="fj-caption">demonstration data</span>
+              <InteractiveSampleLabel detail="Check passing" />
             </div>
             <pre className="fj-console" aria-label={`Example ${kind.label} check`}>
               {kind.lines.map((line, i) => (

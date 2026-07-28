@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 
+import { BrandButtonLink } from "@/components/design-system/primitives";
 import { SectionHeading } from "@/components/design-system/typography";
-import { CtaButtons } from "@/components/site/cta-buttons";
+import { DataFastGoals } from "@/lib/analytics";
 import { buildMetadata } from "@/lib/site/metadata";
-import { company, siteUrl } from "@/lib/site/site-config";
+import { company, cta, siteUrl } from "@/lib/site/site-config";
 
 export const metadata: Metadata = buildMetadata({
   title: "About",
@@ -68,7 +69,7 @@ export default function AboutPage() {
               page already looks like you have done this before.
             </p>
             <p className="fj-body">
-              We are building it for the people who answer for their own
+              Fajita is built for the people who answer for their own
               software: solo founders, small teams, indie hackers, and
               agencies. People who do not have an ops department, and should
               not need one to know whether checkout is up.
@@ -91,9 +92,9 @@ export default function AboutPage() {
             <div className="fj-fact">
               <p className="fj-fact__label">Honest by default</p>
               <p className="fj-body">
-                This website marks demonstrations as demonstrations and
-                labels every capability by its real status. If you catch us
-                doing otherwise, tell us. That is a bug.
+                Interactive previews are clearly labeled and use sample data.
+                Product capabilities are described according to what is available
+                today. If those two ever drift apart, that is a bug.
               </p>
             </div>
             <div className="fj-fact">
@@ -107,8 +108,9 @@ export default function AboutPage() {
             <div className="fj-fact">
               <p className="fj-fact__label">Built to be understood</p>
               <p className="fj-body">
-                Small, documented, transferable software. A tool a future
-                owner or a new teammate can read and reason about.
+                Fajita stays intentionally understandable. Clear systems,
+                documented behavior, and fewer hidden layers make it easier to
+                operate, improve, and trust.
               </p>
             </div>
           </div>
@@ -133,8 +135,19 @@ export default function AboutPage() {
 
       <section className="fj-band--tight">
         <div className="fj-container">
-          <SectionHeading eyebrow="Next" title="See what we are building." as="h2" />
-          <CtaButtons secondaryHref="/roadmap" secondaryLabel="Read the roadmap" />
+          <SectionHeading eyebrow="Next" title="Put Fajita to work." as="h2" />
+          <p className="fj-body" style={{ marginTop: "var(--space-4)", maxWidth: "36rem" }}>
+            Add your first monitor, choose where alerts should go, and know when
+            your software needs attention.
+          </p>
+          <div className="fj-hero__ctas" style={{ marginTop: "var(--space-6)" }}>
+            <BrandButtonLink href={cta.primary.href} data-fast-goal={DataFastGoals.heroCta}>
+              Start monitoring
+            </BrandButtonLink>
+            <BrandButtonLink href="/pricing" variant="secondary">
+              View pricing
+            </BrandButtonLink>
+          </div>
         </div>
       </section>
     </>

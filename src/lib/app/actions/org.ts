@@ -18,6 +18,7 @@ import { writeActiveOrgId } from "@/lib/app/active-org";
 import { validateSlug } from "@/lib/app/slug";
 import { markOnboardingStepAction } from "./onboarding";
 import {
+  buildAppsumoRedeemUrl,
   buildPaymentSetupUrl,
   DEFAULT_SIGNUP_INTERVAL,
   DEFAULT_SIGNUP_PLAN,
@@ -33,6 +34,7 @@ const createSchema = z.object({
   timezone: z.string().trim().min(1).max(64).default("UTC"),
   planKey: z.string().optional(),
   interval: z.string().optional(),
+  licenseKey: z.string().uuid().optional(),
 });
 
 export async function createOrganizationAction(
@@ -210,6 +212,10 @@ export async function createFirstOrganizationAndContinue(
     input.interval && isBillingInterval(input.interval)
       ? input.interval
       : DEFAULT_SIGNUP_INTERVAL;
+
+  if (input.licenseKey) {
+    redirect(buildAppsumoRedeemUrl(input.licenseKey));
+  }
 
   redirect(buildPaymentSetupUrl(planKey, interval));
 }

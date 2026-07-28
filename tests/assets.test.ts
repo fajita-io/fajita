@@ -41,6 +41,18 @@ describe("brand asset inventory", () => {
     }
   });
 
+  it("og share template uses the held-pulse editorial composition", () => {
+    const svg = readFileSync(
+      path.join(root, "public/brand/social/og-template.svg"),
+      "utf8",
+    );
+    expect(svg).toMatch(/viewBox="0 0 1200 630"/);
+    expect(svg).toMatch(/og-heat-grid/);
+    expect(svg).toMatch(/og-pulse-glow/);
+    expect(svg).not.toMatch(/<text/i);
+    expect(svg).toMatch(/aria-label="Fajita\. Know when your software gets too hot\."/);
+  });
+
   it("assets referenced by components exist on disk", () => {
     const sources = [
       "src/app/internal/brand-lab/sections/social-section.tsx",

@@ -8,7 +8,10 @@ import { getPublicSnapshotBySlug } from "@/lib/status-pages/projection";
 import type { PublicSnapshotData } from "@/lib/status-pages/snapshot-types";
 import { componentSlug } from "@/lib/status-pages/slug";
 
-import { FAJITA_STATUS_COMPONENTS } from "./self-monitoring";
+import {
+  FAJITA_COMPONENT_HEALTH_PATHS,
+  FAJITA_STATUS_COMPONENTS,
+} from "./self-monitoring";
 
 export interface FajitaServiceStatus {
   source: "snapshot" | "fallback";
@@ -26,23 +29,56 @@ function serviceStatusSlug(): string | null {
   return raw || null;
 }
 
-async function probeWebHealth(): Promise<boolean> {
+async function probePath(path: string): Promise<boolean> {
   try {
-    const res = await fetch(`${appUrl}/api/health`, {
+    const res = await fetch(`${appUrl}${path}`, {
       cache: "no-store",
       signal: AbortSignal.timeout(4_000),
+      redirect: "follow",
     });
     if (!res.ok) return false;
-    const body = (await res.json()) as { ok?: boolean };
-    return body.ok === true;
+    if (path === "/api/health") {
+      const body = (await res.json()) as { ok?: boolean };
+      return body.ok === true;
+    }
+    return true;
   } catch {
     return false;
   }
 }
 
-function buildFallbackServiceStatus(webHealthy: boolean): FajitaServiceStatus {
-  const now = new Date().toISOString();
-  const overall: OverallState = webHealthy ? "operational" : "partial_outage";
+async function probeMonitoredComponents(): Promise<Map<string, boolean>> {
+  const probed = FAJITA_STATUS_COMPONENTS.filter(
+    (item) => FAJITA_COMPONENT_HEALTH_PATHS[item.key],
+  );
+
+  const results = await Promise.all(
+    probed.map(async (item) => {
+      const path = FAJITA_COMPONENT_HEALTH_PATHS[item.key]!;
+      const healthy = await probePath(path);
+      return [item.key, healthy] as const;
+    }),
+  );
+
+  return new Map(results);
+}
+
+function computeOverallFromProbes(probes: Map<string, boolean>): OverallState {
+  const values = [...probes.values()];
+  if (values.length === 0) return "partial_outage";
+  if (values.every(Boolean)) return "operational";
+  if (values.every((v) => !v)) return "major_outage";
+  return "partial_outage";
+}
+
+function buildFallbackServiceStatus(
+  probes: Map<string, boolean>,
+  generatedAt: string,
+): FajitaServiceStatus {
+  const overall = computeOverallFromProbes(probes);
+  const monitored = FAJITA_STATUS_COMPONENTS.filter(
+    (item) => probes.has(item.key),
+  );
 
   return {
     source: "fallback",
@@ -52,8 +88,8 @@ function buildFallbackServiceStatus(webHealthy: boolean): FajitaServiceStatus {
         name: "Fajita",
         title: "Fajita Service Status",
         description:
-          "Current status of Fajita services: website, application, monitoring, alerts, status pages, billing, and support.",
-        headline: null,
+          "Current availability for Fajita's production services. Each component is checked against its production health path.",
+        headline: "All systems, accounted for.",
         supportUrl: `${appUrl}/contact?topic=support`,
         websiteUrl: appUrl,
         timezone: "America/Denver",
@@ -72,7 +108,7 @@ function buildFallbackServiceStatus(webHealthy: boolean): FajitaServiceStatus {
       display: {
         showUptimeHistory: false,
         showResponseTime: false,
-        showIncidentHistory: false,
+        showIncidentHistory: true,
         showScheduledMaintenance: true,
         showComponentDescriptions: true,
         showSubscriberForm: false,
@@ -85,52 +121,53 @@ function buildFallbackServiceStatus(webHealthy: boolean): FajitaServiceStatus {
           name: "Platform",
           description: null,
           collapsedByDefault: false,
-          components: FAJITA_STATUS_COMPONENTS.map((item) => ({
-            slug: componentSlug(item.key),
-            name: item.name,
-            description: item.description,
-            state:
-              item.key === "website" && !webHealthy
-                ? ("partial_outage" as const)
-                : ("operational" as const),
-            showUptime: false,
-            uptime: null,
-            responseMs: null,
-          })),
+          components: monitored.map((item) => {
+            const healthy = probes.get(item.key) ?? false;
+            return {
+              slug: componentSlug(item.key),
+              name: item.name,
+              description: item.description,
+              state: healthy ? ("operational" as const) : ("partial_outage" as const),
+              showUptime: false,
+              uptime: null,
+              responseMs: null,
+            };
+          }),
         },
       ],
       ungrouped: [],
       activeIncidents: [],
-      notices: webHealthy
-        ? [
-            {
-              slug: "monitoring-rollout",
-              title: "Monitoring is expanding",
-              bodyHtml:
-                "<p>Component uptime history and incident timelines appear here as self-monitors go live. Website availability reflects this page and our health endpoint.</p>",
-              type: "notice" as const,
-              startsAt: now,
-              endsAt: null,
-            },
-          ]
-        : [
-            {
-              slug: "web-degraded",
-              title: "Website health check failing",
-              bodyHtml:
-                "<p>Our public health endpoint did not respond normally. If you cannot reach Fajita, <a href=\"/contact?topic=support\">contact support</a>.</p>",
-              type: "investigating" as const,
-              startsAt: now,
-              endsAt: null,
-            },
-          ],
+      notices:
+        overall === "operational"
+          ? [
+              {
+                slug: "self-monitoring",
+                title: "Fajita monitors its own production services, too.",
+                bodyHtml:
+                  "<p>Component health on this page reflects live production health paths. Uptime history and incident timelines accumulate as monitoring runs.</p>",
+                type: "notice" as const,
+                startsAt: generatedAt,
+                endsAt: null,
+              },
+            ]
+          : [
+              {
+                slug: "web-degraded",
+                title: "One or more health checks are failing",
+                bodyHtml:
+                  '<p>At least one production health path did not respond normally. If you cannot reach Fajita, <a href="/contact?topic=support">contact support</a>.</p>',
+                type: "investigating" as const,
+                startsAt: generatedAt,
+                endsAt: null,
+              },
+            ],
       activeMaintenance: [],
       upcomingMaintenance: [],
       recentIncidents: [],
-      generatedAt: now,
-      lastUpdatedAt: now,
+      generatedAt,
+      lastUpdatedAt: generatedAt,
     },
-    generatedAt: now,
+    generatedAt,
     overallStatus: overall,
   };
 }
@@ -138,7 +175,7 @@ function buildFallbackServiceStatus(webHealthy: boolean): FajitaServiceStatus {
 /**
  * Load Fajita's public service status for fajita.io/status. Uses the published
  * status-page snapshot when FAJITA_SERVICE_STATUS_SLUG is set and the page is
- * public; otherwise returns an honest fallback built from platform definitions.
+ * public; otherwise returns an honest fallback built from production health paths.
  */
 export async function loadFajitaServiceStatus(): Promise<FajitaServiceStatus> {
   const slug = serviceStatusSlug();
@@ -158,6 +195,7 @@ export async function loadFajitaServiceStatus(): Promise<FajitaServiceStatus> {
     }
   }
 
-  const webHealthy = await probeWebHealth();
-  return buildFallbackServiceStatus(webHealthy);
+  const generatedAt = new Date().toISOString();
+  const probes = await probeMonitoredComponents();
+  return buildFallbackServiceStatus(probes, generatedAt);
 }

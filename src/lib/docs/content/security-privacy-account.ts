@@ -173,7 +173,7 @@ export const securityPrivacyAccountPages: DocPage[] = [
       h2("How to report"),
       p("Send a report through the security topic on [Contact support](/docs/account/contact-support). Include steps to reproduce and avoid sharing others' data."),
       callout("note", [
-        p("Fajita does not currently advertise a paid bug bounty. Safe-harbor terms are subject to counsel review."),
+        p("Fajita does not currently advertise a paid bug bounty. Safe-harbor terms are documented in the Responsible Disclosure Policy."),
       ]),
     ],
   }),

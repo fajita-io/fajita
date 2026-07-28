@@ -1,7 +1,12 @@
-import { BrandButtonLink } from "@/components/design-system/primitives";
-import { DataFastGoals } from "@/lib/analytics";
+"use client";
+
+import { useState } from "react";
+
+import { BrandButton, BrandButtonLink } from "@/components/design-system/primitives";
+import { DataFastGoals } from "@/lib/analytics/goals";
 import { buildSignupUrl } from "@/lib/auth/paid-signup-flow";
 import { formatChecksCompact } from "@/lib/billing/check-volume";
+import type { BillingInterval } from "@/lib/stripe/plans";
 import { publicPlans, pricingConfig } from "@/lib/site/pricing";
 
 const planLines: Record<string, string[]> = {
@@ -26,53 +31,96 @@ const planLines: Record<string, string[]> = {
 };
 
 export function PlanCards() {
+  const [interval, setInterval] = useState<BillingInterval>("month");
+
   return (
-    <div className="fj-plans">
-      {publicPlans.map((plan) => (
-        <div
-          key={plan.id}
-          className={`fj-plan${plan.highlight ? " fj-plan--highlight" : ""}`}
+    <div>
+      <div
+        role="group"
+        aria-label="Billing interval"
+        className="fj-interval-toggle"
+        style={{
+          display: "inline-flex",
+          gap: "var(--space-2)",
+          marginBottom: "var(--space-6)",
+        }}
+      >
+        <BrandButton
+          variant={interval === "month" ? "primary" : "secondary"}
+          size="sm"
+          onClick={() => setInterval("month")}
+          aria-pressed={interval === "month"}
         >
-          <div>
-            <h2 className="fj-heading-2 fj-plan__header">{plan.name}</h2>
-            <p className="fj-body-sm fj-plan__audience">{plan.audience}</p>
-          </div>
+          Monthly
+        </BrandButton>
+        <BrandButton
+          variant={interval === "year" ? "primary" : "secondary"}
+          size="sm"
+          onClick={() => setInterval("year")}
+          aria-pressed={interval === "year"}
+        >
+          Annual
+        </BrandButton>
+      </div>
 
-          <p className="fj-plan__monitors">
-            {plan.checksLabel}
-            <span>checks / mo</span>
-          </p>
-          <p className="fj-body-sm" style={{ margin: 0, color: "var(--color-text-muted)" }}>
-            Up to {plan.monitorLimit} monitors
-          </p>
+      <div className="fj-plans">
+        {publicPlans.map((plan) => {
+          const priceUsd =
+            interval === "year" ? plan.yearlyUsd : plan.monthlyUsd;
+          const priceNote =
+            interval === "year" ? " / year" : " / month";
 
-          {pricingConfig.published && plan.monthlyUsd !== null ? (
-            <p className="fj-heading-2 fj-plan__price">
-              ${plan.monthlyUsd}
-              <span className="fj-body-sm fj-plan__price-note"> / month</span>
-            </p>
-          ) : (
-            <p className="fj-body-sm fj-plan__price-unpublished">
-              See pricing on the pricing page.
-            </p>
-          )}
+          return (
+            <div
+              key={plan.id}
+              className={`fj-plan${plan.highlight ? " fj-plan--highlight" : ""}`}
+            >
+              <div>
+                <h2 className="fj-heading-2 fj-plan__header">{plan.name}</h2>
+                <p className="fj-body-sm fj-plan__audience">{plan.audience}</p>
+              </div>
 
-          <ul className="fj-plan__list">
-            {planLines[plan.id].map((line) => (
-              <li key={line}>{line}</li>
-            ))}
-          </ul>
+              <p className="fj-plan__monitors">
+                {plan.checksLabel}
+                <span>checks / mo</span>
+              </p>
+              <p
+                className="fj-body-sm"
+                style={{ margin: 0, color: "var(--color-text-muted)" }}
+              >
+                Up to {plan.monitorLimit} monitors
+              </p>
 
-          <BrandButtonLink
-            href={buildSignupUrl(plan.id, "month")}
-            variant={plan.highlight ? "primary" : "secondary"}
-            data-fast-goal={DataFastGoals.planSelected}
-            data-fast-goal-plan={plan.id}
-          >
-            Create account
-          </BrandButtonLink>
-        </div>
-      ))}
+              {pricingConfig.published && priceUsd !== null ? (
+                <p className="fj-heading-2 fj-plan__price">
+                  ${priceUsd}
+                  <span className="fj-body-sm fj-plan__price-note">{priceNote}</span>
+                </p>
+              ) : (
+                <p className="fj-body-sm fj-plan__price-unpublished">
+                  See pricing on the pricing page.
+                </p>
+              )}
+
+              <ul className="fj-plan__list">
+                {planLines[plan.id].map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+
+              <BrandButtonLink
+                href={buildSignupUrl(plan.id, interval)}
+                variant={plan.highlight ? "primary" : "secondary"}
+                data-fast-goal={DataFastGoals.planSelected}
+                data-fast-goal-plan={plan.id}
+                data-fast-goal-interval={interval}
+              >
+                Start monitoring
+              </BrandButtonLink>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

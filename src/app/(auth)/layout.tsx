@@ -2,6 +2,9 @@ import Link from "next/link";
 
 import { FajitaLogo } from "@/components/brand/logo/fajita-logo";
 import { ThermalStack } from "@/components/brand/thermal-stack/thermal-stack";
+import { FajitaClerkProvider } from "@/components/auth/fajita-clerk-provider";
+
+import "@/styles/app.css";
 
 /**
  * Auth shell. Fajita chrome around Clerk's security-critical flows: brand
@@ -12,6 +15,7 @@ export default function AuthLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
+    <FajitaClerkProvider>
     <div className="fj-authshell">
       <aside className="fj-authshell__brand" aria-label="Fajita">
         <Link href="/" className="fj-authshell__brand-logo" aria-label="Fajita home">
@@ -46,5 +50,6 @@ export default function AuthLayout({
         <div className="fj-authshell__form">{children}</div>
       </main>
     </div>
+    </FajitaClerkProvider>
   );
 }

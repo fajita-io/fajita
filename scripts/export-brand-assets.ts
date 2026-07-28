@@ -5,6 +5,7 @@
  *
  * Run: npx tsx scripts/export-brand-assets.ts
  */
+import * as fontkit from "fontkit";
 import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
 import path from "node:path";
 
@@ -32,6 +33,57 @@ const CREAM = "#faf5ea";
 const CREAM_BG = "#fffdf7";
 const EMBER_LIGHT = "#d9480f"; // on light backgrounds
 const EMBER_DARK = "#f5921b"; // on dark backgrounds
+
+function openSansInstance(weight: number): fontkit.Font {
+  const loaded = fontkit.openSync(
+    path.join(root, ".brand-src", "InstrumentSans-var.ttf"),
+  );
+  const base = (
+    "fonts" in loaded ? (loaded as fontkit.FontCollection).fonts[0] : loaded
+  ) as fontkit.Font;
+  return base.getVariation({ wght: weight, wdth: 100 });
+}
+
+/** Typesets one line into an SVG path string in a 100-unit em space. */
+function typesetSans(text: string, weight = 500): { d: string; width: number; height: number } {
+  const font = openSansInstance(weight);
+  const run = font.layout(text);
+  const scale = 100 / font.unitsPerEm;
+  const ascent = font.ascent * scale;
+  const descent = Math.abs(font.descent * scale);
+
+  let x = 0;
+  const parts: string[] = [];
+  for (let i = 0; i < run.glyphs.length; i++) {
+    const glyph = run.glyphs[i];
+    const pos = run.positions[i];
+    const dx = (x + pos.xOffset) * scale;
+    const cmds: string[] = [];
+    const fx = (v: number) => +(v * scale + dx).toFixed(2);
+    const fy = (v: number) => +(ascent - v * scale).toFixed(2);
+    glyph.path.toFunction()({
+      moveTo: (px: number, py: number) => cmds.push(`M${fx(px)} ${fy(py)}`),
+      lineTo: (px: number, py: number) => cmds.push(`L${fx(px)} ${fy(py)}`),
+      quadraticCurveTo: (cx: number, cy: number, px: number, py: number) =>
+        cmds.push(`Q${fx(cx)} ${fy(cy)} ${fx(px)} ${fy(py)}`),
+      bezierCurveTo: (
+        c1x: number,
+        c1y: number,
+        c2x: number,
+        c2y: number,
+        px: number,
+        py: number,
+      ) =>
+        cmds.push(
+          `C${fx(c1x)} ${fy(c1y)} ${fx(c2x)} ${fy(c2y)} ${fx(px)} ${fy(py)}`,
+        ),
+      closePath: () => cmds.push("Z"),
+    } as unknown as CanvasRenderingContext2D);
+    if (cmds.length) parts.push(cmds.join(""));
+    x += pos.xAdvance;
+  }
+  return { d: parts.join(""), width: x * scale, height: ascent + descent };
+}
 
 function markSvg(opts: {
   ink: string;
@@ -112,27 +164,105 @@ function stackedLogoSvg(ink: string, ember: string) {
 `;
 }
 
+function socialSurfaceDefs(
+  prefix: string,
+  width: number,
+  height: number,
+  glowCenter: { x: number; y: number },
+) {
+  return `<defs>
+    <pattern id="${prefix}-heat-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M24 0H0V24" fill="none" stroke="${CREAM}" stroke-width="0.5" opacity="0.06"/>
+    </pattern>
+    <linearGradient id="${prefix}-ember-wash" x1="0" y1="${height}" x2="${Math.round(width * 0.55)}" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e8590c" stop-opacity="0.22"/>
+      <stop offset="0.55" stop-color="#f5921b" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#17130e" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="${prefix}-pulse-glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(${glowCenter.x} ${glowCenter.y}) rotate(90) scale(88 168)">
+      <stop stop-color="#f5921b" stop-opacity="0.18"/>
+      <stop stop-color="#17130e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>`;
+}
+
+function socialSurfaceBackground(prefix: string, width: number, height: number) {
+  return `<rect width="${width}" height="${height}" fill="${CARBON}"/>
+  <rect width="${width}" height="${height}" fill="url(#${prefix}-ember-wash)"/>
+  <rect width="${width}" height="${height}" fill="url(#${prefix}-heat-grid)"/>
+  <ellipse cx="${Math.round(width * 0.22)}" cy="${Math.round(height * 1.02)}" rx="${Math.round(width * 0.36)}" ry="${Math.round(height * 0.34)}" fill="#e8590c" opacity="0.12"/>
+  <ellipse cx="${Math.round(width * 0.78)}" cy="${Math.round(height * 0.96)}" rx="${Math.round(width * 0.3)}" ry="${Math.round(height * 0.22)}" fill="#f5921b" opacity="0.09"/>`;
+}
+
+/** Held-pulse monitor card for social surfaces (coordinates relative to card origin). */
+function monitorCardSvg(cardX: number, cardY: number, cardW: number, cardH: number, glowId: string) {
+  const uptimeSegments = Array.from({ length: 34 }, (_, i) => {
+    const x = 36 + i * 8.4;
+    const fill =
+      i === 26 ? "#f59f00" : i === 27 ? "#e03131" : i > 27 ? "#2f9e44" : "#2f9e44";
+    const opacity = i === 26 || i === 27 ? 0.95 : 0.34 + (i % 5) * 0.04;
+    return `<rect x="${x.toFixed(1)}" y="${cardH - 52}" width="5.5" height="10" rx="1.5" fill="${fill}" opacity="${opacity.toFixed(2)}"/>`;
+  }).join("\n    ");
+
+  return `<g opacity="0.94" transform="translate(${cardX} ${cardY})">
+    <rect width="${cardW}" height="${cardH}" rx="24" fill="#1f1a14" stroke="${CREAM}" stroke-opacity="0.12" stroke-width="1"/>
+    <rect width="${cardW}" height="${cardH}" rx="24" fill="url(#${glowId})"/>
+    <rect x="28" y="28" width="118" height="30" rx="15" fill="${CREAM}" fill-opacity="0.06"/>
+    <rect x="36" y="36" width="12" height="8" rx="4" fill="#2f9e44"/>
+    <path d="M54 40h72" stroke="${CREAM}" stroke-opacity="0.38" stroke-width="1.75" stroke-linecap="round"/>
+    <path d="M36 248 L88 196 L132 214 L176 156 L220 176 L264 132 L308 154" fill="none" stroke="${CREAM}" stroke-opacity="0.16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M36 248 L88 196 L132 214 L176 156 L220 176 L264 132 L308 154" fill="none" stroke="${EMBER_DARK}" stroke-opacity="0.88" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="176" cy="156" r="6" fill="${EMBER_DARK}"/>
+    <circle cx="176" cy="156" r="12" fill="${EMBER_DARK}" opacity="0.2"/>
+    <circle cx="88" cy="196" r="3.5" fill="#2f9e44"/>
+    <circle cx="132" cy="214" r="3.5" fill="#2f9e44"/>
+    <circle cx="220" cy="176" r="3.5" fill="#2f9e44"/>
+    <circle cx="264" cy="132" r="3.5" fill="#2f9e44"/>
+    <circle cx="308" cy="154" r="3.5" fill="#2f9e44"/>
+    <rect x="28" y="${cardH - 72}" width="${cardW - 56}" height="1" fill="${CREAM}" opacity="0.1"/>
+    ${uptimeSegments}
+  </g>`;
+}
+
+/** Open Graph default: 1200×630 editorial lockup for fajita.io shares. */
 function ogTemplateSvg() {
-  const wmScale = 120 / wordmark.height;
-  const tgScale = 44 / tagline.height;
-  const glyphs = wordmark.paths.map((d) => `<path d="${d}" fill="${CREAM}"/>`).join("\n    ");
-  const tg = tagline.paths.map((d) => `<path d="${d}" fill="${CREAM}" opacity="0.82"/>`).join("\n    ");
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="${CARBON}"/>
-  <ellipse cx="600" cy="700" rx="720" ry="260" fill="#e8590c" opacity="0.16"/>
-  <ellipse cx="600" cy="740" rx="460" ry="180" fill="#f5921b" opacity="0.14"/>
-  <g transform="translate(96 96)">
+  const W = 1200;
+  const H = 630;
+  const margin = 96;
+  const logoScale = 0.68;
+  const innerWmScale = 56 / wordmark.height;
+  const logoH = 64 * logoScale;
+  const taglineScale = 0.384;
+  const taglineY = margin + logoH + 40;
+  const glyphs = wordmark.paths.map((d) => `<path d="${d}" fill="${CREAM}"/>`).join("\n      ");
+  const tg = tagline.paths.map((d) => `<path d="${d}" fill="${CREAM}"/>`).join("\n    ");
+  const cardX = 748;
+  const cardY = 88;
+  const cardW = 356;
+  const cardH = 454;
+  const glowCenter = { x: cardX + cardW / 2, y: cardY + cardH * 0.42 };
+  const footer = typesetSans("fajita.io", 500);
+  const footerScale = 0.28;
+  const footerY = H - margin - footer.height * footerScale;
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Fajita. Know when your software gets too hot.">
+  ${socialSurfaceDefs("og", W, H, glowCenter)}
+  ${socialSurfaceBackground("og", W, H)}
+  <rect x="${margin}" y="${(taglineY + tagline.height * taglineScale + 36).toFixed(1)}" width="72" height="3" rx="1.5" fill="${EMBER_DARK}" opacity="0.9"/>
+  <g transform="translate(${margin} ${margin}) scale(${logoScale.toFixed(4)})">
     <rect x="3.5" y="3.5" width="57" height="57" rx="16" stroke="${CREAM}" stroke-width="5" fill="none"/>
     <path d="M14 42h9.5L32 25.5 40.5 42H50" stroke="${CREAM}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
     <circle cx="32" cy="15.5" r="4.5" fill="${EMBER_DARK}"/>
+    <g transform="translate(84 4) scale(${innerWmScale.toFixed(4)})">
+      ${glyphs}
+      <circle cx="${wordmark.emberDot.cx}" cy="${wordmark.emberDot.cy}" r="${(wordmark.emberDot.r * 1.12).toFixed(2)}" fill="${EMBER_DARK}"/>
+    </g>
   </g>
-  <g transform="translate(94 240) scale(${wmScale.toFixed(4)})">
-    ${glyphs}
-    <circle cx="${wordmark.emberDot.cx}" cy="${wordmark.emberDot.cy}" r="${(wordmark.emberDot.r * 1.12).toFixed(2)}" fill="${EMBER_DARK}"/>
-  </g>
-  <g transform="translate(96 440) scale(${tgScale.toFixed(4)})">
+  <g transform="translate(${margin} ${taglineY.toFixed(1)}) scale(${taglineScale.toFixed(4)})">
     ${tg}
   </g>
+  <g transform="translate(${margin} ${footerY.toFixed(1)}) scale(${footerScale.toFixed(4)})"><path d="${footer.d}" fill="${CREAM}" opacity="0.62"/></g>
+  ${monitorCardSvg(cardX, cardY, cardW, cardH, "og-pulse-glow")}
 </svg>
 `;
 }

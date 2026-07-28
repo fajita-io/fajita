@@ -28,7 +28,7 @@ export const slaSections: LegalSection[] = [
         items: [
           '"Covered Components" means the Fajita web application, authenticated dashboard, management API used to configure monitors and incidents, scheduled execution of monitoring checks according to your plan, and alert dispatch initiated by Fajita to destinations you configure.',
           '"Downtime" means a period of at least five (5) consecutive minutes during which a Covered Component is materially unavailable to substantially all paying Customers, excluding Excluded Downtime.',
-          '"Eligible Subscription" means an active paid Subscription in good standing (fees current, no suspension for cause) on Starter, Pro, or Business.',
+          '"Eligible Subscription" means an active paid Subscription in good standing (fees current, no suspension for cause) on Core, Team, or Scale.',
           '"Monthly Service Fee" means the subscription fees actually paid by you to Fajita for the calendar month in which Downtime occurred, excluding taxes, pass-through charges, and one-time fees.',
           '"Monthly Uptime Percentage" means total minutes in the calendar month minus minutes of Downtime, divided by total minutes in the calendar month, expressed as a percentage.',
           '"Service" has the meaning in the Terms of Service.',

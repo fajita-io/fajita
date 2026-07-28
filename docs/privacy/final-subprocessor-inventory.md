@@ -15,5 +15,5 @@
 | DataFast | Analytics | Verify before launch |
 | DNS/TLS provider | Custom domains | Verify before launch |
 
-Do not claim contractual terms that have not been verified. Counsel review required (LB-003).
+Do not claim contractual terms that have not been verified with each vendor.
 

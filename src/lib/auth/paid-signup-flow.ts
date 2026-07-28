@@ -54,6 +54,12 @@ export function buildPaymentSetupUrl(
   return query ? `/app/start/payment?${query}` : "/app/start/payment";
 }
 
+export function buildAppsumoRedeemUrl(licenseKey?: string): string {
+  if (!licenseKey) return "/app/start/appsumo";
+  const params = new URLSearchParams({ license_key: licenseKey });
+  return `/app/start/appsumo?${params.toString()}`;
+}
+
 export function hasActiveSubscription(status: string): boolean {
   return ["active", "trialing", "cancellation_scheduled"].includes(status);
 }

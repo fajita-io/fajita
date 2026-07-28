@@ -45,7 +45,7 @@ export function ThemeToggle() {
         Color theme
       </legend>
       {options.map((o) => {
-        const active = mounted && preference === o.value;
+        const active = mounted ? preference === o.value : o.value === "system";
         return (
           <label
             key={o.value}

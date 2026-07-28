@@ -26,5 +26,13 @@ export function CheckoutPoller({ done }: { done: boolean }) {
     return () => clearInterval(id);
   }, [done, router]);
 
+  useEffect(() => {
+    if (!done) return;
+    const id = window.setTimeout(() => {
+      router.replace("/app/onboarding");
+    }, 1200);
+    return () => window.clearTimeout(id);
+  }, [done, router]);
+
   return null;
 }

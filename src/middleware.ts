@@ -27,6 +27,7 @@ const isPublicRoute = createRouteMatcher([
   "/api/webhooks(.*)",
   "/api/ref(.*)",
   "/billing/checkout(.*)",
+  "/appsumo(.*)",
 ]);
 
 const APP_HOST = (process.env.NEXT_PUBLIC_APP_URL ?? "https://fajita.io")

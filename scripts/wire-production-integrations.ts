@@ -341,6 +341,8 @@ async function ensureClerkDns(): Promise<void> {
   }
   console.log(r.stdout.trim());
 }
+
+function syncVercel(keys: Record<string, string>): void {
   if (skipVercel) {
     console.log("Skipping Vercel sync (--skip-vercel)");
     return;
@@ -419,6 +421,17 @@ async function main(): Promise<void> {
   }
   if (process.env.RESEND_FULL_API_KEY?.trim()) {
     productionEnv.RESEND_FULL_API_KEY = process.env.RESEND_FULL_API_KEY.trim();
+  }
+  if (process.env.FAJITA_SERVICE_STATUS_SLUG?.trim()) {
+    productionEnv.FAJITA_SERVICE_STATUS_SLUG = process.env.FAJITA_SERVICE_STATUS_SLUG.trim();
+  }
+  if (process.env.SENTRY_DSN?.trim()) {
+    productionEnv.SENTRY_DSN = process.env.SENTRY_DSN.trim();
+    productionEnv.NEXT_PUBLIC_SENTRY_DSN =
+      process.env.NEXT_PUBLIC_SENTRY_DSN?.trim() ?? process.env.SENTRY_DSN.trim();
+  }
+  if (process.env.BILLING_ENFORCEMENT_ENABLED?.trim()) {
+    productionEnv.BILLING_ENFORCEMENT_ENABLED = process.env.BILLING_ENFORCEMENT_ENABLED.trim();
   }
 
   upsertEnvFile(".env.production.local", productionEnv);

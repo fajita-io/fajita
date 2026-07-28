@@ -23,10 +23,6 @@ function assertIntegrity(terms: GlossaryTerm[]): void {
     seen.add(slug);
     ids.add(id);
 
-    if (term.meta.status === "published" && !term.meta.poweredByWiki) {
-      throw new Error(`Published term "${slug}" missing poweredByWiki`);
-    }
-
     // Only flag unsupported capabilities when claimed as Fajita features.
     const fajitaBlocks = term.body.filter(
       (b) =>

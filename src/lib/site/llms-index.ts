@@ -95,7 +95,7 @@ The documentation covers getting started, monitors, assertions, incidents, alert
 - Per-term plain text: ${siteUrl}/glossary/raw/<slug>
 - Full glossary text is included in ${siteUrl}/llms-full.txt
 
-The glossary explains software reliability concepts. Product steps live in documentation. Attribution: Powered by Wiki (https://wiki.co). Publisher: Fajita.
+The glossary explains software reliability concepts. Product steps live in documentation. Publisher: Fajita.
 
 ## Blog, comparisons, tools, and research
 

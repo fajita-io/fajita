@@ -7,9 +7,9 @@ import { DataFastGoals } from "@/lib/analytics/goals";
 import { trackGoal } from "@/lib/analytics/server";
 import { recordAuditEvent } from "@/lib/app/audit";
 import { type ActionResult, toActionError } from "@/lib/app/actions/shared";
-import { isFeatureEnabled } from "@/lib/app/feature-flags.server";
+import { requireAlertsEntitlement } from "@/lib/billing/product-access";
 import { isPlatformAdmin, requireOrganizationPermission } from "@/lib/auth/context";
-import { Forbidden, RateLimited } from "@/lib/auth/errors";
+import { RateLimited } from "@/lib/auth/errors";
 import { rateLimit } from "@/lib/site/rate-limit";
 import {
   activateChannel,
@@ -49,8 +49,7 @@ import { SELECTABLE_EVENT_TYPES } from "@/lib/alerts/events";
 async function requireAlertsAccess(organizationId: string) {
   const access = await requireOrganizationPermission(organizationId, "integrations:manage");
   const admin = await isPlatformAdmin();
-  const enabled = await isFeatureEnabled("integrations", organizationId);
-  if (!admin && !enabled) throw Forbidden("Alert channels are unavailable on your current plan.");
+  if (!admin) await requireAlertsEntitlement(organizationId);
   return access;
 }
 

@@ -31,7 +31,7 @@ describe("loadFajitaServiceStatus", () => {
 
     expect(status.source).toBe("fallback");
     expect(status.data.page.name).toBe("Fajita");
-    expect(status.data.groups[0]?.components.length).toBe(7);
+    expect(status.data.groups[0]?.components.length).toBe(3);
     expect(status.data.display.showUptimeHistory).toBe(false);
     expect(status.data.display.poweredByVisible).toBe(false);
     expect(status.overallStatus).toBe("operational");

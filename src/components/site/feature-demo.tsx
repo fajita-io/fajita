@@ -1,5 +1,6 @@
 import { DemoFrame } from "@/components/design-system/primitives";
 import { StatusBadge } from "@/components/design-system/status/status-badge";
+import { InteractiveSampleLabel } from "@/components/site/interactive-sample-label";
 import { AlertFlow } from "@/components/site/alert-flow";
 import { MonitorPreview } from "@/components/site/monitor-preview";
 import { StatusPagePreview } from "@/components/site/status-page-preview";
@@ -54,9 +55,9 @@ const consoleDemos: Partial<Record<FeatureSlug, ConsoleDemo>> = {
 };
 
 /**
- * Per-feature product demonstration. Server-renderable except the
+ * Per-feature interactive sample. Server-renderable except the
  * status-page scenario switcher; every surface uses the demo frame so
- * simulation is visually distinct from live product claims.
+ * sample data is visually distinct from live product claims.
  */
 export function FeatureDemo({ slug }: { slug: FeatureSlug }) {
   if (slug === "uptime-monitoring") return <MonitorPreview />;
@@ -83,7 +84,7 @@ export function FeatureDemo({ slug }: { slug: FeatureSlug }) {
           }}
         >
           <StatusBadge status={demo.status} label={demo.statusLabel} />
-          <span className="fj-caption">demonstration data</span>
+          <InteractiveSampleLabel detail="Check passing" />
         </div>
         <pre className="fj-console" aria-label={`Example: ${demo.title}`}>
           {demo.lines.map((line, i) => (

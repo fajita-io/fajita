@@ -59,7 +59,12 @@ describe("robots", () => {
     );
     expect(disallow).toContain("/api/");
     expect(disallow).toContain("/internal/");
-    expect(String(config.sitemap)).toMatch(/\/sitemap\.xml$/);
+    const sitemaps = Array.isArray(config.sitemap)
+      ? config.sitemap
+      : [config.sitemap];
+    expect(sitemaps.some((entry) => String(entry).match(/\/sitemap\.xml$/))).toBe(
+      true,
+    );
   });
 });
 

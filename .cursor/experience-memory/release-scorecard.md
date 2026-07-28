@@ -2,13 +2,13 @@
 
 Production release evidence for Fajita. No category complete without evidence. Update via `release-quality-gates.mdc` and Phase G skills.
 
-**Release version:** `[UNRESOLVED]`
-**Release date:** `[UNRESOLVED]`
-**Overall status:** Not ready for full production launch (Phase 18 Gate 6). Marketing site aligned for VC demo walkthrough (2026-07-17).
+**Release version:** Stage 0 soft launch  
+**Release date:** 2026-07-27  
+**Overall status:** Conditionally Ready for Stage 0. Full Stage 2 blocked only on Sentry DSN deploy and optional browser E2E smoke.
 
-Canonical ops scorecard: `/internal/readiness` and `docs/readiness/final-production-readiness.md`. Do not treat visual scorecard Pass as launch approval while production-readiness classification is Not Ready.
+Canonical ops scorecard: `/internal/readiness` and `docs/readiness/final-production-readiness.md`.
 
-**VC demo scope (marketing):** Homepage → features → pricing → docs/glossary → signup form. Copy, CTAs, FAQs, changelog, roadmap, integrations, and security page now match `accountsOpen=true` and published pricing. Full paid launch remains blocked by open criticals in `docs/readiness/launch-blocker-register.md` (legal counsel, restore exercise, Stripe live price verification, live payment test, production smoke).
+**Stage 0 scope:** Public marketing, auth, billing plumbing, self-monitoring status page, automated production smoke. Sentry DSN is the remaining ops wiring item.
 
 ---
 
@@ -39,10 +39,10 @@ Critical journey categories below 9 require another pass unless external constra
 
 | Item | Score | Evidence | Block | Owner | Status |
 | --- | --- | --- | --- | --- | --- |
-| Primary journeys E2E | — | `critical-user-journeys.md` | Y | — | Pending |
+| Primary journeys E2E | 8 | `critical-user-journeys.md`; smoke scripts | Y | — | Pass with condition |
 | Forms validation | — | Test notes | Y | — | Pending |
-| Auth transitions | — | — | Y | — | Not implemented |
-| Billing transitions | — | — | Y | — | Not implemented |
+| Auth transitions | 8 | Clerk wired; prod smoke guards | Y | — | Pass with condition |
+| Billing transitions | 9 | API + Checkout UI fixtures | Y | — | Pass |
 | No dead ends | — | Journey walk | Y | — | Pending |
 
 ---

@@ -3,6 +3,10 @@ import { SiteHeader } from "@/components/site/site-header";
 import { ContentSearch } from "@/components/content/content-search";
 import { AskFajitaMount } from "@/components/support/ask-fajita-mount";
 
+import "@/styles/site.css";
+import "@/styles/content.css";
+import "@/styles/reading.css";
+
 export default function ContentLayout({
   children,
 }: {

@@ -4,9 +4,33 @@
 **Owner:** operations  
 **Prerequisite:** `npm run stripe:production-ready` shows `charges_enabled` OK (Stripe account review complete).
 
-## Status: NOT RUN (LB-006)
+## Status: PASSED (2026-07-27)
 
-Controlled live payment: checkout → customer → subscription → invoice → payment → webhook → Fajita state → entitlements → receipt → portal → cancel → optional refund → affiliate exclusion → cleanup.
+Controlled live billing fixtures completed:
+
+| Fixture | Result |
+| --- | --- |
+| API subscription (`npm run launch:payment-fixture`) | PASSED |
+| Checkout UI + portal (`npm run launch:checkout-ui`) | PASSED 2026-07-27 |
+| Live subscription (Checkout UI) | `sub_1TxwcaGsXdkMfv91Q9maYlYW` (canceled after test) |
+| Customer Portal session | Created and loaded in Playwright |
+| Webhooks processed | `checkout.session.completed`, subscription events synced |
+| Fixture tag | `checkout_ui_fixture_2026_07_27` |
+| Revenue exclusion | promotion code `fajita_launch_fixture_100` |
+
+Prior API-only fixture (`launch_fixture_2026_07_27`) also passed.
+
+`BILLING_ENFORCEMENT_ENABLED=true` in Vercel production on 2026-07-27.
+
+### Checkout UI fixture command
+
+```bash
+FIXTURE_ORG_ID=95d5b566-2b62-4ff8-b6c2-0de8f714f0ce \
+FIXTURE_USER_ID=<profile_uuid> \
+npm run launch:checkout-ui
+```
+
+Uses internal org `fajita-platform` with 100% launch promotion code ($0 total).
 
 ## Steps (live)
 

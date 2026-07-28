@@ -30,6 +30,9 @@ describe("auth production readiness", () => {
 
   it("allows Stage 0 production builds without Stripe when billing is off", () => {
     vi.stubEnv("BILLING_ENFORCEMENT_ENABLED", "");
+    vi.stubEnv("STRIPE_SECRET_KEY", "");
+    vi.stubEnv("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY", "");
+    vi.stubEnv("STRIPE_WEBHOOK_SECRET", "");
     vi.stubEnv("NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY", "pk_live_abc");
     vi.stubEnv("CLERK_SECRET_KEY", "sk_live_abc");
     vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://example.supabase.co");

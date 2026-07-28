@@ -5,8 +5,9 @@
  * is GA unless BILLING_BETA_GRANT_ENABLED opts them back into BETA_ENTITLEMENTS
  * for staging or local development.
  *
- * BILLING_ENFORCEMENT_ENABLED remains an explicit production signal for
- * readiness checks and health reporting.
+ * BILLING_ENFORCEMENT_ENABLED gates paid lockout in computeOrgBillingState
+ * (with billingLaunched and stripeLivePaymentsReady). Health and readiness
+ * checks also read this flag.
  */
 
 function envFlagEnabled(name: string): boolean {

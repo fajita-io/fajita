@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { FajitaLogo } from "@/components/brand/logo/fajita-logo";
 import { LinkedInIcon } from "@/components/design-system/linkedin-icon";
+import { XIcon } from "@/components/design-system/x-icon";
 import { ThemeToggle } from "@/components/design-system/theme-toggle";
 import { featureOrder, features } from "@/lib/site/features";
 import { social } from "@/lib/site/site-config";
@@ -51,15 +52,26 @@ export function SiteFooter() {
               jobs. Your team hears about it before your customers do.
             </p>
             <ThemeToggle />
-            <a
-              href={social.linkedIn}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="fj-footer__social fj-interactive"
-              aria-label="Fajita on LinkedIn (opens in a new tab)"
-            >
-              <LinkedInIcon size={20} />
-            </a>
+            <div className="fj-footer__socials">
+              <a
+                href={social.linkedIn}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="fj-footer__social fj-interactive"
+                aria-label="Fajita on LinkedIn (opens in a new tab)"
+              >
+                <LinkedInIcon size={20} />
+              </a>
+              <a
+                href={social.x}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="fj-footer__social fj-interactive"
+                aria-label="Fajita on X (opens in a new tab)"
+              >
+                <XIcon size={20} />
+              </a>
+            </div>
           </div>
 
           <nav className="fj-footer__col" aria-labelledby="footer-product">

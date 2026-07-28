@@ -22,7 +22,12 @@ export const metadata: Metadata = {
 
 export default async function OnboardingPage() {
   const { membership } = await requireActiveContext();
-  const billing = await computeOrgBillingState(membership.organization.id);
+  const billing = await computeOrgBillingState(membership.organization.id).catch(
+    (error) => {
+      console.error("[onboarding] billing state failed", error);
+      redirect(buildPaymentSetupUrl());
+    },
+  );
   if (!canEnterProductSetup(billing)) {
     redirect(buildPaymentSetupUrl(billing.planKey ?? undefined, billing.interval ?? undefined));
   }

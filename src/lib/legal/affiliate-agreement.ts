@@ -276,7 +276,7 @@ export const affiliateAgreementSections: LegalSection[] = [
           "Minimum payout threshold: USD $50.00",
           "Payout frequency: monthly",
           "Currency: USD",
-          "Eligible plans: Starter, Pro, Business",
+          "Eligible plans: Core, Team, Scale",
           "Exclusions: tax; refunded, credited, or disputed revenue; trials before paid conversion; test-mode subscriptions; internal organizations; unauthorized coupons",
         ],
       },
