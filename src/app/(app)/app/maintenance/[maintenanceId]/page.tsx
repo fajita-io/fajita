@@ -6,6 +6,7 @@ import { AppSection, PageHeader } from "@/components/app/ui";
 import { MaintenanceCancelButton } from "@/components/app/maintenance/maintenance-cancel-button";
 import { requireIncidentPage } from "@/lib/app/incident-page";
 import { getMaintenanceWindow } from "@/lib/incidents/maintenance";
+import { STATUS_PAGE_SUMMARY_SAVED_NOTICE } from "@/lib/incidents/copy";
 import { formatTimestamp } from "@/lib/incidents/duration";
 
 const STATUS_LABEL: Record<string, string> = {
@@ -110,8 +111,7 @@ export default async function MaintenanceDetailPage({
         <AppSection title="Public summary">
           <p>{win.publicSummary}</p>
           <p className="fj-inc-notice">
-            <BrandIcon name="status-page" size={13} /> Saved for a future status page. Nothing is
-            published yet.
+            <BrandIcon name="status-page" size={13} /> {STATUS_PAGE_SUMMARY_SAVED_NOTICE}
           </p>
         </AppSection>
       ) : null}

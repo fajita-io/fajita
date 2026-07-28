@@ -11,6 +11,7 @@ import { listIncidentEvents, listIncidentUpdates } from "@/lib/incidents/queries
 import { getIncidentRecap, listFollowUpActions } from "@/lib/reports/queries";
 import {
   OPERATIONAL_STATE_COPY,
+  PUBLIC_UPDATE_SAVED_NOTICE,
   SEVERITY_COPY,
   UPDATE_TYPE_LABEL,
   eventTitle,
@@ -142,8 +143,7 @@ export default async function IncidentOverviewPage({
               <span className="fj-update-type">{UPDATE_TYPE_LABEL[latestPublicUpdate.updateType as keyof typeof UPDATE_TYPE_LABEL] ?? latestPublicUpdate.updateType}</span>
               <p>{latestPublicUpdate.body}</p>
               <p className="fj-inc-notice">
-                <BrandIcon name="status-page" size={13} /> Saved for a future status page. No external
-                message has been sent.
+                <BrandIcon name="status-page" size={13} /> {PUBLIC_UPDATE_SAVED_NOTICE}
               </p>
             </div>
           ) : (

@@ -56,12 +56,13 @@ export const UPDATE_TYPE_LABEL: Record<UpdateType, string> = {
   informational: "Update",
 };
 
-/**
- * Shown when a public-ready update is saved. Phase 6 never delivers externally
- * and never publishes a status page. Do not imply customers were notified.
- */
+/** Shown when a public-ready update is saved. Do not imply customers were notified. */
 export const PUBLIC_UPDATE_SAVED_NOTICE =
-  "Saved for future status-page publication. No external message has been sent.";
+  "Saved for your status page. No external message has been sent.";
+
+/** Shown when a public summary is saved but not yet published. */
+export const STATUS_PAGE_SUMMARY_SAVED_NOTICE =
+  "Saved for your status page. Nothing is published yet.";
 
 export const DELIVERY_PENDING_NOTICE =
   "Alert delivery is unavailable on your current plan. This event is recorded for your timeline.";

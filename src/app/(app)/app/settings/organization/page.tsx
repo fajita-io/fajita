@@ -32,14 +32,12 @@ export default async function OrganizationSettingsPage() {
 
       <AppSection
         title="Logo"
-        description="A logo appears on your future status pages and in the switcher."
+        description="Shown on your status pages and in the organization switcher."
       >
         <div style={{ display: "flex", alignItems: "center", gap: "var(--space-4)" }}>
           <OrgAvatar name={org.name} src={org.logo_url} size={56} />
           <p className="fj-app-section__desc" style={{ margin: 0 }}>
-            Logo upload arrives with secure file storage in a later build. For
-            now, we show your initials. No customer uploads are accepted yet, so
-            nothing here is misleading.
+            Logo upload is coming soon. For now, we show your initials.
           </p>
         </div>
       </AppSection>

@@ -125,7 +125,7 @@ export function IncidentUpdateComposer({
           placeholder={
             mode === "note"
               ? "Private context for your team. Never included in any public projection."
-              : "Plain language for your team, or a customer-safe message for a future status page."
+              : "Plain language for your team, or a customer-safe message for your status page."
           }
         />
         <p className="fj-field__hint">

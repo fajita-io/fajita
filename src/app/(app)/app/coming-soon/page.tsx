@@ -14,13 +14,13 @@ export default function ComingSoonPage() {
     <>
       <PageHeader
         title="Not available yet"
-        description="This area is planned but not open in the current release."
+        description="This area is not available yet."
       />
       <AppSection>
         <EmptyState
           icon="overview"
-          title="Still on the roadmap"
-          description="Platform admins see planned features here so nothing looks broken in navigation. Customers never land on this page."
+          title="Coming soon"
+          description="Platform admins see upcoming features here so navigation stays clear. Customers never land on this page."
           action={
             <div className="fj-empty__actions">
               <BrandButtonLink href="/app">Back to overview</BrandButtonLink>

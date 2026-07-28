@@ -144,10 +144,10 @@ export function SettingsEditor({
           <Toggle label="Incident history" hint="Show the past incidents section and archive." checked={display.showIncidentHistory} disabled={!canManage} onChange={(v) => saveDisplay({ ...display, showIncidentHistory: v })} />
           <Toggle label="Scheduled maintenance" hint="Show upcoming and active maintenance windows." checked={display.showScheduledMaintenance} disabled={!canManage} onChange={(v) => saveDisplay({ ...display, showScheduledMaintenance: v })} />
           <Toggle label="Component descriptions" checked={display.showComponentDescriptions} disabled={!canManage} onChange={(v) => saveDisplay({ ...display, showComponentDescriptions: v })} />
-          <Toggle label="Subscriber form" hint="Email delivery ships in a later phase. The form appears disabled until then." checked={display.showSubscriberForm} disabled={!canManage} onChange={(v) => saveDisplay({ ...display, showSubscriberForm: v })} />
+          <Toggle label="Subscriber form" hint="Subscriber email is not available yet. The form stays hidden until delivery is enabled." checked={display.showSubscriberForm} disabled={!canManage} onChange={(v) => saveDisplay({ ...display, showSubscriberForm: v })} />
           <Toggle
             label="Powered by Fajita"
-            hint={isPlatformAdmin ? "You can hide the attribution." : "Removing the attribution requires a higher plan (billing not live yet)."}
+            hint={isPlatformAdmin ? "You can hide the attribution." : "Removing the attribution requires a higher plan."}
             checked={display.poweredByVisible}
             disabled={!canManage || (!isPlatformAdmin && display.poweredByVisible)}
             onChange={(v) => saveDisplay({ ...display, poweredByVisible: v })}

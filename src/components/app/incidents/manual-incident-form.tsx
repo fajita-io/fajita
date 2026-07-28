@@ -159,10 +159,10 @@ export function ManualIncidentForm({
               maxLength={4000}
               value={publicSummary}
               onChange={(e) => setPublicSummary(e.target.value)}
-              placeholder="A customer-safe description for a future status page."
+              placeholder="A customer-safe description for your status page."
             />
             <p className="fj-field__hint">
-              Saved only. Nothing is published or sent to anyone in this release.
+              Saved only. Nothing is published or sent externally yet.
             </p>
           </div>
         </div>
@@ -181,7 +181,7 @@ export function ManualIncidentForm({
                 onChange={(e) => setPublicVisibility(e.target.value)}
               >
                 <option value="internal">Internal only</option>
-                <option value="status_page_ready">Ready for a future status page</option>
+                <option value="status_page_ready">Ready for your status page</option>
               </select>
             </div>
             <div className="fj-field">

@@ -10,6 +10,7 @@ import {
   updateMaintenanceWindowAction,
 } from "@/lib/app/actions/maintenance";
 import { SUPPRESSION_POLICIES } from "@/lib/incidents/constants";
+import { STATUS_PAGE_SUMMARY_SAVED_NOTICE } from "@/lib/incidents/copy";
 
 interface Option {
   id: string;
@@ -237,9 +238,7 @@ export function MaintenanceForm({
               value={publicSummary}
               onChange={(e) => setPublicSummary(e.target.value)}
             />
-            <p className="fj-field__hint">
-              Saved for a future status page. Nothing is published yet.
-            </p>
+            <p className="fj-field__hint">{STATUS_PAGE_SUMMARY_SAVED_NOTICE}</p>
           </div>
         </div>
       </div>
