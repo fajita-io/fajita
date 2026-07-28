@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { FajitaLogo } from "@/components/brand/logo/fajita-logo";
 import { AccountStateScreen } from "@/components/app/account-state-screen";
+import { ToastProvider } from "@/components/app/toast";
 import { FajitaClerkProvider } from "@/components/auth/fajita-clerk-provider";
 import { getCurrentProfile, getSessionUserId } from "@/lib/auth/context";
 
@@ -87,16 +88,18 @@ export default async function OnboardingLayout({
 
   return (
     <FajitaClerkProvider>
-    <div className="fj-flow">
-      <header className="fj-flow__bar">
-        <Link href="/app" aria-label="Fajita">
-          <FajitaLogo orientation="horizontal" size={26} />
-        </Link>
-      </header>
-      <main id="main" className="fj-flow__main">
-        {children}
-      </main>
-    </div>
+      <ToastProvider>
+        <div className="fj-flow">
+          <header className="fj-flow__bar">
+            <Link href="/app" aria-label="Fajita">
+              <FajitaLogo orientation="horizontal" size={26} />
+            </Link>
+          </header>
+          <main id="main" className="fj-flow__main">
+            {children}
+          </main>
+        </div>
+      </ToastProvider>
     </FajitaClerkProvider>
   );
 }
