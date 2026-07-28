@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { BrandButton } from "@/components/design-system/primitives";
 import { useToast } from "@/components/app/toast";
@@ -14,6 +14,7 @@ export function PaymentSetup({
   interval,
   plans,
   initialError = null,
+  initialCheckoutUrl = null,
   paymentsReady = true,
 }: {
   organizationId: string;
@@ -21,13 +22,20 @@ export function PaymentSetup({
   interval: BillingInterval;
   plans: PlanCardData[];
   initialError?: string | null;
+  initialCheckoutUrl?: string | null;
   paymentsReady?: boolean;
 }) {
   const toast = useToast();
   const [error, setError] = useState<string | null>(initialError);
   const [retrying, setRetrying] = useState(false);
+  const [redirecting, setRedirecting] = useState(Boolean(initialCheckoutUrl));
 
   const checkoutError = error ?? initialError;
+
+  useEffect(() => {
+    if (!initialCheckoutUrl) return;
+    window.location.assign(initialCheckoutUrl);
+  }, [initialCheckoutUrl]);
 
   async function openCheckout() {
     if (!planKey || retrying) return;
@@ -60,11 +68,13 @@ export function PaymentSetup({
       <div className="fj-flow__card" style={{ display: "grid", gap: "var(--space-4)" }}>
         <h1 className="fj-flow__title">Secure your plan</h1>
         <p className="fj-flow__lede">
-          {checkoutError
-            ? "Checkout did not open. Try again, or pick a different plan below."
-            : paymentsReady
-              ? "Continue to Stripe to complete payment for your organization."
-              : "Live card payments are still activating. Apply a promo code in Stripe if you have one. When the total is $0, subscribe without a card."}
+          {redirecting && !checkoutError
+            ? "Opening Stripe checkout…"
+            : checkoutError
+              ? "Checkout did not open. Try again, or pick a different plan below."
+              : paymentsReady
+                ? "Continue to Stripe to complete payment for your organization."
+                : "Live card payments are still activating. Apply a promo code in Stripe if you have one. When the total is $0, subscribe without a card."}
         </p>
         {checkoutError ? (
           <p className="fj-form-status fj-form-status--error" role="alert">
@@ -72,8 +82,15 @@ export function PaymentSetup({
           </p>
         ) : null}
         <div style={{ display: "flex", gap: "var(--space-3)", flexWrap: "wrap" }}>
-          <BrandButton onClick={openCheckout} disabled={retrying}>
-            {retrying ? "Opening checkout…" : checkoutError ? "Try checkout again" : "Continue to checkout"}
+          <BrandButton
+            onClick={openCheckout}
+            disabled={retrying || (redirecting && !checkoutError)}
+          >
+            {retrying || (redirecting && !checkoutError)
+              ? "Opening checkout…"
+              : checkoutError
+                ? "Try checkout again"
+                : "Continue to checkout"}
           </BrandButton>
         </div>
         {checkoutError ? (

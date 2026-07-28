@@ -104,6 +104,7 @@ export default async function PaymentSetupPage({
   });
 
   let checkoutError: string | null = null;
+  let checkoutUrl: string | null = null;
   if (params.plan) {
     const checkout = await startCheckoutAction(
       active.organization.id,
@@ -111,11 +112,14 @@ export default async function PaymentSetupPage({
       params.interval,
     );
     if (checkout.ok && checkout.data?.url) {
-      redirect(checkout.data.url);
+      // External Stripe URLs must redirect in the browser. Server redirect()
+      // throws NEXT_REDIRECT, which the onboarding error boundary catches.
+      checkoutUrl = checkout.data.url;
+    } else {
+      checkoutError = checkout.ok
+        ? "Could not start checkout."
+        : checkout.error;
     }
-    checkoutError = checkout.ok
-      ? "Could not start checkout."
-      : checkout.error;
   }
 
   return (
@@ -131,6 +135,7 @@ export default async function PaymentSetupPage({
         interval={params.interval}
         plans={plans}
         initialError={checkoutError}
+        initialCheckoutUrl={checkoutUrl}
         paymentsReady={paymentsReady}
       />
     </>
