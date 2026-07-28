@@ -4,14 +4,23 @@
  * content into this shell.
  */
 
-import { appUrl } from "@/lib/env";
+import {
+  FAJITA_EMAIL_LOGO_SRC,
+  MEMO_EMAIL_ICON_SRC,
+} from "@/lib/email/inline-assets";
+import { emailAppLink } from "@/lib/email/links";
+
+export {
+  FAJITA_EMAIL_LOGO_SRC as FAJITA_EMAIL_LOGO_URL,
+  MEMO_EMAIL_ICON_SRC as MEMO_EMAIL_ICON_URL,
+};
 
 export const MEMO_URL = "https://memo.ly";
 
-/** PNG lockups for clients that block SVG (Outlook, Gmail). */
-export const FAJITA_EMAIL_LOGO_URL = `${appUrl}/brand/email/fajita-logo-header-dark.png`;
-/** Same mark as memo.ly/brand/icon.svg, hosted for PNG email support. */
-export const MEMO_EMAIL_ICON_URL = `${appUrl}/brand/email/memo-icon.png`;
+/** Display size for the Fajita app icon in the email header (72px asset @2x). */
+export const FAJITA_EMAIL_ICON_SIZE = 36;
+/** Display size for the Memo app icon in the footer pill (36px asset @2x). */
+export const MEMO_EMAIL_ICON_SIZE = 18;
 
 /** Brand literals for email clients (mirrors src/styles/tokens.css). */
 export const EMAIL_COLORS = {
@@ -53,7 +62,7 @@ export function poweredByMemoHtml(): string {
         <tr><td style="padding:7px 14px 7px 10px;">
           <table role="presentation" cellpadding="0" cellspacing="0"><tr>
             <td style="vertical-align:middle;line-height:0;padding-right:8px;">
-              <img src="${MEMO_EMAIL_ICON_URL}" width="18" height="18" alt="" style="display:block;border:0;border-radius:4px;width:18px;height:18px;" />
+              <img src="${MEMO_EMAIL_ICON_SRC}" width="${MEMO_EMAIL_ICON_SIZE}" height="${MEMO_EMAIL_ICON_SIZE}" alt="" style="display:block;border:0;border-radius:4px;width:${MEMO_EMAIL_ICON_SIZE}px;height:${MEMO_EMAIL_ICON_SIZE}px;" />
             </td>
             <td style="font-family:${EMAIL_FONT};font-size:13px;line-height:1.2;color:#666666;white-space:nowrap;vertical-align:middle;">
               Powered by <strong style="color:#111111;font-weight:700;">Memo</strong>
@@ -76,14 +85,15 @@ export interface FajitaHeaderOptions {
   rightHtml?: string;
 }
 
-/** Dark header row with the site horizontal logo lockup. */
+/** Dark header row with the Fajita app icon mark. */
 export function fajitaHeaderHtml(opts: FajitaHeaderOptions = {}): string {
   const alt = escapeHtml(opts.label ?? "Fajita");
   const right = opts.rightHtml ?? "";
+  const r = Math.round(FAJITA_EMAIL_ICON_SIZE * 0.25);
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
     <td style="vertical-align:middle;">
-      <a href="${escapeHtml(appUrl)}" style="text-decoration:none;display:inline-block;line-height:0;">
-        <img src="${FAJITA_EMAIL_LOGO_URL}" width="110" height="38" alt="${alt}" style="display:block;border:0;outline:none;text-decoration:none;width:110px;max-width:110px;height:auto;" />
+      <a href="${escapeHtml(emailAppLink("/"))}" style="text-decoration:none;display:inline-block;line-height:0;">
+        <img src="${FAJITA_EMAIL_LOGO_SRC}" width="${FAJITA_EMAIL_ICON_SIZE}" height="${FAJITA_EMAIL_ICON_SIZE}" alt="${alt}" style="display:block;border:0;outline:none;text-decoration:none;width:${FAJITA_EMAIL_ICON_SIZE}px;height:${FAJITA_EMAIL_ICON_SIZE}px;border-radius:${r}px;" />
       </a>
     </td>
     <td align="right" style="vertical-align:middle;">${right}</td>

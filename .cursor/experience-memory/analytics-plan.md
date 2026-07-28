@@ -24,14 +24,30 @@ Privacy-conscious analytics for Fajita via DataFast. Update via `product-analyti
 ## Funnel stages
 
 1. Landing (organic/referral/direct)
-2. Demo interaction (TBD)
-3. CTA click
+2. Demo interaction (`demo_started`, `demo_completed`)
+3. CTA click (`hero_cta`, `nav_cta`)
 4. `signup`
 5. Onboarding steps → `onboarding_complete`
-6. Activation → `first_monitor`
+6. Activation → `monitor_activated`, `first_real_check_completed`
 7. Engagement → `monitor_created`, `alert_channel_added`, `status_page_published`, `invite_sent`
-8. Upgrade intent → `initiate_checkout`
-9. Cancellation (TBD)
+8. Upgrade intent → `initiate_checkout` → `payment`
+
+### DataFast funnels (live)
+
+Created via `npx tsx scripts/datafast-setup-journey.ts` against website `6a590dc8d762e1ae10179867`.
+
+| Funnel | Steps | Primary question |
+| --- | --- | --- |
+| Marketing to signup | Landing → demo → hero CTA → signup page → signup → org → onboarding → monitor live | Do visitors convert from marketing to first monitor? |
+| Product activation | Signup → org → onboarding → monitor → activated → first check → alerts → full activation | Where do new accounts stall after signup? |
+| Pricing to payment | Pricing → plan selected → checkout → payment | Does pricing traffic convert to revenue? |
+| Homepage demo engagement | Landing → demo start → demo complete → hero/nav CTA | Does the interactive demo drive intent? |
+| Contact inquiry | Contact page → form start → submit | Do contact visitors complete the form? |
+| Status page launch | Creation → created → publish attempt → success → published | How do teams ship a status page? |
+| Alert channel setup | Setup start → created → test pass → activated | Do teams wire alerts successfully? |
+| Team expansion | Invite initiated → sent → accepted | Does the product spread inside teams? |
+
+34 funnel goals have dashboard display names (colors + descriptions). Remaining `DataFastGoals` constants appear automatically when events fire.
 
 ---
 
@@ -100,7 +116,7 @@ Use `sanitizeGoalParams()`; max 10 properties; 255 char values.
 | Events fire once per action | Not validated |
 | No PII in payload | Not validated |
 | Analytics failure non-blocking | Required by skill |
-| Funnel visible in DataFast | Not validated |
+| Funnel visible in DataFast | Pass (8 funnels + 34 goal labels) |
 
 ---
 

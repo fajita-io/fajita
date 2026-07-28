@@ -18,7 +18,7 @@ import {
   resolveVerifiedEmailRecipients,
   resolveWebhookCredentials,
 } from "@/lib/alerts/delivery/secrets";
-import { appUrl } from "@/lib/env";
+import { emailAppLink } from "@/lib/email/links";
 
 /**
  * Dedicated channel test. Runs inline so the operator sees the result
@@ -43,7 +43,7 @@ function testContext(organizationName: string): AlertRenderContext {
     latestUpdate: "If you can read this, this channel is wired correctly.",
     evidenceSummary: null,
     maintenance: null,
-    link: `${appUrl}/app/alerts`,
+    link: emailAppLink("/app/alerts"),
   };
 }
 

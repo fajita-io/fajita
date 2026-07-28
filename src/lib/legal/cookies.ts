@@ -3,8 +3,8 @@ import type { LegalBlock, LegalDocMeta, LegalSection } from "./types";
 export const COOKIES_META: LegalDocMeta = {
   title: "Cookie Notice",
   version: 2,
-  effectiveDate: "2026-07-20",
-  lastUpdated: "2026-07-20",
+  effectiveDate: "2026-07-28",
+  lastUpdated: "2026-07-28",
 };
 
 export const cookiesIntro: LegalBlock[] = [
@@ -31,15 +31,15 @@ export const cookiesSections: LegalSection[] = [
     blocks: [
       {
         type: "p",
-        text: "2.1 Necessary cookies. These cookies are required for core site and product functions. They include authentication and session cookies from our identity provider; security and load-balancing cookies; and the consent preference cookie that records your cookie choice. These cookies do not require consent in many jurisdictions because they are strictly necessary.",
+        text: "2.1 Necessary cookies. These cookies are required for core site and product functions. They include authentication and session cookies from our identity provider and security and load-balancing cookies. These cookies do not require consent in many jurisdictions because they are strictly necessary.",
       },
       {
         type: "p",
-        text: "2.2 Analytics cookies. If you accept analytics in our consent banner, we use product analytics to understand site usage and improve the Service. Analytics is configured to avoid building advertising profiles and to minimize personal data collection.",
+        text: "2.2 Analytics cookies. We use product analytics to understand site usage and improve the Service. Analytics is configured to avoid building advertising profiles and to minimize personal data collection.",
       },
       {
         type: "p",
-        text: "2.3 Referral cookies. When you arrive through an affiliate link, we may set a first-party referral cookie to attribute a signup within the program attribution window. Referral cookies are optional in the sense that they are not set after you choose Necessary only in our banner. Until you decide, referral attribution may occur under our first-party functional model described in the Affiliate Privacy Notice.",
+        text: "2.3 Referral cookies. When you arrive through an affiliate link, we may set a first-party referral cookie to attribute a signup within the program attribution window. Referral cookies are described further in the Affiliate Privacy Notice.",
       },
     ],
   },
@@ -54,7 +54,6 @@ export const cookiesSections: LegalSection[] = [
       {
         type: "ul",
         items: [
-          "fj_consent (Fajita, up to 12 months): stores your cookie preference selection (necessary only or accept all)",
           "fj_ref (Fajita, attribution window up to 30 days): stores an opaque referral session identifier for affiliate attribution when permitted",
           "Identity session cookies (identity provider, session or provider-defined duration): maintain signed-in state and security for authenticated areas",
         ],
@@ -68,8 +67,6 @@ export const cookiesSections: LegalSection[] = [
       {
         type: "ol",
         items: [
-          'Use our cookie banner to choose "Accept all" or "Necessary only."',
-          "Change your choice later by clearing cookies in your browser and revisiting the site, or by using browser controls described below.",
           "Block or delete cookies through your browser settings. Blocking necessary cookies may prevent sign-in or core product functions.",
           "Where your browser sends a recognized global opt-out signal and we are required to honor it for optional cookies, we will treat that signal according to applicable law and our product configuration then in effect.",
         ],
@@ -102,7 +99,7 @@ export const cookiesSections: LegalSection[] = [
     blocks: [
       {
         type: "p",
-        text: "We may update this Notice by publishing a revised version with a new Effective Date. Material changes may also be reflected in the consent banner where required.",
+        text: "We may update this Notice by publishing a revised version with a new Effective Date.",
       },
     ],
   },

@@ -13,6 +13,7 @@ import {
   renderSlack,
 } from "@/lib/alerts/messages";
 import { ALERT_LIMITS } from "@/lib/alerts/constants";
+import { withEmailBrandAttachments } from "@/lib/email/inline-assets";
 import { safePost } from "@/lib/alerts/providers/http";
 
 /**
@@ -134,13 +135,15 @@ export async function sendEmailAlert(recipients: string[], ctx: AlertRenderConte
         authorization: `Bearer ${env.RESEND_API_KEY}`,
         "content-type": "application/json",
       },
-      body: JSON.stringify({
-        from,
-        to: recipients.slice(0, ALERT_LIMITS.maxEmailRecipientsPerChannel),
-        subject: email.subject,
-        html: email.html,
-        text: email.text,
-      }),
+      body: JSON.stringify(
+        withEmailBrandAttachments({
+          from,
+          to: recipients.slice(0, ALERT_LIMITS.maxEmailRecipientsPerChannel),
+          subject: email.subject,
+          html: email.html,
+          text: email.text,
+        }),
+      ),
       signal: controller.signal,
     });
     const durationMs = Date.now() - started;

@@ -75,9 +75,8 @@ export function consentCookieOptions() {
 
 /**
  * Whether the referral attribution cookie may be set.
- * Allowed when the visitor accepted referral cookies, or has not decided yet
- * (first-party functional attribution). Denied only after an explicit
- * "necessary only" choice.
+ * Defaults to allowed. Denied only when a legacy preference cookie explicitly
+ * refused referral cookies.
  */
 export function referralConsentGranted(raw: string | undefined | null): boolean {
   const prefs = decodeConsent(raw);
@@ -85,10 +84,11 @@ export function referralConsentGranted(raw: string | undefined | null): boolean 
   return prefs.referral === true;
 }
 
-/** Product analytics may run only after an explicit accept-all choice. */
+/** Product analytics run by default. Denied only by a legacy opt-out cookie. */
 export function analyticsConsentGranted(
   raw: string | undefined | null,
 ): boolean {
   const prefs = decodeConsent(raw);
-  return prefs?.analytics === true;
+  if (!prefs) return true;
+  return prefs.analytics === true;
 }

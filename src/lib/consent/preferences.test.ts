@@ -16,7 +16,7 @@ describe("consent preferences", () => {
     expect(decodeConsent(encodeConsent(none))?.referral).toBe(false);
   });
 
-  it("allows referral before a decision and after accept; denies after refuse", () => {
+  it("allows referral by default and after accept; denies after legacy refuse", () => {
     expect(referralConsentGranted(null)).toBe(true);
     expect(referralConsentGranted(encodeConsent(consentAcceptAll()))).toBe(true);
     expect(referralConsentGranted(encodeConsent(defaultConsentDenied()))).toBe(

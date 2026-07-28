@@ -42,6 +42,7 @@ esac
 
 # Required for email + cron on Vercel
 add_env RESEND_API_KEY "$ENVS"
+add_env RESEND_FULL_API_KEY "$ENVS"
 add_env ALERT_EMAIL_FROM "$ENVS"
 add_env MONITOR_SECRET_KEYRING "$ENVS"
 add_env CRON_SECRET "$ENVS"

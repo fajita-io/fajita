@@ -1,6 +1,7 @@
 import "server-only";
 
-import { serverEnv, appUrl } from "@/lib/env";
+import { serverEnv } from "@/lib/env";
+import { emailAppLink } from "@/lib/email/links";
 import {
   categorizeHttpStatus,
   resultForCategory,
@@ -8,6 +9,7 @@ import {
 } from "@/lib/alerts/errors";
 import type { RenderedLifecycleEmail } from "../emails/shell";
 import { lifecycleMessage } from "../messages";
+import { withEmailBrandAttachments } from "@/lib/email/inline-assets";
 
 /**
  * Lifecycle email sender (Resend transactional stream, shared with Phase 7
@@ -80,16 +82,16 @@ export async function sendLifecycleEmail(params: {
   const headers: Record<string, string> = {};
   if (definition && definition.class !== "required") {
     headers["List-Unsubscribe"] =
-      `<${appUrl}/app/settings/notifications/lifecycle>`;
+      `<${emailAppLink("/app/settings/notifications/lifecycle")}>`;
   }
 
-  const payload: Record<string, unknown> = {
+  const payload: Record<string, unknown> = withEmailBrandAttachments({
     from: lifecycleFrom(params.messageKey),
     to: [params.to],
     subject: params.email.subject,
     html: params.email.html,
     text: params.email.text,
-  };
+  });
   if (Object.keys(headers).length > 0) payload.headers = headers;
 
   const controller = new AbortController();

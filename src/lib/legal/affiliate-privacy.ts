@@ -161,7 +161,7 @@ export const affiliatePrivacySections: LegalSection[] = [
     blocks: [
       {
         type: "p",
-        text: "The Program uses a first-party referral cookie to remember an eligible referral session for the attribution window. The cookie is signed, HttpOnly where supported, and is not used as a cross-site advertising identifier. See the Cookie Notice for site-wide cookie practices. Visitors may refuse optional cookies through the consent banner. If referral cookies are refused, referral attribution may not occur for that visit.",
+        text: "The Program uses a first-party referral cookie to remember an eligible referral session for the attribution window. The cookie is signed, HttpOnly where supported, and is not used as a cross-site advertising identifier. See the Cookie Notice for site-wide cookie practices.",
       },
     ],
   },

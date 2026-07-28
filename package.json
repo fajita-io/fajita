@@ -32,6 +32,7 @@
     "launch:alert-fixture": "tsx scripts/run-real-alert-fixture.ts",
     "launch:restore-evidence": "tsx scripts/run-database-restore-evidence.ts",
     "sitemap:audit": "tsx scripts/sitemap-audit.ts",
+    "datafast:journey": "tsx scripts/datafast-setup-journey.ts",
     "dns:cloudflare": "tsx scripts/cloudflare-dns-setup.ts",
     "dns:email": "tsx scripts/cloudflare-email-dns-setup.ts",
     "dns:dmarc": "DMARC_ONLY=1 tsx scripts/cloudflare-email-dns-setup.ts",

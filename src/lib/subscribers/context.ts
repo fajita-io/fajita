@@ -1,6 +1,6 @@
 import "server-only";
 
-import { appUrl } from "@/lib/env";
+import { emailAppLink } from "@/lib/email/links";
 import { serviceClient } from "@/lib/supabase/service";
 
 /**
@@ -68,26 +68,26 @@ export async function loadStatusPageEmailContext(
     poweredByRemoved: data.subscriber_powered_by_removed,
     replyTo: data.subscriber_reply_to_verified ? data.subscriber_reply_to : null,
     timezone: data.timezone || "UTC",
-    statusPageUrl: `${appUrl}/status/${data.slug}`,
+    statusPageUrl: emailAppLink(`/status/${data.slug}`),
   };
 }
 
 /** Public confirm link for a raw (unhashed) confirmation token. */
 export function confirmationUrl(token: string): string {
-  return `${appUrl}/status-subscriptions/confirm?token=${encodeURIComponent(token)}`;
+  return `${emailAppLink("/status-subscriptions/confirm")}?token=${encodeURIComponent(token)}`;
 }
 
 /** Public preference-center link for a raw preference token. */
 export function preferenceUrl(token: string): string {
-  return `${appUrl}/status-subscriptions/preferences?token=${encodeURIComponent(token)}`;
+  return `${emailAppLink("/status-subscriptions/preferences")}?token=${encodeURIComponent(token)}`;
 }
 
 /** Public unsubscribe link for a raw preference/unsubscribe token. */
 export function unsubscribeUrl(token: string): string {
-  return `${appUrl}/status-subscriptions/unsubscribe?token=${encodeURIComponent(token)}`;
+  return `${emailAppLink("/status-subscriptions/unsubscribe")}?token=${encodeURIComponent(token)}`;
 }
 
 /** One-click (RFC 8058) unsubscribe POST endpoint for a raw token. */
 export function oneClickUnsubscribeUrl(token: string): string {
-  return `${appUrl}/api/status-subscriptions/one-click-unsubscribe?token=${encodeURIComponent(token)}`;
+  return `${emailAppLink("/api/status-subscriptions/one-click-unsubscribe")}?token=${encodeURIComponent(token)}`;
 }

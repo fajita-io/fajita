@@ -66,7 +66,7 @@ const welcomeRule: LifecycleRule = async (ctx) => {
     userId: ctx.ownerUserId,
     messageKey: "welcome",
     dedupKey: dedupKeys.welcome(ctx.ownerUserId),
-    payload: { organization_name: ctx.organizationName },
+    payload: {},
   });
   return [{ rule: "welcome", result }];
 };

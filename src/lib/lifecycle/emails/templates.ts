@@ -69,32 +69,29 @@ function intervalLabel(seconds: number | null): string {
 /* Setup class                                                         */
 /* ------------------------------------------------------------------ */
 
-const renderWelcome: Renderer = (p) => {
-  const org = str(p, "organization_name", "your organization");
+const renderWelcome: Renderer = (_p) => {
   const subject = "Your Fajita account is ready";
   const previewText =
     "Start with one website, API, certificate, or scheduled job.";
   const body = [
     heading("Your software should not have to shout to be noticed."),
     paragraph(
-      `Fajita watches websites, APIs, SSL certificates, and scheduled jobs for ${org}. When something starts cooking, your team hears about it before your customers do.`,
+      "Fajita watches your websites, APIs, SSL certificates, and scheduled jobs. When something starts cooking, your team hears about it before your customers do.",
     ),
     paragraph(
       "Start with one monitor. Fajita tests the setup before monitoring begins, and the first result usually lands within five minutes.",
     ),
     primaryButton("Create your first monitor", appLink("/app/monitors/new")),
     paragraph("Most teams finish this in under three minutes.", true),
-    secondaryLink("Open Fajita", appLink("/app")),
   ].join("");
   const text = [
     subject,
     "",
-    `Fajita watches websites, APIs, SSL certificates, and scheduled jobs for ${org}. When something starts cooking, your team hears about it before your customers do.`,
+    "Fajita watches your websites, APIs, SSL certificates, and scheduled jobs. When something starts cooking, your team hears about it before your customers do.",
     "",
     "Start with one monitor. Fajita tests the setup before monitoring begins.",
     "",
     `Create your first monitor: ${appLink("/app/monitors/new")}`,
-    `Open Fajita: ${appLink("/app")}`,
     textFooter(true),
   ].join("\n");
   return {
@@ -103,7 +100,6 @@ const renderWelcome: Renderer = (p) => {
     html: lifecycleShell({
       previewText,
       bodyHtml: body,
-      organizationName: org,
       showPreferenceFooter: true,
     }),
     text,

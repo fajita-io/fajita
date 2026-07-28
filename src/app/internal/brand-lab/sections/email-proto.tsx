@@ -46,7 +46,7 @@ function MemoTag() {
                             <td style={{ verticalAlign: "middle", lineHeight: 0, paddingRight: 8 }}>
                               {/* eslint-disable-next-line @next/next/no-img-element */}
                               <img
-                                src="/brand/email/memo-icon.png"
+                                src="/brand/email/memo-app-icon.png"
                                 width={18}
                                 height={18}
                                 alt=""
@@ -88,11 +88,11 @@ function FajitaHeader() {
           <td style={{ verticalAlign: "middle" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/brand/email/fajita-logo-header-dark.png"
-              width={110}
-              height={38}
+              src="/brand/email/fajita-app-icon.png"
+              width={36}
+              height={36}
               alt="Fajita"
-              style={{ display: "block" }}
+              style={{ display: "block", borderRadius: 9 }}
             />
           </td>
         </tr>
@@ -257,7 +257,7 @@ export function EmailSection() {
             preview="Your first monitor takes about a minute."
             headerRight={
               <span style={{ fontSize: 13, color: "#b8ae9c", fontFamily: EMAIL.font }}>
-                Canyon Software
+                Northwind Labs
               </span>
             }
             footer={

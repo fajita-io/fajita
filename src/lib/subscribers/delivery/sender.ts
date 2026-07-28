@@ -2,6 +2,7 @@ import "server-only";
 
 import { serverEnv } from "@/lib/env";
 import { type ErrorCategory, categorizeHttpStatus, resultForCategory } from "@/lib/alerts/errors";
+import { withEmailBrandAttachments } from "@/lib/email/inline-assets";
 import { SUBSCRIBER_EMAIL_TIMEOUT_MS } from "../constants";
 import type { RenderedEmail } from "../templates";
 
@@ -66,13 +67,13 @@ export async function sendSubscriberEmail(from: string, params: SendParams): Pro
     if (params.oneClickUnsubscribeUrl) headers["List-Unsubscribe-Post"] = "List-Unsubscribe=One-Click";
   }
 
-  const payload: Record<string, unknown> = {
+  const payload: Record<string, unknown> = withEmailBrandAttachments({
     from,
     to: [params.to],
     subject: params.email.subject,
     html: params.email.html,
     text: params.email.text,
-  };
+  });
   if (params.replyTo) payload.reply_to = params.replyTo;
   if (Object.keys(headers).length > 0) payload.headers = headers;
 

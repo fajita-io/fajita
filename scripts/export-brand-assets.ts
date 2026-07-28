@@ -8,6 +8,7 @@
 import * as fontkit from "fontkit";
 import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
 import path from "node:path";
+import { chromium } from "playwright";
 
 const root = process.cwd();
 const wordmark = JSON.parse(
@@ -401,9 +402,71 @@ const files: Array<[string, string]> = [
   ["email/email-header.svg", emailHeaderSvg()],
 ];
 
-for (const [rel, content] of files) {
-  const target = path.join(root, "public", "brand", rel);
-  mkdirSync(path.dirname(target), { recursive: true });
-  writeFileSync(target, content);
-  console.log("wrote", path.join("public/brand", rel));
+async function main() {
+  for (const [rel, content] of files) {
+    const target = path.join(root, "public", "brand", rel);
+    mkdirSync(path.dirname(target), { recursive: true });
+    writeFileSync(target, content);
+    console.log("wrote", path.join("public/brand", rel));
+  }
+
+  await exportEmailPngs();
 }
+
+/** Rasterize an SVG for email clients that block remote SVG (Outlook, Gmail). */
+async function exportSvgToPng(opts: {
+  svgRel: string;
+  pngRel: string;
+  width: number;
+  height: number;
+}) {
+  const svgPath = path.join(root, "public", "brand", opts.svgRel);
+  const pngPath = path.join(root, "public", "brand", opts.pngRel);
+  const svg = readFileSync(svgPath, "utf8");
+  mkdirSync(path.dirname(pngPath), { recursive: true });
+
+  const browser = await chromium.launch();
+  try {
+    const page = await browser.newPage({
+      viewport: { width: opts.width, height: opts.height },
+      deviceScaleFactor: 1,
+    });
+    await page.setContent(
+      `<!doctype html><html><body style="margin:0;background:transparent;">
+        <div id="asset" style="width:${opts.width}px;height:${opts.height}px;line-height:0;">
+          ${svg.replace(/<svg/, `<svg width="${opts.width}" height="${opts.height}"`)}
+        </div>
+      </body></html>`,
+      { waitUntil: "networkidle" },
+    );
+    await page.locator("#asset").screenshot({ path: pngPath, type: "png" });
+    console.log("wrote", path.join("public/brand", opts.pngRel));
+  } finally {
+    await browser.close();
+  }
+}
+
+async function exportEmailPngs() {
+  // App icon marks for email headers (PNG for clients that block SVG).
+  await exportSvgToPng({
+    svgRel: "icons/app-icon.svg",
+    pngRel: "email/fajita-app-icon.png",
+    width: 72,
+    height: 72,
+  });
+  await exportSvgToPng({
+    svgRel: "email/memo-icon.svg",
+    pngRel: "email/memo-app-icon.png",
+    width: 36,
+    height: 36,
+  });
+  writeFileSync(
+    path.join(root, "public", "brand", "email", "memo-icon.png"),
+    readFileSync(path.join(root, "public", "brand", "email", "memo-app-icon.png")),
+  );
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

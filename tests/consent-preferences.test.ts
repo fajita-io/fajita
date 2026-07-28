@@ -9,18 +9,19 @@ import {
 } from "@/lib/consent/preferences";
 
 describe("consent preferences", () => {
-  it("denies analytics until accept-all", () => {
-    expect(analyticsConsentGranted(null)).toBe(false);
+  it("defaults analytics and referral to granted without a cookie", () => {
+    expect(analyticsConsentGranted(null)).toBe(true);
+    expect(referralConsentGranted(null)).toBe(true);
+  });
+
+  it("honors legacy necessary-only cookies", () => {
     expect(analyticsConsentGranted(encodeConsent(defaultConsentDenied()))).toBe(
       false,
     );
-    expect(analyticsConsentGranted(encodeConsent(consentAcceptAll()))).toBe(true);
-  });
-
-  it("allows referral attribution before a choice", () => {
-    expect(referralConsentGranted(null)).toBe(true);
     expect(referralConsentGranted(encodeConsent(defaultConsentDenied()))).toBe(
       false,
     );
+    expect(analyticsConsentGranted(encodeConsent(consentAcceptAll()))).toBe(true);
+    expect(referralConsentGranted(encodeConsent(consentAcceptAll()))).toBe(true);
   });
 });

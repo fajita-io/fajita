@@ -249,7 +249,7 @@ export const privacySections: LegalSection[] = [
     blocks: [
       {
         type: "p",
-        text: "We use cookies and similar technologies as described in the Cookie Notice. You may accept or limit optional cookies through our consent banner where presented.",
+        text: "We use cookies and similar technologies as described in the Cookie Notice. You may limit optional cookies through your browser settings or recognized opt-out signals where applicable law requires us to honor them.",
       },
     ],
   },

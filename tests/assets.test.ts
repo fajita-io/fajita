@@ -21,6 +21,8 @@ const requiredAssets = [
   "public/brand/social/og-template.svg",
   "public/brand/social/x-header.svg",
   "public/brand/email/email-header.svg",
+  "public/brand/email/fajita-app-icon.png",
+  "public/brand/email/memo-app-icon.png",
   "src/app/icon.svg",
 ];
 
@@ -32,7 +34,7 @@ describe("brand asset inventory", () => {
   });
 
   it("exports are clean vectors: no rasters, no filters, no external refs", () => {
-    for (const asset of requiredAssets) {
+    for (const asset of requiredAssets.filter((a) => a.endsWith(".svg"))) {
       const svg = readFileSync(path.join(root, asset), "utf8");
       expect(svg, asset).not.toMatch(/<image/i);
       expect(svg, asset).not.toMatch(/<filter/i);

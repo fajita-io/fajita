@@ -12,6 +12,7 @@ import {
   appLink,
   type RenderedLifecycleEmail,
 } from "@/lib/lifecycle/emails/shell";
+import { withEmailBrandAttachments } from "@/lib/email/inline-assets";
 
 /**
  * Affiliate notification layer.
@@ -247,13 +248,15 @@ async function sendEmail(
         authorization: `Bearer ${env.RESEND_API_KEY}`,
         "content-type": "application/json",
       },
-      body: JSON.stringify({
-        from: fromIdentity(),
-        to: [to],
-        subject: email.subject,
-        html: email.html,
-        text: email.text,
-      }),
+      body: JSON.stringify(
+        withEmailBrandAttachments({
+          from: fromIdentity(),
+          to: [to],
+          subject: email.subject,
+          html: email.html,
+          text: email.text,
+        }),
+      ),
       signal: controller.signal,
     });
     return res.ok;

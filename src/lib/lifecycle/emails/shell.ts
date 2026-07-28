@@ -1,4 +1,3 @@
-import { appUrl } from "@/lib/env";
 import {
   EMAIL_COLORS,
   EMAIL_FONT,
@@ -8,6 +7,7 @@ import {
   fajitaHeaderHtml,
   poweredByMemoText,
 } from "@/lib/email/shell";
+import { emailAppLink } from "@/lib/email/links";
 
 /**
  * Fajita lifecycle email design system.
@@ -49,8 +49,7 @@ export function fmtTime(
 
 /** App link builder: allowlisted internal paths only, never raw URLs. */
 export function appLink(path: string): string {
-  const clean = path.startsWith("/") ? path : `/${path}`;
-  return `${appUrl}${clean}`;
+  return emailAppLink(path);
 }
 
 export const PREFERENCES_PATH = "/app/settings/notifications/lifecycle";

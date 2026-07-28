@@ -4,7 +4,7 @@ import { serviceClient } from "@/lib/supabase/service";
 import { deriveEventType, isRecoveryEvent } from "@/lib/alerts/events";
 import type { EventContext } from "@/lib/alerts/routing/engine";
 import type { AlertRenderContext } from "@/lib/alerts/messages";
-import { appUrl } from "@/lib/env";
+import { emailAppLink } from "@/lib/email/links";
 
 /**
  * Turn a claimed incident_delivery_outbox row into the routing EventContext and
@@ -212,8 +212,8 @@ export function renderContextFromPayload(
   opts?: { isTest?: boolean },
 ): AlertRenderContext {
   const link = payload.incidentId
-    ? `${appUrl}/app/incidents/${payload.incidentId}`
-    : `${appUrl}/app/alerts`;
+    ? emailAppLink(`/app/incidents/${payload.incidentId}`)
+    : emailAppLink("/app/alerts");
   return {
     eventType: payload.eventType,
     severity: payload.severity,

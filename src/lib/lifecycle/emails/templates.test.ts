@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { FAJITA_EMAIL_CID } from "@/lib/email/inline-assets";
 import {
   LIFECYCLE_MESSAGE_KEYS,
   LIFECYCLE_MESSAGES,
@@ -38,6 +39,7 @@ describe("lifecycle email rendering", () => {
       expect(rendered.subject.trim().length).toBeGreaterThan(0);
       expect(rendered.previewText.trim().length).toBeGreaterThan(0);
       expect(rendered.html).toContain("<!doctype html>");
+      expect(rendered.html).toContain(`cid:${FAJITA_EMAIL_CID}`);
       expect(rendered.html).toContain("https://memo.ly");
       expect(rendered.text).toContain("https://memo.ly");
       expect(rendered.text.trim().length).toBeGreaterThan(0);
@@ -55,6 +57,15 @@ describe("lifecycle email rendering", () => {
       expect(rendered.text).not.toContain("\u2014");
       expect(rendered.html.toLowerCase()).not.toContain("<script");
       expect(rendered.html.toLowerCase()).not.toContain("<form");
+
+      // Links must point at production, never local dev hosts.
+      for (const body of [rendered.html, rendered.text]) {
+        expect(body).not.toMatch(/localhost/i);
+        expect(body).not.toMatch(/127\.0\.0\.1/);
+      }
+      if (rendered.html.includes('href="https://fajita.io')) {
+        expect(rendered.html).toContain("https://fajita.io");
+      }
     });
   }
 
@@ -79,10 +90,10 @@ describe("lifecycle email rendering", () => {
 
   it("escapes hostile customer content in HTML output", () => {
     const hostile = {
-      ...LIFECYCLE_EMAIL_FIXTURES.welcome,
+      ...LIFECYCLE_EMAIL_FIXTURES.setup_reminder,
       organization_name: `<script>alert("x")</script> & "quotes"`,
     };
-    const rendered = renderLifecycleEmail("welcome", 1, hostile);
+    const rendered = renderLifecycleEmail("setup_reminder", 1, hostile);
     expect(rendered).not.toBeNull();
     expect(rendered!.html).not.toContain("<script>alert");
     expect(rendered!.html).toContain("&lt;script&gt;");

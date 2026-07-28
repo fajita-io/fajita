@@ -62,6 +62,22 @@ export async function POST(request: Request) {
 
   try {
     const db = serviceClient();
+
+    // Lifecycle and alert mail share the Resend account. Only status-page
+    // subscriber sends record provider_message_id on delivery intents.
+    const { data: intentRow, error: intentError } = await db
+      .from("status_page_subscriber_delivery_intents")
+      .select("id")
+      .eq("provider_message_id", mapped.providerMessageId)
+      .limit(1)
+      .maybeSingle();
+    if (intentError) throw intentError;
+
+    if (!intentRow) {
+      // Acknowledge so Resend stops retrying; nothing to apply for this stream.
+      return NextResponse.json({ ok: true, action: "ignored_untracked" });
+    }
+
     const { data, error } = await db.rpc("apply_subscriber_provider_event", {
       p_provider: "resend",
       p_provider_event_id: mapped.eventId,

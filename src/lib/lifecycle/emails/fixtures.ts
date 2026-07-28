@@ -10,21 +10,19 @@ export const LIFECYCLE_EMAIL_FIXTURES: Record<
   LifecycleMessageKey,
   Record<string, unknown>
 > = {
-  welcome: {
-    organization_name: "Canyon Software",
-  },
+  welcome: {},
   setup_reminder: {
-    organization_name: "Canyon Software",
+    organization_name: "Northwind Labs",
     stage: 1,
   },
   monitor_draft_reminder: {
-    organization_name: "Canyon Software",
+    organization_name: "Northwind Labs",
     monitor_name: "Marketing site",
     monitor_type: "website",
     monitor_id: "00000000-0000-0000-0000-000000000001",
   },
   first_monitor_live: {
-    organization_name: "Canyon Software",
+    organization_name: "Northwind Labs",
     monitor_name: "Marketing site",
     monitor_id: "00000000-0000-0000-0000-000000000001",
     check_interval_seconds: 300,
@@ -33,27 +31,27 @@ export const LIFECYCLE_EMAIL_FIXTURES: Record<
     first_check_at: "2026-07-06T14:32:00.000Z",
   },
   first_failure_education: {
-    organization_name: "Canyon Software",
+    organization_name: "Northwind Labs",
     monitor_name: "Payments API",
     monitor_id: "00000000-0000-0000-0000-000000000002",
     failure_category: "timed_out",
   },
   alert_channel_reminder: {
-    organization_name: "Canyon Software",
+    organization_name: "Northwind Labs",
     active_monitor_count: 2,
   },
   status_page_reminder: {
-    organization_name: "Canyon Software",
+    organization_name: "Northwind Labs",
   },
   activation_complete: {
-    organization_name: "Canyon Software",
+    organization_name: "Northwind Labs",
     active_monitor_count: 3,
     verified_channel_count: 1,
     published_status_page_count: 1,
     activated_at: "2026-07-08T09:15:00.000Z",
   },
   weekly_report: {
-    organization_name: "Canyon Software",
+    organization_name: "Northwind Labs",
     period_label: "July 6 through July 12, 2026",
     report_id: "00000000-0000-0000-0000-000000000010",
     success_rate_label: "99.94%",
@@ -70,7 +68,7 @@ export const LIFECYCLE_EMAIL_FIXTURES: Record<
     ],
   },
   incident_recap: {
-    organization_name: "Canyon Software",
+    organization_name: "Northwind Labs",
     incident_title: "Checkout API latency",
     incident_id: "00000000-0000-0000-0000-000000000020",
     severity_label: "Major",
@@ -82,25 +80,25 @@ export const LIFECYCLE_EMAIL_FIXTURES: Record<
       "Fajita confirmed the incident after two eligible failed checks. Recovery was confirmed after two consecutive successful checks.",
   },
   usage_limit_notice: {
-    organization_name: "Canyon Software",
+    organization_name: "Northwind Labs",
     limit_key: "active_monitors",
     threshold: 80,
     usage: 8,
     limit: 10,
   },
   cancellation_confirmation: {
-    organization_name: "Canyon Software",
+    organization_name: "Northwind Labs",
     effective_at: "2026-08-01T00:00:00.000Z",
     active_monitor_count: 6,
     published_status_page_count: 1,
   },
   pre_deletion_reminder: {
-    organization_name: "Canyon Software",
+    organization_name: "Northwind Labs",
     deletion_scheduled_for: "2026-08-15T00:00:00.000Z",
     stage: "7d",
   },
   reactivation_reminder: {
-    organization_name: "Canyon Software",
+    organization_name: "Northwind Labs",
     active_monitor_count: 6,
     published_status_page_count: 1,
   },

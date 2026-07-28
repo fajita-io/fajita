@@ -28,6 +28,7 @@ import {
   type LifecycleMessageKey,
 } from "@/lib/lifecycle/messages";
 import { SUBSCRIBER_EVENT_TYPES } from "@/lib/subscribers/constants";
+import { withEmailBrandAttachments } from "@/lib/email/inline-assets";
 import type { StatusPageEmailContext } from "@/lib/subscribers/context";
 import {
   renderConfirmationEmail,
@@ -183,17 +184,17 @@ function renderAffiliate(
 const subscriberCtx: StatusPageEmailContext = {
   statusPageId: "00000000-0000-0000-0000-000000000001",
   organizationId: "00000000-0000-0000-0000-000000000002",
-  name: "Canyon Software Status",
-  slug: "canyon",
+  name: "Northwind Labs Status",
+  slug: "northwind",
   accentColor: "#b53a0a",
   logoUrl: null,
-  websiteUrl: "https://canyon.example",
-  supportUrl: "https://canyon.example/support",
+  websiteUrl: "https://northwind.example",
+  supportUrl: "https://northwind.example/support",
   privacyUrl: "https://fajita.io/legal/subscriber-privacy",
   poweredByRemoved: false,
   replyTo: null,
   timezone: "America/Denver",
-  statusPageUrl: "https://status.canyon.example",
+  statusPageUrl: "https://status.northwind.example",
 };
 
 const subscriberLinks = {
@@ -274,7 +275,7 @@ function collectOutbounds(): Outbound[] {
     scopeSummary: "All components",
     eventSummary: "Incidents and maintenance",
     explanation:
-      "Confirm you want status updates from Canyon Software when incidents or maintenance affect the services you selected.",
+      "Confirm you want status updates from Northwind Labs when incidents or maintenance affect the services you selected.",
   });
   out.push({
     category: "subscriber",
@@ -347,13 +348,15 @@ async function sendOne(item: Outbound): Promise<{ ok: boolean; id?: string; erro
       authorization: `Bearer ${RESEND_SEND_KEY}`,
       "content-type": "application/json",
     },
-    body: JSON.stringify({
-      from: item.from ?? FROM,
-      to: [TO],
-      subject: item.subject,
-      html: item.html,
-      text: item.text,
-    }),
+    body: JSON.stringify(
+      withEmailBrandAttachments({
+        from: item.from ?? FROM,
+        to: [TO],
+        subject: item.subject,
+        html: item.html,
+        text: item.text,
+      }),
+    ),
   });
   if (!res.ok) {
     let message = `HTTP ${res.status}`;
