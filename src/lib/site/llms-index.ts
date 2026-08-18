@@ -104,6 +104,11 @@ The glossary explains software reliability concepts. Product steps live in docum
 - Content manifest: ${siteUrl}/content/manifest.json
 - Foundational guides: ${siteUrl}/blog/minimum-reliability-stack-solo-saas, ${siteUrl}/blog/monitor-api-without-alert-noise, ${siteUrl}/blog/write-useful-incident-update, ${siteUrl}/blog/what-belongs-on-status-page, ${siteUrl}/blog/heartbeat-monitoring-for-cron-jobs, ${siteUrl}/blog/how-to-calculate-uptime-correctly
 - Comparisons: ${siteUrl}/compare
+- Fajita vs UptimeRobot: ${siteUrl}/compare/fajita-vs-uptimerobot
+- Fajita vs Better Stack: ${siteUrl}/compare/fajita-vs-better-stack
+- Fajita vs Pingdom: ${siteUrl}/compare/fajita-vs-pingdom
+- Fajita vs Checkly: ${siteUrl}/compare/fajita-vs-checkly
+- Fajita vs Atlassian Statuspage: ${siteUrl}/compare/fajita-vs-statuspage
 - Comparison methodology: ${siteUrl}/compare/comparison-methodology
 - Free tools: ${siteUrl}/tools
 - Uptime calculator: ${siteUrl}/tools/uptime-calculator

@@ -55,7 +55,7 @@ export const uptimeToolsSoloSaas = defineComparison({
     antiAiSlopPassed: true,
     productCta: "start-monitoring",
     featured: true,
-    relatedComparisons: ["fajita-vs-uptimerobot", "fajita-vs-better-stack"],
+    relatedComparisons: ["fajita-vs-uptimerobot", "fajita-vs-better-stack", "fajita-vs-pingdom", "fajita-vs-checkly"],
     relatedContent: ["minimum-reliability-stack-solo-saas"],
     relatedDocs: [
       { href: "/docs/getting-started/create-your-first-monitor", label: "Create your first monitor" },
@@ -87,6 +87,8 @@ export const uptimeToolsSoloSaas = defineComparison({
     ul([
       "[Fajita vs UptimeRobot](/compare/fajita-vs-uptimerobot)",
       "[Fajita vs Better Stack](/compare/fajita-vs-better-stack)",
+      "[Fajita vs Pingdom](/compare/fajita-vs-pingdom)",
+      "[Fajita vs Checkly](/compare/fajita-vs-checkly)",
       "[Status page tools for small teams](/compare/status-page-tools-small-teams)",
     ]),
   ],
@@ -147,6 +149,7 @@ export const statusPageToolsSmallTeams = defineComparison({
     antiAiSlopPassed: true,
     productCta: "publish-status-page",
     featured: true,
+    relatedComparisons: ["fajita-vs-statuspage", "fajita-vs-better-stack"],
     relatedContent: ["what-belongs-on-status-page"],
     relatedDocs: [
       { href: "/docs/status-pages/create", label: "Create a status page" },
