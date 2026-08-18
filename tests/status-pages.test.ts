@@ -135,6 +135,9 @@ describe("subdomain validation", () => {
   it("blocks platform impersonation", () => {
     expect(validateSubdomain("fajita-status").ok).toBe(false);
     expect(validateSubdomain("fajitaio").ok).toBe(false);
+    const blocked = validateSubdomain("fajitastatuspage");
+    expect(blocked.ok).toBe(false);
+    if (!blocked.ok) expect(blocked.reason).toMatch(/address/i);
   });
 
   it("accepts a normal slug", () => {
@@ -144,6 +147,12 @@ describe("subdomain validation", () => {
 
   it("suggests a fallback for reserved names", () => {
     expect(suggestSubdomain("api")).toContain("status");
+  });
+
+  it("does not suggest a fajita-prefixed address from a Fajita name", () => {
+    const suggested = suggestSubdomain("Fajita Status");
+    expect(suggested.startsWith("fajita")).toBe(false);
+    expect(validateSubdomain(suggested).ok).toBe(true);
   });
 });
 

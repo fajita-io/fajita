@@ -28,19 +28,37 @@ export function validateSubdomain(input: string): SubdomainValidation {
     };
   }
   if (RESERVED_SUBDOMAINS.has(slug)) {
-    return { ok: false, reason: "That name is reserved. Try another." };
+    return { ok: false, reason: "That address is reserved. Try another." };
   }
   // Block patterns that could impersonate the platform.
-  if (slug.startsWith("fajita") || slug.includes("--")) {
-    return { ok: false, reason: "That name is not available. Try another." };
+  if (slug.startsWith("fajita")) {
+    return { ok: false, reason: "That address is reserved. Try another." };
+  }
+  if (slug.includes("--")) {
+    return { ok: false, reason: "Use lowercase letters, numbers, and hyphens only." };
   }
   return { ok: true, slug };
 }
 
 export function suggestSubdomain(name: string): string {
-  const base = normalizeSlug(name) || "status";
-  const safe = RESERVED_SUBDOMAINS.has(base) ? `${base}-status` : base;
-  return safe.length < SUBDOMAIN_MIN ? `${safe}-status` : safe.slice(0, SUBDOMAIN_MAX);
+  let candidate = normalizeSlug(name) || "status";
+  if (RESERVED_SUBDOMAINS.has(candidate)) {
+    candidate = `${candidate}-status`;
+  }
+  // "Fajita Status" normalizes to fajita-status, which is blocked as
+  // impersonation. Strip the brand prefix so the form does not prefill
+  // an address it will immediately reject.
+  if (candidate.startsWith("fajita")) {
+    const stripped = candidate.replace(/^fajita-?/, "");
+    candidate = stripped.length >= SUBDOMAIN_MIN ? stripped : "status-page";
+    if (RESERVED_SUBDOMAINS.has(candidate) || candidate.startsWith("fajita")) {
+      candidate = candidate === "status" ? "status-page" : `${candidate}-page`;
+    }
+  }
+  if (candidate.length < SUBDOMAIN_MIN) {
+    candidate = `${candidate}-page`;
+  }
+  return candidate.slice(0, SUBDOMAIN_MAX);
 }
 
 /** Component slug: shorter, single-label, used for on-page anchors. */
