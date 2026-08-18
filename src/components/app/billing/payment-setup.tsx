@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { BrandButton } from "@/components/design-system/primitives";
 import { useToast } from "@/components/app/toast";
 import { startCheckoutAction } from "@/lib/app/actions/billing";
+import { redeemPromoCodeAction } from "@/lib/app/actions/promo";
 import type { BillingInterval, PlanId } from "@/lib/stripe/plans";
 import { PlanChooser, type PlanCardData } from "@/components/app/billing/plan-chooser";
 
@@ -29,6 +30,8 @@ export function PaymentSetup({
   const [error, setError] = useState<string | null>(initialError);
   const [retrying, setRetrying] = useState(false);
   const [redirecting, setRedirecting] = useState(Boolean(initialCheckoutUrl));
+  const [promoCode, setPromoCode] = useState("");
+  const [promoBusy, setPromoBusy] = useState(false);
 
   const checkoutError = error ?? initialError;
 
@@ -60,6 +63,29 @@ export function PaymentSetup({
       toast.error(message);
     } finally {
       setRetrying(false);
+    }
+  }
+
+
+  async function redeemPromo() {
+    if (!promoCode.trim() || promoBusy) return;
+    setPromoBusy(true);
+    setError(null);
+    try {
+      const result = await redeemPromoCodeAction(organizationId, promoCode);
+      if (!result.ok) {
+        setError(result.error);
+        toast.error(result.error);
+        return;
+      }
+      toast.success("Code applied. Continuing to setup.");
+      window.location.assign("/app/onboarding");
+    } catch {
+      const message = "That code could not be applied. Try again.";
+      setError(message);
+      toast.error(message);
+    } finally {
+      setPromoBusy(false);
     }
   }
 
@@ -103,6 +129,32 @@ export function PaymentSetup({
             plans={plans}
           />
         ) : null}
+
+      <div style={{ display: "grid", gap: "var(--space-2)" }}>
+        <label htmlFor="fajita-promo-code" className="fj-body-sm">
+          Have a code?
+        </label>
+        <div style={{ display: "flex", gap: "var(--space-3)", flexWrap: "wrap" }}>
+          <input
+            id="fajita-promo-code"
+            name="promoCode"
+            autoComplete="off"
+            spellCheck={false}
+            value={promoCode}
+            onChange={(event) => setPromoCode(event.target.value)}
+            placeholder="Enter code"
+            className="fj-input"
+            style={{ minWidth: "12rem", flex: "1 1 12rem" }}
+          />
+          <BrandButton
+            type="button"
+            onClick={redeemPromo}
+            disabled={promoBusy || !promoCode.trim()}
+          >
+            {promoBusy ? "Applying…" : "Apply code"}
+          </BrandButton>
+        </div>
+      </div>
       </div>
     );
   }
@@ -122,6 +174,32 @@ export function PaymentSetup({
         currentInterval={null}
         plans={plans}
       />
+
+      <div style={{ display: "grid", gap: "var(--space-2)" }}>
+        <label htmlFor="fajita-promo-code" className="fj-body-sm">
+          Have a code?
+        </label>
+        <div style={{ display: "flex", gap: "var(--space-3)", flexWrap: "wrap" }}>
+          <input
+            id="fajita-promo-code"
+            name="promoCode"
+            autoComplete="off"
+            spellCheck={false}
+            value={promoCode}
+            onChange={(event) => setPromoCode(event.target.value)}
+            placeholder="Enter code"
+            className="fj-input"
+            style={{ minWidth: "12rem", flex: "1 1 12rem" }}
+          />
+          <BrandButton
+            type="button"
+            onClick={redeemPromo}
+            disabled={promoBusy || !promoCode.trim()}
+          >
+            {promoBusy ? "Applying…" : "Apply code"}
+          </BrandButton>
+        </div>
+      </div>
     </div>
   );
 }
