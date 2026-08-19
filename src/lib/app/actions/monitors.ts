@@ -592,7 +592,7 @@ export async function duplicateMonitorAction(
 export async function runManualCheckAction(
   organizationId: string,
   monitorId: string,
-): Promise<ActionResult<{ queued: boolean; reason?: string }>> {
+): Promise<ActionResult<{ queued: boolean; reason?: string; summary?: string; status?: string }>> {
   try {
     const access = await requireMonitorAccess(organizationId);
     // Tight limit: manual checks must never become a denial-of-service vector.
@@ -605,7 +605,7 @@ export async function runManualCheckAction(
         action: "monitor.manual_check_requested",
         targetType: "monitor",
         targetId: monitorId,
-        summary: "Requested a manual check",
+        summary: result.summary ?? "Ran a manual check",
       });
       await trackGoal({ name: DataFastGoals.monitorManualCheck }).catch(() => {});
     }

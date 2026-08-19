@@ -14,6 +14,7 @@ import {
   rotateSigningKeyAction,
   setDefaultChannelAction,
   testChannelAction,
+  resendRecipientVerificationAction,
 } from "@/lib/app/actions/alerts";
 
 export function ChannelActions({
@@ -192,5 +193,40 @@ export function RotateSigningKey({
         Rotate
       </BrandButton>
     </span>
+  );
+}
+
+export function ResendRecipientButton({
+  organizationId,
+  recipientId,
+}: {
+  organizationId: string;
+  recipientId: string;
+}) {
+  const router = useRouter();
+  const toast = useToast();
+  const [pending, start] = useTransition();
+
+  return (
+    <button
+      type="button"
+      className="fj-link-button"
+      disabled={pending}
+      onClick={() =>
+        start(async () => {
+          const res = await resendRecipientVerificationAction(organizationId, recipientId);
+          if (res.ok && res.data?.sent) {
+            toast.success("Verification email sent.");
+            router.refresh();
+          } else if (res.ok) {
+            toast.error("Could not send a verification email right now.");
+          } else {
+            toast.error(res.error ?? "That did not work.");
+          }
+        })
+      }
+    >
+      {pending ? "Sending…" : "Resend"}
+    </button>
   );
 }

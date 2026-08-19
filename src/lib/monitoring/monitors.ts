@@ -3,6 +3,8 @@ import "server-only";
 import { serviceClient } from "@/lib/supabase/service";
 import { buildConfigSnapshot, type MonitorConfig } from "@/lib/monitoring/config";
 import { validateUrl } from "@/lib/monitoring/destination";
+import { executeHttpMonitor } from "@/lib/monitoring/vercel-worker/execute-http";
+import type { MonitorConfigSnapshot } from "@contracts/contract";
 
 /**
  * Monitor data layer. Every function is organization-scoped and assumes the
@@ -518,10 +520,46 @@ export async function restoreMonitor(params: {
  * produces the result, and the UI reflects it when it arrives. Heartbeat
  * monitors have no outbound check to run.
  */
+function storedFailureCategory(category: string | null): string | null {
+  if (!category) return null;
+  switch (category) {
+    case "configuration_error":
+      return "invalid_configuration";
+    case "destination_blocked":
+    case "metadata_blocked":
+      return "blocked_destination";
+    case "oversized_response":
+      return "response_too_large";
+    case "status_code_mismatch":
+      return "unexpected_status";
+    case "timeout":
+      return "response_timeout";
+    case "network_error":
+      return "connection_refused";
+    default:
+      return "unknown";
+  }
+}
+
+function manualCheckSummary(outcome: {
+  status: string;
+  httpStatus: number | null;
+  totalMs: number;
+  safeErrorMessage: string | null;
+}): string {
+  if (outcome.status === "success") {
+    const status = outcome.httpStatus ?? "ok";
+    return `Check succeeded (${status}, ${outcome.totalMs}ms). This test did not open an incident.`;
+  }
+  return outcome.safeErrorMessage
+    ? `${outcome.safeErrorMessage} This test did not open an incident.`
+    : "Check failed. This test did not open an incident.";
+}
+
 export async function requestManualCheck(params: {
   organizationId: string;
   monitorId: string;
-}): Promise<{ queued: boolean; reason?: string }> {
+}): Promise<{ queued: boolean; reason?: string; summary?: string; status?: string }> {
   const db = serviceClient();
   const { organizationId, monitorId } = params;
   const monitor = await getMonitorRow(organizationId, monitorId);
@@ -532,6 +570,9 @@ export async function requestManualCheck(params: {
   if (monitor.status !== "active") {
     return { queued: false, reason: "Activate the monitor before running a check." };
   }
+  if (!monitor.current_version_id) {
+    return { queued: false, reason: "This monitor has no saved configuration yet." };
+  }
   const { data: schedule } = await db
     .from("check_schedules")
     .select("monitor_id, enabled")
@@ -540,14 +581,65 @@ export async function requestManualCheck(params: {
   if (!schedule) {
     return { queued: false, reason: "This monitor has no active schedule yet." };
   }
-  const { error } = await db
-    .from("check_schedules")
-    .update({ next_check_at: new Date().toISOString(), enabled: true })
-    .eq("monitor_id", monitorId)
-    .eq("organization_id", organizationId)
-    .is("locked_at", null);
-  if (error) throw error;
-  return { queued: true };
+
+  const { data: version, error: versionError } = await db
+    .from("monitor_versions")
+    .select("id, configuration_snapshot")
+    .eq("id", monitor.current_version_id)
+    .maybeSingle();
+  if (versionError) throw versionError;
+  if (!version?.configuration_snapshot) {
+    return { queued: false, reason: "This monitor has no saved configuration yet." };
+  }
+
+  const startedAt = new Date();
+  const outcome = await executeHttpMonitor(version.configuration_snapshot as MonitorConfigSnapshot);
+  const completedAt = new Date();
+  const idempotencyKey = `manual:${monitorId}:${crypto.randomUUID()}`;
+
+  const { data: execution, error: execError } = await db
+    .from("check_executions")
+    .insert({
+      idempotency_key: idempotencyKey,
+      monitor_id: monitorId,
+      monitor_version_id: version.id,
+      organization_id: organizationId,
+      region: "manual",
+      scheduled_for: startedAt.toISOString(),
+      started_at: startedAt.toISOString(),
+      completed_at: completedAt.toISOString(),
+      attempt_count: 1,
+      status: outcome.status,
+      phase: "completed",
+      is_test: true,
+    })
+    .select("id")
+    .single();
+  if (execError) throw execError;
+
+  const { error: resultError } = await db.from("check_results").insert({
+    execution_id: execution.id,
+    monitor_id: monitorId,
+    monitor_version_id: version.id,
+    organization_id: organizationId,
+    region: "manual",
+    status: outcome.status,
+    failure_category: storedFailureCategory(outcome.failureCategory),
+    http_status: outcome.httpStatus,
+    final_url: outcome.finalUrl,
+    redirect_count: outcome.redirectCount,
+    response_bytes: outcome.responseBytes,
+    total_ms: outcome.totalMs,
+    safe_error_message: outcome.safeErrorMessage,
+    checked_at: completedAt.toISOString(),
+  });
+  if (resultError) throw resultError;
+
+  return {
+    queued: true,
+    status: outcome.status,
+    summary: manualCheckSummary(outcome),
+  };
 }
 
 /**

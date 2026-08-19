@@ -7,6 +7,8 @@ import { AppSection, PageHeader } from "@/components/app/ui";
 import { ChannelCreateForm } from "@/components/app/alerts/channel-create-form";
 import { requireAlertsPage } from "@/lib/alerts/alerts-page";
 import { ALERT_PROVIDERS, type AlertProvider } from "@/lib/alerts/constants";
+import { getOrgEntitlements } from "@/lib/billing/engine";
+import { enabledAlertProviders } from "@/lib/billing/product-access";
 
 export const metadata: Metadata = {
   title: "Add alert channel",
@@ -22,6 +24,8 @@ export default async function NewChannelPage({
   if (!ctx.canManageAlerts) notFound();
 
   const { provider } = await searchParams;
+  const entitlements = await getOrgEntitlements(ctx.organizationId);
+  const enabledProviders = enabledAlertProviders(entitlements);
   const initial = ALERT_PROVIDERS.includes(provider as AlertProvider) ? (provider as AlertProvider) : undefined;
 
   return (
@@ -36,7 +40,7 @@ export default async function NewChannelPage({
       />
 
       <AppSection>
-        <ChannelCreateForm organizationId={ctx.organizationId} initialProvider={initial} />
+        <ChannelCreateForm organizationId={ctx.organizationId} initialProvider={initial} enabledProviders={enabledProviders} />
       </AppSection>
     </div>
   );

@@ -13,7 +13,7 @@ import {
   errorLabel,
   eventLabel,
 } from "@/components/app/alerts/alert-bits";
-import { ChannelActions, RotateSigningKey } from "@/components/app/alerts/channel-actions";
+import { ChannelActions, ResendRecipientButton, RotateSigningKey } from "@/components/app/alerts/channel-actions";
 import { requireAlertsPage } from "@/lib/alerts/alerts-page";
 import { getChannelDetail, listDeliveries } from "@/lib/alerts/queries";
 import { formatTimestamp, relativeTime } from "@/lib/incidents/duration";
@@ -94,6 +94,9 @@ export default async function ChannelDetailPage({
                     <span className={`fj-verify fj-verify--${r.verificationStatus}`}>
                       {r.verificationStatus === "verified" ? "Verified" : r.verificationStatus === "failed" ? "Bounced" : "Pending"}
                     </span>
+                    {ctx.canManageAlerts && r.verificationStatus === "pending" ? (
+                      <ResendRecipientButton organizationId={ctx.organizationId} recipientId={r.id} />
+                    ) : null}
                   </li>
                 ))}
               </ul>
