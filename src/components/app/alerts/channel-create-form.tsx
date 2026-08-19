@@ -24,15 +24,20 @@ interface Recipient {
 export function ChannelCreateForm({
   organizationId,
   initialProvider,
+  enabledProviders,
 }: {
   organizationId: string;
   initialProvider?: AlertProvider;
+  enabledProviders: AlertProvider[];
 }) {
   const router = useRouter();
   const toast = useToast();
   const [pending, start] = useTransition();
 
-  const [provider, setProvider] = useState<AlertProvider | null>(initialProvider ?? null);
+  const allowed = enabledProviders.length > 0 ? enabledProviders : (["email"] as AlertProvider[]);
+  const [provider, setProvider] = useState<AlertProvider | null>(
+    initialProvider && allowed.includes(initialProvider) ? initialProvider : null,
+  );
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
@@ -164,18 +169,28 @@ export function ChannelCreateForm({
   if (!provider) {
     return (
       <div className="fj-provider-grid">
-        {ALERT_PROVIDERS.map((p) => (
-          <button
-            key={p}
-            type="button"
-            className="fj-provider-choice"
-            onClick={() => setProvider(p)}
-          >
-            <ProviderMark provider={p} size={20} />
-            <span className="fj-provider-choice__name">{PROVIDER_LABEL[p]}</span>
-            <span className="fj-provider-choice__blurb">{PROVIDER_BLURB[p]}</span>
-          </button>
-        ))}
+        {ALERT_PROVIDERS.map((p) => {
+          const enabled = allowed.includes(p);
+          return (
+            <button
+              key={p}
+              type="button"
+              className="fj-provider-choice"
+              disabled={!enabled}
+              onClick={() => enabled && setProvider(p)}
+            >
+              <ProviderMark provider={p} size={20} />
+              <span className="fj-provider-choice__name">{PROVIDER_LABEL[p]}</span>
+              <span className="fj-provider-choice__blurb">
+                {enabled
+                  ? PROVIDER_BLURB[p]
+                  : p === "email"
+                    ? "Email alerts are unavailable on your current plan."
+                    : "Slack, Discord, and webhook alerts are on Team and Scale."}
+              </span>
+            </button>
+          );
+        })}
       </div>
     );
   }
@@ -221,7 +236,7 @@ export function ChannelCreateForm({
       {provider === "email" ? (
         <div className="fj-field">
           <span className="fj-field__label">Recipients</span>
-          <p className="fj-field__hint">Your teammates are verified automatically. External addresses stay pending until they confirm.</p>
+          <p className="fj-field__hint">Your teammates are verified automatically. External addresses get a confirmation email.</p>
           <div className="fj-recip-list">
             {recipients.map((r, i) => (
               <div key={i} className="fj-recip-row">

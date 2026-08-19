@@ -406,7 +406,7 @@ function RowMenu({
             className="fj-menu-item"
             role="menuitem"
             onClick={() =>
-              act(() => runManualCheckAction(organizationId, monitor.id), "Check queued.")
+              act(() => runManualCheckAction(organizationId, monitor.id), "Check ran. This test did not open an incident.")
             }
           >
             <BrandIcon name="response-time" size={16} /> Run check

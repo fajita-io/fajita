@@ -189,7 +189,7 @@ export async function createEmailChannel(
   params: NewChannelBase & {
     recipients: Array<{ email: string; label?: string | null; isMember: boolean }>;
   },
-): Promise<{ channelId: string }> {
+): Promise<{ channelId: string; pendingRecipientIds: string[] }> {
   if (params.recipients.length === 0) {
     throw new Error("Add at least one recipient.");
   }
@@ -218,7 +218,10 @@ export async function createEmailChannel(
     verified_at: r.isMember ? new Date().toISOString() : null,
     created_by_user_id: params.actorProfileId,
   }));
-  const { error } = await db.from("alert_email_recipients").insert(rows);
+  const { data: inserted, error } = await db
+    .from("alert_email_recipients")
+    .insert(rows)
+    .select("id, verification_status");
   if (error) throw error;
 
   await insertVersion({
@@ -229,7 +232,10 @@ export async function createEmailChannel(
     changeReason: "Channel created",
     actorProfileId: params.actorProfileId,
   });
-  return { channelId };
+  const pendingRecipientIds = (inserted ?? [])
+    .filter((row) => row.verification_status === "pending")
+    .map((row) => row.id);
+  return { channelId, pendingRecipientIds };
 }
 
 export async function createSlackChannel(

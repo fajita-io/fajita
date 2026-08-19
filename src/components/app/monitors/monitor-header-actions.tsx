@@ -70,10 +70,10 @@ export function MonitorHeaderActions({
             start(async () => {
               const res = await runManualCheckAction(organizationId, monitorId);
               if (res.ok && res.data?.queued) {
-                toast.success("Check queued. The result appears here shortly.");
+                toast.success(res.data.summary ?? "Check ran. This test did not open an incident.");
                 router.refresh();
               } else if (res.ok) {
-                toast.error(res.data?.reason ?? "Fajita could not queue a check right now.");
+                toast.error(res.data?.reason ?? "Fajita could not run a check right now.");
               } else {
                 toast.error(res.error);
               }

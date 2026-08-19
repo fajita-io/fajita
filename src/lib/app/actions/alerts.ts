@@ -7,7 +7,7 @@ import { DataFastGoals } from "@/lib/analytics/goals";
 import { trackGoal } from "@/lib/analytics/server";
 import { recordAuditEvent } from "@/lib/app/audit";
 import { type ActionResult, toActionError } from "@/lib/app/actions/shared";
-import { requireAlertsEntitlement } from "@/lib/billing/product-access";
+import { requireAlertsEntitlement, requireProviderAlertsEntitlement } from "@/lib/billing/product-access";
 import { isPlatformAdmin, requireOrganizationPermission } from "@/lib/auth/context";
 import { RateLimited } from "@/lib/auth/errors";
 import { rateLimit } from "@/lib/site/rate-limit";
@@ -39,6 +39,7 @@ import { ALERT_SEVERITIES, RECOVERY_BEHAVIORS, QUIET_BEHAVIORS, SCOPE_KINDS } fr
 import { SELECTABLE_EVENT_TYPES } from "@/lib/alerts/events";
 import { listOrgMembers } from "@/lib/app/organizations";
 import { emailMatchesOrgMember } from "@/lib/alerts/recipients";
+import { sendPendingRecipientVerifications, sendRecipientVerification } from "@/lib/alerts/recipient-verification";
 
 /**
  * Server actions for alert channels, routing rules, tests, and delivery
@@ -93,7 +94,7 @@ export async function createEmailChannelAction(organizationId: string, input: un
       .map((m) => m.email)
       .filter((e): e is string => Boolean(e));
     if (access.profile.primary_email) memberEmails.push(access.profile.primary_email);
-    const { channelId } = await createEmailChannel({
+    const { channelId, pendingRecipientIds } = await createEmailChannel({
       organizationId,
       actorProfileId: access.profile.id,
       name: data.name,
@@ -103,6 +104,10 @@ export async function createEmailChannelAction(organizationId: string, input: un
         label: r.label,
         isMember: emailMatchesOrgMember(r.email, memberEmails),
       })),
+    });
+    await sendPendingRecipientVerifications({
+      organizationId,
+      recipientIds: pendingRecipientIds,
     });
     await afterCreate(organizationId, access.profile.id, channelId, "email", data.name);
     return { ok: true, data: { channelId } };
@@ -122,6 +127,7 @@ const slackSchema = z.object({
 export async function createSlackChannelAction(organizationId: string, input: unknown): Promise<ActionResult<{ channelId: string }>> {
   try {
     const access = await requireAlertsAccess(organizationId);
+    await requireProviderAlertsEntitlement(organizationId, "slack");
     limitOrThrow(access.profile.id, "create", 20);
     const data = slackSchema.parse(input);
     const { channelId } = await createSlackChannel({
@@ -150,6 +156,7 @@ const discordSchema = z.object({
 export async function createDiscordChannelAction(organizationId: string, input: unknown): Promise<ActionResult<{ channelId: string }>> {
   try {
     const access = await requireAlertsAccess(organizationId);
+    await requireProviderAlertsEntitlement(organizationId, "discord");
     limitOrThrow(access.profile.id, "create", 20);
     const data = discordSchema.parse(input);
     const { channelId } = await createDiscordChannel({
@@ -184,6 +191,7 @@ export async function createWebhookChannelAction(
 ): Promise<ActionResult<{ channelId: string; signingSecret?: string; signingKeyId?: string }>> {
   try {
     const access = await requireAlertsAccess(organizationId);
+    await requireProviderAlertsEntitlement(organizationId, "webhook");
     limitOrThrow(access.profile.id, "create", 20);
     const data = webhookSchema.parse(input);
     const result = await createWebhookChannel({
@@ -480,6 +488,20 @@ export async function exportDeliveriesAction(organizationId: string): Promise<Ac
     await recordAuditEvent({ organizationId, actorUserId: access.profile.id, action: "alert_delivery.exported", targetType: "organization", targetId: organizationId, summary: "Exported the alert delivery log" });
     await trackGoal({ name: DataFastGoals.alertDeliveryExported }).catch(() => {});
     return { ok: true, data: { csv } };
+  } catch (error) {
+    return toActionError(error);
+  }
+}
+
+export async function resendRecipientVerificationAction(
+  organizationId: string,
+  recipientId: string,
+): Promise<ActionResult<{ sent: boolean }>> {
+  try {
+    const access = await requireAlertsAccess(organizationId);
+    limitOrThrow(access.profile.id, "resend-verify", 10);
+    const result = await sendRecipientVerification({ organizationId, recipientId });
+    return { ok: true, data: result };
   } catch (error) {
     return toActionError(error);
   }
