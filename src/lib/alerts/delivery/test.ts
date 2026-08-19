@@ -19,6 +19,8 @@ import {
   resolveWebhookCredentials,
 } from "@/lib/alerts/delivery/secrets";
 import { emailAppLink } from "@/lib/email/links";
+import { verifyPendingMemberRecipients } from "@/lib/alerts/channels";
+import { listOrgMembers } from "@/lib/app/organizations";
 
 /**
  * Dedicated channel test. Runs inline so the operator sees the result
@@ -133,6 +135,16 @@ export async function sendChannelTest(params: {
     .select("id")
     .single();
   if (insErr) throw insErr;
+
+  if (channel.provider === "email") {
+    const members = await listOrgMembers(params.organizationId, params.actorProfileId);
+    const memberEmails = members.map((m) => m.email).filter((e): e is string => Boolean(e));
+    await verifyPendingMemberRecipients({
+      organizationId: params.organizationId,
+      channelId: channel.id,
+      memberEmails,
+    });
+  }
 
   const ctx = testContext(org?.name ?? "Your organization");
   const outcome = await dispatchTest(channel.id, channel.provider, ctx);

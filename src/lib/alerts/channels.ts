@@ -6,6 +6,7 @@ import type { Json } from "@/lib/supabase/types";
 import { validateUrl } from "@/lib/monitoring/destination";
 import { generateSigningKey } from "@/lib/alerts/signing";
 import { ALERT_LIMITS, BLOCKED_WEBHOOK_HEADERS, type AlertProvider } from "@/lib/alerts/constants";
+import { emailMatchesOrgMember } from "@/lib/alerts/recipients";
 
 /**
  * Alert-channel data layer. Provider credentials are envelope-encrypted (Phase
@@ -14,6 +15,53 @@ import { ALERT_LIMITS, BLOCKED_WEBHOOK_HEADERS, type AlertProvider } from "@/lib
  * All writes run through the service role after an explicit permission check in
  * the action layer.
  */
+
+
+/**
+ * Org members are verified through membership. The create form always sends
+ * isMember=false, so create and test both resolve membership on the server
+ * instead of trusting the client.
+ */
+export async function verifyPendingMemberRecipients(params: {
+  organizationId: string;
+  channelId: string;
+  memberEmails: Iterable<string>;
+}): Promise<number> {
+  const emails = [
+    ...new Set(
+      Array.from(params.memberEmails)
+        .map((e) => e.trim().toLowerCase())
+        .filter(Boolean),
+    ),
+  ];
+  if (emails.length === 0) return 0;
+  const db = serviceClient();
+  const { data, error } = await db
+    .from("alert_email_recipients")
+    .select("id, email, verification_status")
+    .eq("channel_id", params.channelId)
+    .eq("organization_id", params.organizationId)
+    .is("removed_at", null);
+  if (error) throw error;
+  const ids = (data ?? [])
+    .filter(
+      (row) =>
+        row.verification_status !== "verified" &&
+        emailMatchesOrgMember(String(row.email), emails),
+    )
+    .map((row) => row.id);
+  if (ids.length === 0) return 0;
+  const { error: updateError } = await db
+    .from("alert_email_recipients")
+    .update({
+      verification_status: "verified",
+      is_organization_member: true,
+      verified_at: new Date().toISOString(),
+    })
+    .in("id", ids);
+  if (updateError) throw updateError;
+  return ids.length;
+}
 
 export interface CustomHeaderInput {
   name: string;

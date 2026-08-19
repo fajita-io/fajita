@@ -221,7 +221,7 @@ export function ChannelCreateForm({
       {provider === "email" ? (
         <div className="fj-field">
           <span className="fj-field__label">Recipients</span>
-          <p className="fj-field__hint">Each address gets a verification email before it can receive an alert.</p>
+          <p className="fj-field__hint">Your teammates are verified automatically. External addresses stay pending until they confirm.</p>
           <div className="fj-recip-list">
             {recipients.map((r, i) => (
               <div key={i} className="fj-recip-row">

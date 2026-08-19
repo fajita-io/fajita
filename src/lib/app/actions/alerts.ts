@@ -37,6 +37,8 @@ import { dismissDeadLetter, retryDeadLetter } from "@/lib/alerts/deadletters";
 import { exportDeliveriesCsv } from "@/lib/alerts/queries";
 import { ALERT_SEVERITIES, RECOVERY_BEHAVIORS, QUIET_BEHAVIORS, SCOPE_KINDS } from "@/lib/alerts/constants";
 import { SELECTABLE_EVENT_TYPES } from "@/lib/alerts/events";
+import { listOrgMembers } from "@/lib/app/organizations";
+import { emailMatchesOrgMember } from "@/lib/alerts/recipients";
 
 /**
  * Server actions for alert channels, routing rules, tests, and delivery
@@ -86,12 +88,21 @@ export async function createEmailChannelAction(organizationId: string, input: un
     const access = await requireAlertsAccess(organizationId);
     limitOrThrow(access.profile.id, "create", 20);
     const data = emailSchema.parse(input);
+    const members = await listOrgMembers(organizationId, access.profile.id);
+    const memberEmails = members
+      .map((m) => m.email)
+      .filter((e): e is string => Boolean(e));
+    if (access.profile.primary_email) memberEmails.push(access.profile.primary_email);
     const { channelId } = await createEmailChannel({
       organizationId,
       actorProfileId: access.profile.id,
       name: data.name,
       description: data.description,
-      recipients: data.recipients.map((r) => ({ email: r.email, label: r.label, isMember: r.isMember })),
+      recipients: data.recipients.map((r) => ({
+        email: r.email,
+        label: r.label,
+        isMember: emailMatchesOrgMember(r.email, memberEmails),
+      })),
     });
     await afterCreate(organizationId, access.profile.id, channelId, "email", data.name);
     return { ok: true, data: { channelId } };

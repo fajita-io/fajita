@@ -1,3 +1,4 @@
+import { emailMatchesOrgMember } from "@/lib/alerts/recipients";
 import { describe, expect, it } from "vitest";
 
 import { categorizeHttpStatus, customerFacingError, isRetryable, resultForCategory } from "@/lib/alerts/errors";
@@ -95,5 +96,16 @@ describe("quiet windows", () => {
     expect(
       evaluateQuiet({ windows: [window], at: new Date("2026-07-21T12:00:00Z"), severity: "major", eventType: "incident.opened" }),
     ).toBe("not_quiet");
+  });
+});
+
+
+describe("emailMatchesOrgMember", () => {
+  it("matches the actor email case-insensitively", () => {
+    expect(emailMatchesOrgMember("fajitamonitor@gmail.com", ["FajitaMonitor@gmail.com"])).toBe(true);
+  });
+
+  it("does not treat a stranger as a member", () => {
+    expect(emailMatchesOrgMember("alex@example.com", ["fajitamonitor@gmail.com"])).toBe(false);
   });
 });
