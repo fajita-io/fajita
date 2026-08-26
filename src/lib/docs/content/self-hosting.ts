@@ -47,8 +47,8 @@ export const selfHostingPages: DocPage[] = [
           body: [
             code(
               "bash",
-              `git clone https://github.com/fajita-io/fajita.git
-cd fajita
+              `git clone https://github.com/Accomplish-Labs/fajita-io.git
+cd fajita-io
 cp .env.example .env`,
             ),
           ],
@@ -140,7 +140,7 @@ MONITOR_SECRET_KEYRING=1:<base64-of-32-bytes>`,
       slug: "self-hosting/authentication",
       title: "Self-hosting authentication",
       description:
-        "Clerk setup for self-hosted Fajita: origins, redirects, Supabase integration, and webhooks.",
+        "Clerk setup for self-hosted Fajita: origins, redirects, JWT auth integration, and webhooks.",
       category: "self-hosting",
       model: "build",
       pageType: "task",
@@ -163,7 +163,7 @@ MONITOR_SECRET_KEYRING=1:<base64-of-32-bytes>`,
       ul([
         "Add your public URL to allowed origins",
         "Set sign-in redirect to `/app`",
-        "Configure the Supabase third-party auth integration",
+        "Configure the Clerk JWT template integration for PostgREST",
         "Point the Clerk webhook to `/api/webhooks/clerk` (use a tunnel for local dev)",
       ]),
       callout("warning", [
@@ -286,7 +286,7 @@ docker compose up -d`,
       h2("Cannot sign in"),
       ul([
         "Confirm Clerk allowed origins include your public URL",
-        "Verify Supabase third-party auth integration in Clerk",
+        "Verify the Clerk JWT template integration for PostgREST in Clerk",
       ]),
     ],
   }),

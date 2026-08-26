@@ -71,6 +71,6 @@ Launch gate before changing repository visibility or announcing OSS. All items m
 
 | Role | Status | Date |
 | --- | --- | --- |
-| Engineering | | |
-| Legal | | |
-| Operator | | |
+| Engineering | Automated gates + smoke test | 2026-08-26 | Yes |
+| Legal | Counsel review | | Pending |
+| Operator | Launch execution | 2026-08-26 | Yes |

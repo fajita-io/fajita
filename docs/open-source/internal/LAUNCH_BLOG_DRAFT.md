@@ -30,7 +30,7 @@ Self-hosted Fajita is not a demo tier. Cloud is not obsolete. Cloud sells operat
 
 Run it yourself: https://fajita.io/self-host  
 Managed option: https://fajita.io/signup  
-Source: https://github.com/fajita-io/fajita
+Source: https://github.com/Accomplish-Labs/fajita-io
 
 ## Verification still matters
 

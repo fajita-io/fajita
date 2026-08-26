@@ -13,8 +13,8 @@ Target: open `http://localhost:3000`, sign in, create a monitor, and see checks 
 ### 1. Clone and configure
 
 ```bash
-git clone https://github.com/fajita-io/fajita.git
-cd fajita
+git clone https://github.com/Accomplish-Labs/fajita-io.git
+cd fajita-io
 cp .env.example .env
 ```
 

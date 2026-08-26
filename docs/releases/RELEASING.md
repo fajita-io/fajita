@@ -48,9 +48,9 @@ Create a GitHub Release from the tag using [RELEASE_NOTES_TEMPLATE.md](./RELEASE
 
 The [release workflow](../../.github/workflows/release.yml) builds and pushes:
 
-- `ghcr.io/fajita-io/fajita-web`
-- `ghcr.io/fajita-io/fajita-monitor-worker`
-- `ghcr.io/fajita-io/fajita-worker`
+- `ghcr.io/accomplish-labs/fajita-io-web`
+- `ghcr.io/accomplish-labs/fajita-io-monitor-worker`
+- `ghcr.io/accomplish-labs/fajita-io-worker`
 
 Verify images appear in GHCR after the workflow completes.
 

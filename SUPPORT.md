@@ -6,9 +6,9 @@ Use these channels once the repository is public:
 
 | Channel | Best for |
 | --- | --- |
-| [GitHub Discussions](https://github.com/fajita-io/fajita/discussions) | Questions, ideas, show-and-tell |
+| [GitHub Discussions](https://github.com/Accomplish-Labs/fajita-io/discussions) | Questions, ideas, show-and-tell |
 | [Documentation](./docs/README.md) | Installation, configuration, upgrades |
-| [GitHub Issues](https://github.com/fajita-io/fajita/issues) | Reproducible bugs and feature requests |
+| [GitHub Issues](https://github.com/Accomplish-Labs/fajita-io/issues) | Reproducible bugs and feature requests |
 | [Troubleshooting](./docs/self-hosting/TROUBLESHOOTING.md) | Common self-host failures |
 
 Community support is best-effort. Maintainers respond when they can. There is no guaranteed SLA for free self-hosted deployments.

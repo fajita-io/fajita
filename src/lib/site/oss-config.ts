@@ -3,8 +3,8 @@
  * URLs, and deployment-path copy so components do not scatter env checks.
  */
 
-export const OSS_GITHUB_ORG = "fajita-io";
-export const OSS_GITHUB_REPO = "fajita";
+export const OSS_GITHUB_ORG = "Accomplish-Labs";
+export const OSS_GITHUB_REPO = "fajita-io";
 export const OSS_GITHUB_SLUG = `${OSS_GITHUB_ORG}/${OSS_GITHUB_REPO}`;
 
 export const OSS_GITHUB_URL = `https://github.com/${OSS_GITHUB_SLUG}`;
@@ -42,7 +42,7 @@ export function ossPublicVisible(): boolean {
   return isOssLaunched();
 }
 
-/** GitHub links are only shown when the repository is public. */
+/** GitHub links visible when OSS launch flag is on (repository is public). */
 export function ossGitHubVisible(): boolean {
   return isOssLaunched();
 }

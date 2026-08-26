@@ -82,9 +82,12 @@ When all automated gates pass and operator tasks are complete:
 
 ### Remaining before flip
 
-- [ ] Provider secret rotation (Clerk, Stripe, Supabase, Resend) in dashboards
-- [ ] Legal counsel sign-off
-- [x] Commit + push OSS release branch to GitHub (2026-08-26)
-- [x] Make repository public — https://github.com/Accomplish-Labs/fajita-io
-- [x] Enable secret scanning + push protection
-- [x] Tag `v0.1.0` pushed (GHCR publish via `.github/workflows/release.yml`)
+- [ ] Provider secret rotation (Clerk, Stripe, Supabase, Resend) in dashboards — operator procedure in SECRET_ROTATION_RUNBOOK.md
+- [ ] Legal counsel sign-off — engineering prep complete; counsel review pending
+
+### Completed at launch (2026-08-26)
+
+- [x] Canonical GitHub URLs (`Accomplish-Labs/fajita-io`) site-wide
+- [x] `NEXT_PUBLIC_OSS_LAUNCHED=true` on Vercel production
+- [x] Production deploy with OSS pages indexable
+- [x] GitHub Release `v0.1.0` + GHCR images via release workflow

@@ -34,5 +34,5 @@ Initial open-source release candidate. Tag when legal sign-off and secret rotati
 - Docker-based self-hosting path
 - Clerk authentication integration
 
-[Unreleased]: https://github.com/fajita-io/fajita/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/fajita-io/fajita/releases/tag/v0.1.0
+[Unreleased]: https://github.com/Accomplish-Labs/fajita-io/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/Accomplish-Labs/fajita-io/releases/tag/v0.1.0

@@ -9,7 +9,7 @@ Same idea as always: verify failures before waking anyone up.
 Self-host with Docker, or use Fajita Cloud if you do not want to run workers yourself.
 
 https://fajita.io/open-source  
-https://github.com/fajita-io/fajita
+https://github.com/Accomplish-Labs/fajita-io
 
 ---
 

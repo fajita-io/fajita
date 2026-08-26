@@ -18,8 +18,8 @@ We are open-sourcing the core today under AGPL-3.0.
 **Self-host**
 
 ```bash
-git clone https://github.com/fajita-io/fajita.git
-cd fajita
+git clone https://github.com/Accomplish-Labs/fajita-io.git
+cd fajita-io
 cp .env.example .env
 docker compose up -d
 ```
@@ -38,5 +38,5 @@ We still run a managed version at https://fajita.io for teams that do not want t
 
 Happy to answer questions on verification logic, self-hosting, or what we deliberately left out of v1 OSS.
 
-Repo: https://github.com/fajita-io/fajita  
+Repo: https://github.com/Accomplish-Labs/fajita-io  
 Docs: https://fajita.io/docs/self-hosting/quickstart

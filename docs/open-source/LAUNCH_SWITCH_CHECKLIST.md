@@ -13,7 +13,7 @@ Execute in order on OSS launch day. Phase 5 owns execution.
 ## Repository
 
 6. Apply [REPOSITORY_METADATA.md](./REPOSITORY_METADATA.md) in GitHub Settings
-7. Set repository visibility to **public** (`fajita-io/fajita`)
+7. Set repository visibility to **public** (`Accomplish-Labs/fajita-io`) — done 2026-08-26
 8. Enable GitHub Discussions with categories from [DISCUSSIONS.md](./DISCUSSIONS.md)
 9. Confirm README, LICENSE, SECURITY.md render correctly on GitHub
 10. Publish git tag `v0.1.0` and GitHub Release (notes from [internal/INITIAL_RELEASE_DRAFT.md](./internal/INITIAL_RELEASE_DRAFT.md))

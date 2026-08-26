@@ -7,7 +7,7 @@ Use this sheet for consistent listings across GitHub, directories, and launch po
 | Project name | Fajita |
 | Description | Open-source uptime monitoring that verifies failures before waking you up. |
 | Short description | OSS uptime monitoring with verification before alerts. |
-| GitHub URL | https://github.com/fajita-io/fajita |
+| GitHub URL | https://github.com/Accomplish-Labs/fajita-io |
 | Website | https://fajita.io |
 | Open source page | https://fajita.io/open-source |
 | Self-host page | https://fajita.io/self-host |

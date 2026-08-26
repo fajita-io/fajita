@@ -3,8 +3,8 @@ import type { LegalBlock, LegalDocMeta, LegalSection } from "./types";
 export const PRIVACY_META: LegalDocMeta = {
   title: "Privacy Policy",
   version: 2,
-  effectiveDate: "2026-07-20",
-  lastUpdated: "2026-07-20",
+  effectiveDate: "2026-08-26",
+  lastUpdated: "2026-08-26",
 };
 
 export const privacyIntro: LegalBlock[] = [
@@ -44,6 +44,10 @@ export const privacySections: LegalSection[] = [
       {
         type: "p",
         text: 'For most account and Service data, Fajita acts as a "controller" (or equivalent under applicable law) determining how personal information is processed. Where you use the Service to monitor systems, publish status pages, or send alerts to your users, you may also act as a controller with respect to personal information you submit about your users or subscribers. In those cases, you are responsible for providing appropriate notices and obtaining required consents.',
+      },
+      {
+        type: "p",
+        text: "Self-hosted software. Fajita publishes open-source software you may run on infrastructure you control. This Policy describes Fajita Cloud (the hosted Service at fajita.io). If you self-host Fajita, you act as the controller for personal information processed in your deployment. Fajita does not receive that data unless you choose to connect third-party services we operate or send data to us through support channels.",
       },
     ],
   },

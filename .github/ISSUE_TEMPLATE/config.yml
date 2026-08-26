@@ -4,5 +4,5 @@ contact_links:
     url: https://fajita.io/contact
     about: Report vulnerabilities privately. See SECURITY.md. Do not file public exploit issues.
   - name: Documentation
-    url: https://github.com/fajita-io/fajita/tree/main/docs
+    url: https://github.com/Accomplish-Labs/fajita-io/tree/main/docs
     about: Self-hosting, architecture, and contributor guides

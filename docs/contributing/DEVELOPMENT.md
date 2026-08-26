@@ -13,8 +13,8 @@ Setup for contributing to Fajita. Self-hosters who only want to run the product 
 ## Local setup (Cloud-style dev)
 
 ```bash
-git clone https://github.com/fajita-io/fajita.git
-cd fajita
+git clone https://github.com/Accomplish-Labs/fajita-io.git
+cd fajita-io
 npm ci
 cp .env.example .env.local
 # Configure Clerk + Supabase local or remote dev project
