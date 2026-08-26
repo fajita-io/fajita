@@ -74,6 +74,7 @@ export function SiteHeaderContent({
             <BrandButtonLink
               href={cta.primary.href}
               size="sm"
+              className="fj-header__cta"
               data-fast-goal={DataFastGoals.navCta}
             >
               {cta.primary.label}

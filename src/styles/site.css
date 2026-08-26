@@ -60,9 +60,9 @@
 
 .fj-header__inner {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: var(--space-6);
+  gap: var(--space-4);
   min-height: 4.25rem;
 }
 
@@ -77,22 +77,40 @@
 .fj-header__nav {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-1);
   justify-self: center;
+  min-width: 0;
 }
 
 .fj-header__actions {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-2);
   justify-self: end;
+  flex: none;
+  padding-left: var(--space-4);
+  margin-left: var(--space-2);
+  border-left: 1px solid var(--color-border-subtle);
+}
+
+.fj-header__login,
+.fj-header__actions .fj-button {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.fj-header__actions .fj-button--sm {
+  min-height: var(--touch-target-sm);
+  padding-inline: var(--space-4);
 }
 
 .fj-github-star {
   display: inline-flex;
   align-items: stretch;
   flex: none;
-  min-height: 2rem;
+  flex-shrink: 0;
+  min-height: var(--touch-target-sm);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-sm);
   background: var(--color-background-elevated);
@@ -101,6 +119,7 @@
   font-size: var(--text-label);
   font-weight: 600;
   line-height: 1;
+  white-space: nowrap;
   overflow: hidden;
   transition:
     border-color var(--motion-fast) var(--ease-standard),
@@ -119,6 +138,7 @@
   align-items: center;
   gap: var(--space-2);
   padding: 0 var(--space-3);
+  min-height: var(--touch-target-sm);
 }
 
 .fj-github-star__icon {
@@ -129,6 +149,7 @@
 .fj-github-star__count {
   display: inline-flex;
   align-items: center;
+  min-height: var(--touch-target-sm);
   padding: 0 var(--space-3);
   border-left: 1px solid var(--color-border-subtle);
   background: color-mix(in srgb, var(--color-background-inset) 72%, transparent);
@@ -162,6 +183,13 @@
 
 .fj-header-mobile-nav__github .fj-github-star {
   width: fit-content;
+}
+
+@media (max-width: 80rem) {
+  .fj-header__nav .fj-nav-link {
+    padding-inline: var(--space-2);
+    white-space: nowrap;
+  }
 }
 
 .fj-nav-link {
@@ -308,9 +336,16 @@
     min-width: 0;
   }
 
-  .fj-header__logo,
+  .fj-header__logo {
+    min-width: 0;
+  }
+
   .fj-header__actions {
     min-width: 0;
+    padding-left: 0;
+    margin-left: 0;
+    border-left: none;
+    gap: var(--space-2);
   }
 
   .fj-header__nav,
