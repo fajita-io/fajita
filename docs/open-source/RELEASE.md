@@ -88,6 +88,9 @@ When all automated gates pass and operator tasks are complete:
 ### Completed at launch (2026-08-26)
 
 - [x] Canonical GitHub URLs (`Accomplish-Labs/fajita-io`) site-wide
+- [x] Repository public — https://github.com/Accomplish-Labs/fajita-io
+- [x] GitHub topics and metadata applied
 - [x] `NEXT_PUBLIC_OSS_LAUNCHED=true` on Vercel production
 - [x] Production deploy with OSS pages indexable
-- [x] GitHub Release `v0.1.0` + GHCR images via release workflow
+- [x] GitHub Release `v0.1.0` + GHCR images (release workflow success on `222bb3f`)
+- [x] Linux-compatible `package-lock.json` and monitor-worker `go.mod` for CI release path
