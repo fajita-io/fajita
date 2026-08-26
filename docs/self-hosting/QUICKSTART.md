@@ -29,9 +29,9 @@ NEXT_PUBLIC_SUPABASE_URL=http://localhost:54321
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
 CLERK_SECRET_KEY=sk_test_...
 
-# Supabase-compatible JWT keys (local PostgREST defaults)
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6jE5ODM4MTI5OTZ9.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YbrN1IY
+# Supabase-compatible JWT keys (local PostgREST defaults — copy from .env.example)
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<from .env.example>
+SUPABASE_SERVICE_ROLE_KEY=<from .env.example>
 
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/postgres
 CRON_SECRET=<long-random-string>

@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { FajitaLogo } from "@/components/brand/logo/fajita-logo";
 import { BrandButtonLink } from "@/components/design-system/primitives";
+import { GitHubStarLinkView } from "@/components/site/oss/github-star-link";
 import { SiteHeaderFeaturesMenu } from "@/components/site/site-header-features-menu";
 import { SiteHeaderMobileNav } from "@/components/site/site-header-mobile-nav";
 import { SiteHeaderScroll } from "@/components/site/site-header-scroll";
@@ -9,7 +10,13 @@ import { DataFastGoals } from "@/lib/analytics/goals";
 import { OSS_ROUTES, ossPublicVisible } from "@/lib/site/oss-config";
 import { cta } from "@/lib/site/site-config";
 
-export function SiteHeaderContent({ pathname }: { pathname: string }) {
+export function SiteHeaderContent({
+  pathname,
+  githubStarCount = null,
+}: {
+  pathname: string;
+  githubStarCount?: number | null;
+}) {
   const pricingCurrent = pathname === "/pricing" ? ("page" as const) : undefined;
   const openSourceCurrent =
     pathname === OSS_ROUTES.openSource ? ("page" as const) : undefined;
@@ -51,7 +58,16 @@ export function SiteHeaderContent({ pathname }: { pathname: string }) {
           </nav>
 
           <div className="fj-header__actions">
-            <SiteHeaderMobileNav />
+            {showOss ? (
+              <GitHubStarLinkView
+                starCount={githubStarCount}
+                className="fj-header__github"
+              />
+            ) : null}
+            <SiteHeaderMobileNav
+              showGithubStar={showOss}
+              githubStarCount={githubStarCount}
+            />
             <Link href="/login" className="fj-nav-link fj-header__login">
               Log in
             </Link>

@@ -63,15 +63,19 @@ export default function PricingPage() {
 
       <section className="fj-band--tight">
         <div className="fj-container">
-          <div className="fj-cloud-escape" style={{ marginTop: 0, marginBottom: "var(--space-6)" }}>
-            <p className="fj-body-sm">
-              Looking to run Fajita yourself? The core project is open source under
-              AGPL-3.0.
-            </p>
+          <div className="fj-plan fj-plan--callout">
+            <div>
+              <p className="fj-eyebrow">Self-hosted</p>
+              <h2 className="fj-heading-2 fj-plan__header">
+                Looking to run Fajita yourself?
+              </h2>
+              <p className="fj-body-sm fj-plan__audience">
+                The core project is open source under AGPL-3.0.
+              </p>
+            </div>
             <BrandButtonLink
               href="/self-host"
               variant="secondary"
-              size="sm"
               data-fast-goal={DataFastGoals.selfHostClicked}
             >
               Self-host instead

@@ -12,13 +12,13 @@ Execute in order on OSS launch day. Phase 5 owns execution.
 
 ## Repository
 
-6. Apply [REPOSITORY_METADATA.md](./REPOSITORY_METADATA.md) in GitHub Settings
-7. Set repository visibility to **public** (`Accomplish-Labs/fajita-io`) — done 2026-08-26
+6. Apply [REPOSITORY_METADATA.md](./REPOSITORY_METADATA.md) — run `npm run github:launch-setup` (private OK)
+7. Set repository visibility to **public** — **YOU DO THIS** after review ([LAUNCH_EXECUTION.md](./LAUNCH_EXECUTION.md))
 8. Enable GitHub Discussions with categories from [DISCUSSIONS.md](./DISCUSSIONS.md)
 9. Confirm README, LICENSE, SECURITY.md render correctly on GitHub
-10. Publish git tag `v0.1.0` and GitHub Release (notes from [internal/INITIAL_RELEASE_DRAFT.md](./internal/INITIAL_RELEASE_DRAFT.md))
+10. Publish git tag `v0.1.0` and GitHub Release (notes from [internal/INITIAL_RELEASE_DRAFT.md](./internal/INITIAL_RELEASE_DRAFT.md)) — tag on remote; verify Release after public
 11. Confirm `release.yml` publishes GHCR images
-12. Create good-first issues from [internal/GOOD_FIRST_ISSUES.md](./internal/GOOD_FIRST_ISSUES.md)
+12. Seed issues via `npm run github:launch-setup` or verify created
 
 ## Website (fajita.io)
 
@@ -33,12 +33,12 @@ Execute in order on OSS launch day. Phase 5 owns execution.
 
 ## Announcements (after site + repo verified)
 
-21. Publish launch blog article ([internal/LAUNCH_BLOG_DRAFT.md](./internal/LAUNCH_BLOG_DRAFT.md))
-22. Post Show HN ([internal/HACKER_NEWS_DRAFT.md](./internal/HACKER_NEWS_DRAFT.md))
-23. Post tailored Reddit drafts ([internal/REDDIT_DRAFTS.md](./internal/REDDIT_DRAFTS.md))
+21. Publish launch blog — live at `/blog/fajita-is-now-open-source` after deploy
+22. Post Show HN — copy from [LAUNCH_POSTS.md](./LAUNCH_POSTS.md)
+23. Post Reddit — copy from [LAUNCH_POSTS.md](./LAUNCH_POSTS.md)
 24. Execute Product Hunt plan ([PRODUCT_HUNT_RELAUNCH.md](./PRODUCT_HUNT_RELAUNCH.md))
-25. Post X / LinkedIn drafts ([internal/SOCIAL_DRAFTS.md](./internal/SOCIAL_DRAFTS.md))
-26. Submit directory listings using [DIRECTORY_METADATA.md](./DIRECTORY_METADATA.md)
+25. Post X / LinkedIn — copy from [LAUNCH_POSTS.md](./LAUNCH_POSTS.md)
+26. Submit directory listings — [submissions/DIRECTORY_SUBMISSIONS.md](./submissions/DIRECTORY_SUBMISSIONS.md)
 
 ## Post-launch monitoring
 

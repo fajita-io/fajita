@@ -19,7 +19,7 @@ Use this sheet for consistent listings across GitHub, directories, and launch po
 | Tags | open-source, monitoring, status-page, api-monitoring, ssl, cron, heartbeat |
 | Logo | `public/brand/logos/fajita-logo-horizontal.svg` |
 | Screenshots | `.github/assets/fajita-dashboard.png`, `fajita-verification-flow.png`, `fajita-status-page.png` |
-| Initial version | v0.1.0 (draft, not published) |
+| Initial version | v0.1.0 (published on remote tag; GitHub Release visibility pending public repo) |
 | Cloud alternative | https://fajita.io/signup |
 
 ## Voice constraints

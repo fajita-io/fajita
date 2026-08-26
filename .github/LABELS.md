@@ -26,4 +26,12 @@ Apply these labels when triaging issues and pull requests. Create them in reposi
 
 ## Automation
 
-Label creation cannot run from this private repository without admin API access. Import this taxonomy manually or via `gh label create` at launch.
+Run at launch (works on private repo):
+
+```bash
+GITHUB_TOKEN=ghp_... npm run github:launch-setup
+```
+
+See `scripts/github-launch-setup.ts` and [LAUNCH_EXECUTION.md](../docs/open-source/LAUNCH_EXECUTION.md).
+
+Upload social preview manually: `.github/assets/github-social-preview.png`

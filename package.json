@@ -36,7 +36,8 @@
     "chat:knowledge": "tsx scripts/build-fajita-chat-knowledge.ts",
     "auth:sync-vercel": "./scripts/sync-vercel-auth-env.sh",
     "sitemap:audit": "tsx scripts/sitemap-audit.ts",
-    "smoke:public": "tsx scripts/public-smoke.ts"
+    "smoke:public": "tsx scripts/public-smoke.ts",
+    "github:launch-setup": "tsx scripts/github-launch-setup.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.57.0",

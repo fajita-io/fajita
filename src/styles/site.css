@@ -88,6 +88,82 @@
   justify-self: end;
 }
 
+.fj-github-star {
+  display: inline-flex;
+  align-items: stretch;
+  flex: none;
+  min-height: 2rem;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--color-background-elevated);
+  text-decoration: none;
+  color: var(--color-text-primary);
+  font-size: var(--text-label);
+  font-weight: 600;
+  line-height: 1;
+  overflow: hidden;
+  transition:
+    border-color var(--motion-fast) var(--ease-standard),
+    background-color var(--motion-fast) var(--ease-standard),
+    color var(--motion-fast) var(--ease-standard);
+}
+
+.fj-github-star:hover {
+  border-color: color-mix(in srgb, var(--color-border-strong) 88%, var(--color-brand-ember));
+  background: var(--color-background-inset);
+  color: var(--color-text-primary);
+}
+
+.fj-github-star__main {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-3);
+}
+
+.fj-github-star__icon {
+  flex: none;
+  opacity: 0.92;
+}
+
+.fj-github-star__count {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--space-3);
+  border-left: 1px solid var(--color-border-subtle);
+  background: color-mix(in srgb, var(--color-background-inset) 72%, transparent);
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.fj-header__github {
+  display: inline-flex;
+}
+
+@media (max-width: 47.99rem) {
+  .fj-github-star__label {
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  .fj-header__github .fj-github-star__main {
+    padding-inline: var(--space-2);
+  }
+}
+
+.fj-header-mobile-nav__github {
+  padding-block: var(--space-2);
+}
+
+.fj-header-mobile-nav__github .fj-github-star {
+  width: fit-content;
+}
+
 .fj-nav-link {
   display: inline-flex;
   align-items: center;
@@ -2852,12 +2928,20 @@ pre.fj-code code {
   font-weight: 700;
 }
 
-.fj-cloud-escape {
-  margin-top: var(--space-8);
-  padding: var(--space-5);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border-subtle);
-  background: var(--color-surface-raised);
+.fj-plan--callout {
+  margin-top: 0;
+  margin-bottom: var(--space-6);
+}
+
+@media (min-width: 48rem) {
+  .fj-plan--callout {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+
+  .fj-plan--callout .fj-button {
+    justify-self: end;
+  }
 }
 
 /* Mobile site header drawer */
