@@ -135,7 +135,6 @@ export async function createMonitorAction(
       metadata: { type: config.monitor_type },
     }).catch(() => {});
 
-    revalidatePath("/internal/monitor-engine-lab");
     return { ok: true, data: { monitorId } };
   } catch (error) {
     return toActionError(error);
@@ -171,7 +170,6 @@ export async function updateMonitorAction(
       metadata: { version_number: versionNumber },
     });
 
-    revalidatePath("/internal/monitor-engine-lab");
     return { ok: true, data: { versionNumber } };
   } catch (error) {
     return toActionError(error);
@@ -238,7 +236,6 @@ export async function activateMonitorAction(
     });
     await trackGoal({ name: DataFastGoals.monitorActivated }).catch(() => {});
 
-    revalidatePath("/internal/monitor-engine-lab");
     return { ok: true };
   } catch (error) {
     return toActionError(error);
@@ -265,7 +262,6 @@ export async function pauseMonitorAction(
       targetId: monitorId,
       summary: "Paused monitor",
     });
-    revalidatePath("/internal/monitor-engine-lab");
     return { ok: true };
   } catch (error) {
     return toActionError(error);
@@ -292,7 +288,6 @@ export async function resumeMonitorAction(
       targetId: monitorId,
       summary: "Resumed monitor",
     });
-    revalidatePath("/internal/monitor-engine-lab");
     return { ok: true };
   } catch (error) {
     return toActionError(error);
@@ -319,7 +314,6 @@ export async function deleteMonitorAction(
       targetId: monitorId,
       summary: "Deleted monitor",
     });
-    revalidatePath("/internal/monitor-engine-lab");
     return { ok: true };
   } catch (error) {
     return toActionError(error);

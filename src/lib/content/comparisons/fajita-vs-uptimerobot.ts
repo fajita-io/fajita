@@ -129,5 +129,10 @@ export const fajitaVsUptimeRobot = defineComparison({
     p(
       "If you need a free forever checker while you validate demand, start with official UptimeRobot pricing and limits. If you are ready for a paid reliability stack with status communication and heartbeats, evaluate Fajita against your first four monitors and one status page.",
     ),
+
+    h2("Self-hosting"),
+    p(
+      "Fajita can also be [self-hosted](/self-host) under AGPL-3.0 with the same verification engine. UptimeRobot is a hosted service; confirm whether they offer a self-hosted edition on their site.",
+    ),
   ],
 });

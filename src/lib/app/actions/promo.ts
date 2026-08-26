@@ -6,6 +6,8 @@ import { z } from "zod";
 import { requireOrganizationPermission } from "@/lib/auth/context";
 import { AppAuthError } from "@/lib/auth/errors";
 import { toActionError, type ActionResult } from "@/lib/app/actions/shared";
+import { DataFastGoals } from "@/lib/analytics/goals";
+import { trackGoal as trackServerGoal } from "@/lib/analytics/server";
 import { redeemPromoCode } from "@/lib/promo/redeem";
 
 const redeemSchema = z.object({
@@ -28,6 +30,11 @@ export async function redeemPromoCodeAction(
       code: parsed.code,
       organizationId: parsed.organizationId,
       userId: profile.id,
+    });
+
+    await trackServerGoal({
+      name: DataFastGoals.promoCodeRedeemed,
+      metadata: { plan: result.planKey },
     });
 
     revalidatePath("/app/settings/billing");

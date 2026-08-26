@@ -26,7 +26,6 @@ export async function markWorkerDrainingAction(
       targetId: workerId,
       summary: "Requested worker drain",
     });
-    revalidatePath("/internal/monitor-engine-lab/workers");
     return { ok: true };
   } catch (error) {
     return toActionError(error);

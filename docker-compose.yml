@@ -1,0 +1,143 @@
+# Self-hosted Fajita stack.
+#
+# Quick start:
+#   cp .env.example .env
+#   # Set FAJITA_DEPLOYMENT_MODE=self_hosted and required keys
+#   docker compose up -d
+#
+# Requires a built Next.js standalone output (npm run build with output: standalone).
+# For local development without Docker, use: supabase start && npm run dev
+
+services:
+  db:
+    image: supabase/postgres:17.4.1.043
+    restart: unless-stopped
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: postgres
+    volumes:
+      - fajita_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  migrate:
+    image: postgres:17-alpine
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/postgres
+      MIGRATIONS_DIR: /migrations
+    volumes:
+      - ./supabase/migrations:/migrations:ro
+      - ./docker/db/apply-migrations.sh:/apply-migrations.sh:ro
+    entrypoint: ["/bin/sh", "/apply-migrations.sh"]
+    restart: "no"
+
+  rest:
+    image: postgrest/postgrest:v12.2.12
+    restart: unless-stopped
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    environment:
+      PGRST_DB_URI: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/postgres
+      PGRST_DB_SCHEMAS: public,app
+      PGRST_DB_ANON_ROLE: anon
+      PGRST_JWT_SECRET: ${SUPABASE_JWT_SECRET:-super-secret-jwt-token-with-at-least-32-characters-long}
+      PGRST_DB_EXTRA_SEARCH_PATH: public,extensions
+    ports:
+      - "${POSTGREST_PORT:-54321}:3000"
+    healthcheck:
+      test: ["CMD-SHELL", "postgrest --help >/dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      rest:
+        condition: service_started
+      migrate:
+        condition: service_completed_successfully
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      FAJITA_DEPLOYMENT_MODE: self_hosted
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:-http://localhost:54321}
+      SUPABASE_URL: http://rest:3000
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/postgres
+
+  monitor-worker:
+    build:
+      context: .
+      dockerfile: services/monitor-worker/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    environment:
+      MONITOR_WORKER_DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/postgres
+      MONITOR_WORKER_REGION: ${MONITOR_WORKER_REGION:-us-east}
+      MONITOR_WORKER_KEY: ${MONITOR_WORKER_KEY:-selfhost-primary}
+      MONITOR_WORKER_ENV: ${MONITOR_WORKER_ENV:-development}
+      MONITOR_WORKER_VERSION: ${FAJITA_VERSION:-0.0.0-dev}
+      MONITOR_SECRET_KEYS: ${MONITOR_SECRET_KEYS:-}
+      MONITOR_WORKER_ALLOW_LOOPBACK: ${MONITOR_WORKER_ALLOW_LOOPBACK:-0}
+      MONITOR_WORKER_CONCURRENCY: ${MONITOR_WORKER_CONCURRENCY:-8}
+      MONITOR_WORKER_HTTP_PORT: 8080
+    ports:
+      - "${MONITOR_WORKER_PORT:-8080}:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/readyz || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  alert-worker:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.worker
+    restart: unless-stopped
+    depends_on:
+      web:
+        condition: service_started
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      FAJITA_DEPLOYMENT_MODE: self_hosted
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/postgres
+    command: ["npx", "tsx", "scripts/alert-worker.ts"]
+
+  scheduler:
+    image: alpine:3.20
+    restart: unless-stopped
+    depends_on:
+      web:
+        condition: service_started
+    environment:
+      FAJITA_WEB_URL: http://web:3000
+      CRON_SECRET: ${CRON_SECRET:-change-me-before-production}
+      SCHEDULER_INTERVAL_SECONDS: ${SCHEDULER_INTERVAL_SECONDS:-60}
+    volumes:
+      - ./docker/scheduler/run.sh:/run.sh:ro
+    entrypoint: ["/bin/sh", "/run.sh"]
+
+volumes:
+  fajita_pg_data:

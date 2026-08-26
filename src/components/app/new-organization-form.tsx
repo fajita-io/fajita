@@ -15,13 +15,11 @@ export function NewOrganizationForm({
   suggestedName,
   planKey,
   interval,
-  licenseKey,
   defaultTimezone = "UTC",
 }: {
   suggestedName: string;
   planKey?: PlanId;
   interval?: BillingInterval;
-  licenseKey?: string;
   defaultTimezone?: string;
 }) {
   const nameId = useId();
@@ -73,7 +71,6 @@ export function NewOrganizationForm({
       timezone,
       planKey,
       interval,
-      licenseKey,
     });
     if (!result.ok) {
       setPending(false);

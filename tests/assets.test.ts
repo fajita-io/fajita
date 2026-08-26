@@ -55,20 +55,9 @@ describe("brand asset inventory", () => {
     expect(svg).toMatch(/aria-label="Fajita\. Know when your software gets too hot\."/);
   });
 
-  it("assets referenced by components exist on disk", () => {
-    const sources = [
-      "src/app/internal/brand-lab/sections/social-section.tsx",
-      "src/app/internal/brand-lab/sections/logo-section.tsx",
-      "src/app/internal/brand-lab/sections/email-proto.tsx",
-    ];
-    for (const source of sources) {
-      const code = readFileSync(path.join(root, source), "utf8");
-      const refs = [...code.matchAll(/["'](\/brand\/[a-z0-9/.-]+)["']/g)].map(
-        (m) => m[1],
-      );
-      for (const ref of refs) {
-        expect(existsSync(path.join(root, "public", ref)), ref).toBe(true);
-      }
-    }
+  it("email header asset exists on disk", () => {
+    expect(
+      existsSync(path.join(root, "public/brand/email/email-header.svg")),
+    ).toBe(true);
   });
 });

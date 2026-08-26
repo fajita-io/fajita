@@ -100,9 +100,6 @@ describe("site footer", () => {
     expect(container.textContent).not.toContain("Accomplish");
     expect(container.textContent).not.toContain("Made in Montana");
     expect(container.textContent).not.toContain("Kalispell, MT 59901");
-    expect(
-      container.querySelector('a[href="https://accompli.sh"]'),
-    ).toBeNull();
     expect(container.querySelector(".fj-footer-finale")).not.toBeNull();
     expect(container.querySelector(".fj-footer__mobile-close")).not.toBeNull();
   });

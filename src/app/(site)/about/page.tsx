@@ -113,6 +113,14 @@ export default function AboutPage() {
                 operate, improve, and trust.
               </p>
             </div>
+            <div className="fj-fact">
+              <p className="fj-fact__label">Open by design</p>
+              <p className="fj-body">
+                The core monitoring platform is open source under AGPL-3.0.
+                Making verification logic inspectable is a natural extension of
+                monitoring you can explain, not just monitoring you can buy.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -142,10 +150,10 @@ export default function AboutPage() {
           </p>
           <div className="fj-hero__ctas" style={{ marginTop: "var(--space-6)" }}>
             <BrandButtonLink href={cta.primary.href} data-fast-goal={DataFastGoals.heroCta}>
-              Start monitoring
+              {cta.primary.label}
             </BrandButtonLink>
-            <BrandButtonLink href="/pricing" variant="secondary">
-              View pricing
+            <BrandButtonLink href="/self-host" variant="secondary">
+              Self-host Fajita
             </BrandButtonLink>
           </div>
         </div>

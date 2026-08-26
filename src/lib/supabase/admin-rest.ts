@@ -4,11 +4,13 @@
  * plain fetch to avoid adding a client library for two insert calls.
  */
 
+import { serverEnv } from "@/lib/env";
+import { serverSupabaseUrl } from "@/lib/supabase/url";
+
 function config() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) return null;
-  return { url: url.replace(/\/$/, ""), key };
+  const key = serverEnv().SUPABASE_SERVICE_ROLE_KEY;
+  if (!key) return null;
+  return { url: serverSupabaseUrl(), key };
 }
 
 export async function insertRow(

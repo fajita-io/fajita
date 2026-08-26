@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" width="1440" height="900" role="img" aria-label="Fajita dashboard showing monitor uptime and status overview">
+  <rect width="1440" height="900" fill="#17130e"/>
+  <rect x="0" y="0" width="240" height="900" fill="#1f1a14"/>
+  <rect x="240" y="0" width="1" height="900" fill="#faf5ea" opacity="0.08"/>
+  <text x="32" y="48" fill="#faf5ea" font-family="system-ui,sans-serif" font-size="20" font-weight="700">Fajita</text>
+  <rect x="24" y="80" width="192" height="32" rx="8" fill="#f5921b" opacity="0.15"/>
+  <text x="40" y="101" fill="#f5921b" font-family="system-ui,sans-serif" font-size="13" font-weight="600">Monitors</text>
+  <text x="40" y="140" fill="#faf5ea" opacity="0.55" font-family="system-ui,sans-serif" font-size="13">Incidents</text>
+  <text x="40" y="168" fill="#faf5ea" opacity="0.55" font-family="system-ui,sans-serif" font-size="13">Status pages</text>
+  <text x="40" y="196" fill="#faf5ea" opacity="0.55" font-family="system-ui,sans-serif" font-size="13">Alert channels</text>
+  <text x="280" y="56" fill="#faf5ea" font-family="system-ui,sans-serif" font-size="28" font-weight="600">Monitors</text>
+  <text x="280" y="86" fill="#faf5ea" opacity="0.55" font-family="system-ui,sans-serif" font-size="14">Acme Platform · 6 monitors</text>
+  <rect x="1180" y="36" width="120" height="36" rx="8" fill="#f5921b"/>
+  <text x="1240" y="59" text-anchor="middle" fill="#17130e" font-family="system-ui,sans-serif" font-size="13" font-weight="600">Add monitor</text>
+  <g font-family="system-ui,sans-serif" font-size="13">
+    <rect x="280" y="120" width="1020" height="72" rx="12" fill="#1f1a14" stroke="#faf5ea" stroke-opacity="0.08"/>
+    <circle cx="312" cy="156" r="6" fill="#2f9e44"/>
+    <text x="332" y="152" fill="#faf5ea" font-weight="600">api.acme-platform.example</text>
+    <text x="332" y="172" fill="#faf5ea" opacity="0.5">API · 60s · 99.98% · 142 ms</text>
+    <text x="1240" y="160" text-anchor="end" fill="#2f9e44">Operational</text>
+
+    <rect x="280" y="208" width="1020" height="72" rx="12" fill="#1f1a14" stroke="#faf5ea" stroke-opacity="0.08"/>
+    <circle cx="312" cy="244" r="6" fill="#2f9e44"/>
+    <text x="332" y="240" fill="#faf5ea" font-weight="600">www.acme-platform.example</text>
+    <text x="332" y="260" fill="#faf5ea" opacity="0.5">Website · 30s · 99.95% · 89 ms</text>
+    <text x="1240" y="248" text-anchor="end" fill="#2f9e44">Operational</text>
+
+    <rect x="280" y="296" width="1020" height="72" rx="12" fill="#1f1a14" stroke="#f59f00" stroke-opacity="0.35"/>
+    <circle cx="312" cy="332" r="6" fill="#f59f00"/>
+    <text x="332" y="328" fill="#faf5ea" font-weight="600">payments.acme-platform.example</text>
+    <text x="332" y="348" fill="#faf5ea" opacity="0.5">API · 60s · Verifying · 892 ms</text>
+    <text x="1240" y="336" text-anchor="end" fill="#f59f00">Degraded</text>
+
+    <rect x="280" y="384" width="1020" height="72" rx="12" fill="#1f1a14" stroke="#faf5ea" stroke-opacity="0.08"/>
+    <circle cx="312" cy="420" r="6" fill="#2f9e44"/>
+    <text x="332" y="416" fill="#faf5ea" font-weight="600">TLS · checkout.acme-platform.example</text>
+    <text x="332" y="436" fill="#faf5ea" opacity="0.5">SSL · 24h · expires in 68 days</text>
+    <text x="1240" y="424" text-anchor="end" fill="#2f9e44">Operational</text>
+
+    <rect x="280" y="472" width="1020" height="72" rx="12" fill="#1f1a14" stroke="#faf5ea" stroke-opacity="0.08"/>
+    <circle cx="312" cy="508" r="6" fill="#2f9e44"/>
+    <text x="332" y="504" fill="#faf5ea" font-weight="600">nightly-export job</text>
+    <text x="332" y="524" fill="#faf5ea" opacity="0.5">Heartbeat · expected every 24h · last ping 2h ago</text>
+    <text x="1240" y="512" text-anchor="end" fill="#2f9e44">Operational</text>
+  </g>
+  <rect x="280" y="580" width="500" height="240" rx="12" fill="#1f1a14" stroke="#faf5ea" stroke-opacity="0.08"/>
+  <text x="304" y="612" fill="#faf5ea" font-family="system-ui,sans-serif" font-size="14" font-weight="600">Response time (24h)</text>
+  <path d="M320 780 L380 740 L440 752 L500 680 L560 710 L620 640 L700 660 L760 620" fill="none" stroke="#f5921b" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

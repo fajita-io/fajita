@@ -130,5 +130,10 @@ export const fajitaVsPingdom = defineComparison({
     p(
       "If you need real user data, transaction scripts, or SolarWinds observability, start with official Pingdom pages. If you are buying only uptime, heartbeats, alerts, and a status page for a small product, evaluate Fajita against your first four monitors.",
     ),
+
+    h2("Self-hosting"),
+    p(
+      "Fajita can be [self-hosted](/self-host) under AGPL-3.0 with the same verification engine used on Fajita Cloud.",
+    ),
   ],
 });

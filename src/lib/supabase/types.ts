@@ -3437,115 +3437,44 @@ export type Database = {
           },
         ]
       }
-      appsumo_licenses: {
+      promo_grants: {
         Row: {
-          created_at: string
-          deactivated_at: string | null
-          license_key: string
-          organization_id: string | null
-          parent_license_key: string | null
-          partner_plan_name: string | null
+          code: string
+          id: string
+          organization_id: string
           plan_key: string
-          prev_license_key: string | null
+          redeemed_at: string
           redeemed_by_user_id: string | null
-          status: string
-          tier: number
-          unit_quantity: number | null
-          updated_at: string
         }
         Insert: {
-          created_at?: string
-          deactivated_at?: string | null
-          license_key: string
-          organization_id?: string | null
-          parent_license_key?: string | null
-          partner_plan_name?: string | null
+          code: string
+          id?: string
+          organization_id: string
           plan_key: string
-          prev_license_key?: string | null
+          redeemed_at?: string
           redeemed_by_user_id?: string | null
-          status?: string
-          tier?: number
-          unit_quantity?: number | null
-          updated_at?: string
         }
         Update: {
-          created_at?: string
-          deactivated_at?: string | null
-          license_key?: string
-          organization_id?: string | null
-          parent_license_key?: string | null
-          partner_plan_name?: string | null
+          code?: string
+          id?: string
+          organization_id?: string
           plan_key?: string
-          prev_license_key?: string | null
+          redeemed_at?: string
           redeemed_by_user_id?: string | null
-          status?: string
-          tier?: number
-          unit_quantity?: number | null
-          updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: "appsumo_licenses_organization_id_fkey"
+            foreignKeyName: "promo_grants_organization_id_fkey"
             columns: ["organization_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "appsumo_licenses_redeemed_by_user_id_fkey"
+            foreignKeyName: "promo_grants_redeemed_by_user_id_fkey"
             columns: ["redeemed_by_user_id"]
             isOneToOne: false
             referencedRelation: "user_profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      appsumo_webhook_events: {
-        Row: {
-          attempts: number
-          event_timestamp: number
-          event_type: string
-          idempotency_key: string
-          last_error: string | null
-          license_key: string
-          organization_id: string | null
-          payload: Json
-          processed_at: string | null
-          received_at: string
-          status: string
-        }
-        Insert: {
-          attempts?: number
-          event_timestamp: number
-          event_type: string
-          idempotency_key: string
-          last_error?: string | null
-          license_key: string
-          organization_id?: string | null
-          payload?: Json
-          processed_at?: string | null
-          received_at?: string
-          status?: string
-        }
-        Update: {
-          attempts?: number
-          event_timestamp?: number
-          event_type?: string
-          idempotency_key?: string
-          last_error?: string | null
-          license_key?: string
-          organization_id?: string | null
-          payload?: Json
-          processed_at?: string | null
-          received_at?: string
-          status?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "appsumo_webhook_events_organization_id_fkey"
-            columns: ["organization_id"]
-            isOneToOne: false
-            referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
         ]

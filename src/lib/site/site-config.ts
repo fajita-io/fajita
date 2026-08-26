@@ -6,20 +6,58 @@
  * Docs: /docs/website/public-copy-system.md
  */
 
+import {
+  OSS_GITHUB_URL,
+  OSS_ROUTES,
+  ossGitHubVisible,
+} from "./oss-config";
+
 export const siteUrl =
   process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") ?? "https://fajita.io";
 
 export const cta = {
-  /** The one dominant action across the site. */
+  /** The one dominant action across the site (Fajita Cloud). */
   primary: {
-    label: "Start monitoring",
+    label: "Start with Fajita Cloud",
     href: "/signup",
   },
   secondary: {
     label: "See how it works",
     href: "/#how-it-works",
   },
+  github: {
+    label: "View on GitHub",
+    href: OSS_GITHUB_URL,
+  },
+  selfHost: {
+    label: "Self-host Fajita",
+    href: OSS_ROUTES.selfHost,
+  },
+  selfHostGuide: {
+    label: "View self-hosting guide",
+    href: OSS_ROUTES.selfHostDocs,
+  },
+  openSource: {
+    label: "Open source",
+    href: OSS_ROUTES.openSource,
+  },
 } as const;
+
+/** Hero and footer CTA pairs respect OSS launch visibility. */
+export function heroCtas() {
+  if (ossGitHubVisible()) {
+    return {
+      primary: cta.primary,
+      secondary: cta.github,
+      tertiary: cta.selfHost,
+    };
+  }
+  return {
+    primary: cta.primary,
+    secondary: cta.secondary,
+    tertiary: null,
+  };
+}
 
 export const company = {
   name: "Fajita",

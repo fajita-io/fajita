@@ -11,6 +11,7 @@ import {
   prevNext,
 } from "@/lib/docs/registry";
 import { DocsBlocks } from "@/components/docs/blocks";
+import { DocsGithubLink } from "@/components/docs/docs-github-link";
 import { DocsFeedback } from "@/components/docs/feedback";
 import {
   DocsRequirements,
@@ -111,6 +112,7 @@ export default async function DocsPage({ params }: { params: Promise<Params> }) 
         <article className="fj-docs-prose">
           <DocsBlocks blocks={body} />
         </article>
+        <DocsGithubLink docSlug={meta.slug} />
         <DocsFeedback slug={meta.slug} docsVersion={meta.docsVersion} />
         <DocsRelated pages={related} />
         <DocsPrevNext prev={prev} next={next} />

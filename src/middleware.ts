@@ -7,15 +7,15 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { trackAICrawlerRequest } from "@datafast/ai-crawl";
 
 import { datafastConfig } from "@/lib/analytics/config";
+import { platformHosts, primaryAppHost } from "@/lib/deployment/config";
 import { STATUS_PAGE_ZONE } from "@/lib/status-pages/config";
 
 /**
- * Protected surfaces. Everything under /app (the authenticated product) and
- * /internal (Brand Lab, App Lab) requires a signed-in session. Marketing,
- * auth, and public API routes stay open; API authorization is enforced inside
- * each route handler, not here.
+ * Protected surfaces. Everything under /app (the authenticated product)
+ * requires a signed-in session. Marketing, auth, and public API routes stay
+ * open; API authorization is enforced inside each route handler, not here.
  */
-const isProtectedRoute = createRouteMatcher(["/app(.*)", "/internal(.*)"]);
+const isProtectedRoute = createRouteMatcher(["/app(.*)"]);
 
 /** Webhooks and auth callbacks must stay public; handlers verify signatures. */
 const isPublicRoute = createRouteMatcher([
@@ -27,21 +27,10 @@ const isPublicRoute = createRouteMatcher([
   "/api/webhooks(.*)",
   "/api/ref(.*)",
   "/billing/checkout(.*)",
-  "/appsumo(.*)",
 ]);
-
-const APP_HOST = (process.env.NEXT_PUBLIC_APP_URL ?? "https://fajita.io")
-  .replace(/^https?:\/\//, "")
-  .replace(/\/.*$/, "")
-  .toLowerCase();
 
 /** Hostnames that always serve the marketing/app shell (never status rewrites). */
-const PLATFORM_HOSTS = new Set([
-  "fajita.io",
-  "www.fajita.io",
-  "localhost",
-  "127.0.0.1",
-]);
+const PLATFORM_HOSTS = platformHosts();
 
 /**
  * Resolve status-page host routing. Requests on a hosted subdomain
@@ -61,16 +50,16 @@ function statusHostRewrite(request: NextRequest): URL | null {
     path.startsWith("/_next") ||
     path.startsWith("/status") ||
     path.startsWith("/_status-host") ||
-    path.startsWith("/app") ||
-    path.startsWith("/internal")
+    path.startsWith("/app")
   ) {
     return null;
   }
 
+  const appHost = primaryAppHost();
   const isPrimary =
     PLATFORM_HOSTS.has(host) ||
-    host === APP_HOST ||
-    host === `www.${APP_HOST}` ||
+    host === appHost ||
+    host === `www.${appHost}` ||
     host.endsWith(".vercel.app");
   if (isPrimary) return null;
 
@@ -104,7 +93,6 @@ function referralCapture(request: NextRequest): URL | null {
     path.startsWith("/api") ||
     path.startsWith("/_next") ||
     path.startsWith("/app") ||
-    path.startsWith("/internal") ||
     path.startsWith("/status") ||
     path.startsWith("/_status-host")
   ) {
@@ -128,7 +116,7 @@ function referralCapture(request: NextRequest): URL | null {
 export default clerkMiddleware(
   async (auth, request: NextRequest, event: NextFetchEvent) => {
     // AI-crawler analytics for content routes only (not API/webhooks).
-    if (!request.nextUrl.pathname.startsWith("/api")) {
+    if (!request.nextUrl.pathname.startsWith("/api") && datafastConfig.websiteId) {
       trackAICrawlerRequest(request, event, {
         websiteId: datafastConfig.websiteId,
         ...(process.env.DATAFAST_BOT_TOKEN

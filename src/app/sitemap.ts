@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { featureOrder } from "@/lib/site/features";
+import { OSS_ROUTES, ossPublicVisible } from "@/lib/site/oss-config";
 import { publicDocs } from "@/lib/docs/registry";
 import { BLOG_CATEGORY_META } from "@/lib/content/categories";
 import {
@@ -21,12 +22,18 @@ const lastModified = new Date("2026-07-20");
 
 /**
  * All indexable public routes. Excluded on purpose: /login and /signup (real
- * auth, noindex), /app/* (authenticated), /api/*, /internal/* (labs).
+ * auth, noindex), /app/* (authenticated), /api/*.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: { path: string; priority: number; changeFrequency: "weekly" | "monthly" }[] = [
     { path: "/", priority: 1, changeFrequency: "weekly" },
     { path: "/pricing", priority: 0.9, changeFrequency: "monthly" },
+    ...(ossPublicVisible()
+      ? [
+          { path: OSS_ROUTES.openSource, priority: 0.85, changeFrequency: "weekly" as const },
+          { path: OSS_ROUTES.selfHost, priority: 0.8, changeFrequency: "monthly" as const },
+        ]
+      : []),
     { path: "/features", priority: 0.9, changeFrequency: "monthly" },
     { path: "/integrations", priority: 0.7, changeFrequency: "monthly" },
     { path: "/support", priority: 0.7, changeFrequency: "monthly" },

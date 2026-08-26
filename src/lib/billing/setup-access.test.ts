@@ -30,8 +30,8 @@ function billingState(
     currency: "usd",
     grace: null,
     isBetaGrant: true,
-    isAppsumoGrant: false,
-    appsumoLicenseKey: null,
+    isPromoGrant: false,
+    promoCode: null,
     ...overrides,
   };
 }
@@ -87,7 +87,6 @@ describe("setup access", () => {
   it("recognizes standalone signup setup paths", () => {
     expect(isOnboardingSetupPath("/app/new-organization")).toBe(true);
     expect(isOnboardingSetupPath("/app/start/payment")).toBe(true);
-    expect(isOnboardingSetupPath("/app/start/appsumo")).toBe(true);
     expect(isOnboardingSetupPath("/app/invite/abc")).toBe(true);
     expect(isOnboardingSetupPath("/app/onboarding")).toBe(false);
   });
@@ -113,15 +112,15 @@ describe("setup access", () => {
     expect(canEnterProductSetup(paid)).toBe(true);
   });
 
-  it("treats AppSumo grants as paid access", () => {
-    const appsumo = billingState({
+  it("treats promo grants as paid access", () => {
+    const promo = billingState({
       accessState: "active",
       isBetaGrant: false,
-      isAppsumoGrant: true,
-      appsumoLicenseKey: "00000000-0000-4000-8000-000000000001",
+      isPromoGrant: true,
+      promoCode: "FAJITA-E2E-K7M2",
     });
-    expect(hasPaidProductAccess(appsumo)).toBe(true);
-    expect(shouldSkipPaymentStep(appsumo)).toBe(true);
-    expect(canEnterProductSetup(appsumo)).toBe(true);
+    expect(hasPaidProductAccess(promo)).toBe(true);
+    expect(shouldSkipPaymentStep(promo)).toBe(true);
+    expect(canEnterProductSetup(promo)).toBe(true);
   });
 });

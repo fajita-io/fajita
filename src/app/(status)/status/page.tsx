@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { StatusPageView } from "@/components/status-public/status-page-view";
 import { OVERALL_STATE_LABEL } from "@/lib/status-pages/constants";
-import { loadFajitaServiceStatus } from "@/lib/platform/service-status";
+import { loadFajitaServiceStatus } from "@/lib/status-pages/service-status";
 
 export const revalidate = 30;
 

@@ -2,7 +2,7 @@ import "server-only";
 
 import { serverEnv } from "@/lib/env";
 import { type ErrorCategory, categorizeHttpStatus, resultForCategory } from "@/lib/alerts/errors";
-import { withEmailBrandAttachments } from "@/lib/email/inline-assets";
+import { sendTransactionalEmail } from "@/lib/email/transport";
 import { SUBSCRIBER_EMAIL_TIMEOUT_MS } from "../constants";
 import type { RenderedEmail } from "../templates";
 
@@ -53,10 +53,6 @@ export function senderFrom(statusPageName: string): string {
 
 export async function sendSubscriberEmail(from: string, params: SendParams): Promise<SendOutcome> {
   const started = Date.now();
-  const env = serverEnv();
-  if (!env.RESEND_API_KEY) {
-    return failure("configuration_error", "Email delivery is not configured", null, Date.now() - started);
-  }
 
   const headers: Record<string, string> = {};
   const unsubParts: string[] = [];
@@ -67,51 +63,39 @@ export async function sendSubscriberEmail(from: string, params: SendParams): Pro
     if (params.oneClickUnsubscribeUrl) headers["List-Unsubscribe-Post"] = "List-Unsubscribe=One-Click";
   }
 
-  const payload: Record<string, unknown> = withEmailBrandAttachments({
-    from,
-    to: [params.to],
-    subject: params.email.subject,
-    html: params.email.html,
-    text: params.email.text,
-  });
-  if (params.replyTo) payload.reply_to = params.replyTo;
-  if (Object.keys(headers).length > 0) payload.headers = headers;
+  const result = await sendTransactionalEmail(
+    {
+      from,
+      to: [params.to],
+      subject: params.email.subject,
+      html: params.email.html,
+      text: params.email.text,
+      replyTo: params.replyTo,
+      headers: Object.keys(headers).length > 0 ? headers : undefined,
+    },
+    SUBSCRIBER_EMAIL_TIMEOUT_MS,
+  );
 
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), SUBSCRIBER_EMAIL_TIMEOUT_MS);
-  try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        authorization: `Bearer ${env.RESEND_API_KEY}`,
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(payload),
-      signal: controller.signal,
-    });
-    const durationMs = Date.now() - started;
-    if (res.ok) {
-      let id: string | null = null;
-      try {
-        const json = (await res.json()) as { id?: string };
-        id = json.id ?? null;
-      } catch {
-        // Delivery already acknowledged; ignore body parse errors.
-      }
-      return delivered(durationMs, res.status, id);
-    }
-    if (res.status === 422) {
-      return failure("recipient_invalid", "The email provider rejected the recipient", res.status, durationMs);
-    }
-    const { category } = categorizeHttpStatus(res.status);
-    return failure(category ?? "unknown_provider_error", `HTTP ${res.status} from the email provider`, res.status, durationMs);
-  } catch (err) {
-    const durationMs = Date.now() - started;
-    if (err instanceof Error && err.name === "AbortError") {
-      return failure("request_timed_out", "The email provider did not respond in time", null, durationMs);
-    }
-    return failure("provider_unavailable", "The email provider is temporarily unavailable", null, durationMs);
-  } finally {
-    clearTimeout(timer);
+  const durationMs = Date.now() - started;
+  if (result.ok) {
+    return delivered(durationMs, result.httpStatus, result.messageId);
   }
+  if (result.errorSummary === "Email delivery is not configured") {
+    return failure("configuration_error", result.errorSummary, null, durationMs);
+  }
+  if (result.httpStatus === 422) {
+    return failure("recipient_invalid", "The email provider rejected the recipient", result.httpStatus, durationMs);
+  }
+  if (result.errorSummary?.includes("did not respond in time")) {
+    return failure("request_timed_out", result.errorSummary, null, durationMs);
+  }
+  const { category } = result.httpStatus
+    ? categorizeHttpStatus(result.httpStatus)
+    : { category: "provider_unavailable" as ErrorCategory };
+  return failure(
+    category ?? "unknown_provider_error",
+    result.errorSummary ?? "The email provider is temporarily unavailable",
+    result.httpStatus,
+    durationMs,
+  );
 }

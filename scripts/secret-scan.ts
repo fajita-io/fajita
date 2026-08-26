@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 /**
- * Phase 18 repository secret scan (tracked files).
+ * Repository secret and personal-data scan (tracked files).
  * Does not print secret values. Fails on high-confidence live key patterns
  * outside allowlisted fixture/test paths.
  */
@@ -12,6 +12,8 @@ const patterns: Array<{ name: string; re: RegExp }> = [
   { name: "stripe_whsec", re: /whsec_[A-Za-z0-9]{16,}/g },
   { name: "aws_access_key", re: /AKIA[0-9A-Z]{16}/g },
   { name: "private_key_block", re: /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/g },
+  { name: "personal_email", re: /alex@accompli\.sh/gi },
+  { name: "personal_domain", re: /https?:\/\/accompli\.sh\b/gi },
 ];
 
 const allowPath =

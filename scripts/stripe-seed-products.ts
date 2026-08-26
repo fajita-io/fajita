@@ -7,8 +7,8 @@
  * Creates products with lookup_keys matching BILLING_CATALOG / plans.ts.
  * Safe to re-run; rotates lookup keys when catalog cents change.
  *
- * Do not run this against an unrelated Stripe account (for example another
- * Accomplish product). Confirm the account with Stripe Dashboard first.
+ * Do not run this against an unrelated Stripe account. Confirm the account with
+ * Stripe Dashboard first, and set FAJITA_STRIPE_ACCOUNT_ID when using production keys.
  */
 
 import Stripe from "stripe";
@@ -19,10 +19,8 @@ import { PLANS } from "../src/lib/stripe/plans";
 /** SaaS / website information services (business use). */
 const PRODUCT_TAX_CODE = "txcd_10701400";
 
-/** Known non-Fajita Stripe accounts. Seeding here is blocked. */
-const BLOCKED_STRIPE_ACCOUNT_IDS = new Set([
-  "acct_1ThLTk1n2unoCXjG", // Learn Domains (Cursor Stripe MCP default)
-]);
+/** Optional guardrail when FAJITA_STRIPE_ACCOUNT_ID is set in assertFajitaStripeAccount. */
+const BLOCKED_STRIPE_ACCOUNT_IDS = new Set<string>([]);
 
 function assertFajitaStripeAccount(account: Stripe.Account) {
   if (BLOCKED_STRIPE_ACCOUNT_IDS.has(account.id)) {

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" width="1440" height="900" role="img" aria-label="Fajita incident view showing verification in progress before alert">
+  <rect width="1440" height="900" fill="#17130e"/>
+  <rect x="280" y="48" width="880" height="120" rx="12" fill="#2f1515" stroke="#e03131" stroke-opacity="0.4"/>
+  <text x="312" y="88" fill="#e03131" font-family="system-ui,sans-serif" font-size="13" font-weight="600">INCIDENT · Investigating</text>
+  <text x="312" y="128" fill="#faf5ea" font-family="system-ui,sans-serif" font-size="26" font-weight="600">Payments API degraded</text>
+  <text x="312" y="154" fill="#faf5ea" opacity="0.55" font-family="system-ui,sans-serif" font-size="14">Opened 3m ago · payments.acme-platform.example</text>
+  <rect x="280" y="200" width="420" height="520" rx="12" fill="#1f1a14" stroke="#faf5ea" stroke-opacity="0.08"/>
+  <text x="304" y="232" fill="#faf5ea" font-family="system-ui,sans-serif" font-size="14" font-weight="600">Timeline</text>
+  <circle cx="320" cy="280" r="5" fill="#f59f00"/>
+  <text x="340" y="276" fill="#faf5ea" font-family="system-ui,sans-serif" font-size="13" font-weight="600">Verification in progress</text>
+  <text x="340" y="296" fill="#faf5ea" opacity="0.55" font-family="system-ui,sans-serif" font-size="12">Repeat check from worker · 2 of 3</text>
+  <circle cx="320" cy="340" r="5" fill="#f59f00"/>
+  <text x="340" y="336" fill="#faf5ea" font-family="system-ui,sans-serif" font-size="13">Slow response detected</text>
+  <text x="340" y="356" fill="#faf5ea" opacity="0.55" font-family="system-ui,sans-serif" font-size="12">892 ms · threshold 500 ms</text>
+  <circle cx="320" cy="400" r="5" fill="#2f9e44"/>
+  <text x="340" y="396" fill="#faf5ea" font-family="system-ui,sans-serif" font-size="13">Monitor healthy</text>
+  <text x="340" y="416" fill="#faf5ea" opacity="0.55" font-family="system-ui,sans-serif" font-size="12">142 ms · HTTP 200</text>
+  <rect x="720" y="200" width="440" height="240" rx="12" fill="#1f1a14" stroke="#faf5ea" stroke-opacity="0.08"/>
+  <text x="744" y="232" fill="#faf5ea" font-family="system-ui,sans-serif" font-size="14" font-weight="600">Verification policy</text>
+  <text x="744" y="268" fill="#faf5ea" opacity="0.75" font-family="system-ui,sans-serif" font-size="13">Confirm before alert: enabled</text>
+  <text x="744" y="296" fill="#faf5ea" opacity="0.75" font-family="system-ui,sans-serif" font-size="13">Required consecutive failures: 3</text>
+  <text x="744" y="324" fill="#faf5ea" opacity="0.75" font-family="system-ui,sans-serif" font-size="13">Alerts held until confirmation</text>
+  <rect x="720" y="464" width="440" height="256" rx="12" fill="#1f1a14" stroke="#faf5ea" stroke-opacity="0.08"/>
+  <text x="744" y="496" fill="#faf5ea" font-family="system-ui,sans-serif" font-size="14" font-weight="600">Notifications</text>
+  <text x="744" y="532" fill="#faf5ea" opacity="0.55" font-family="system-ui,sans-serif" font-size="13">Slack · pending verification</text>
+  <text x="744" y="560" fill="#faf5ea" opacity="0.55" font-family="system-ui,sans-serif" font-size="13">Email · pending verification</text>
+</svg>

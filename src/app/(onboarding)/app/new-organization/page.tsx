@@ -29,8 +29,6 @@ export default async function NewOrganizationPage({
   searchParams: Promise<{
     plan?: string;
     interval?: string;
-    source?: string;
-    license_key?: string;
   }>;
 }) {
   let profile;
@@ -52,8 +50,6 @@ export default async function NewOrganizationPage({
   const isFirst = memberships.length === 0;
   const params = await searchParams;
   const { plan, interval } = parseSignupPlanParams(params);
-  const isAppsumo = params.source === "appsumo";
-  const licenseKey = params.license_key?.trim();
 
   return (
     <div className="fj-flow__card">
@@ -66,18 +62,15 @@ export default async function NewOrganizationPage({
         {isFirst ? "Name your organization" : "Add an organization"}
       </h1>
       <p className="fj-flow__lede">
-        {isAppsumo
-          ? "Step 1 of 3. Create your organization, then link your AppSumo license."
-          : isFirst
-            ? "Step 1 of 3. Your organization holds monitors, team access, and status pages. Next you choose a plan and pay."
-            : "This gives you a separate space for a different product or client, with its own team and settings."}
+        {isFirst
+          ? "Step 1 of 3. Your organization holds monitors, team access, and status pages. Next you choose a plan and pay."
+          : "This gives you a separate space for a different product or client, with its own team and settings."}
       </p>
       <NewOrganizationForm
         suggestedName={suggestName(profile.display_name, profile.primary_email)}
         defaultTimezone={profile.timezone}
         planKey={plan ?? undefined}
         interval={interval}
-        licenseKey={licenseKey}
       />
     </div>
   );

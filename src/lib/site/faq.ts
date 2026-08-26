@@ -60,6 +60,11 @@ export const homeFaq: FaqItem[] = [
     answer:
       "Now. Create an account, add a monitor, and connect an alert channel. Pricing is published on the pricing page before anyone is asked to pay.",
   },
+  {
+    question: "Is Fajita open source?",
+    answer:
+      "Yes. The core Fajita monitoring platform is open source under AGPL-3.0. You can self-host it on your own infrastructure with the same verification engine, incidents, status pages, and integrations. Fajita Cloud is the managed option when you prefer not to operate workers and databases yourself.",
+  },
 ];
 
 export const billingFaq: FaqItem[] = [
@@ -102,5 +107,78 @@ export const billingFaq: FaqItem[] = [
     question: "What is the refund policy?",
     answer:
       "A written refund policy lives in the legal hub. The short version: if Fajita is not working for you early on, you will not have to argue about it.",
+  },
+  {
+    question: "Is Fajita open source?",
+    answer:
+      "Yes. The core monitoring platform can be self-hosted under AGPL-3.0. Fajita Cloud pricing on this page is for the managed service: infrastructure, workers, upgrades, backups, and notifications operated by Fajita.",
+  },
+  {
+    question: "Why pay for Fajita Cloud?",
+    answer:
+      "Because Fajita manages the infrastructure, monitoring workers, upgrades, backups, notifications, and day-to-day operations for you. You are paying for operational convenience, not for features withheld from self-hosted installs.",
+  },
+  {
+    question: "Is the self-hosted version intentionally limited?",
+    answer:
+      "No. Self-hosted Fajita includes the same core monitoring, verification, incidents, status pages, and integrations. Billing enforcement is disabled locally. You operate the infrastructure instead.",
+  },
+  {
+    question: "Can I migrate between self-hosted and Cloud?",
+    answer:
+      "You can run either model, but automated migration tooling does not exist yet. Export your data and re-create monitors when moving between self-hosted and Fajita Cloud.",
+  },
+];
+
+export const ossFaq: FaqItem[] = [
+  {
+    question: "What is Fajita?",
+    answer:
+      "Fajita is uptime monitoring for websites, APIs, SSL certificates, and cron jobs. It verifies failures before escalating them to incidents and alerts.",
+  },
+  {
+    question: "Is Fajita really open source?",
+    answer:
+      "Yes. The core monitoring platform is published under AGPL-3.0. You can inspect the source, self-host it, and contribute changes.",
+  },
+  {
+    question: "What license does Fajita use?",
+    answer:
+      "AGPL-3.0. See the LICENSE file in the repository for the full text.",
+  },
+  {
+    question: "Can I self-host it?",
+    answer:
+      "Yes. Docker Compose is the supported quick path. You provide PostgreSQL, Clerk for authentication, and optional SMTP or Resend for email.",
+  },
+  {
+    question: "What does self-hosting require?",
+    answer:
+      "Docker, Docker Compose, Node.js 22+ for helper scripts, a Clerk application you control, and secrets for database access, cron authentication, and monitor encryption.",
+  },
+  {
+    question: "Does self-hosted Fajita phone home?",
+    answer:
+      "No by default. Analytics and telemetry are off unless you explicitly opt in. Self-hosted installs do not report usage to Fajita.",
+  },
+  {
+    question: "What is Fajita Cloud?",
+    answer:
+      "The managed service at fajita.io. Fajita operates infrastructure, workers, upgrades, backups, and notifications so you can start monitoring without running the stack yourself.",
+  },
+  {
+    question: "Why would I pay for Cloud?",
+    answer:
+      "Operational convenience. Fajita Cloud removes worker scheduling, database operations, mail delivery setup, and upgrade maintenance from your plate.",
+  },
+  {
+    question: "Can I contribute?",
+    answer:
+      "Yes. Read CONTRIBUTING.md in the repository. Bug reports, documentation fixes, and focused feature work are welcome through GitHub Issues and pull requests.",
+  },
+  {
+    question: "Where do I report security issues?",
+    answer:
+      "Follow SECURITY.md in the repository for responsible disclosure. Do not open public GitHub issues for vulnerabilities.",
   },
 ];

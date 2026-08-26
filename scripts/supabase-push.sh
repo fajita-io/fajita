@@ -5,7 +5,11 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
-ALLOWED_REF="olvnjsqspvywvwfchtuc"
+ALLOWED_REF="${SUPABASE_PROJECT_REF:-}"
+if [ -z "$ALLOWED_REF" ]; then
+  echo "SUPABASE_PROJECT_REF is required (your linked Supabase project ref)." >&2
+  exit 1
+fi
 
 if ! command -v supabase >/dev/null 2>&1; then
   echo "supabase CLI not found on PATH" >&2
@@ -34,5 +38,5 @@ if [ -f ".env.local" ]; then
   fi
 fi
 
-echo "Pushing migrations to fajita-io (${ALLOWED_REF})..."
+echo "Pushing migrations to linked project (${ALLOWED_REF})..."
 supabase db push --linked --yes

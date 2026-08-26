@@ -13,7 +13,7 @@ import {
   renderSlack,
 } from "@/lib/alerts/messages";
 import { ALERT_LIMITS } from "@/lib/alerts/constants";
-import { withEmailBrandAttachments } from "@/lib/email/inline-assets";
+import { sendTransactionalEmail } from "@/lib/email/transport";
 import { safePost } from "@/lib/alerts/providers/http";
 
 /**
@@ -116,56 +116,40 @@ export async function sendWebhookAlert(params: {
 
 export async function sendEmailAlert(recipients: string[], ctx: AlertRenderContext): Promise<ProviderOutcome> {
   const started = Date.now();
-  const env = serverEnv();
-  if (!env.RESEND_API_KEY) {
-    return failure("configuration_error", "Email delivery is not configured", null, Date.now() - started);
-  }
   if (recipients.length === 0) {
     return failure("recipient_invalid", "No verified recipients", null, Date.now() - started);
   }
-  const from = env.ALERT_EMAIL_FROM || "Fajita Alerts <alerts@fajita.io>";
+  const env = serverEnv();
+  const from = env.ALERT_EMAIL_FROM || env.SMTP_FROM || "Fajita Alerts <alerts@localhost>";
   const email = renderEmail(ctx);
 
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), ALERT_LIMITS.providerTimeoutMs);
-  try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        authorization: `Bearer ${env.RESEND_API_KEY}`,
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(
-        withEmailBrandAttachments({
-          from,
-          to: recipients.slice(0, ALERT_LIMITS.maxEmailRecipientsPerChannel),
-          subject: email.subject,
-          html: email.html,
-          text: email.text,
-        }),
-      ),
-      signal: controller.signal,
-    });
-    const durationMs = Date.now() - started;
-    if (res.ok) {
-      let requestId: string | null = null;
-      try {
-        const json = (await res.json()) as { id?: string };
-        requestId = json.id ?? null;
-      } catch {
-        // Ignore body parse errors; delivery already acknowledged.
-      }
-      return delivered(durationMs, res.status, requestId);
-    }
-    const { category } = categorizeHttpStatus(res.status);
-    return failure(category ?? "unknown_provider_error", `HTTP ${res.status} from the email provider`, res.status, durationMs);
-  } catch (err) {
-    const durationMs = Date.now() - started;
-    if (err instanceof Error && err.name === "AbortError") {
-      return failure("request_timed_out", "The email provider did not respond in time", null, durationMs);
-    }
-    return failure("provider_unavailable", "The email provider is temporarily unavailable", null, durationMs);
-  } finally {
-    clearTimeout(timer);
+  const result = await sendTransactionalEmail(
+    {
+      from,
+      to: recipients.slice(0, ALERT_LIMITS.maxEmailRecipientsPerChannel),
+      subject: email.subject,
+      html: email.html,
+      text: email.text,
+    },
+    ALERT_LIMITS.providerTimeoutMs,
+  );
+
+  const durationMs = Date.now() - started;
+  if (result.ok) {
+    return delivered(durationMs, result.httpStatus, result.messageId);
   }
+  if (result.errorSummary === "Email delivery is not configured") {
+    return failure("configuration_error", result.errorSummary, null, durationMs);
+  }
+  if (result.httpStatus === 422) {
+    return failure("recipient_invalid", "The email provider rejected the recipient", result.httpStatus, durationMs);
+  }
+  if (result.errorSummary?.includes("did not respond in time")) {
+    return failure("request_timed_out", result.errorSummary, null, durationMs);
+  }
+  if (result.httpStatus) {
+    const { category } = categorizeHttpStatus(result.httpStatus);
+    return failure(category ?? "unknown_provider_error", result.errorSummary ?? "Email delivery failed", result.httpStatus, durationMs);
+  }
+  return failure("provider_unavailable", result.errorSummary ?? "The email provider is temporarily unavailable", null, durationMs);
 }

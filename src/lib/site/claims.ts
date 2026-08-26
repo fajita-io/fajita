@@ -270,7 +270,7 @@ export const publicClaims: PublicClaim[] = [
     status: "available-now",
   },
 
-  /* Affiliate program (Phase 12). Rates may be stated as Program Terms when
+  /* Affiliate program. Rates may be stated as Program Terms when
      programPublished is true; income guarantees remain prohibited. */
   {
     id: "affiliate-program",
@@ -294,7 +294,7 @@ export const publicClaims: PublicClaim[] = [
     notes: "PROHIBITED. Never publish.",
   },
 
-  /* Support chatbot (Phase 16) */
+  /* Support chatbot */
   {
     id: "support-chatbot",
     statement:
@@ -314,7 +314,7 @@ export const publicClaims: PublicClaim[] = [
     statement:
       "The support chatbot creates, edits, or deletes monitors, resolves incidents, or changes billing automatically.",
     status: "internal-only",
-    notes: "PROHIBITED. Chat is read-only for account tools in Phase 16.",
+    notes: "PROHIBITED. Chat is read-only for account tools.",
   },
   {
     id: "support-chatbot-human-sla",

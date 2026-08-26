@@ -31,14 +31,14 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: [...ANSWER_ENGINE_BOTS],
         allow: "/",
-        disallow: ["/api/", "/internal/"],
+        disallow: ["/api/"],
       },
       {
         userAgent: "*",
         allow: "/",
         // Raw /docs|/blog|/compare|/glossary|/tools|/research mirrors are
         // for AI ingestion (X-Robots-Tag: noindex). Do not Disallow them.
-        disallow: ["/api/", "/internal/", "/glossary/search"],
+        disallow: ["/api/", "/glossary/search"],
       },
     ],
     sitemap: [

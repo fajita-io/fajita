@@ -4,6 +4,8 @@
  * Do not use reserved payment-provider goal names (payment, free_trial,
  * trial_started, subscription_*, etc.). See:
  * https://datafa.st/docs/custom-goals
+ *
+ * Never send PII or secrets in goal metadata. Use coarse enums and ids only.
  */
 export const DataFastGoals = {
   signup: "signup",
@@ -22,8 +24,7 @@ export const DataFastGoals = {
   inviteSent: "invite_sent",
   onboardingComplete: "onboarding_complete",
 
-  /* Public-site conversion events (documented in
-     /docs/analytics/public-site-events.md). */
+  /* Public-site conversion events. */
   heroCta: "hero_cta",
   navCta: "nav_cta",
   footerCta: "footer_cta",
@@ -35,9 +36,14 @@ export const DataFastGoals = {
   faqExpanded: "faq_expanded",
   integrationViewed: "integration_viewed",
 
-  /* Application (Phase 3) events, documented in
-     /docs/analytics/application-phase-3-events.md. Never carry emails, org
-     names, or secrets as metadata; use ids or coarse enums only. */
+  /* Open-source funnel events (public site only). */
+  openSourceViewed: "open_source_viewed",
+  githubClicked: "github_clicked",
+  selfHostClicked: "self_host_clicked",
+  cloudFromOssClicked: "cloud_from_oss_clicked",
+  docsSelfHostClicked: "docs_self_host_clicked",
+
+  /* Auth, org, and settings events. */
   emailVerified: "email_verified",
   organizationCreated: "organization_created",
   organizationSwitched: "organization_switched",
@@ -45,7 +51,7 @@ export const DataFastGoals = {
   onboardingStepCompleted: "onboarding_step_completed",
   onboardingSkipped: "onboarding_skipped",
   onboardingResumed: "onboarding_resumed",
-  appsumoLicenseRedeemed: "appsumo_license_redeemed",
+  promoCodeRedeemed: "promo_code_redeemed",
   teamInviteInitiated: "team_invite_initiated",
   teamInviteCreated: "team_invite_created",
   teamInviteAccepted: "team_invite_accepted",
@@ -62,10 +68,7 @@ export const DataFastGoals = {
   deletionFlowStarted: "deletion_flow_started",
   deletionFlowCanceled: "deletion_flow_canceled",
 
-  /* Application (Phase 5) monitor-product events, documented in
-     /docs/analytics/application-phase-5-events.md. Never carry full URLs,
-     query parameters, secret values, request or response bodies, heartbeat
-     tokens, JSON values, or monitor names. Coarse enums and ids only. */
+  /* Monitor product events. */
   monitorCreationStarted: "monitor_creation_started",
   monitorTypeSelected: "monitor_type_selected",
   monitorTemplateSelected: "monitor_template_selected",
@@ -92,11 +95,7 @@ export const DataFastGoals = {
   heartbeatTokenRotated: "heartbeat_token_rotated",
   monitorSecretReplaced: "monitor_secret_replaced",
 
-  /* Application (Phase 6) incident + maintenance events, documented in
-     /docs/analytics/application-phase-6-events.md. Never carry incident titles,
-     internal notes, public-message content, monitor URLs, response bodies,
-     secret values, customer names, assignee emails, or failure payloads.
-     Coarse enums and ids only. */
+  /* Incident and maintenance events. */
   incidentListViewed: "incident_list_viewed",
   incidentViewed: "incident_viewed",
   incidentOpenedAutomatic: "incident_opened_automatic",
@@ -126,10 +125,7 @@ export const DataFastGoals = {
   monitorReturnedOperational: "monitor_returned_operational",
   monitorFlappingDetected: "monitor_flapping_detected",
 
-  /* Application (Phase 7) alert channel + routing + delivery events, documented
-     in /docs/analytics/application-phase-7-events.md. Never carry webhook URLs,
-     tokens, signing secrets, recipient email addresses, provider response
-     bodies, or org names. Coarse enums, providers, and ids only. */
+  /* Alert channel, routing, and delivery events. */
   alertChannelCreationStarted: "alert_channel_creation_started",
   alertChannelCreated: "alert_channel_created",
   alertChannelTested: "alert_channel_tested",
@@ -151,11 +147,7 @@ export const DataFastGoals = {
   alertDeadLetterRetried: "alert_dead_letter_retried",
   alertDeadLetterDismissed: "alert_dead_letter_dismissed",
 
-  /* Application (Phase 8) status-page events, documented in
-     /docs/analytics/application-phase-8-events.md. Never carry custom domains,
-     incident titles, public-message content, logo URLs, subscriber emails,
-     private-link tokens, page passwords, or internal monitor names. Coarse
-     enums and ids only. */
+  /* Status page events. */
   statusPageCreationStarted: "status_page_creation_started",
   statusPageSubdomainSelected: "status_page_subdomain_selected",
   statusPageCreated: "status_page_created",
@@ -180,10 +172,7 @@ export const DataFastGoals = {
   statusPageBadgeCreated: "status_page_badge_created",
   statusPageUnpublished: "status_page_unpublished",
 
-  /* Application (Phase 11) onboarding + lifecycle events, documented in
-     /docs/analytics/application-phase-11-events.md. Never carry monitor URLs,
-     org names, emails, incident content, status-page domains, or cancellation
-     feedback text. Coarse enums, versions, and step keys only. */
+  /* Onboarding and lifecycle events. */
   firstSessionViewed: "first_session_viewed",
   useCaseSelected: "use_case_selected",
   responsibilitySelected: "responsibility_selected",
@@ -208,8 +197,7 @@ export const DataFastGoals = {
   cancellationFeedbackSubmitted: "cancellation_feedback_submitted",
   reactivationChecklistViewed: "reactivation_checklist_viewed",
 
-  /* Docs surface events. Never carry search query text beyond a length bucket
-     or page content. */
+  /* Docs surface events. */
   docsSearchOpened: "docs_search_opened",
   docsSearchSubmitted: "docs_search_submitted",
   docsSearchNoResult: "docs_search_no_result",
@@ -217,8 +205,7 @@ export const DataFastGoals = {
   docsFeedback: "docs_feedback",
   docsCodeCopied: "docs_code_copied",
 
-  /* Glossary (Phase 14). Never carry raw search text, feedback comments, or
-     secrets. Coarse enums, slugs, and counts only. */
+  /* Glossary events. */
   glossaryIndexViewed: "glossary_index_viewed",
   glossaryCategoryViewed: "glossary_category_viewed",
   glossaryTermViewed: "glossary_term_viewed",
@@ -233,9 +220,7 @@ export const DataFastGoals = {
   glossaryRawRequested: "glossary_raw_requested",
   glossaryManifestRequested: "glossary_manifest_requested",
 
-  /* Content growth (Phase 15). Never carry tool secrets, submitted URLs,
-     webhook payloads, cron expressions, raw feedback text, or correction
-     bodies. Coarse enums, slugs, and counts only. */
+  /* Content growth events. */
   blogIndexViewed: "blog_index_viewed",
   articleViewed: "article_viewed",
   blogCategoryViewed: "blog_category_viewed",
@@ -263,11 +248,7 @@ export const DataFastGoals = {
   contentRawRequested: "content_raw_requested",
   contentManifestRequested: "content_manifest_requested",
 
-  /* Affiliate program (Phase 12) events, documented in
-     /docs/analytics/application-phase-12-events.md. Never carry affiliate legal
-     name or email, customer identity or email, Stripe ids, tax or payout
-     information, full referral URLs, IP addresses, or fraud evidence. Use
-     affiliate ids, anon refs, coarse enums, and version numbers only. */
+  /* Affiliate program events. */
   affiliatePageViewed: "affiliate_page_viewed",
   affiliateApplicationStarted: "affiliate_application_started",
   affiliateApplicationSubmitted: "affiliate_application_submitted",
@@ -284,8 +265,7 @@ export const DataFastGoals = {
   affiliateExportRequested: "affiliate_export_requested",
   affiliateAccountClosureRequested: "affiliate_account_closure_requested",
 
-  /* Support chatbot (Phase 16). Never carry message bodies, emails, org names,
-     monitor URLs, incident titles, secrets, or provider conversation ids. */
+  /* Support chatbot events. */
   supportLauncherViewed: "support_launcher_viewed",
   supportLauncherOpened: "support_launcher_opened",
   supportLauncherClosed: "support_launcher_closed",
@@ -301,8 +281,7 @@ export const DataFastGoals = {
   supportSensitiveWarning: "support_sensitive_warning",
   supportInjectionDetected: "support_injection_detected",
 
-  /* Genius in-app feedback (authenticated app only). Never carry emails, org
-     names, feedback bodies, or route query strings. Coarse enums only. */
+  /* Genius in-app feedback (authenticated app only). */
   geniusWidgetReady: "genius_widget_ready",
   geniusOpened: "genius_opened",
   geniusClosed: "genius_closed",

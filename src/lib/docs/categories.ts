@@ -144,6 +144,20 @@ export const DOC_CATEGORY_META: Record<DocCategory, CategoryMeta> = {
     description: "Stable states, categories, and terminology.",
     order: 35,
   },
+  "self-hosting": {
+    id: "self-hosting",
+    label: "Self-hosting",
+    model: "operate",
+    description: "Run Fajita on your infrastructure with Docker.",
+    order: 26,
+  },
+  "open-source": {
+    id: "open-source",
+    label: "Open source",
+    model: "reference",
+    description: "Architecture, contributing, license, and project links.",
+    order: 36,
+  },
 };
 
 export const MODEL_LABELS: Record<DocModel, string> = {

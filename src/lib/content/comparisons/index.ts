@@ -5,6 +5,8 @@ import { fajitaVsCheckly } from "./fajita-vs-checkly";
 import { fajitaVsPingdom } from "./fajita-vs-pingdom";
 import { fajitaVsStatuspage } from "./fajita-vs-statuspage";
 import { fajitaVsUptimeRobot } from "./fajita-vs-uptimerobot";
+import { fajitaVsUptimeKuma } from "./fajita-vs-uptime-kuma";
+import { fajitaVsOpenStatus } from "./fajita-vs-openstatus";
 import {
   statusPageToolsSmallTeams,
   uptimeToolsSoloSaas,
@@ -20,6 +22,8 @@ export const allComparisons: ContentComparison[] = [
   fajitaVsPingdom,
   fajitaVsCheckly,
   fajitaVsStatuspage,
+  fajitaVsUptimeKuma,
+  fajitaVsOpenStatus,
   uptimeToolsSoloSaas,
   statusPageToolsSmallTeams,
 ];

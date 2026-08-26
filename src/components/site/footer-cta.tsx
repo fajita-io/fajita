@@ -1,9 +1,14 @@
 import { BrandButtonLink } from "@/components/design-system/primitives";
 import { DataFastGoals } from "@/lib/analytics";
-import { cta } from "@/lib/site/site-config";
+import { OSS_ROUTES } from "@/lib/site/oss-config";
+import { cta, heroCtas } from "@/lib/site/site-config";
 
-/** Footer conversion pair with its analytics goal (declarative tracking). */
+import { GitHubButtonLink } from "./oss/github-button-link";
+
+/** Footer conversion pair with OSS-aware secondary action. */
 export function FooterCta() {
+  const ctas = heroCtas();
+
   return (
     <div
       style={{
@@ -19,9 +24,13 @@ export function FooterCta() {
       >
         {cta.primary.label}
       </BrandButtonLink>
-      <BrandButtonLink href="/features" variant="secondary">
-        Explore features
-      </BrandButtonLink>
+      {ctas.secondary.href.startsWith("http") ? (
+        <GitHubButtonLink variant="secondary" goal={DataFastGoals.footerCta} />
+      ) : (
+        <BrandButtonLink href={OSS_ROUTES.openSource} variant="secondary">
+          Open source
+        </BrandButtonLink>
+      )}
     </div>
   );
 }

@@ -6,9 +6,9 @@ import {
 import type { OrgBillingState } from "@/lib/billing/engine";
 import { isPayingStatus } from "@/lib/billing/subscription-state";
 
-/** Whether the org has AppSumo lifetime access. */
-export function hasAppsumoAccess(billing: OrgBillingState): boolean {
-  return billing.isAppsumoGrant;
+/** Whether the org has promo-code lifetime access. */
+export function hasPromoGrantAccess(billing: OrgBillingState): boolean {
+  return billing.isPromoGrant;
 }
 
 /**
@@ -16,7 +16,7 @@ export function hasAppsumoAccess(billing: OrgBillingState): boolean {
  * Beta grants, checkout intents, and entitlement snapshots do not count.
  */
 export function hasPaidProductAccess(billing: OrgBillingState): boolean {
-  if (hasAppsumoAccess(billing)) return true;
+  if (hasPromoGrantAccess(billing)) return true;
   if (billing.isBetaGrant) return false;
   if (hasActiveSubscription(billing.status)) return true;
   if (isPayingStatus(billing.status)) return true;

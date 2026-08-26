@@ -60,9 +60,6 @@ export async function resolveFraudReviewAction(
       reviewerUserId: admin.id,
     });
 
-    revalidatePath("/internal/affiliates");
-    revalidatePath("/internal/affiliates/fraud");
-    revalidatePath(`/internal/affiliates/directory/${parsed.affiliateId}`);
     return { ok: true, data: { fraudState: result.fraudState } };
   } catch (error) {
     return toActionError(error);
@@ -85,8 +82,6 @@ export async function escalateFraudAction(
       actorUserId: admin.id,
       reason: parsed.reason ?? null,
     });
-    revalidatePath("/internal/affiliates/fraud");
-    revalidatePath(`/internal/affiliates/directory/${parsed.affiliateId}`);
     return { ok: true };
   } catch (error) {
     return toActionError(error);
@@ -125,7 +120,6 @@ export async function adjustCommissionAction(
       commissionId: parsed.commissionId ?? null,
       actorUserId: admin.id,
     });
-    revalidatePath(`/internal/affiliates/directory/${parsed.affiliateId}`);
     return { ok: true, data: result };
   } catch (error) {
     return toActionError(error);
@@ -155,7 +149,6 @@ export async function runReconciliationAction(
       report = await reconcileAttributions(parsed.dryRun);
     }
 
-    revalidatePath("/internal/affiliates/ops");
     return { ok: true, data: report };
   } catch (error) {
     return toActionError(error);

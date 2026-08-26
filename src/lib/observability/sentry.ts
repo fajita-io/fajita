@@ -5,11 +5,13 @@
  */
 import * as Sentry from "@sentry/nextjs";
 
+import { deploymentConfig } from "@/lib/deployment/config";
+
 export function captureException(
   error: unknown,
   context?: Record<string, unknown>,
 ): void {
-  if (!process.env.SENTRY_DSN && !process.env.NEXT_PUBLIC_SENTRY_DSN) {
+  if (!isSentryConfigured()) {
     return;
   }
   if (context) {
@@ -23,6 +25,9 @@ export function captureException(
 }
 
 export function isSentryConfigured(): boolean {
+  if (!deploymentConfig().telemetryOptIn) {
+    return false;
+  }
   return Boolean(
     process.env.SENTRY_DSN?.trim() || process.env.NEXT_PUBLIC_SENTRY_DSN?.trim(),
   );

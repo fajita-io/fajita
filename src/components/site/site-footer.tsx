@@ -5,6 +5,17 @@ import { LinkedInIcon } from "@/components/design-system/linkedin-icon";
 import { XIcon } from "@/components/design-system/x-icon";
 import { ThemeToggle } from "@/components/design-system/theme-toggle";
 import { featureOrder, features } from "@/lib/site/features";
+import {
+  OSS_GITHUB_CHANGELOG_URL,
+  OSS_GITHUB_CONTRIBUTING_URL,
+  OSS_GITHUB_LICENSE_URL,
+  OSS_GITHUB_ROADMAP_URL,
+  OSS_GITHUB_SECURITY_URL,
+  OSS_GITHUB_URL,
+  OSS_LICENSE,
+  OSS_ROUTES,
+  ossPublicVisible,
+} from "@/lib/site/oss-config";
 import { social } from "@/lib/site/site-config";
 
 import { FooterCta } from "./footer-cta";
@@ -48,8 +59,8 @@ export function SiteFooter() {
               <FajitaLogo orientation="horizontal" size={28} />
             </Link>
             <p className="fj-body-sm" style={{ maxWidth: "20rem" }}>
-              Uptime monitoring for websites, APIs, certificates, and cron
-              jobs. Your team hears about it before your customers do.
+              Open-source uptime monitoring for websites, APIs, certificates, and
+              cron jobs. Self-host or use Fajita Cloud.
             </p>
             <ThemeToggle />
             <div className="fj-footer__socials">
@@ -90,6 +101,46 @@ export function SiteFooter() {
               </li>
             </ul>
           </nav>
+
+          {ossPublicVisible() ? (
+            <nav className="fj-footer__col" aria-labelledby="footer-oss">
+              <h2 id="footer-oss">Open Source</h2>
+              <ul className="fj-footer__links">
+                <li>
+                  <Link href={OSS_ROUTES.openSource}>Open source</Link>
+                </li>
+                <li>
+                  <Link href={OSS_ROUTES.selfHost}>Self-host</Link>
+                </li>
+                <li>
+                  <a href={OSS_GITHUB_URL} target="_blank" rel="noopener noreferrer">
+                    GitHub
+                  </a>
+                </li>
+                <li>
+                  <Link href="/roadmap">Roadmap</Link>
+                </li>
+                <li>
+                  <Link href="/changelog">Changelog</Link>
+                </li>
+                <li>
+                  <a href={OSS_GITHUB_CONTRIBUTING_URL} target="_blank" rel="noopener noreferrer">
+                    Contributing
+                  </a>
+                </li>
+                <li>
+                  <a href={OSS_GITHUB_SECURITY_URL} target="_blank" rel="noopener noreferrer">
+                    Security
+                  </a>
+                </li>
+                <li>
+                  <a href={OSS_GITHUB_LICENSE_URL} target="_blank" rel="noopener noreferrer">
+                    {OSS_LICENSE}
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          ) : null}
 
           <nav className="fj-footer__col" aria-labelledby="footer-company">
             <h2 id="footer-company">Company</h2>

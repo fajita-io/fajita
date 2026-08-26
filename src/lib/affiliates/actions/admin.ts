@@ -39,8 +39,6 @@ export async function approveApplicationAction(
     });
     await trackServerGoal({ name: DataFastGoals.affiliateApplicationApproved });
 
-    revalidatePath("/internal/affiliates");
-    revalidatePath(`/internal/affiliates/applications/${id}`);
     return {
       ok: true,
       data: {
@@ -107,8 +105,6 @@ export async function reviewApplicationAction(
       await trackServerGoal({ name: DataFastGoals.affiliateApplicationRejected });
     }
 
-    revalidatePath("/internal/affiliates");
-    revalidatePath(`/internal/affiliates/applications/${parsed.applicationId}`);
     return { ok: true, data: { state: updated.state } };
   } catch (error) {
     return toActionError(error);
@@ -163,8 +159,6 @@ export async function setAffiliateMembershipAction(
       });
     }
 
-    revalidatePath("/internal/affiliates");
-    revalidatePath(`/internal/affiliates/affiliates/${parsed.affiliateId}`);
     return { ok: true, data: { state: updated.membership_state as MembershipState } };
   } catch (error) {
     return toActionError(error);

@@ -5,9 +5,14 @@ on:
     branches:
       - main
 
+# Production deploy only from the canonical repository on main.
+# Forks and pull requests never receive VERCEL_* secrets.
 jobs:
   deploy:
+    if: github.repository == 'fajita-io/fajita' && github.event_name == 'push'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4

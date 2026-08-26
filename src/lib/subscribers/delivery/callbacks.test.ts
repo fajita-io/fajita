@@ -107,7 +107,7 @@ describe("verifyResendSignature", () => {
   });
 
   it("accepts secrets whose base64 payload includes plus signs", () => {
-    const plusSecret = "whsec_uNosY1U+E11L3p8vQ2B4+n6mtOtF+5tw";
+    const plusSecret = "whsec_dGVzdCtwbHVzK3NpZ24vYXBpK2tleQ==";
     const now = Date.now();
     const ts = String(Math.floor(now / 1000));
     const keyBytes = Buffer.from(plusSecret.slice(6), "base64");

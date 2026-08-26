@@ -28,10 +28,10 @@ import { serviceClient } from "@/lib/supabase/service";
 function billingPlanLabelFor(
   planKey: keyof typeof PLANS | null,
   isBetaGrant: boolean,
-  isAppsumoGrant: boolean,
+  isPromoGrant: boolean,
 ): string {
-  if (isAppsumoGrant && planKey && planKey in PLANS) {
-    return `${PLANS[planKey].name} (AppSumo)`;
+  if (isPromoGrant && planKey && planKey in PLANS) {
+    return `${PLANS[planKey].name} (Promo)`;
   }
   if (planKey && planKey in PLANS) return PLANS[planKey].name;
   if (isBetaGrant) return "Beta";
@@ -150,7 +150,7 @@ export default async function AppLayout({
     billingPlanLabel: billingPlanLabelFor(
       billing?.planKey ?? null,
       billing?.isBetaGrant ?? false,
-      billing?.isAppsumoGrant ?? false,
+      billing?.isPromoGrant ?? false,
     ),
   };
 

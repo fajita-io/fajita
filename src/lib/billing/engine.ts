@@ -9,10 +9,12 @@ import {
   BETA_ENTITLEMENTS,
   ENTITLEMENT_VERSION,
   LOCKED_ENTITLEMENTS,
+  SELF_HOSTED_ENTITLEMENTS,
   effectiveEntitlements,
   type BillingAccessState,
   type PlanEntitlements,
 } from "@/lib/billing/catalog";
+import { deploymentConfig } from "@/lib/deployment/config";
 import {
   deriveAccessState,
   type InternalSubscriptionStatus,
@@ -23,7 +25,7 @@ import {
   BILLING_ENFORCEMENT_ENABLED,
 } from "@/lib/billing/enforcement";
 import { stripeLivePaymentsReady } from "@/lib/billing/stripe-account";
-import { loadActiveLicenseForOrg } from "@/lib/appsumo/licenses";
+import { loadPromoGrantForOrg } from "@/lib/promo/grants";
 
 type SubscriptionRow =
   Database["public"]["Tables"]["billing_subscriptions"]["Row"];
@@ -48,9 +50,9 @@ export interface OrgBillingState {
   grace: { startedAt: string; restrictionAt: string | null; phase: GracePhase } | null;
   /** True when the org has no subscription and beta grant applies. */
   isBetaGrant: boolean;
-  /** True when access comes from an active AppSumo lifetime license. */
-  isAppsumoGrant: boolean;
-  appsumoLicenseKey: string | null;
+  /** True when access comes from a redeemed promo code grant. */
+  isPromoGrant: boolean;
+  promoCode: string | null;
 }
 
 /**
@@ -117,8 +119,8 @@ function internalOrgBillingState(organizationId: string): OrgBillingState {
     currency: "usd",
     grace: null,
     isBetaGrant: true,
-    isAppsumoGrant: false,
-    appsumoLicenseKey: null,
+    isPromoGrant: false,
+    promoCode: null,
   };
 }
 
@@ -158,26 +160,54 @@ export function applyOverrides(
  * overrides. Pure read (no writes). This is the authority the product reads;
  * it never calls Stripe.
  */
+/** Self-hosted installs bypass Stripe; every org gets full product entitlements. */
+function selfHostedOrgBillingState(organizationId: string): OrgBillingState {
+  return {
+    organizationId,
+    planKey: null,
+    interval: null,
+    status: "none",
+    accessState: "active",
+    entitlements: SELF_HOSTED_ENTITLEMENTS,
+    stripeCustomerId: null,
+    stripeSubscriptionId: null,
+    subscriptionId: null,
+    currentPeriodEnd: null,
+    cancelAtPeriodEnd: false,
+    cancellationEffectiveAt: null,
+    recurringAmountCents: 0,
+    currency: "usd",
+    grace: null,
+    isBetaGrant: false,
+    isPromoGrant: false,
+    promoCode: null,
+  };
+}
+
 export async function computeOrgBillingState(
   organizationId: string,
 ): Promise<OrgBillingState> {
+  if (deploymentConfig().isSelfHosted) {
+    return selfHostedOrgBillingState(organizationId);
+  }
+
   if (await isInternalOrganization(organizationId)) {
     return internalOrgBillingState(organizationId);
   }
 
   const db = serviceClient();
   const subscription = await loadCurrentSubscription(organizationId);
-  let appsumoLicense = null;
+  let promoGrant = null;
   try {
-    appsumoLicense = await loadActiveLicenseForOrg(organizationId);
+    promoGrant = await loadPromoGrantForOrg(organizationId);
   } catch (error) {
-    console.error("[billing] AppSumo license lookup failed", error);
+    console.error("[billing] promo grant lookup failed", error);
   }
 
-  // AppSumo lifetime license (no Stripe subscription required).
-  if (appsumoLicense && !subscription) {
-    const planKey = isPlanId(appsumoLicense.plan_key)
-      ? appsumoLicense.plan_key
+  // Promo code grant (no Stripe subscription required).
+  if (promoGrant && !subscription) {
+    const planKey = isPlanId(promoGrant.plan_key)
+      ? promoGrant.plan_key
       : null;
     const overrides = await loadActiveOverrides(organizationId);
     const base = effectiveEntitlements(planKey, "active");
@@ -198,8 +228,8 @@ export async function computeOrgBillingState(
       currency: "usd",
       grace: null,
       isBetaGrant: false,
-      isAppsumoGrant: true,
-      appsumoLicenseKey: appsumoLicense.license_key,
+      isPromoGrant: true,
+      promoCode: promoGrant.code,
     };
   }
 
@@ -233,8 +263,8 @@ export async function computeOrgBillingState(
       currency: "usd",
       grace: null,
       isBetaGrant: !checkoutRequired,
-      isAppsumoGrant: false,
-      appsumoLicenseKey: null,
+      isPromoGrant: false,
+      promoCode: null,
     };
   }
 
@@ -287,8 +317,8 @@ export async function computeOrgBillingState(
         }
       : null,
     isBetaGrant: false,
-    isAppsumoGrant: false,
-    appsumoLicenseKey: null,
+    isPromoGrant: false,
+    promoCode: null,
   };
 }
 

@@ -6,9 +6,11 @@
 .next/
 node_modules/
 next-env.d.ts
+tsconfig.tsbuildinfo
 
-# Headroom local learnings / session artifacts
-CLAUDE.local.md
-.headroom/
+# Local build assets and QA output
 .brand-src/
 .qa-screens/
+
+# Operator-local DNS exports (copy from Resend dashboard)
+scripts/resend-dns-records.json

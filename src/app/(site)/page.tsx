@@ -7,8 +7,12 @@ import { BrandButtonLink } from "@/components/design-system/primitives";
 import { SectionHeading } from "@/components/design-system/typography";
 import { AlertFlow } from "@/components/site/alert-flow";
 import { AvailabilityBadge } from "@/components/site/availability-badge";
-import { CtaButtons } from "@/components/site/cta-buttons";
 import { MonitorPreview } from "@/components/site/monitor-preview";
+import { HeroCtaCluster } from "@/components/site/oss/hero-cta-cluster";
+import {
+  DeploymentChoice,
+  OpenSourceHomeSection,
+} from "@/components/site/oss/deployment-choice";
 import { DataFastGoals } from "@/lib/analytics";
 import { buildSignupUrl } from "@/lib/auth/paid-signup-flow";
 import { homeFaq } from "@/lib/site/faq";
@@ -62,24 +66,24 @@ const FaqList = dynamic(
 
 export const metadata: Metadata = {
   ...buildMetadata({
-    title: "Uptime monitoring and status pages",
+    title: "Open source uptime monitoring",
     description:
-      "Monitor websites, APIs, SSL certificates, cron jobs, and heartbeats. Verify failures, alert your team, and keep customers informed with Fajita.",
+      "Open-source uptime monitoring that verifies failures before waking you up. Monitor websites, APIs, SSL, and cron jobs. Self-host or use Fajita Cloud.",
     path: "/",
   }),
   openGraph: {
-    title: "Your customers should not be your monitoring system.",
+    title: "Catch outages before your customers do.",
     description:
-      "Fajita verifies outages, alerts your team, and publishes clear status updates before customers are left wondering.",
+      "Fajita verifies failures before alerts, with self-hosted and managed Cloud options.",
     url: siteUrl,
     siteName: "Fajita",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Your customers should not be your monitoring system.",
+    title: "Catch outages before your customers do.",
     description:
-      "Fajita verifies outages, alerts your team, and publishes clear status updates before customers are left wondering.",
+      "Fajita verifies failures before alerts, with self-hosted and managed Cloud options.",
   },
 };
 
@@ -101,7 +105,7 @@ const softwareJsonLd = {
   operatingSystem: "Web",
   url: siteUrl,
   description:
-    "Uptime monitoring for websites, APIs, SSL certificates, and cron jobs, with verified alerts and public status pages.",
+    "Open-source uptime monitoring for websites, APIs, SSL certificates, and cron jobs, with verified alerts and public status pages. Self-host or use Fajita Cloud.",
 };
 
 export default function HomePage() {
@@ -121,17 +125,18 @@ export default function HomePage() {
         <div className="fj-container fj-hero__grid">
           <div className="fj-hero__copy">
             <AvailabilityBadge />
+            <p className="fj-eyebrow">Open source uptime monitoring</p>
             <h1 className="fj-display-1">
-              Know when your software gets too hot.
+              Catch outages before your customers do.
             </h1>
             <p className="fj-body-lg fj-hero__lede">
-              Fajita monitors your websites, APIs, certificates, and cron
-              jobs. When something starts cooking, your team hears about it
-              before your customers do.
+              Fajita monitors websites, APIs, SSL, and cron jobs, then verifies
+              failures before waking anyone up. Self-host the core or let Fajita
+              Cloud run it for you.
             </p>
-            <CtaButtons goal={DataFastGoals.heroCta} />
+            <HeroCtaCluster goal={DataFastGoals.heroCta} />
             <p className="fj-hero__trust">
-              No waitlist. Set up your first monitor in minutes.
+              Managed by Fajita Cloud, or run it yourself. Set up in minutes either way.
             </p>
             <ul className="fj-hero__proof">
               <li>Website, API, SSL, and cron monitoring</li>
@@ -336,7 +341,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 7 · Lightweight positioning */}
+      {/* 7 · Open source model */}
+      <OpenSourceHomeSection />
+
+      {/* 8 · Lightweight positioning */}
       <section className="fj-band--tight">
         <div className="fj-container fj-container--wide">
           <SectionHeading
@@ -369,11 +377,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 9 · Pricing preview */}
+      {/* 10 · Pricing preview */}
       <section className="fj-band--tight">
         <div className="fj-container">
           <SectionHeading
-            eyebrow="Pricing"
+            eyebrow="Fajita Cloud"
             title="Core, Team, Scale"
             lede={
               pricingConfig.published
@@ -433,7 +441,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 10 · Security */}
+      {/* 11 · Security */}
       <section
         className="fj-band fj-band--carbon"
         data-theme="dark"
@@ -491,7 +499,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 11 · FAQ */}
+      {/* 12 · FAQ */}
       <section className="fj-band">
         <div className="fj-container">
           <SectionHeading
@@ -500,6 +508,21 @@ export default function HomePage() {
             as="h2"
           />
           <FaqList items={homeFaq} />
+        </div>
+      </section>
+
+      <DeploymentChoice />
+
+      {/* 13 · Final CTA */}
+      <section className="fj-band fj-band--carbon" data-theme="dark">
+        <div className="fj-container">
+          <SectionHeading
+            eyebrow="Get started"
+            title="Know when it is actually down."
+            lede="Run Fajita yourself or let us manage it for you."
+            as="h2"
+          />
+          <HeroCtaCluster goal={DataFastGoals.footerCta} />
         </div>
       </section>
     </>

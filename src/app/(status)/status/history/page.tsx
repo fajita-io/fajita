@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 import { formatInstant } from "@/lib/status-pages/format";
 import { listAllPublishedIncidents } from "@/lib/status-pages/projection";
-import { loadFajitaServiceStatus } from "@/lib/platform/service-status";
+import { loadFajitaServiceStatus } from "@/lib/status-pages/service-status";
 
 export const revalidate = 60;
 

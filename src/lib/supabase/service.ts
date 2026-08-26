@@ -2,8 +2,9 @@ import "server-only";
 
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-import { publicEnv, serverEnv } from "@/lib/env";
+import { serverEnv } from "@/lib/env";
 import type { Database } from "./types";
+import { serverSupabaseUrl } from "./url";
 
 /**
  * Service-role Supabase client. Bypasses RLS, so it is server-only and must
@@ -16,10 +17,9 @@ let cached: SupabaseClient<Database> | null = null;
 
 export function serviceClient(): SupabaseClient<Database> {
   if (cached) return cached;
-  const { NEXT_PUBLIC_SUPABASE_URL } = publicEnv();
   const { SUPABASE_SERVICE_ROLE_KEY } = serverEnv();
   cached = createClient<Database>(
-    NEXT_PUBLIC_SUPABASE_URL,
+    serverSupabaseUrl(),
     SUPABASE_SERVICE_ROLE_KEY,
     {
       auth: {

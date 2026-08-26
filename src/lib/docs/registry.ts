@@ -12,6 +12,8 @@ import { statusAndSubscriberPages } from "./content/status-and-subscribers";
 import { teamsBillingAffiliatePages } from "./content/teams-billing-affiliates";
 import { securityPrivacyAccountPages } from "./content/security-privacy-account";
 import { troubleshootingMigrationReferencePages } from "./content/troubleshooting-migrations-reference";
+import { selfHostingPages } from "./content/self-hosting";
+import { openSourcePages } from "./content/open-source";
 
 /**
  * Single source of truth for the documentation platform. Navigation, search,
@@ -29,6 +31,8 @@ const ALL_PAGES: DocPage[] = [
   ...teamsBillingAffiliatePages,
   ...securityPrivacyAccountPages,
   ...troubleshootingMigrationReferencePages,
+  ...selfHostingPages,
+  ...openSourcePages,
 ];
 
 /* ------------------------------------------------------------------ */

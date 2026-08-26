@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { IncidentCard } from "@/components/status-public/status-page-view";
 import { formatDuration, formatInstant } from "@/lib/status-pages/format";
 import { getPublishedIncidentBySlug } from "@/lib/status-pages/projection";
-import { loadFajitaServiceStatus } from "@/lib/platform/service-status";
+import { loadFajitaServiceStatus } from "@/lib/status-pages/service-status";
 
 export const revalidate = 30;
 

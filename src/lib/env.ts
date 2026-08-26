@@ -96,7 +96,7 @@ const serverSchema = z
    */
   ALERT_WORKER_TOKEN: z.string().optional(),
   /**
-   * Status-page subscriber system (Phase 9). All optional so an unconfigured
+   * Status-page subscriber system. All optional so an unconfigured
    * environment degrades safely (confirmation/delivery report "not configured"
    * rather than crashing). Subscriber email reuses the Resend transactional
    * stream (RESEND_API_KEY / ALERT_EMAIL_FROM).
@@ -109,13 +109,13 @@ const serverSchema = z
   SUBSCRIBER_WORKER_TOKEN: z.string().optional(),
   SUBSCRIBER_EMAIL_WEBHOOK_SECRET: z.string().optional(),
   /**
-   * Lifecycle + report system (Phase 11). Bearer token for
+   * Lifecycle + report system. Bearer token for
    * POST /api/internal/lifecycle/run (rule evaluation, delivery, reports).
    * When unset, the internal trigger route is disabled.
    */
   LIFECYCLE_WORKER_TOKEN: z.string().optional(),
   /**
-   * Affiliate program (Phase 12). All optional so an unconfigured environment
+   * Affiliate program. All optional so an unconfigured environment
    * degrades safely.
    *
    * - AFFILIATE_COOKIE_SECRET: HMAC key used to sign the opaque first-party
@@ -139,9 +139,19 @@ const serverSchema = z
   /**
    * Published status-page slug for Fajita's own service status at /status.
    * When set and the page is public, /status reads the live snapshot; otherwise
-   * an honest fallback is shown from platform self-monitoring definitions.
+   * an honest fallback is shown from service status health probes.
    */
   FAJITA_SERVICE_STATUS_SLUG: z.string().optional(),
+  /**
+   * SMTP email delivery (self-hosted). Optional alternative to Resend.
+   * When SMTP_HOST, SMTP_PORT, and SMTP_FROM are set, SMTP is used if Resend
+   * is not configured.
+   */
+  SMTP_HOST: z.string().optional(),
+  SMTP_PORT: z.coerce.number().int().positive().optional(),
+  SMTP_USER: z.string().optional(),
+  SMTP_PASSWORD: z.string().optional(),
+  SMTP_FROM: z.string().optional(),
 });
 
 let cachedServer: z.infer<typeof serverSchema> | null = null;
@@ -170,6 +180,11 @@ export function serverEnv(): z.infer<typeof serverSchema> {
     STRIPE_CONNECT_CLIENT_ID: process.env.STRIPE_CONNECT_CLIENT_ID,
     CRON_SECRET: process.env.CRON_SECRET,
     FAJITA_SERVICE_STATUS_SLUG: process.env.FAJITA_SERVICE_STATUS_SLUG,
+    SMTP_HOST: process.env.SMTP_HOST,
+    SMTP_PORT: process.env.SMTP_PORT,
+    SMTP_USER: process.env.SMTP_USER,
+    SMTP_PASSWORD: process.env.SMTP_PASSWORD,
+    SMTP_FROM: process.env.SMTP_FROM,
   });
   if (!parsed.success) {
     const missing = parsed.error.issues.map((i) => i.path.join(".")).join(", ");

@@ -10,8 +10,6 @@ import { Fraunces, Instrument_Sans, Spline_Sans_Mono } from "next/font/google";
  *   warmth to sit next to Fraunces without fighting it.
  * - Technical accent: Spline Sans Mono. Endpoints, timestamps, response
  *   times, code. Used sparingly and deliberately.
- *
- * Full spec: /docs/brand/fajita-typography.md
  */
 
 export const displayFont = Fraunces({

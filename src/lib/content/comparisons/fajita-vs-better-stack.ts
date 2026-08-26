@@ -116,5 +116,10 @@ export const fajitaVsBetterStack = defineComparison({
       "Better Stack may include modules you do not need; complexity has a cost.",
       "This page is vendor-authored by Fajita.",
     ]),
+
+    h2("Self-hosting"),
+    p(
+      "Fajita can be [self-hosted](/self-host) under AGPL-3.0. Better Stack is primarily a hosted suite; confirm any self-hosted options on their official site.",
+    ),
   ],
 });

@@ -36,7 +36,6 @@ export async function generatePayoutBatchAction(
       periodLabel: label,
       actorUserId: admin.id,
     });
-    revalidatePath("/internal/affiliates/payouts");
     return { ok: true, data: result };
   } catch (error) {
     return toActionError(error);
@@ -50,8 +49,6 @@ export async function approvePayoutBatchAction(
   try {
     const admin = await requirePlatformAdmin();
     await approvePayoutBatch(uuid.parse(batchId), admin.id);
-    revalidatePath("/internal/affiliates/payouts");
-    revalidatePath(`/internal/affiliates/payouts/${batchId}`);
     return { ok: true };
   } catch (error) {
     return toActionError(error);
@@ -66,8 +63,6 @@ export async function processPayoutBatchAction(
     const admin = await requirePlatformAdmin();
     await requireStepUpAuthentication();
     const result = await processPayoutBatch(uuid.parse(batchId), admin.id);
-    revalidatePath("/internal/affiliates/payouts");
-    revalidatePath(`/internal/affiliates/payouts/${batchId}`);
     return { ok: true, data: result };
   } catch (error) {
     return toActionError(error);
@@ -92,7 +87,6 @@ export async function markPayoutItemPaidAction(
       providerReference: parsed.providerReference ?? null,
       actorUserId: admin.id,
     });
-    revalidatePath("/internal/affiliates/payouts");
     return { ok: true };
   } catch (error) {
     return toActionError(error);

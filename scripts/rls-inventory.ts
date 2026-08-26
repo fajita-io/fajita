@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 /**
- * Phase 18: scan supabase/migrations for CREATE TABLE and RLS enablement.
+ * Scan supabase/migrations for CREATE TABLE and RLS enablement.
  * Fails if a public table is created without a later/same-file ENABLE ROW LEVEL SECURITY.
  */
 import { readdirSync, readFileSync } from "node:fs";

@@ -1,0 +1,39 @@
+# Dependencies
+node_modules
+npm-debug.log*
+.pnpm-debug.log*
+
+# Build output
+.next
+out
+dist
+build
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Git and IDE
+.git
+.gitignore
+.cursor
+.agents
+*.md
+!README.md
+
+# Tests and docs (not needed in runtime image)
+tests
+docs
+appsumo-assets
+
+# Supabase local state
+supabase/.temp
+supabase/.branches
+
+# OS
+.DS_Store
+Thumbs.db
+
+# CI
+.github

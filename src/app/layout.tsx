@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 
+import { DataFastScript } from "@/components/analytics/datafast-script";
 import { ConsentGatedAnalyticsLazy } from "@/components/analytics/consent-gated-analytics-lazy";
 import { ResourceHints } from "@/components/site/resource-hints";
 import { fontVariables } from "@/lib/fonts";
@@ -86,6 +87,7 @@ export default function RootLayout({
     <html lang="en" className={fontVariables} suppressHydrationWarning>
       <head>
         <ResourceHints />
+        <DataFastScript />
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <script
           type="application/ld+json"

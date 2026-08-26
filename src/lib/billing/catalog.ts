@@ -266,6 +266,24 @@ export const BETA_ENTITLEMENTS: PlanEntitlements = {
   status_page_remove_powered_by: false,
 };
 
+/**
+ * Self-hosted deployments receive the full monitoring product without Stripe.
+ * Limits are generous but bounded for resource safety; null means unlimited
+ * where the type allows it.
+ */
+export const SELF_HOSTED_ENTITLEMENTS: PlanEntitlements = {
+  ...SCALE_ENTITLEMENTS,
+  max_active_monitors: null,
+  max_monthly_checks: 5_000_000,
+  max_alert_channels: null,
+  max_alert_rules: null,
+  max_status_pages: null,
+  max_confirmed_subscribers: null,
+  max_organization_members: null,
+  status_page_remove_powered_by: true,
+  subscriber_email_remove_powered_by: true,
+};
+
 const sharedPricing = {
   currency: "usd" as const,
   overagePer100kChecksCents: CHECK_OVERAGE_PER_100K_CENTS,

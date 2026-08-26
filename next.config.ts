@@ -29,6 +29,7 @@ function assertProductionAuthEnv() {
 assertProductionAuthEnv();
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   headers: buildSecurityHeaders(),
   experimental: {
     optimizePackageImports: ["@clerk/nextjs"],

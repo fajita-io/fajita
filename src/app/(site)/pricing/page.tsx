@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { BrandButtonLink } from "@/components/design-system/primitives";
 import { SectionHeading } from "@/components/design-system/typography";
 import { CtaButtons } from "@/components/site/cta-buttons";
 import { FaqList } from "@/components/site/faq-list";
@@ -47,15 +48,35 @@ export default function PricingPage() {
     <>
       <section className="fj-page-hero">
         <div className="fj-container">
-          <p className="fj-eyebrow fj-page-hero__eyebrow">Pricing</p>
+          <p className="fj-eyebrow fj-page-hero__eyebrow">Fajita Cloud</p>
           <h1 className="fj-display-2">Pay for checks, not for a sales call.</h1>
           <p className="fj-body-lg fj-page-hero__lede">
-            Every plan includes a monthly check allowance. Pick the volume that
-            matches your monitors and interval.
+            Prefer not to maintain Fajita yourself? We run it for you. Every plan
+            includes a monthly check allowance. Pick the volume that matches your
+            monitors and interval.
             {pricingConfig.published
               ? " Start on Core and move up when your stack grows."
               : ` ${pricingConfig.unpublishedNote}`}
           </p>
+        </div>
+      </section>
+
+      <section className="fj-band--tight">
+        <div className="fj-container">
+          <div className="fj-cloud-escape" style={{ marginTop: 0, marginBottom: "var(--space-6)" }}>
+            <p className="fj-body-sm">
+              Looking to run Fajita yourself? The core project is open source under
+              AGPL-3.0.
+            </p>
+            <BrandButtonLink
+              href="/self-host"
+              variant="secondary"
+              size="sm"
+              data-fast-goal={DataFastGoals.selfHostClicked}
+            >
+              Self-host instead
+            </BrandButtonLink>
+          </div>
         </div>
       </section>
 

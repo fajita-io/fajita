@@ -12,7 +12,7 @@ import { scanSensitiveData } from "@/lib/support/sensitive-data";
 import { containsEmDash } from "@/lib/support/render-safe";
 import { FEATURE_REGISTRY } from "@/lib/app/feature-flags";
 
-describe("Phase 16 Pamphlet adapter", () => {
+describe("Pamphlet adapter", () => {
   it("does not invent conversation create success", async () => {
     const result = await pamphletClient().createConversation({ mode: "public" });
     expect(result.ok).toBe(false);
@@ -35,7 +35,7 @@ describe("Phase 16 Pamphlet adapter", () => {
   });
 });
 
-describe("Phase 16 safety", () => {
+describe("support safety", () => {
   it("redacts stripe secret keys", () => {
     const scan = scanSensitiveData("key sk_live_abcdefghijklmnopqrstuv extra");
     expect(scan.detections).toContain("stripe_key");
@@ -58,7 +58,7 @@ describe("Phase 16 safety", () => {
   });
 });
 
-describe("Phase 16 knowledge and answers", () => {
+describe("support knowledge and answers", () => {
   it("indexes approved knowledge sources", () => {
     const sources = listKnowledgeSources();
     expect(sources.length).toBeGreaterThan(10);
@@ -121,7 +121,7 @@ describe("Phase 16 knowledge and answers", () => {
   });
 });
 
-describe("Phase 16 feature flag", () => {
+describe("support feature flag", () => {
   it("exposes pamphletSupport as ga", () => {
     expect(FEATURE_REGISTRY.pamphletSupport.stage).toBe("ga");
   });

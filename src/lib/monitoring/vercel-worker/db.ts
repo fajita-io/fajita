@@ -33,8 +33,12 @@ function databaseUrl(): string {
   const password = parsed.password;
   const ref =
     process.env.SUPABASE_PROJECT_REF?.trim() ??
-    process.env.NEXT_PUBLIC_SUPABASE_URL?.match(/https:\/\/([^.]+)\./)?.[1] ??
-    "olvnjsqspvywvwfchtuc";
+    process.env.NEXT_PUBLIC_SUPABASE_URL?.match(/https:\/\/([^.]+)\./)?.[1];
+  if (!ref) {
+    throw new Error(
+      "SUPABASE_PROJECT_REF or NEXT_PUBLIC_SUPABASE_URL is required to build the pooler URL.",
+    );
+  }
   const region = process.env.SUPABASE_DB_REGION?.trim() ?? "us-east-2";
   const poolHost =
     process.env.SUPABASE_POOLER_HOST?.trim() ??

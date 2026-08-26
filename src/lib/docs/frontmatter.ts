@@ -32,6 +32,8 @@ export const DOC_CATEGORIES = [
   "migrations",
   "account",
   "reference",
+  "self-hosting",
+  "open-source",
 ] as const;
 export type DocCategory = (typeof DOC_CATEGORIES)[number];
 

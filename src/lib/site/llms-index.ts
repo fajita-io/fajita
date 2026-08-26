@@ -36,7 +36,7 @@ export function buildLlmsIndex(): string {
 
   return `# Fajita
 
-Fajita is uptime-monitoring software for founders, developers, agencies, and small software teams. It watches websites, APIs, SSL certificates, cron jobs, and heartbeat endpoints, verifies a failure before alerting anyone, and notifies teams through email, Slack, Discord, and webhooks. Public status pages let teams communicate incidents clearly and show real uptime history to customers.
+Fajita is open-source uptime monitoring (AGPL-3.0) with failure verification before alerts. Monitor websites, APIs, SSL certificates, cron jobs, and heartbeats. Self-host the core or use Fajita Cloud for managed infrastructure, workers, upgrades, and notifications.
 
 Fajita is live. Accounts are open for signup. Monitors, incidents, status pages, integrations, billing, and the affiliate program are available today. The roadmap lists what is still in progress.
 
@@ -51,6 +51,8 @@ The product and company name is "Fajita" (not "fajita.io"; that is the domain).
 ## Key URLs
 
 - Home: ${siteUrl}/
+- Open source: ${siteUrl}/open-source
+- Self-host: ${siteUrl}/self-host
 - Pricing: ${siteUrl}/pricing
 - Features: ${siteUrl}/features
 - Uptime monitoring: ${siteUrl}/features/uptime-monitoring
@@ -84,7 +86,15 @@ The product and company name is "Fajita" (not "fajita.io"; that is the domain).
 - Full documentation text: ${siteUrl}/llms-full.txt
 - Per-page plain text: ${siteUrl}/docs/raw/<slug>
 
-The documentation covers getting started, monitors, assertions, incidents, alerts, integrations, status pages, subscribers, maintenance, teams, billing, affiliates, security, privacy, webhooks, troubleshooting, and migrations.
+The documentation covers getting started, monitors, assertions, incidents, alerts, integrations, status pages, subscribers, maintenance, teams, billing, affiliates, security, privacy, webhooks, troubleshooting, migrations, self-hosting, and open source.
+
+## Open source and self-hosting
+
+- Open source overview: ${siteUrl}/open-source
+- Self-host landing: ${siteUrl}/self-host
+- Self-hosting quickstart: ${siteUrl}/docs/self-hosting/quickstart
+- GitHub: https://github.com/fajita-io/fajita
+- License: AGPL-3.0
 
 ## Glossary
 
@@ -109,6 +119,8 @@ The glossary explains software reliability concepts. Product steps live in docum
 - Fajita vs Pingdom: ${siteUrl}/compare/fajita-vs-pingdom
 - Fajita vs Checkly: ${siteUrl}/compare/fajita-vs-checkly
 - Fajita vs Atlassian Statuspage: ${siteUrl}/compare/fajita-vs-statuspage
+- Fajita vs Uptime Kuma: ${siteUrl}/compare/uptime-kuma
+- Fajita vs OpenStatus: ${siteUrl}/compare/openstatus
 - Comparison methodology: ${siteUrl}/compare/comparison-methodology
 - Free tools: ${siteUrl}/tools
 - Uptime calculator: ${siteUrl}/tools/uptime-calculator

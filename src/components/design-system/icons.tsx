@@ -3,8 +3,6 @@
  * caps: the same construction language as the logo mark and status icons.
  * Ordinary interface actions (close, chevron, search) may use a standard
  * library later; these branded concepts must always use this set.
- *
- * Construction rules: /docs/brand/fajita-iconography.md
  */
 
 export type BrandIconName =

@@ -14,9 +14,8 @@ import type { Database } from "./types";
  * their organizations.
  *
  * Requires the Clerk third-party auth integration to be enabled on the
- * Supabase project (see docs/handoff/auth-and-tenancy-transfer.md). When the
- * integration is not yet configured, prefer `serviceClient()` with explicit
- * scoping for reads. Writes never use this client.
+ * Supabase project. When the integration is not yet configured, prefer
+ * `serviceClient()` with explicit scoping for reads. Writes never use this client.
  */
 export async function userClient(): Promise<SupabaseClient<Database>> {
   const { getToken } = await auth();

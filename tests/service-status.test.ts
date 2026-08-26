@@ -26,7 +26,7 @@ describe("loadFajitaServiceStatus", () => {
       }),
     );
 
-    const { loadFajitaServiceStatus } = await import("@/lib/platform/service-status");
+    const { loadFajitaServiceStatus } = await import("@/lib/status-pages/service-status");
     const status = await loadFajitaServiceStatus();
 
     expect(status.source).toBe("fallback");
@@ -56,7 +56,7 @@ describe("loadFajitaServiceStatus", () => {
     const { getPublicSnapshotBySlug } = await import("@/lib/status-pages/projection");
     vi.mocked(getPublicSnapshotBySlug).mockResolvedValue(snapshot as never);
 
-    const { loadFajitaServiceStatus } = await import("@/lib/platform/service-status");
+    const { loadFajitaServiceStatus } = await import("@/lib/status-pages/service-status");
     const status = await loadFajitaServiceStatus();
 
     expect(status.source).toBe("snapshot");

@@ -5,7 +5,7 @@ import { StatusBadge } from "@/components/design-system/status/status-badge";
 import { SectionHeading } from "@/components/design-system/typography";
 import { BrandButtonLink } from "@/components/design-system/primitives";
 import { buildMetadata } from "@/lib/site/metadata";
-import { siteUrl } from "@/lib/site/site-config";
+import { siteUrl, cta } from "@/lib/site/site-config";
 
 export const metadata: Metadata = buildMetadata({
   title: "Security",
@@ -212,6 +212,44 @@ export default function SecurityPage() {
       </section>
 
       <section className="fj-band--tight">
+        <div className="fj-container fj-container--wide">
+          <SectionHeading
+            eyebrow="Open source"
+            title="Auditable code. Same strict defaults."
+            lede="Open source does not automatically make software secure. It does make the monitoring logic inspectable and the security posture reviewable."
+            as="h2"
+          />
+          <div className="fj-facts fj-facts--flush">
+            <div className="fj-fact">
+              <p className="fj-fact__label">Public source</p>
+              <p className="fj-body">
+                The Fajita monitoring platform is published under AGPL-3.0.
+                Security researchers and operators can review how checks,
+                verification, and notifications behave.
+              </p>
+            </div>
+            <div className="fj-fact">
+              <p className="fj-fact__label">Responsible disclosure</p>
+              <p className="fj-body fj-prose">
+                Report vulnerabilities through{" "}
+                <Link href="/legal/disclosure">responsible disclosure</Link> or
+                the repository SECURITY.md. Do not open public issues for
+                security reports.
+              </p>
+            </div>
+            <div className="fj-fact">
+              <p className="fj-fact__label">Self-hosted operators</p>
+              <p className="fj-body">
+                You control infrastructure, secrets, backups, and network
+                boundaries. Private network monitoring requires an explicit
+                opt-in on self-hosted installs.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="fj-band--tight">
         <div className="fj-container">
           <SectionHeading
             eyebrow="Next"
@@ -223,7 +261,7 @@ export default function SecurityPage() {
               Ask the team
             </BrandButtonLink>
             <BrandButtonLink href="/signup" variant="secondary">
-              Start monitoring
+              {cta.primary.label}
             </BrandButtonLink>
           </div>
         </div>

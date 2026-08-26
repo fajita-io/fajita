@@ -593,7 +593,9 @@ export async function requestManualCheck(params: {
   }
 
   const startedAt = new Date();
-  const outcome = await executeHttpMonitor(version.configuration_snapshot as MonitorConfigSnapshot);
+  const outcome = await executeHttpMonitor(
+    version.configuration_snapshot as unknown as MonitorConfigSnapshot,
+  );
   const completedAt = new Date();
   const idempotencyKey = `manual:${monitorId}:${crypto.randomUUID()}`;
 

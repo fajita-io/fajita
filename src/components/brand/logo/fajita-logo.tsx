@@ -18,8 +18,7 @@ export interface FajitaLogoProps {
 
 /**
  * Primary Fajita lockup. Fixed proportions; clearspace equal to the mark's
- * boundary radius is built into usage guidance, not the SVG. See
- * /docs/brand/fajita-logo-system.md for rules and forbidden treatments.
+ * boundary radius is built into usage guidance, not the SVG.
  */
 export function FajitaLogo({
   orientation = "horizontal",

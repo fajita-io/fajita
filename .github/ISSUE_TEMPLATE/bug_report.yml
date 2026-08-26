@@ -1,0 +1,70 @@
+name: Bug report
+description: Report a reproducible bug in Fajita
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. **Do not include secrets** in this form (auth headers, cookies, API keys, webhook secrets, database passwords, encryption keys).
+
+  - type: input
+    id: version
+    attributes:
+      label: Fajita version
+      description: Git tag, commit SHA, or Docker image tag
+      placeholder: v0.1.0 or abc1234
+    validations:
+      required: true
+
+  - type: dropdown
+    id: deployment
+    attributes:
+      label: Deployment mode
+      options:
+        - Self-hosted (Docker Compose)
+        - Self-hosted (custom)
+        - Fajita Cloud
+        - Local development
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps another developer can follow
+      placeholder: |
+        1. Start stack with docker compose up
+        2. Create API monitor for ...
+        3. Observe ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs (sanitized)
+      description: Remove tokens, emails, domains you cannot share, and customer data
+      render: shell
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Docker version, browser if UI-related
+      placeholder: macOS 15, Docker 27, Firefox 128

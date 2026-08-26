@@ -51,14 +51,13 @@ describe("sitemap", () => {
 });
 
 describe("robots", () => {
-  it("disallows api and internal routes and references the sitemap", () => {
+  it("disallows api routes and references the sitemap", () => {
     const config = robots();
     const rules = Array.isArray(config.rules) ? config.rules : [config.rules];
     const disallow = rules.flatMap((r) =>
       Array.isArray(r.disallow) ? r.disallow : [r.disallow],
     );
     expect(disallow).toContain("/api/");
-    expect(disallow).toContain("/internal/");
     const sitemaps = Array.isArray(config.sitemap)
       ? config.sitemap
       : [config.sitemap];

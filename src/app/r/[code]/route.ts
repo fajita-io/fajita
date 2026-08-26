@@ -1,10 +1,13 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 import { appUrl } from "@/lib/env";
-import { CUSTOMER_REFERRAL_COOKIE, CUSTOMER_REFERRAL_WINDOW_DAYS } from "@/lib/scale/referrals";
+import {
+  CUSTOMER_REFERRAL_COOKIE,
+  CUSTOMER_REFERRAL_WINDOW_DAYS,
+} from "@/lib/referrals";
 
 /**
- * Customer referral landing (distinct from Phase 12 affiliate /api/ref).
+ * Customer referral landing (distinct from affiliate /api/ref).
  * Sets a first-party customer-referral cookie pointer only. No open redirects.
  * Does not create affiliate commissions.
  */

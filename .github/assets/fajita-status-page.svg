@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" width="1440" height="900" role="img" aria-label="Fajita public status page for Acme Platform">
+  <rect width="1440" height="900" fill="#fffdf7"/>
+  <text x="720" y="120" text-anchor="middle" fill="#17130e" font-family="system-ui,sans-serif" font-size="36" font-weight="700">Acme Platform Status</text>
+  <text x="720" y="158" text-anchor="middle" fill="#17130e" opacity="0.55" font-family="system-ui,sans-serif" font-size="15">status.acme-platform.example</text>
+  <rect x="320" y="200" width="800" height="72" rx="12" fill="#ecfdf3" stroke="#2f9e44" stroke-opacity="0.35"/>
+  <circle cx="360" cy="236" r="8" fill="#2f9e44"/>
+  <text x="384" y="242" fill="#17130e" font-family="system-ui,sans-serif" font-size="20" font-weight="600">All systems operational</text>
+  <rect x="320" y="300" width="800" height="64" rx="10" fill="#ffffff" stroke="#17130e" stroke-opacity="0.08"/>
+  <text x="344" y="338" fill="#17130e" font-family="system-ui,sans-serif" font-size="15" font-weight="600">Website</text>
+  <text x="1080" y="338" text-anchor="end" fill="#2f9e44" font-family="system-ui,sans-serif" font-size="14">Operational</text>
+  <rect x="320" y="380" width="800" height="64" rx="10" fill="#ffffff" stroke="#17130e" stroke-opacity="0.08"/>
+  <text x="344" y="418" fill="#17130e" font-family="system-ui,sans-serif" font-size="15" font-weight="600">Payments API</text>
+  <text x="1080" y="418" text-anchor="end" fill="#f59f00" font-family="system-ui,sans-serif" font-size="14">Degraded performance</text>
+  <rect x="320" y="460" width="800" height="64" rx="10" fill="#ffffff" stroke="#17130e" stroke-opacity="0.08"/>
+  <text x="344" y="498" fill="#17130e" font-family="system-ui,sans-serif" font-size="15" font-weight="600">Developer API</text>
+  <text x="1080" y="498" text-anchor="end" fill="#2f9e44" font-family="system-ui,sans-serif" font-size="14">Operational</text>
+  <rect x="320" y="560" width="800" height="180" rx="12" fill="#ffffff" stroke="#17130e" stroke-opacity="0.08"/>
+  <text x="344" y="596" fill="#17130e" font-family="system-ui,sans-serif" font-size="15" font-weight="600">Incident history</text>
+  <text x="344" y="632" fill="#17130e" opacity="0.65" font-family="system-ui,sans-serif" font-size="13">Mar 12 · Resolved · API latency spike · 18 min</text>
+  <text x="344" y="660" fill="#17130e" opacity="0.65" font-family="system-ui,sans-serif" font-size="13">Feb 28 · Resolved · Scheduled maintenance · 45 min</text>
+  <text x="720" y="820" text-anchor="middle" fill="#17130e" opacity="0.35" font-family="system-ui,sans-serif" font-size="12">Powered by Fajita</text>
+</svg>

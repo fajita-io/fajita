@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" width="1200" height="640" role="img" aria-label="Fajita verification flow: check, detect failure, verify, confirm, alert, recover">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="640" x2="1200" y2="0">
+      <stop offset="0" stop-color="#17130e"/>
+      <stop offset="1" stop-color="#1f1a14"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="640" fill="url(#bg)"/>
+  <text x="600" y="56" text-anchor="middle" fill="#faf5ea" font-family="system-ui,sans-serif" font-size="28" font-weight="600">How Fajita verifies failures</text>
+  <text x="600" y="88" text-anchor="middle" fill="#faf5ea" opacity="0.62" font-family="system-ui,sans-serif" font-size="15">Alerts fire only after confirmation, not on the first failed ping</text>
+
+  <g font-family="system-ui,sans-serif" font-size="14" fill="#faf5ea">
+    <rect x="500" y="120" width="200" height="44" rx="10" fill="#2a231c" stroke="#faf5ea" stroke-opacity="0.15"/>
+    <text x="600" y="148" text-anchor="middle">Monitor check</text>
+    <path d="M600 164v36" stroke="#f5921b" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <rect x="500" y="200" width="200" height="44" rx="10" fill="#2a231c" stroke="#f59f00" stroke-opacity="0.55"/>
+    <text x="600" y="228" text-anchor="middle">Failure detected</text>
+    <path d="M600 244v36" stroke="#f5921b" stroke-width="2"/>
+
+    <rect x="500" y="280" width="200" height="44" rx="10" fill="#2a231c" stroke="#f5921b" stroke-opacity="0.7"/>
+    <text x="600" y="308" text-anchor="middle">Verification</text>
+    <path d="M600 324v28" stroke="#faf5ea" stroke-opacity="0.35" stroke-width="2"/>
+    <text x="600" y="368" text-anchor="middle" fill="#faf5ea" opacity="0.75">Confirmed?</text>
+
+    <path d="M560 388 L420 430" stroke="#2f9e44" stroke-width="2"/>
+    <path d="M640 388 L780 430" stroke="#e03131" stroke-width="2"/>
+
+    <rect x="320" y="430" width="200" height="44" rx="10" fill="#17301f" stroke="#2f9e44" stroke-opacity="0.6"/>
+    <text x="420" y="458" text-anchor="middle">Healthy (no alert)</text>
+
+    <rect x="680" y="430" width="200" height="44" rx="10" fill="#2f1515" stroke="#e03131" stroke-opacity="0.6"/>
+    <text x="780" y="458" text-anchor="middle">Incident opened</text>
+    <path d="M780 474v28" stroke="#e03131" stroke-width="2"/>
+
+    <rect x="680" y="502" width="200" height="44" rx="10" fill="#2a231c" stroke="#faf5ea" stroke-opacity="0.15"/>
+    <text x="780" y="530" text-anchor="middle">Alert sent</text>
+    <path d="M780 546v28" stroke="#2f9e44" stroke-width="2"/>
+
+    <rect x="680" y="574" width="200" height="36" rx="10" fill="#17301f" stroke="#2f9e44" stroke-opacity="0.45"/>
+    <text x="780" y="598" text-anchor="middle" font-size="13">Recovery</text>
+  </g>
+</svg>

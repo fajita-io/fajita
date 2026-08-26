@@ -1,0 +1,103 @@
+name: OSS readiness
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  gitleaks:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  oss-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run oss:check:fast
+
+  db-bootstrap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - name: Apply migrations to empty database
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+        run: bash docker/db/apply-migrations.sh
+      - name: Verify migration ledger
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+        run: |
+          count="$(psql "$DATABASE_URL" -tAc 'select count(*) from public.schema_migrations')"
+          echo "Applied migrations: $count"
+          test "$count" -gt 40
+
+  go-monitor-worker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+      - name: Run Go worker tests (SSRF, executor, testfixture)
+        working-directory: services/monitor-worker
+        run: go test ./...
+
+  compose-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Compose file
+        run: docker compose config -q
+      - name: Boot database and run migrations
+        env:
+          POSTGRES_PASSWORD: postgres
+        run: |
+          docker compose up -d db
+          docker compose run --rm migrate
+      - name: Assert core tables exist
+        env:
+          POSTGRES_PASSWORD: postgres
+        run: |
+          docker compose exec -T db psql -U postgres -d postgres -c "select 1 from public.organizations limit 0"
+          docker compose exec -T db psql -U postgres -d postgres -c "select 1 from public.monitors limit 0"
+      - name: Tear down
+        if: always()
+        run: docker compose down -v

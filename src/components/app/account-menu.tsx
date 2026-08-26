@@ -14,11 +14,10 @@ import { useTheme } from "@/lib/theme/use-theme";
 
 /**
  * Account menu: identity summary, quick links to profile/security/preferences,
- * a theme toggle, the App Lab entry for platform admins, and sign out. Closes
- * on Escape and outside click; restores nothing destructive without a page.
+ * a theme toggle, and sign out. Closes on Escape and outside click.
  */
 export function AccountMenu() {
-  const { profile, isPlatformAdmin } = useApp();
+  const { profile } = useApp();
   const { signOut } = useClerk();
   const router = useRouter();
   const { preference, setPreference } = useTheme();
@@ -93,14 +92,6 @@ export function AccountMenu() {
               <BrandIcon name="palette" size={16} /> Theme: {preference}
             </button>
           </div>
-
-          {isPlatformAdmin ? (
-            <div className="fj-accountmenu__group" role="none">
-              <Link href="/internal/app-lab" role="menuitem" className="fj-menu-item">
-                <BrandIcon name="overview" size={16} /> App Lab
-              </Link>
-            </div>
-          ) : null}
 
           <div className="fj-accountmenu__group" role="none">
             <button

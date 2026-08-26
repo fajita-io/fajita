@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" width="1440" height="900" role="img" aria-label="Fajita monitor detail with latency chart and recent checks">
+  <rect width="1440" height="900" fill="#17130e"/>
+  <rect x="0" y="0" width="240" height="900" fill="#1f1a14"/>
+  <text x="280" y="48" fill="#faf5ea" opacity="0.5" font-family="system-ui,sans-serif" font-size="13">Monitors / payments API</text>
+  <text x="280" y="88" fill="#faf5ea" font-family="system-ui,sans-serif" font-size="32" font-weight="600">payments.acme-platform.example</text>
+  <rect x="280" y="108" width="88" height="28" rx="14" fill="#3d2a12" stroke="#f59f00" stroke-opacity="0.5"/>
+  <text x="324" y="127" text-anchor="middle" fill="#f59f00" font-family="system-ui,sans-serif" font-size="12" font-weight="600">Verifying</text>
+  <rect x="280" y="160" width="320" height="100" rx="12" fill="#1f1a14" stroke="#faf5ea" stroke-opacity="0.08"/>
+  <text x="304" y="192" fill="#faf5ea" opacity="0.55" font-family="system-ui,sans-serif" font-size="12">Uptime (30d)</text>
+  <text x="304" y="228" fill="#faf5ea" font-family="system-ui,sans-serif" font-size="28" font-weight="700">99.91%</text>
+  <rect x="620" y="160" width="320" height="100" rx="12" fill="#1f1a14" stroke="#faf5ea" stroke-opacity="0.08"/>
+  <text x="644" y="192" fill="#faf5ea" opacity="0.55" font-family="system-ui,sans-serif" font-size="12">Avg response</text>
+  <text x="644" y="228" fill="#f59f00" font-family="system-ui,sans-serif" font-size="28" font-weight="700">892 ms</text>
+  <rect x="960" y="160" width="320" height="100" rx="12" fill="#1f1a14" stroke="#faf5ea" stroke-opacity="0.08"/>
+  <text x="984" y="192" fill="#faf5ea" opacity="0.55" font-family="system-ui,sans-serif" font-size="12">Interval</text>
+  <text x="984" y="228" fill="#faf5ea" font-family="system-ui,sans-serif" font-size="28" font-weight="700">60s</text>
+  <rect x="280" y="288" width="1000" height="280" rx="12" fill="#1f1a14" stroke="#faf5ea" stroke-opacity="0.08"/>
+  <text x="304" y="320" fill="#faf5ea" font-family="system-ui,sans-serif" font-size="14" font-weight="600">Latency</text>
+  <path d="M320 520 L400 500 L480 480 L560 460 L640 520 L720 540 L800 380 L880 400 L960 420 L1040 360 L1120 380 L1240 340" fill="none" stroke="#f5921b" stroke-width="2.5"/>
+  <circle cx="800" cy="380" r="6" fill="#f59f00"/>
+  <rect x="280" y="592" width="1000" height="240" rx="12" fill="#1f1a14" stroke="#faf5ea" stroke-opacity="0.08"/>
+  <text x="304" y="624" fill="#faf5ea" font-family="system-ui,sans-serif" font-size="14" font-weight="600">Recent checks</text>
+  <text x="304" y="664" fill="#faf5ea" opacity="0.75" font-family="system-ui,sans-serif" font-size="13">14:02:18 · 892 ms · HTTP 504 · verification queued</text>
+  <text x="304" y="692" fill="#faf5ea" opacity="0.75" font-family="system-ui,sans-serif" font-size="13">14:01:18 · 142 ms · HTTP 200 · healthy</text>
+  <text x="304" y="720" fill="#faf5ea" opacity="0.75" font-family="system-ui,sans-serif" font-size="13">14:00:18 · 138 ms · HTTP 200 · healthy</text>
+</svg>
