@@ -84,7 +84,7 @@ When all automated gates pass and operator tasks are complete:
 
 - [ ] Provider secret rotation (Clerk, Stripe, Supabase, Resend) in dashboards
 - [ ] Legal counsel sign-off
-- [ ] Commit + push OSS release branch to GitHub
-- [ ] Make repository public (requires GitHub admin + `gh` or Settings UI)
-- [ ] Enable secret scanning + branch protection
-- [ ] Tag `v0.1.0` to publish GHCR images
+- [x] Commit + push OSS release branch to GitHub (2026-08-26)
+- [x] Make repository public — https://github.com/Accomplish-Labs/fajita-io
+- [x] Enable secret scanning + push protection
+- [x] Tag `v0.1.0` pushed (GHCR publish via `.github/workflows/release.yml`)
