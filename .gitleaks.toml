@@ -11,4 +11,5 @@ paths = [
   '''(?i)^scripts/oss-check\.ts$''',
   '''(?i)^scripts/secret-scan\.ts$''',
   '''(?i)^src/lib/support/fixtures/''',
+  '''(?i)^src/lib/subscribers/delivery/callbacks\.test\.ts$''',
 ]

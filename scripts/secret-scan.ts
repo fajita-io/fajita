@@ -9,9 +9,16 @@ import { readFileSync } from "node:fs";
 
 const patterns: Array<{ name: string; re: RegExp }> = [
   { name: "stripe_live_sk", re: /sk_live_[A-Za-z0-9]{16,}/g },
+  { name: "stripe_test_sk", re: /sk_test_[A-Za-z0-9]{20,}/g },
   { name: "stripe_whsec", re: /whsec_[A-Za-z0-9]{16,}/g },
+  { name: "github_token", re: /\b(?:ghp_|github_pat_)[A-Za-z0-9_]{20,}/g },
+  { name: "anthropic_key", re: /sk-ant-api[A-Za-z0-9_-]{20,}/g },
+  { name: "resend_key", re: /\bre_[A-Za-z0-9]{20,}\b/g },
   { name: "aws_access_key", re: /AKIA[0-9A-Z]{16}/g },
   { name: "private_key_block", re: /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/g },
+  { name: "assigned_clerk_secret", re: /CLERK_SECRET_KEY=sk_(?:live|test)_[A-Za-z0-9]{16,}/g },
+  { name: "assigned_stripe_secret", re: /STRIPE_SECRET_KEY=sk_(?:live|test)_[A-Za-z0-9]{16,}/g },
+  { name: "assigned_service_role", re: /SUPABASE_SERVICE_ROLE_KEY=eyJ[A-Za-z0-9_-]{20,}/g },
   { name: "personal_email", re: /alex@accompli\.sh/gi },
   { name: "personal_domain", re: /https?:\/\/accompli\.sh\b/gi },
 ];
