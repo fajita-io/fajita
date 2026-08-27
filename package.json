@@ -2,6 +2,15 @@
   "name": "fajita-io",
   "private": true,
   "license": "AGPL-3.0-or-later",
+  "author": "Accomplish Labs",
+  "homepage": "https://fajita.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fajita-io/fajita.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fajita-io/fajita/issues"
+  },
   "scripts": {
     "dev": "env -u NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY -u CLERK_SECRET_KEY -u CLERK_PUBLISHABLE_KEY next dev",
     "build": "next build",

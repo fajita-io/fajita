@@ -25,6 +25,12 @@ Accomplish Labs retains final authority over:
 
 Contributions follow [CONTRIBUTING.md](./CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md). Pull requests require maintainer review. Destructive or security-sensitive changes may need additional review.
 
+External contributions are welcome. Sustained, constructive participation (quality patches, documentation, issue triage, and respectful review feedback) can lead to expanded trust and maintainer responsibilities. That path is earned through contribution history, not purchased.
+
+## Sponsorship and governance
+
+Financial support through [Fajita Cloud](https://fajita.io) or other sponsorship channels does not grant control over security response, release timing, trademark use, or architectural direction. Sponsorship helps sustain development; governance remains with Accomplish Labs and designated maintainers.
+
 ## Licensing
 
 The software is licensed under [AGPL-3.0](./LICENSE). Contributions are accepted under the same license.

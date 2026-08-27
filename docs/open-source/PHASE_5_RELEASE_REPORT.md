@@ -44,7 +44,7 @@ Then publish distribution posts and update TrustMRR.
 
 ## GitHub API note
 
-Accomplish-Labs org blocks PATs with lifetime >366 days. Shorten token lifetime if `github:launch-setup` fails with Permission Denied.
+Accomplish-Labs org blocks PATs with lifetime >366 days. Shorten token lifetime if `github:launch-setup` fails with Permission Denied. After the repository transfer to `fajita-io/fajita`, create a new PAT scoped to the `fajita-io` organization.
 
 ---
 

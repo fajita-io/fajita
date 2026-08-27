@@ -57,7 +57,7 @@ Badges may appear inactive until the repository is public and CI has run on `mai
 
 ## Funding
 
-No `.github/FUNDING.yml`. Fajita Cloud is the commercial path; no donation theater.
+`.github/FUNDING.yml` links to [fajita.io/contact](https://fajita.io/contact). Fajita Cloud is the commercial path. GitHub Sponsors is not configured yet.
 
 ## Default branch
 
