@@ -29,6 +29,9 @@ for i in $(seq 1 60); do
   sleep 2
 done
 
+echo "Bootstrapping Supabase-compatible roles (no-op when already present)..."
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f "$(dirname "$0")/bootstrap-roles.sql"
+
 echo "Recording applied migrations..."
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 <<'SQL'
 create table if not exists public.schema_migrations (
