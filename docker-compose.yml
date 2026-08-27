@@ -36,6 +36,7 @@ services:
     volumes:
       - ./supabase/migrations:/migrations:ro
       - ./docker/db/apply-migrations.sh:/apply-migrations.sh:ro
+      - ./docker/db/bootstrap-roles.sql:/bootstrap-roles.sql:ro
     entrypoint: ["/bin/sh", "/apply-migrations.sh"]
     restart: "no"
 

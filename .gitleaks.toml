@@ -1,0 +1,14 @@
+title = "Fajita secret scan"
+
+[allowlist]
+description = "Test fixtures, docs examples, and secret-scan tooling"
+paths = [
+  '''(?i).*\.test\.(ts|tsx)$''',
+  '''(?i).*\.test\.go$''',
+  '''(?i).*_test\.go$''',
+  '''(?i)^\.env\.example$''',
+  '''(?i)^docs/''',
+  '''(?i)^scripts/oss-check\.ts$''',
+  '''(?i)^scripts/secret-scan\.ts$''',
+  '''(?i)^src/lib/support/fixtures/''',
+]

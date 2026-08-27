@@ -25,6 +25,7 @@ jobs:
             -v "${{ github.workspace }}:/repo" \
             ghcr.io/gitleaks/gitleaks:v8.24.2 detect \
             --source="/repo" \
+            --config="/repo/.gitleaks.toml" \
             --verbose \
             --redact \
             --exit-code=1
