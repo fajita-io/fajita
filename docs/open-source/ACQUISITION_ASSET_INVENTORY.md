@@ -17,13 +17,13 @@ Last updated: 2026-08-26
 
 | Asset | Notes |
 | --- | --- |
-| Official repository | https://github.com/Accomplish-Labs/fajita-io |
+| Official repository | https://github.com/fajita-io/fajita |
 | License | AGPL-3.0 |
 | Initial release | v0.1.0 |
 | GitHub stars | Record at launch / 30-day review |
 | Forks | Record at launch / 30-day review |
 | Contributors | Record at launch / 30-day review |
-| Docker distribution | GHCR: `ghcr.io/accomplish-labs/fajita-web`, `fajita-monitor-worker`, `fajita-worker` |
+| Docker distribution | GHCR: `ghcr.io/fajita-io/fajita-web`, `fajita-monitor-worker`, `fajita-worker` |
 | CI / release automation | oss-readiness.yml, release.yml |
 
 ## Product

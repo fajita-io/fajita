@@ -11,7 +11,7 @@ Monitor websites, APIs, SSL certificates, and cron jobs. Fajita verifies trouble
 [Website](https://fajita.io) · [Documentation](https://fajita.io/docs) · [Self-host](./docs/self-hosting/QUICKSTART.md) · [Fajita Cloud](https://fajita.io)
 
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](./LICENSE)
-[![CI](https://img.shields.io/github/actions/workflow/status/Accomplish-Labs/fajita-io/oss-readiness.yml?branch=main&label=CI)](https://github.com/Accomplish-Labs/fajita-io/actions/workflows/oss-readiness.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/fajita-io/fajita/oss-readiness.yml?branch=main&label=CI)](https://github.com/fajita-io/fajita/actions/workflows/oss-readiness.yml)
 [![Docker](https://img.shields.io/badge/docker-self--host-blue)](./docker-compose.yml)
 [![Security policy](https://img.shields.io/badge/security-policy-informational)](./SECURITY.md)
 
@@ -65,8 +65,8 @@ See [docs/architecture/MONITORING.md](./docs/architecture/MONITORING.md) for the
 **Requirements:** Docker, Docker Compose, Node.js 22+, a [Clerk](https://clerk.com) application you control
 
 ```bash
-git clone https://github.com/Accomplish-Labs/fajita-io.git
-cd fajita-io
+git clone https://github.com/fajita-io/fajita.git
+cd fajita
 cp .env.example .env
 # Set FAJITA_DEPLOYMENT_MODE=self_hosted, Clerk keys, CRON_SECRET, MONITOR_SECRET_KEYRING
 
@@ -160,6 +160,8 @@ See [ROADMAP.md](./ROADMAP.md) for current priorities. No fixed dates; we ship w
 Licensed under [AGPL-3.0](./LICENSE). Network-facing deployments must comply with AGPL source-sharing requirements.
 
 The Fajita name, logo, and fajita.io are trademarks. See [TRADEMARKS.md](./TRADEMARKS.md).
+
+Fajita is an open-source project created and maintained by Accomplish Labs. See [GOVERNANCE.md](./GOVERNANCE.md).
 
 ## Star the repo
 

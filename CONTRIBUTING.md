@@ -97,4 +97,4 @@ By contributing, you certify that:
 
 ## Questions
 
-Use GitHub Discussions once the repository is public. Until then, contact maintainers through existing Fajita channels.
+Use GitHub Discussions on [fajita-io/fajita](https://github.com/fajita-io/fajita/discussions) for questions. For security issues, use [SECURITY.md](./SECURITY.md).

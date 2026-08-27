@@ -95,7 +95,7 @@ export const fajitaIsNowOpenSource = defineArticle({
       "Self-hosted Fajita is not a demo tier. Cloud is not obsolete. Cloud sells operational convenience: managed workers, upgrades, backups, and notifications.",
     ),
     p(
-      "Run it yourself: [Self-hosting guide](/self-host). Source: [GitHub](https://github.com/Accomplish-Labs/fajita-io). Managed option: [Fajita Cloud](/signup).",
+      "Run it yourself: [Self-hosting guide](/self-host). Source: [GitHub](https://github.com/fajita-io/fajita). Managed option: [Fajita Cloud](/signup).",
     ),
 
     h2("Verification still matters"),

@@ -15,7 +15,7 @@ Everything except **making the repository public** should be runnable from this 
 
 ## Step 1: Review (you)
 
-1. Read the private repo on GitHub: https://github.com/Accomplish-Labs/fajita-io
+1. Read the private repo on GitHub: https://github.com/fajita-io/fajita
 2. Confirm LICENSE, SECURITY.md, README, self-host docs
 3. Skim [PHASE_5_RELEASE_REPORT.md](./PHASE_5_RELEASE_REPORT.md)
 
@@ -49,7 +49,7 @@ Verify logged out:
 ## Step 4: Verify containers
 
 ```bash
-docker pull ghcr.io/accomplish-labs/fajita-web:v0.1.0
+docker pull ghcr.io/fajita-io/fajita-web:v0.1.0
 ```
 
 If release workflow did not run, push tag or create GitHub Release from `v0.1.0`.

@@ -50,7 +50,7 @@ README badges reference public URLs:
 
 | Badge | URL pattern |
 | --- | --- |
-| CI | `https://github.com/Accomplish-Labs/fajita-io/actions/workflows/oss-readiness.yml` |
+| CI | `https://github.com/fajita-io/fajita/actions/workflows/oss-readiness.yml` |
 | License | Static shields.io AGPL badge |
 
 Badges may appear inactive until the repository is public and CI has run on `main`.

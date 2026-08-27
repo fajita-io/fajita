@@ -9,7 +9,7 @@ on:
 # Forks and pull requests never receive VERCEL_* secrets.
 jobs:
   deploy:
-    if: github.repository == 'Accomplish-Labs/fajita-io' && github.event_name == 'push'
+    if: github.repository == 'fajita-io/fajita' && github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
       contents: read

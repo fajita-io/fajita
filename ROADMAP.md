@@ -32,4 +32,4 @@ This roadmap reflects current priorities. No dates are promised. Items move base
 
 ## How to influence the roadmap
 
-Open a [feature request issue](https://github.com/Accomplish-Labs/fajita-io/issues/new?template=feature_request.yml) with the problem you are solving. We prioritize work that improves verification quality, alert signal, self-host operability, and status page trust.
+Open a [feature request issue](https://github.com/fajita-io/fajita/issues/new?template=feature_request.yml) with the problem you are solving. We prioritize work that improves verification quality, alert signal, self-host operability, and status page trust.

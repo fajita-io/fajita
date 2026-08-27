@@ -18,21 +18,21 @@ Fajita is now available as an open-source, self-hostable uptime monitoring platf
 ## Quick start
 
 ```bash
-git clone https://github.com/Accomplish-Labs/fajita-io.git
-cd fajita-io
+git clone https://github.com/fajita-io/fajita.git
+cd fajita
 cp .env.example .env
 docker compose up -d
 ```
 
-See [Self-hosting quickstart](https://github.com/Accomplish-Labs/fajita-io/blob/main/docs/self-hosting/QUICKSTART.md) for Clerk and configuration details.
+See [Self-hosting quickstart](https://github.com/fajita-io/fajita/blob/main/docs/self-hosting/QUICKSTART.md) for Clerk and configuration details.
 
 ## Docker images
 
 Published on tag to GitHub Container Registry:
 
-- `ghcr.io/accomplish-labs/fajita-io-web`
-- `ghcr.io/accomplish-labs/fajita-io-monitor-worker`
-- `ghcr.io/accomplish-labs/fajita-io-worker`
+- `ghcr.io/fajita-io/fajita-web`
+- `ghcr.io/fajita-io/fajita-monitor-worker`
+- `ghcr.io/fajita-io/fajita-worker`
 
 ## Upgrade notes
 
@@ -40,8 +40,8 @@ First release. No upgrade path from prior public tags.
 
 ## Security
 
-Report vulnerabilities per [SECURITY.md](https://github.com/Accomplish-Labs/fajita-io/blob/main/SECURITY.md).
+Report vulnerabilities per [SECURITY.md](https://github.com/fajita-io/fajita/blob/main/SECURITY.md).
 
 ## Trademarks
 
-The software is open source. Fajita trademarks and fajita.io brand assets remain protected. See [TRADEMARKS.md](https://github.com/Accomplish-Labs/fajita-io/blob/main/TRADEMARKS.md).
+The software is open source. Fajita trademarks and fajita.io brand assets remain protected. See [TRADEMARKS.md](https://github.com/fajita-io/fajita/blob/main/TRADEMARKS.md).

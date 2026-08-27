@@ -1,20 +1,19 @@
 #!/usr/bin/env tsx
 /**
- * GitHub launch setup for Accomplish-Labs/fajita-io.
+ * GitHub launch setup for fajita-io/fajita.
  * Works on private repos. Does NOT change visibility.
  *
  *   GITHUB_TOKEN=ghp_... npm run github:launch-setup
  *   GITHUB_TOKEN=ghp_... npm run github:launch-setup -- --issues-only
  *   GITHUB_TOKEN=ghp_... npm run github:launch-setup -- --dry-run
  *
- * Requires a fine-grained PAT with lifetime <= 366 days (Accomplish-Labs org policy)
- * and admin access to the repository.
+ * Requires a fine-grained PAT with admin access to the repository.
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-const OWNER = "Accomplish-Labs";
-const REPO = "fajita-io";
+const OWNER = "fajita-io";
+const REPO = "fajita";
 const API = "https://api.github.com";
 
 const dryRun = process.argv.includes("--dry-run");

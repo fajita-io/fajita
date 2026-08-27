@@ -93,7 +93,7 @@ The documentation covers getting started, monitors, assertions, incidents, alert
 - Open source overview: ${siteUrl}/open-source
 - Self-host landing: ${siteUrl}/self-host
 - Self-hosting quickstart: ${siteUrl}/docs/self-hosting/quickstart
-- GitHub: https://github.com/Accomplish-Labs/fajita-io
+- GitHub: https://github.com/fajita-io/fajita
 - License: AGPL-3.0
 
 ## Glossary

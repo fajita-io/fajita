@@ -7,7 +7,7 @@ Fajita is uptime monitoring software operated at [fajita.io](https://fajita.io) 
 | Version | Supported |
 | --- | --- |
 | Production at fajita.io | Yes |
-| `main` branch (private until public release) | Yes, for coordinated disclosure with maintainers |
+| `main` branch | Yes, for coordinated disclosure with maintainers |
 | Older commits / forks | Best effort only |
 
 Security fixes are applied to production and the active development branch. Self-hosted deployments should track releases once published.
@@ -16,7 +16,7 @@ Security fixes are applied to production and the active development branch. Self
 
 **Do not** open public GitHub issues for exploitable security problems before a fix is available.
 
-Report vulnerabilities by email using the contact form at [fajita.io/contact](https://fajita.io/contact) with topic **Security report**, or write to:
+Report vulnerabilities by email using the contact form at [fajita.io/contact](https://fajita.io/contact) with topic **Security report**, or use [GitHub private vulnerability reporting](https://github.com/fajita-io/fajita/security/advisories/new) when available. You may also write to:
 
 ```text
 Fajita

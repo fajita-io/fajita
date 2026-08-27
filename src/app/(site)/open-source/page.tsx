@@ -238,7 +238,7 @@ export default function OpenSourcePage() {
           />
           <pre className="fj-code">
             <code>{`git clone https://github.com/${OSS_GITHUB_SLUG}.git
-cd fajita-io
+cd fajita
 cp .env.example .env
 docker compose up -d`}</code>
           </pre>

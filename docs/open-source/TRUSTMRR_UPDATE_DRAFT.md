@@ -13,7 +13,7 @@ Fajita is uptime monitoring for websites, APIs, SSL certificates, and cron jobs.
 **What you acquire:**
 
 - **fajita.io** domain and brand
-- **Official GitHub repository** (Accomplish-Labs/fajita-io, AGPL-3.0)
+- **Official GitHub repository** (fajita-io/fajita, AGPL-3.0)
 - **Fajita Cloud** managed SaaS (Stripe billing, existing customers if any)
 - Production infrastructure (Vercel, Supabase, Clerk, workers)
 - Documentation, blog, glossary, comparison pages, and SEO library

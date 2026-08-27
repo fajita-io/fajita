@@ -20,7 +20,7 @@ Fajita monitors websites, APIs, SSL certificates, cron jobs, and heartbeats. Whe
 
 ### Links
 
-- Repository: `https://github.com/Accomplish-Labs/fajita-io` (update when live)
+- Repository: `https://github.com/fajita-io/fajita` (update when live)
 - Quickstart: `docs/self-hosting/QUICKSTART.md`
 - License: AGPL-3.0
 - Security: `SECURITY.md`

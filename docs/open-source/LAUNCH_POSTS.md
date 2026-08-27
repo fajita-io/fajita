@@ -31,8 +31,8 @@ What it does:
 
 Self-host:
 
-git clone https://github.com/Accomplish-Labs/fajita-io.git
-cd fajita-io
+git clone https://github.com/fajita-io/fajita.git
+cd fajita
 cp .env.example .env
 docker compose up -d
 
@@ -44,7 +44,7 @@ We still run a managed version at https://fajita.io for teams that do not want t
 
 License: AGPL-3.0
 
-Repo: https://github.com/Accomplish-Labs/fajita-io
+Repo: https://github.com/fajita-io/fajita
 Docs: https://fajita.io/docs/self-hosting/quickstart
 Blog: https://fajita.io/blog/fajita-is-now-open-source
 ```
@@ -61,7 +61,7 @@ Same idea as always: verify failures before waking anyone up.
 Self-host with Docker, or use Fajita Cloud if you do not want to run workers yourself.
 
 https://fajita.io/open-source
-https://github.com/Accomplish-Labs/fajita-io
+https://github.com/fajita-io/fajita
 https://fajita.io/blog/fajita-is-now-open-source
 ```
 
@@ -85,7 +85,7 @@ Open source is about inspectability and trust. Cloud is about operational conven
 
 ```text
 Open source overview: https://fajita.io/open-source
-GitHub: https://github.com/Accomplish-Labs/fajita-io
+GitHub: https://github.com/fajita-io/fajita
 Self-hosting quickstart: https://fajita.io/docs/self-hosting/quickstart
 Launch write-up: https://fajita.io/blog/fajita-is-now-open-source
 ```
@@ -109,8 +109,8 @@ Differentiator: verification before incidents/alerts (re-checks before paging yo
 
 Quick start:
 
-git clone https://github.com/Accomplish-Labs/fajita-io.git
-cd fajita-io
+git clone https://github.com/fajita-io/fajita.git
+cd fajita
 cp .env.example .env
 docker compose up -d
 
@@ -141,7 +141,7 @@ Technical bits that might interest this sub:
 - SSRF controls on outbound checks (private network blocked by default)
 - Self-host and Cloud run the same codebase; deployment mode switches billing/telemetry
 
-Repo: https://github.com/Accomplish-Labs/fajita-io
+Repo: https://github.com/fajita-io/fajita
 Architecture: https://fajita.io/docs/open-source/architecture
 
 Happy to answer questions on verification logic or worker layout.
@@ -156,7 +156,7 @@ Happy to answer questions on verification logic or worker layout.
 **Body:**
 
 ```text
-Fajita is now open source under AGPL-3.0: https://github.com/Accomplish-Labs/fajita-io
+Fajita is now open source under AGPL-3.0: https://github.com/fajita-io/fajita
 
 Includes monitoring, failure verification, incidents, status pages, Slack/Discord/webhooks/email, and Docker Compose self-hosting.
 
@@ -182,7 +182,7 @@ We open-sourced the Fajita monitoring core today under AGPL-3.0.
 Same product as before for Cloud customers. New for operators: self-host with Docker Compose, inspect verification logic, contribute on GitHub.
 
 Self-host: https://fajita.io/self-host
-Source: https://github.com/Accomplish-Labs/fajita-io
+Source: https://github.com/fajita-io/fajita
 Write-up: https://fajita.io/blog/fajita-is-now-open-source
 
 Cloud is still the easiest way to run it if you do not want workers and databases on your plate.

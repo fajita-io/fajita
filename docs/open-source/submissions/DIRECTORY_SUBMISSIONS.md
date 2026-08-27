@@ -22,7 +22,7 @@ Use canonical metadata from [DIRECTORY_METADATA.md](../DIRECTORY_METADATA.md). S
 **Links:**
 
 - Website: https://fajita.io
-- GitHub: https://github.com/Accomplish-Labs/fajita-io
+- GitHub: https://github.com/fajita-io/fajita
 - Open source: https://fajita.io/open-source
 - Self-host: https://fajita.io/self-host
 - Docs: https://fajita.io/docs/self-hosting/quickstart

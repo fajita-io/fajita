@@ -87,8 +87,8 @@ When all automated gates pass and operator tasks are complete:
 
 ### Completed at launch (2026-08-26)
 
-- [x] Canonical GitHub URLs (`Accomplish-Labs/fajita-io`) site-wide
-- [x] Repository public — https://github.com/Accomplish-Labs/fajita-io
+- [x] Canonical GitHub URLs (`fajita-io/fajita`) site-wide
+- [x] Repository public — https://github.com/fajita-io/fajita
 - [x] GitHub topics and metadata applied
 - [x] `NEXT_PUBLIC_OSS_LAUNCHED=true` on Vercel production
 - [x] Production deploy with OSS pages indexable

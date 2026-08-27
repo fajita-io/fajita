@@ -19,7 +19,7 @@ Add Fajita (uptime monitoring with verification)
 ## PR body
 
 ```text
-**https://github.com/Accomplish-Labs/fajita-io**
+**https://github.com/fajita-io/fajita**
 
 - [x] Self-hosted via Docker Compose
 - [x] Active repository (v0.1.0 release)

@@ -115,7 +115,7 @@ Cloud CTAs remain primary on homepage and pricing. No aggressive upsell modals o
 ## GitHub Integration
 
 - Central config: `src/lib/site/oss-config.ts`
-- Repo URL: `https://github.com/Accomplish-Labs/fajita-io`
+- Repo URL: `https://github.com/fajita-io/fajita`
 - GitHub buttons hidden until launch (private repo dead-end prevention)
 - Star count integration: **deferred** (no fake counts; build hook ready for Phase 5)
 - Release badge: `OSS_INITIAL_VERSION = 0.1.0` in config, not displayed on marketing until release publishes
@@ -205,7 +205,7 @@ All engineering blockers cleared 2026-08-26. Operator-only items (provider dashb
 1. ~~Legal counsel sign-off~~ — operator waiver pending counsel review (engineering gates pass)
 2. ~~Production secret rotation~~ — app-controlled Vercel secrets rotated; provider dashboards per runbook
 3. ~~Manual README-only clean install with Clerk~~ — Compose smoke + `selfhost:doctor` verified
-4. ~~Set repository public~~ — https://github.com/Accomplish-Labs/fajita-io
+4. ~~Set repository public~~ — https://github.com/fajita-io/fajita
 5. ~~Publish `v0.1.0` release and container images~~ — tag + release workflow
 6. ~~Flip `NEXT_PUBLIC_OSS_LAUNCHED=true` in production~~ — Vercel production env
 7. ~~Verify GitHub links live after visibility change~~ — oss-config canonical URLs

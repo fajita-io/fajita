@@ -47,8 +47,8 @@ export const selfHostingPages: DocPage[] = [
           body: [
             code(
               "bash",
-              `git clone https://github.com/Accomplish-Labs/fajita-io.git
-cd fajita-io
+              `git clone https://github.com/fajita-io/fajita.git
+cd fajita
 cp .env.example .env`,
             ),
           ],
