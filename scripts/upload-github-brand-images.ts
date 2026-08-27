@@ -64,14 +64,37 @@ async function main(): Promise<void> {
 
   process.env.GH_TOKEN = token;
 
-  await uploadMultipart(
-    "https://uploads.github.com/orgs/fajita-io/avatar",
-    join(root, "public/brand/github/fajita-org-avatar.png"),
-  );
+  const socialCandidates = [
+    join(root, ".github/assets/github-social-preview.png"),
+    join(root, "public/brand/github/fajita-repo-social.png"),
+  ];
+  const socialPath = socialCandidates.find((path) => {
+    try {
+      statSync(path);
+      return true;
+    } catch {
+      return false;
+    }
+  });
+  if (!socialPath) {
+    throw new Error("No social preview PNG found under .github/assets/ or public/brand/github/");
+  }
+
   await uploadMultipart(
     "https://uploads.github.com/repos/fajita-io/fajita/social-preview",
-    join(root, "public/brand/github/fajita-repo-social.png"),
+    socialPath,
   );
+
+  const orgAvatar = join(root, "public/brand/github/fajita-org-avatar.png");
+  try {
+    statSync(orgAvatar);
+    await uploadMultipart("https://uploads.github.com/orgs/fajita-io/avatar", orgAvatar);
+  } catch (error) {
+    console.warn(
+      "Skipped org avatar upload (requires admin:org scope):",
+      error instanceof Error ? error.message : error,
+    );
+  }
 }
 
 main().catch((error) => {

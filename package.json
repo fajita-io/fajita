@@ -23,6 +23,7 @@
     "content:validate": "tsx scripts/content-validate.ts",
     "brand:assets": "tsx scripts/export-brand-assets.ts",
     "repo:assets": "tsx scripts/export-repo-assets.ts",
+    "github:upload-brand": "tsx scripts/upload-github-brand-images.ts",
     "readiness:rls": "tsx scripts/rls-inventory.ts",
     "readiness:secrets": "tsx scripts/secret-scan.ts",
     "oss:check": "tsx scripts/oss-check.ts",
