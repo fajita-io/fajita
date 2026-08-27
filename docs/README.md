@@ -49,3 +49,4 @@ Documentation map for the Fajita repository. Product docs also live at [fajita.i
 | [Docker Compose](../examples/docker-compose/README.md) | Canonical deployment |
 | [Caddy reverse proxy](../examples/caddy/README.md) | TLS termination example |
 | [Nginx reverse proxy](../examples/nginx/README.md) | TLS termination example |
+| [Traefik reverse proxy](../examples/traefik/README.md) | TLS termination example |

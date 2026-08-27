@@ -12,5 +12,9 @@ tsconfig.tsbuildinfo
 .brand-src/
 .qa-screens/
 
+# Local agent tooling (not part of the open-source repo)
+.cursor/
+.agents/
+
 # Operator-local DNS exports (copy from Resend dashboard)
 scripts/resend-dns-records.json

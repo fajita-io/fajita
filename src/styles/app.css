@@ -3285,6 +3285,10 @@ html[data-sidebar-collapsed="1"] .fj-orgswitcher--empty {
   background: var(--color-background-inset);
   color: var(--color-text-primary);
 }
+.fj-rowmenu > summary:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
 .fj-rowmenu__panel {
   position: absolute;
   right: 0;

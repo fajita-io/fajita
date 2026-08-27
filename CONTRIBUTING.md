@@ -31,8 +31,7 @@ docker compose up -d
 
 ## Choosing work
 
-- `good first issue` and `help wanted` labels mark approachable tasks (once labels exist)
-- See [docs/open-source/internal/GOOD_FIRST_ISSUES.md](./docs/open-source/internal/GOOD_FIRST_ISSUES.md) for launch-prep candidates
+- `good first issue` and `help wanted` labels mark approachable tasks
 - Avoid grabbing core security or architecture issues without maintainer alignment
 
 ## Branch and commit expectations
