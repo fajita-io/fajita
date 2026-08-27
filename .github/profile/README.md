@@ -1,5 +1,9 @@
 # Fajita
 
+<p align="center">
+  <img src="./profile/assets/fajita-app-icon.png" alt="Fajita app icon" width="120" height="120" />
+</p>
+
 Open-source uptime monitoring that verifies failures before alerting.
 
 Fajita watches websites, APIs, SSL certificates, and cron jobs. When something starts cooking, your team hears about it before your customers do.
