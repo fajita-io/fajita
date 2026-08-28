@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 import { BrandButtonLink } from "@/components/design-system/primitives";
 import { GitHubStarLinkLive } from "@/components/site/oss/github-star-link-live";
@@ -126,73 +127,76 @@ export function SiteHeaderMobileNav({
       >
         <MobileMenuIcon />
       </button>
-      {open ? (
-        <>
-          <button
-            type="button"
-            className="fj-header-mobile-backdrop"
-            aria-label="Close menu"
-            onClick={close}
-          />
-          <div
-            ref={panelRef}
-            id={navId}
-            className="fj-header-mobile-nav"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Site navigation"
-          >
-            <nav className="fj-header-mobile-nav__links" aria-label="Mobile">
-              <SiteHeaderFeaturesMenu layout="mobile" />
-              <Link
-                href="/pricing"
-                className="fj-nav-link fj-header-mobile-nav__link"
-                aria-current={pathname === "/pricing" ? "page" : undefined}
+      {open
+        ? createPortal(
+            <>
+              <button
+                type="button"
+                className="fj-header-mobile-backdrop"
+                aria-label="Close menu"
                 onClick={close}
+              />
+              <div
+                ref={panelRef}
+                id={navId}
+                className="fj-header-mobile-nav"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Site navigation"
               >
-                Pricing
-              </Link>
-              <Link
-                href="/docs"
-                className="fj-nav-link fj-header-mobile-nav__link"
-                onClick={close}
-              >
-                Docs
-              </Link>
-              <Link
-                href="/blog"
-                className="fj-nav-link fj-header-mobile-nav__link"
-                onClick={close}
-              >
-                Blog
-              </Link>
-              {showGithubStar ? (
-                <div className="fj-header-mobile-nav__github">
-                  <GitHubStarLinkLive />
+                <nav className="fj-header-mobile-nav__links" aria-label="Mobile">
+                  <SiteHeaderFeaturesMenu layout="mobile" />
+                  <Link
+                    href="/pricing"
+                    className="fj-nav-link fj-header-mobile-nav__link"
+                    aria-current={pathname === "/pricing" ? "page" : undefined}
+                    onClick={close}
+                  >
+                    Pricing
+                  </Link>
+                  <Link
+                    href="/docs"
+                    className="fj-nav-link fj-header-mobile-nav__link"
+                    onClick={close}
+                  >
+                    Docs
+                  </Link>
+                  <Link
+                    href="/blog"
+                    className="fj-nav-link fj-header-mobile-nav__link"
+                    onClick={close}
+                  >
+                    Blog
+                  </Link>
+                  {showGithubStar ? (
+                    <div className="fj-header-mobile-nav__github">
+                      <GitHubStarLinkLive />
+                    </div>
+                  ) : null}
+                  <Link
+                    href="/login"
+                    className="fj-nav-link fj-header-mobile-nav__link"
+                    onClick={close}
+                  >
+                    Log in
+                  </Link>
+                </nav>
+                <div className="fj-header-mobile-nav__footer">
+                  <BrandButtonLink
+                    href={cta.primary.href}
+                    size="sm"
+                    className="fj-header-mobile-nav__cta"
+                    data-fast-goal={DataFastGoals.navCta}
+                    onClick={close}
+                  >
+                    {cta.primary.label}
+                  </BrandButtonLink>
                 </div>
-              ) : null}
-              <Link
-                href="/login"
-                className="fj-nav-link fj-header-mobile-nav__link"
-                onClick={close}
-              >
-                Log in
-              </Link>
-            </nav>
-            <div className="fj-header-mobile-nav__footer">
-              <BrandButtonLink
-                href={cta.primary.href}
-                size="sm"
-                className="fj-header-mobile-nav__cta"
-                data-fast-goal={DataFastGoals.navCta}
-                onClick={close}
-              >
-                {cta.primary.label}
-              </BrandButtonLink>
-            </div>
-          </div>
-        </>
-      ) : null}
+              </div>
+            </>,
+            document.body,
+          )
+        : null}
     </>
   );
 }
