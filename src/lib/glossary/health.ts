@@ -74,9 +74,26 @@ export function qualityScore(term: GlossaryTerm): QualityScore {
   return { total, dimensions };
 }
 
+function isHostnameChar(char: string): boolean {
+  const code = char.charCodeAt(0);
+  return (
+    (code >= 48 && code <= 57) ||
+    (code >= 97 && code <= 122) ||
+    char === "." ||
+    char === "-"
+  );
+}
+
+function stripEdgePunctuation(value: string): string {
+  let start = 0;
+  let end = value.length;
+  while (start < end && !isHostnameChar(value[start]!)) start += 1;
+  while (end > start && !isHostnameChar(value[end - 1]!)) end -= 1;
+  return value.slice(start, end);
+}
+
 function mentionsHostname(text: string, hostname: string): boolean {
   return text.split(/\s+/).some((part) => {
-    const normalized = part.toLowerCase().replace(/^[^a-z0-9]+|[^a-z0-9]+$/g, "");
-    return normalized === hostname;
+    return stripEdgePunctuation(part.toLowerCase()) === hostname;
   });
 }
