@@ -3154,6 +3154,8 @@ body.fj-header-mobile-nav-open {
 
   body.fj-header-mobile-nav-open .fj-header {
     z-index: calc(var(--layer-sticky) + 2);
+    background: var(--color-background-elevated);
+    border-bottom-color: var(--color-border-subtle);
   }
 
   .fj-header-mobile-backdrop {
@@ -3163,24 +3165,24 @@ body.fj-header-mobile-nav-open {
     margin: 0;
     padding: 0;
     border: 0;
-    background: color-mix(in srgb, var(--fj-carbon-900) 28%, transparent);
+    background: color-mix(in srgb, var(--fj-carbon-900) 42%, transparent);
     cursor: pointer;
     animation: fj-fade-in var(--motion-fast) var(--ease-enter) both;
   }
 
   .fj-header-mobile-nav {
-    position: absolute;
-    top: 100%;
-    left: 50%;
+    position: fixed;
+    top: calc(4.25rem + var(--fj-ph-banner-height, 0px));
+    left: 0;
+    right: 0;
     z-index: calc(var(--layer-sticky) + 3);
     display: flex;
     flex-direction: column;
-    width: 100vw;
-    margin-left: -50vw;
+    width: 100%;
     max-height: min(32rem, calc(100dvh - 4.25rem - var(--fj-ph-banner-height, 0px)));
     overflow: hidden;
     border-bottom: 1px solid var(--color-border-subtle);
-    background: var(--color-background-primary);
+    background: var(--color-background-elevated);
     box-shadow: var(--shadow-high);
     animation: fj-header-mobile-nav-in var(--motion-medium) var(--ease-enter) both;
   }
@@ -3240,7 +3242,7 @@ body.fj-header-mobile-nav-open {
     width: 100%;
     margin: calc(var(--space-1) * -1) 0 var(--space-2);
     padding: var(--space-2);
-    border: none;
+    border: 1px solid var(--color-border-subtle);
     border-radius: var(--radius-md);
     background: var(--color-background-inset);
     box-shadow: none;
@@ -3261,7 +3263,7 @@ body.fj-header-mobile-nav-open {
     flex: none;
     padding: var(--space-4) var(--space-5) var(--space-5);
     border-top: 1px solid var(--color-border-subtle);
-    background: color-mix(in srgb, var(--color-background-secondary) 72%, transparent);
+    background: var(--color-background-secondary);
   }
 
   .fj-header-mobile-nav__cta.fj-button {
@@ -3270,9 +3272,12 @@ body.fj-header-mobile-nav-open {
     justify-content: center;
     min-height: var(--touch-target-lg);
   }
+}
 
-  .fj-header__inner {
-    position: relative;
+@media (max-width: 22.5rem) {
+  .fj-header-mobile-nav {
+    top: calc(3.75rem + var(--fj-ph-banner-height, 0px));
+    max-height: min(32rem, calc(100dvh - 3.75rem - var(--fj-ph-banner-height, 0px)));
   }
 }
 
