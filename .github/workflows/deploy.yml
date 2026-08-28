@@ -6,21 +6,22 @@ on:
       - main
 
 # Production deploy only from the canonical repository on main.
-# Forks and pull requests never receive VERCEL_* secrets.
+# Builds run on Vercel infrastructure with production env vars already configured there.
 jobs:
   deploy:
     if: github.repository == 'fajita-io/fajita' && github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: --prod
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: Deploy to production (remote build)
+        run: vercel deploy --prod --yes --token="${{ secrets.VERCEL_TOKEN }}"

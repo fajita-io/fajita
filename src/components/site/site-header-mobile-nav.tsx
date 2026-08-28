@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { BrandButtonLink } from "@/components/design-system/primitives";
+import { GitHubStarLinkView } from "@/components/site/oss/github-star-link";
 import { SiteHeaderFeaturesMenu } from "@/components/site/site-header-features-menu";
 import { DataFastGoals } from "@/lib/analytics/goals";
 import { OSS_ROUTES, ossPublicVisible } from "@/lib/site/oss-config";
@@ -14,7 +15,13 @@ import { cta } from "@/lib/site/site-config";
  * Mobile navigation drawer for the marketing header. Desktop nav hides below
  * 63.75rem; this keeps Open Source and core routes reachable on small screens.
  */
-export function SiteHeaderMobileNav() {
+export function SiteHeaderMobileNav({
+  showGithubStar = false,
+  githubStarCount = null,
+}: {
+  showGithubStar?: boolean;
+  githubStarCount?: number | null;
+}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const showOss = ossPublicVisible();
@@ -76,6 +83,11 @@ export function SiteHeaderMobileNav() {
             <Link href="/blog" className="fj-nav-link fj-header-mobile-nav__link">
               Blog
             </Link>
+            {showGithubStar ? (
+              <div className="fj-header-mobile-nav__github">
+                <GitHubStarLinkView starCount={githubStarCount} />
+              </div>
+            ) : null}
             <Link href="/login" className="fj-nav-link fj-header-mobile-nav__link">
               Log in
             </Link>

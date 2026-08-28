@@ -56,7 +56,10 @@ export default function BlogIndexPage() {
           <h2 id="featured-heading" className="fj-heading-2">
             Featured
           </h2>
-          <Link href={`/blog/${featured.meta.slug}`} className="fj-content-card">
+          <Link
+            href={`/blog/${featured.meta.slug}`}
+            className="fj-content-card fj-content-card--featured"
+          >
             <p className="fj-content-card__meta">
               {featured.meta.publishedAt} · {featured.meta.readingMinutes} min
             </p>
@@ -74,7 +77,7 @@ export default function BlogIndexPage() {
           {categories.map((cat) => (
             <li key={cat.id}>
               <Link href={`/blog/category/${cat.slug}`} className="fj-content-card">
-                <strong className="fj-content-card__label">{cat.label}</strong>
+                <span className="fj-content-card__label">{cat.label}</span>
                 <p className="fj-content-card__desc">{cat.introduction}</p>
               </Link>
             </li>

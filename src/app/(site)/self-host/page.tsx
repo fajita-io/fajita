@@ -168,15 +168,19 @@ docker compose up -d`}</code>
 
       <section className="fj-band--tight">
         <div className="fj-container">
-          <div className="fj-cloud-escape">
-            <h2 className="fj-heading-3">Want Fajita without operating Fajita?</h2>
-            <p className="fj-body-sm" style={{ marginTop: "var(--space-2)" }}>
-              Fajita Cloud runs workers, upgrades, backups, and notifications for you.
-            </p>
+          <div className="fj-plan fj-plan--callout">
+            <div>
+              <p className="fj-eyebrow">Fajita Cloud</p>
+              <h2 className="fj-heading-2 fj-plan__header">
+                Want Fajita without operating Fajita?
+              </h2>
+              <p className="fj-body-sm fj-plan__audience">
+                Fajita Cloud runs workers, upgrades, backups, and notifications for you.
+              </p>
+            </div>
             <BrandButtonLink
               href={cta.primary.href}
-              size="sm"
-              className="fj-mt-4"
+              variant="secondary"
               data-fast-goal={DataFastGoals.cloudFromOssClicked}
             >
               {cta.primary.label}

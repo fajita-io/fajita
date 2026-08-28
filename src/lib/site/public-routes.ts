@@ -49,6 +49,8 @@ export const publicStaticPaths = [
   "/legal/subprocessors",
   "/login",
   "/signup",
+  "/open-source",
+  "/self-host",
 ] as const;
 
 /** Sample dynamic paths (one slug each) that must resolve. */

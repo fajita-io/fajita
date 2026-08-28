@@ -2,7 +2,7 @@
 
 ## Community support (self-hosted and open source)
 
-Use these channels once the repository is public:
+Use these channels for the open-source project:
 
 | Channel | Best for |
 | --- | --- |

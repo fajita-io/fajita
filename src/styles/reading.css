@@ -67,11 +67,21 @@
 .fj-glossary-index > section,
 .fj-content-index > section {
   min-width: 0;
+  display: grid;
+  gap: var(--space-5);
 }
 
 .fj-glossary-index > section > .fj-heading-2,
-.fj-content-index > section > .fj-heading-2 {
-  margin: 0 0 var(--space-4);
+.fj-content-index > section > .fj-heading-2,
+.fj-content-index__section-title {
+  margin: 0;
+  font-family: var(--font-sans, var(--font-fallback-sans));
+  font-size: var(--text-heading-3);
+  font-weight: 600;
+  font-variation-settings: normal;
+  letter-spacing: -0.01em;
+  line-height: var(--leading-heading);
+  color: var(--color-text-primary);
 }
 
 .fj-glossary-index__search {

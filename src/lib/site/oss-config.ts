@@ -42,7 +42,7 @@ export function ossPublicVisible(): boolean {
   return isOssLaunched();
 }
 
-/** GitHub links are only shown when the repository is public. */
+/** GitHub links visible when OSS launch flag is on (repository is public). */
 export function ossGitHubVisible(): boolean {
   return isOssLaunched();
 }

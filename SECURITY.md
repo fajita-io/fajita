@@ -7,7 +7,7 @@ Fajita is uptime monitoring software operated at [fajita.io](https://fajita.io) 
 | Version | Supported |
 | --- | --- |
 | Production at fajita.io | Yes |
-| `main` branch (private until public release) | Yes, for coordinated disclosure with maintainers |
+| `main` branch | Yes, for coordinated disclosure with maintainers |
 | Older commits / forks | Best effort only |
 
 Security fixes are applied to production and the active development branch. Self-hosted deployments should track releases once published.
@@ -16,7 +16,7 @@ Security fixes are applied to production and the active development branch. Self
 
 **Do not** open public GitHub issues for exploitable security problems before a fix is available.
 
-Report vulnerabilities by email using the contact form at [fajita.io/contact](https://fajita.io/contact) with topic **Security report**, or write to:
+Report vulnerabilities by email using the contact form at [fajita.io/contact](https://fajita.io/contact) with topic **Security report**, or use [GitHub private vulnerability reporting](https://github.com/fajita-io/fajita/security/advisories/new) when available. You may also write to:
 
 ```text
 Fajita
@@ -61,6 +61,25 @@ If you run Fajita yourself:
 - Use TLS for all public endpoints
 - Keep dependencies updated
 - Do not expose `/api/internal/*` routes without authentication at the edge
+
+## Public repository hygiene
+
+The `fajita-io/fajita` repository is scanned on every push to `main` and on pull requests:
+
+- **Gitleaks** (`.github/workflows/oss-readiness.yml`) with `.gitleaks.toml` allowlists for test fixtures and docs examples only
+- **`npm run readiness:secrets`** on tracked files (Stripe, Clerk, GitHub, Anthropic, Resend, AWS keys, private key blocks, assigned env secrets)
+- **`npm run oss:check:fast`** which also rejects tracked `.env` files (except `.env.example`), private key files, and database dumps
+
+Before pushing:
+
+```bash
+npm run readiness:secrets
+npm run oss:check:fast
+```
+
+Never commit `.env`, `.env.local`, production rotation exports, or operator DNS JSON exports (`scripts/resend-dns-records.json` is gitignored). Placeholders belong in `.env.example` only.
+
+If you believe a secret was committed, rotate it immediately at the provider, then contact maintainers so history can be reviewed.
 
 ## Disclosure
 

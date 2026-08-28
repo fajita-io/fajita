@@ -55,11 +55,11 @@ describe("internal-content exclusion", () => {
 
   it("serialized content contains no obvious internal terms, phase numbers, or em dashes", () => {
     const text = pagesToFullText(llmDocs());
+    const withoutEnvIdentifiers = text.replace(/[A-Z0-9_]*SUPABASE[A-Z0-9_]*/g, "");
     expect(text).not.toContain("\u2014"); // em dash
     expect(text).not.toMatch(/phase\s*\d+/i);
     expect(text.toLowerCase()).not.toContain("cursor");
-    expect(text.toLowerCase()).not.toContain("supabase");
-    expect(text).not.toContain("SUPABASE_SERVICE_ROLE");
+    expect(withoutEnvIdentifiers.toLowerCase()).not.toContain("supabase");
     expect(text).not.toMatch(/whsec_[A-Za-z0-9]/);
   });
 

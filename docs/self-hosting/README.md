@@ -8,10 +8,13 @@ Fajita runs on infrastructure you control without Fajita Cloud credentials.
 | --- | --- |
 | [QUICKSTART.md](./QUICKSTART.md) | Fastest path to a running local install |
 | [ARCHITECTURE.md](./ARCHITECTURE.md) | Services, ports, and data flow |
+| [Architecture overview](../architecture/OVERVIEW.md) | How checks, verification, and workers fit together across Cloud and self-host |
 | [CONFIGURATION.md](./CONFIGURATION.md) | Environment variables |
 | [AUTHENTICATION.md](./AUTHENTICATION.md) | Clerk setup for self-hosters |
 | [UPGRADING.md](./UPGRADING.md) | Version upgrades |
 | [BACKUPS.md](./BACKUPS.md) | What to back up |
+| [POSTGRES_PRODUCTION.md](./POSTGRES_PRODUCTION.md) | Postgres healthcheck, volumes, and hardening for Compose |
+| [SIGNED_WEBHOOKS.md](./SIGNED_WEBHOOKS.md) | Verify signed generic webhook deliveries |
 | [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) | Common failures |
 | [TELEMETRY.md](./TELEMETRY.md) | Analytics and error reporting |
 | [PRIVACY.md](./PRIVACY.md) | Data residency and telemetry |

@@ -6,24 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-### Added
+## [0.1.0] - 2026-08-26
 
-- Open-source repository packaging: README, documentation index, architecture docs, contribution system
-- GitHub issue and pull request templates
-- Repository screenshot and social preview assets
-- Self-hosting privacy and security guides for operators
-- OSS CI workflow (`oss-readiness.yml`) with gitleaks, migration bootstrap, Go tests, Compose smoke
-- Docker Compose self-hosting stack with Go monitor worker and scheduler sidecar
-- AGPL-3.0 license, trademark policy, and contributor covenant
-
-### Changed
-
-- Self-hosted deployment mode with billing and telemetry separation
-- README and self-hosting docs consolidated for public release readiness
-
-## [0.1.0] - Unreleased (draft)
-
-Initial open-source release candidate. Tag when legal sign-off and secret rotation are complete.
+Initial public open-source release.
 
 ### Added
 

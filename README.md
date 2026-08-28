@@ -161,6 +161,8 @@ Licensed under [AGPL-3.0](./LICENSE). Network-facing deployments must comply wit
 
 The Fajita name, logo, and fajita.io are trademarks. See [TRADEMARKS.md](./TRADEMARKS.md).
 
+Fajita is an open-source project created and maintained by Accomplish Labs. See [GOVERNANCE.md](./GOVERNANCE.md).
+
 ## Star the repo
 
 If Fajita is useful to you, starring the repository helps more developers discover it.
