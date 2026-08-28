@@ -26,7 +26,7 @@ export const interfaceFont = Instrument_Sans({
   variable: "--font-sans",
   display: "swap",
   adjustFontFallback: true,
-  preload: true,
+  preload: false,
 });
 
 export const monoFont = Spline_Sans_Mono({

@@ -4,6 +4,8 @@
  * Exit 1 on mismatch.
  */
 import sitemap from "../src/app/sitemap";
+import { AUTHORS } from "../src/lib/content/authors";
+import { publishedClusters } from "../src/lib/content/clusters";
 import { BLOG_CATEGORY_META } from "../src/lib/content/categories";
 import {
   articlesInCategory,
@@ -14,7 +16,7 @@ import {
 } from "../src/lib/content/registry";
 import { publicDocs } from "../src/lib/docs/registry";
 import { GLOSSARY_CATEGORIES } from "../src/lib/glossary/frontmatter";
-import { publicTerms } from "../src/lib/glossary/registry";
+import { alphabetAvailability, publicTerms } from "../src/lib/glossary/registry";
 import { featureOrder } from "../src/lib/site/features";
 import { legalDocs } from "../src/lib/site/legal";
 
@@ -66,6 +68,12 @@ function expectedPaths(): Set<string> {
     paths.add(`/glossary/category/${category}`);
   }
 
+  for (const entry of alphabetAvailability()) {
+    if (entry.count > 0) {
+      paths.add(`/glossary/letter/${entry.letter}`);
+    }
+  }
+
   for (const term of publicTerms()) {
     if (!term.meta.deprecated && !term.meta.noindex) {
       paths.add(`/glossary/${term.meta.slug}`);
@@ -80,6 +88,14 @@ function expectedPaths(): Set<string> {
 
   for (const article of publicArticles()) {
     paths.add(`/blog/${article.meta.slug}`);
+  }
+
+  for (const author of AUTHORS) {
+    paths.add(`/blog/author/${author.slug}`);
+  }
+
+  for (const cluster of publishedClusters()) {
+    paths.add(`/blog/topics/${cluster.id}`);
   }
 
   for (const page of publicComparisons()) {

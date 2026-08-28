@@ -1,9 +1,9 @@
 import Link from "next/link";
+import dynamic from "next/dynamic";
 
 import { FajitaLogo } from "@/components/brand/logo/fajita-logo";
 import { LinkedInIcon } from "@/components/design-system/linkedin-icon";
 import { XIcon } from "@/components/design-system/x-icon";
-import { ThemeToggle } from "@/components/design-system/theme-toggle";
 import { featureOrder, features } from "@/lib/site/features";
 import {
   OSS_GITHUB_CHANGELOG_URL,
@@ -20,7 +20,34 @@ import { social } from "@/lib/site/site-config";
 
 import { FooterCta } from "./footer-cta";
 import { FooterFinale } from "./footer-finale";
-import { FooterMoment } from "./footer-moment";
+
+const FooterMoment = dynamic(
+  () => import("./footer-moment").then((m) => m.FooterMoment),
+  {
+    loading: () => (
+      <div
+        className="fj-deferred-slot fj-deferred-slot--footer-moment"
+        aria-hidden="true"
+      />
+    ),
+  },
+);
+
+const ThemeToggle = dynamic(
+  () =>
+    import("@/components/design-system/theme-toggle").then(
+      (m) => m.ThemeToggle,
+    ),
+  {
+    loading: () => (
+      <div
+        className="fj-deferred-slot"
+        style={{ minHeight: "2.25rem", maxWidth: "12rem" }}
+        aria-hidden="true"
+      />
+    ),
+  },
+);
 
 /**
  * Global footer: the final act of the page. Opens with the reduced Thermal

@@ -4,7 +4,7 @@ import { datafastConfig } from "@/lib/analytics/config";
 
 /**
  * DataFast pageview tracking + goal queue.
- * Mount once in the root layout `<head>` with afterInteractive (DataFast docs).
+ * Mount once in the root layout `<head>` after the page is interactive.
  */
 export function DataFastScript() {
   const { websiteId, domain, scriptSrc, allowLocalhost } = datafastConfig;
@@ -15,7 +15,7 @@ export function DataFastScript() {
 
   return (
     <>
-      <Script id="datafast-queue" strategy="afterInteractive">
+      <Script id="datafast-queue" strategy="lazyOnload">
         {`
           window.datafast = window.datafast || function() {
             (window.datafast.q = window.datafast.q || []).push(arguments);
@@ -27,7 +27,7 @@ export function DataFastScript() {
         data-website-id={websiteId}
         data-domain={domain}
         {...(allowLocalhost ? { "data-allow-localhost": "true" } : {})}
-        strategy="afterInteractive"
+        strategy="lazyOnload"
       />
     </>
   );

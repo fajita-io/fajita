@@ -1,11 +1,13 @@
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 import { GlossarySearch } from "@/components/glossary/search";
-import { AskFajitaMount } from "@/components/support/ask-fajita-mount";
+import { DeferredAskFajitaMount } from "@/components/support/deferred-ask-fajita-mount";
 
 import "@/styles/site.css";
 import "@/styles/glossary.css";
 import "@/styles/reading.css";
+
+export const revalidate = 3600;
 
 export default function GlossaryLayout({
   children,
@@ -27,7 +29,7 @@ export default function GlossaryLayout({
         </main>
       </div>
       <SiteFooter />
-      <AskFajitaMount
+      <DeferredAskFajitaMount
         mode="public"
         pageContext={{ route: "/glossary", productArea: "glossary" }}
       />

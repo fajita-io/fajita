@@ -53,7 +53,10 @@ export function ThemeToggle() {
             style={{
               fontSize: "var(--text-label)",
               fontWeight: 500,
-              padding: "var(--space-1) var(--space-3)",
+              padding: "var(--space-2) var(--space-3)",
+              minHeight: "var(--touch-target-lg)",
+              display: "inline-flex",
+              alignItems: "center",
               borderRadius: "var(--radius-pill)",
               cursor: "pointer",
               background: active ? "var(--color-background-inset)" : "transparent",

@@ -15,7 +15,7 @@ function productHuntUrl(): string | null {
  */
 export function ProductHuntBanner() {
   const url = productHuntUrl();
-  const [dismissed, setDismissed] = useState(false);
+  const [dismissed, setDismissed] = useState(true);
   const [checkedStorage, setCheckedStorage] = useState(false);
 
   useEffect(() => {
@@ -29,8 +29,7 @@ export function ProductHuntBanner() {
     }
   }, [url]);
 
-  if (!url) return null;
-  if (checkedStorage && dismissed) return null;
+  if (!url || !checkedStorage || dismissed) return null;
 
   const dismiss = () => {
     try {

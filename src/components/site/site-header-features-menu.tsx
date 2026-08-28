@@ -14,8 +14,14 @@ const featureLinks = featureOrder.map((slug) => ({
   icon: features[slug].icon,
 }));
 
-/** Desktop features dropdown. The only client-bound nav control. */
-export function SiteHeaderFeaturesMenu() {
+type SiteHeaderFeaturesMenuProps = {
+  layout?: "desktop" | "mobile";
+};
+
+/** Features nav control — desktop dropdown or mobile accordion inside the drawer. */
+export function SiteHeaderFeaturesMenu({
+  layout = "desktop",
+}: SiteHeaderFeaturesMenuProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
@@ -43,11 +49,16 @@ export function SiteHeaderFeaturesMenu() {
     };
   }, [open]);
 
+  const isMobile = layout === "mobile";
+
   return (
-    <div className="fj-nav-item" ref={navRef}>
+    <div
+      className={`fj-nav-item${isMobile ? " fj-nav-item--mobile" : ""}`}
+      ref={navRef}
+    >
       <button
         type="button"
-        className="fj-nav-link"
+        className={`fj-nav-link${isMobile ? " fj-header-mobile-nav__link" : ""}`}
         aria-expanded={open}
         aria-controls={featuresMenuId}
         onClick={() => setOpen((value) => !value)}

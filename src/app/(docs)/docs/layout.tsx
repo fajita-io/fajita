@@ -2,12 +2,15 @@ import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 import { DocsNav } from "@/components/docs/docs-nav";
 import { DocsSearch } from "@/components/docs/search";
-import { AskFajitaMount } from "@/components/support/ask-fajita-mount";
+import { DeferredAskFajitaMount } from "@/components/support/deferred-ask-fajita-mount";
 import { buildNavigation } from "@/lib/docs/registry";
 
 import "@/styles/site.css";
 import "@/styles/docs.css";
 import "@/styles/reading.css";
+
+/** ISR for docs and other public reading surfaces. */
+export const revalidate = 3600;
 
 /**
  * Documentation shell: the marketing header and footer wrap a persistent
@@ -34,7 +37,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
         </main>
       </div>
       <SiteFooter />
-      <AskFajitaMount mode="public" pageContext={{ route: "/docs", productArea: "docs" }} />
+      <DeferredAskFajitaMount mode="public" pageContext={{ route: "/docs", productArea: "docs" }} />
     </>
   );
 }

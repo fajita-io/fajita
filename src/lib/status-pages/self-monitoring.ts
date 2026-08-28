@@ -45,4 +45,5 @@ export const FAJITA_SELF_MONITORS = [
   { key: "health_app", path: "/api/health", kind: "http" as const },
   { key: "status_surface", path: "/status", kind: "http" as const },
   { key: "llms", path: "/llms.txt", kind: "http" as const },
+  { key: "ai", path: "/ai.txt", kind: "http" as const },
 ] as const;

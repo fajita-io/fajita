@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 import {
   IncidentCard,
   StatusPageView,
 } from "@/components/status-public/status-page-view";
+import { OVERALL_STATE_LABEL } from "@/lib/status-pages/constants";
 import { formatInstant } from "@/lib/status-pages/format";
 import {
   getPublicSnapshotByDomain,
@@ -37,14 +38,31 @@ async function resolve(host: string): Promise<PublicSnapshot | null> {
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { host } = await params;
+  const decodedHost = decodeURIComponent(host);
   const snapshot = await resolve(host);
   if (!snapshot) return { title: "Status", robots: { index: false, follow: false } };
   const { page } = snapshot.data;
+  const statusLabel = OVERALL_STATE_LABEL[snapshot.overallStatus];
+  const title = page.title || `${page.name} Status`;
+  const description =
+    page.description ||
+    `Current status and incident history for ${page.name}. ${statusLabel}.`;
   const index = snapshot.data.seo.indexing;
+  const canonical = `https://${decodedHost}/`;
+
   return {
-    title: page.title || `${page.name} Status`,
-    description: page.description || `Current status for ${page.name}.`,
+    title,
+    description,
     robots: index ? { index: true, follow: true } : { index: false, follow: false },
+    alternates: { canonical },
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      url: canonical,
+      images: [{ url: `https://${decodedHost}/opengraph-image` }],
+    },
+    twitter: { card: "summary_large_image", title, description },
   };
 }
 

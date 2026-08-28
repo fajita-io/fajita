@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 import { BrandIcon, type BrandIconName } from "@/components/design-system/icons";
 import { DemoFrame } from "@/components/design-system/primitives";
@@ -98,7 +98,18 @@ const kinds: CoverageKind[] = [
  */
 export function CoverageExplorer() {
   const [active, setActive] = useState(0);
+  const [tabOrientation, setTabOrientation] = useState<"vertical" | "horizontal">(
+    "vertical",
+  );
   const baseId = useId();
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 63.75rem)");
+    const sync = () => setTabOrientation(mq.matches ? "horizontal" : "vertical");
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const kind = kinds[active];
 
@@ -122,7 +133,7 @@ export function CoverageExplorer() {
         className="fj-coverage__tabs"
         role="tablist"
         aria-label="Monitor types"
-        aria-orientation="vertical"
+        aria-orientation={tabOrientation}
         onKeyDown={onKeyDown}
       >
         {kinds.map((k, i) => (

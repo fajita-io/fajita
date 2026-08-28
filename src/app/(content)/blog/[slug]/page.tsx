@@ -22,6 +22,7 @@ import {
 } from "@/lib/content/registry";
 import { getTerm } from "@/lib/glossary/registry";
 import { buildMetadata } from "@/lib/site/metadata";
+import { buildHowToJsonLd } from "@/lib/site/json-ld";
 import { siteUrl } from "@/lib/site/site-config";
 
 interface Params {
@@ -103,6 +104,10 @@ export default async function BlogArticlePage({
     ],
   };
 
+  const pageUrl = `${siteUrl}/blog/${meta.slug}`;
+  const howToLd =
+    meta.searchIntent === "how-to" ? buildHowToJsonLd(article, pageUrl) : null;
+
   return (
     <article className="fj-content-article">
       <script
@@ -113,6 +118,12 @@ export default async function BlogArticlePage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
+      {howToLd ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(howToLd) }}
+        />
+      ) : null}
       <div className="fj-content-article__body">
         <ContentBreadcrumbs
           items={[

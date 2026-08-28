@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 
 import { featureOrder } from "@/lib/site/features";
 import { OSS_ROUTES, ossPublicVisible } from "@/lib/site/oss-config";
+import { AUTHORS } from "@/lib/content/authors";
+import { publishedClusters } from "@/lib/content/clusters";
 import { publicDocs } from "@/lib/docs/registry";
 import { BLOG_CATEGORY_META } from "@/lib/content/categories";
 import {
@@ -12,7 +14,7 @@ import {
   publicTools,
 } from "@/lib/content/registry";
 import { GLOSSARY_CATEGORIES } from "@/lib/glossary/frontmatter";
-import { publicTerms } from "@/lib/glossary/registry";
+import { alphabetAvailability, publicTerms } from "@/lib/glossary/registry";
 import { legalDocs } from "@/lib/site/legal";
 
 const siteUrl =
@@ -93,6 +95,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
     changeFrequency: "monthly" as const,
   }));
+  const glossaryLetters = alphabetAvailability()
+    .filter((entry) => entry.count > 0)
+    .map((entry) => ({
+      path: `/glossary/letter/${entry.letter}`,
+      priority: 0.45,
+      changeFrequency: "monthly" as const,
+    }));
   const glossaryTerms = publicTerms()
     .filter((term) => !term.meta.deprecated && !term.meta.noindex)
     .map((term) => ({
@@ -115,6 +124,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.55,
       changeFrequency: "monthly" as const,
     }));
+  const blogAuthors = AUTHORS.map((author) => ({
+    path: `/blog/author/${author.slug}`,
+    priority: 0.45,
+    changeFrequency: "monthly" as const,
+  }));
+  const blogTopics = publishedClusters().map((cluster) => ({
+    path: `/blog/topics/${cluster.id}`,
+    priority: 0.7,
+    changeFrequency: "weekly" as const,
+  }));
   const blogArticles = publicArticles().map((article) => ({
     path: `/blog/${article.meta.slug}`,
     priority: 0.65,
@@ -161,10 +180,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     glossaryHub,
     glossaryUpdates,
     ...glossaryCategories,
+    ...glossaryLetters,
     ...glossaryTerms,
     blogHub,
     blogUpdates,
     ...blogCategories,
+    ...blogAuthors,
+    ...blogTopics,
     ...blogArticles,
     compareHub,
     ...comparePages,

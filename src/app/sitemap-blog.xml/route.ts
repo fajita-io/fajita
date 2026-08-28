@@ -1,3 +1,5 @@
+import { AUTHORS } from "@/lib/content/authors";
+import { publishedClusters } from "@/lib/content/clusters";
 import { BLOG_CATEGORY_META } from "@/lib/content/categories";
 import { articlesInCategory, publicArticles } from "@/lib/content/registry";
 import { siteUrl } from "@/lib/site/site-config";
@@ -21,6 +23,20 @@ export function GET() {
     urls.push({
       loc: `${siteUrl}/blog/${a.meta.slug}`,
       lastmod: a.meta.updatedAt,
+    });
+  }
+
+  for (const author of AUTHORS) {
+    urls.push({
+      loc: `${siteUrl}/blog/author/${author.slug}`,
+      lastmod: "2026-07-17",
+    });
+  }
+
+  for (const cluster of publishedClusters()) {
+    urls.push({
+      loc: `${siteUrl}/blog/topics/${cluster.id}`,
+      lastmod: "2026-07-17",
     });
   }
 

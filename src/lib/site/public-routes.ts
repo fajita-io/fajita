@@ -101,8 +101,11 @@ export function publicSmokePaths(): string[] {
     "/sitemap-research.xml",
     "/llms.txt",
     "/llms-full.txt",
+    "/ai.txt",
     "/docs/llms.txt",
     "/docs/llms-full.txt",
+    "/docs/rss.xml",
+    "/glossary/rss.xml",
     "/content/manifest.json",
     "/api/health",
   ];

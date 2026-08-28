@@ -8,22 +8,14 @@ import {
   TROUBLESHOOTING_HREF,
 } from "@/lib/support/copy";
 import { suggestedPromptsFor } from "@/lib/support/suggested-prompts";
-import { appUrl } from "@/lib/env";
+import { buildMetadata } from "@/lib/site/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: "Support",
   description:
     "Ask Fajita about monitoring, alerts, status pages, and pricing. Answers cite approved documentation.",
-  alternates: { canonical: `${appUrl}/support` },
-  openGraph: {
-    title: "Fajita Support",
-    description:
-      "Ask product questions, find documentation, or send a conversation to Fajita support.",
-    url: `${appUrl}/support`,
-    siteName: "Fajita",
-    type: "website",
-  },
-};
+  path: "/support",
+});
 
 export default function PublicSupportPage() {
   return (
