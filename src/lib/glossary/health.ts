@@ -68,7 +68,7 @@ export function qualityScore(term: GlossaryTerm): QualityScore {
       : 2;
   dimensions.freshness = isStale(term) ? 2 : 10;
   dimensions.intent = term.meta.searchIntent ? 10 : 0;
-  dimensions.example = bodyText.toLowerCase().includes("example.com") ? 10 : 6;
+  dimensions.example = /\bexample\.com\b/i.test(bodyText) ? 10 : 6;
 
   const total = Object.values(dimensions).reduce((a, b) => a + b, 0);
   return { total, dimensions };

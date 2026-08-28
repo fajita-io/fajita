@@ -25,10 +25,19 @@ export interface LoadedMonitor {
   config: MonitorConfigSnapshot;
 }
 
+function isSupabasePoolerUrl(url: string): boolean {
+  try {
+    const { hostname } = new URL(url);
+    return hostname.endsWith(".pooler.supabase.com");
+  } catch {
+    return false;
+  }
+}
+
 function databaseUrl(): string {
   const direct = serverEnv().DATABASE_URL?.trim();
   if (!direct) throw new Error("DATABASE_URL is not configured.");
-  if (direct.includes("pooler.supabase.com")) return direct;
+  if (isSupabasePoolerUrl(direct)) return direct;
   const parsed = new URL(direct);
   const password = parsed.password;
   const ref =
