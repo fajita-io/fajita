@@ -4,6 +4,14 @@
  * domains, because apex hosting needs infrastructure Fajita has not shipped.
  */
 
+const PLATFORM_DOMAIN = "fajita.io";
+
+function isPlatformDomain(hostname: string): boolean {
+  return (
+    hostname === PLATFORM_DOMAIN ||
+    hostname.endsWith(`.${PLATFORM_DOMAIN}`)
+  );
+}
 const LABEL = "[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?";
 const HOSTNAME_RE = new RegExp(`^(?:${LABEL}\\.)+${LABEL}$`);
 
@@ -41,7 +49,7 @@ export function normalizeCustomDomain(input: string): DomainNormalization {
       reason: "Use a subdomain such as status.yourcompany.com. Apex domains are not supported yet.",
     };
   }
-  if (value.endsWith("fajita.io") || value === "fajita.io") {
+  if (isPlatformDomain(value)) {
     return { ok: false, reason: "That domain is not available." };
   }
   if (value.length > 253) {

@@ -56,8 +56,16 @@ export function isSafeExternalUrl(url: string): boolean {
   }
 }
 
+function hasBlockedScheme(href: string): boolean {
+  const trimmed = href.trim();
+  const match = /^([a-zA-Z][a-zA-Z0-9+.-]*):/.exec(trimmed);
+  if (!match) return false;
+  const scheme = match[1].toLowerCase();
+  return scheme === "javascript" || scheme === "data";
+}
+
 export function sanitizeAnswerHref(href: string): string | null {
-  if (href.startsWith("javascript:") || href.startsWith("data:")) return null;
+  if (hasBlockedScheme(href)) return null;
   if (href.startsWith("/")) {
     return isSafeInternalPath(href) ? href : null;
   }
