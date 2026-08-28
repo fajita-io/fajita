@@ -53,12 +53,14 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="fj-footer__grid">
+        <div
+          className={`fj-footer__grid${ossPublicVisible() ? " fj-footer__grid--oss" : ""}`}
+        >
           <div className="fj-footer__brand">
             <Link href="/" aria-label="Fajita home" style={{ display: "inline-flex" }}>
               <FajitaLogo orientation="horizontal" size={28} />
             </Link>
-            <p className="fj-body-sm" style={{ maxWidth: "20rem" }}>
+            <p className="fj-body-sm">
               Open-source uptime monitoring for websites, APIs, certificates, and
               cron jobs. Self-host or use Fajita Cloud.
             </p>
