@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 
+import { publishedClusters } from "@/lib/content/clusters";
 import { orderedBlogCategories } from "@/lib/content/categories";
 import {
   deepGuides,
@@ -22,6 +23,7 @@ export default function BlogIndexPage() {
   const featured = featuredArticles()[0];
   const latest = latestArticles(8);
   const guides = deepGuides().slice(0, 4);
+  const topicHubs = publishedClusters();
   const categories = orderedBlogCategories().filter((c) =>
     latest.some((a) => a.meta.category === c.id) ||
     featuredArticles().some((a) => a.meta.category === c.id),
@@ -71,7 +73,23 @@ export default function BlogIndexPage() {
 
       <section aria-labelledby="topics-heading">
         <h2 id="topics-heading" className="fj-heading-2">
-          Core topic areas
+          Topic hubs
+        </h2>
+        <ul className="fj-content-grid fj-content-grid--topics">
+          {topicHubs.map((cluster) => (
+            <li key={cluster.id}>
+              <Link href={`/blog/topics/${cluster.id}`} className="fj-content-card">
+                <span className="fj-content-card__label">{cluster.name}</span>
+                <p className="fj-content-card__desc">{cluster.hubIntro}</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section aria-labelledby="categories-heading">
+        <h2 id="categories-heading" className="fj-heading-2">
+          Categories
         </h2>
         <ul className="fj-content-grid fj-content-grid--topics">
           {categories.map((cat) => (

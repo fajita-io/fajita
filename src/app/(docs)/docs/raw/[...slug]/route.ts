@@ -29,6 +29,7 @@ export async function GET(
       "Content-Type": "text/plain; charset=utf-8",
       "Cache-Control": "public, max-age=3600, s-maxage=86400",
       "X-Docs-Version": page.meta.docsVersion,
+      "X-Robots-Tag": "noindex",
     },
   });
 }

@@ -8,7 +8,7 @@ export const demoBrand = {
   url: "https://genius.ly",
   apiHost: "api.genius.ly",
   statusHost: "status.genius.ly",
-  alertEmail: "team@genius.ly",
+  alertEmail: "team · genius.ly",
   /** Single-letter mark in status page masthead */
   mark: "G",
 } as const;

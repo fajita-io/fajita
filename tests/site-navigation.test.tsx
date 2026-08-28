@@ -35,7 +35,7 @@ afterEach(cleanup);
 
 describe("site header", () => {
   it("renders the primary nav landmarks and CTA", () => {
-    render(<SiteHeaderContent pathname="/" />);
+    render(<SiteHeaderContent />);
     expect(screen.getByRole("navigation", { name: "Main" })).toBeTruthy();
     expect(screen.getByRole("link", { name: "Fajita home" })).toBeTruthy();
     expect(
@@ -44,7 +44,7 @@ describe("site header", () => {
   });
 
   it("features dropdown opens, lists all six feature pages, and closes on Escape", () => {
-    render(<SiteHeaderContent pathname="/" />);
+    render(<SiteHeaderContent />);
     const trigger = screen.getByRole("button", { name: /features/i });
     expect(trigger.getAttribute("aria-expanded")).toBe("false");
 
@@ -68,7 +68,7 @@ describe("site header", () => {
   });
 
   it("links to primary nav surfaces", () => {
-    const { container } = render(<SiteHeaderContent pathname="/" />);
+    const { container } = render(<SiteHeaderContent />);
     const hrefs = Array.from(container.querySelectorAll("a")).map((a) =>
       a.getAttribute("href"),
     );

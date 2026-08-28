@@ -69,7 +69,16 @@ const steps: NarrativeStep[] = [
 export function HeroNarrative() {
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
+  const [simplifiedStack, setSimplifiedStack] = useState(false);
   const timer = useRef<number | null>(null);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 47.9rem)");
+    const sync = () => setSimplifiedStack(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
 
   useEffect(() => {
     if (!playing) return;
@@ -99,7 +108,11 @@ export function HeroNarrative() {
   return (
     <div className="fj-hero-demo">
       <div className="fj-hero-demo__stage">
-        <ThermalStack state={step.state} animated={playing} />
+        <ThermalStack
+          state={step.state}
+          animated={playing}
+          simplified={simplifiedStack}
+        />
         <div className="fj-hero-demo__narration" aria-live="polite">
           <p className="fj-body-sm">
             <strong style={{ color: "var(--color-text-primary)" }}>

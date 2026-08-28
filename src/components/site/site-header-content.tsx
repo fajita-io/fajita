@@ -2,24 +2,16 @@ import Link from "next/link";
 
 import { FajitaLogo } from "@/components/brand/logo/fajita-logo";
 import { BrandButtonLink } from "@/components/design-system/primitives";
-import { GitHubStarLinkView } from "@/components/site/oss/github-star-link";
+import { GitHubStarLinkLive } from "@/components/site/oss/github-star-link-live";
 import { SiteHeaderFeaturesMenu } from "@/components/site/site-header-features-menu";
 import { SiteHeaderMobileNav } from "@/components/site/site-header-mobile-nav";
 import { SiteHeaderScroll } from "@/components/site/site-header-scroll";
+import { SiteNavLink } from "@/components/site/site-nav-link";
 import { DataFastGoals } from "@/lib/analytics/goals";
-import { OSS_ROUTES, ossPublicVisible } from "@/lib/site/oss-config";
+import { ossPublicVisible } from "@/lib/site/oss-config";
 import { cta } from "@/lib/site/site-config";
 
-export function SiteHeaderContent({
-  pathname,
-  githubStarCount = null,
-}: {
-  pathname: string;
-  githubStarCount?: number | null;
-}) {
-  const pricingCurrent = pathname === "/pricing" ? ("page" as const) : undefined;
-  const openSourceCurrent =
-    pathname === OSS_ROUTES.openSource ? ("page" as const) : undefined;
+export function SiteHeaderContent() {
   const showOss = ossPublicVisible();
 
   return (
@@ -33,22 +25,9 @@ export function SiteHeaderContent({
 
           <nav className="fj-header__nav" aria-label="Main">
             <SiteHeaderFeaturesMenu />
-            <Link
-              href="/pricing"
-              className="fj-nav-link"
-              aria-current={pricingCurrent}
-            >
+            <SiteNavLink href="/pricing" className="fj-nav-link">
               Pricing
-            </Link>
-            {showOss ? (
-              <Link
-                href={OSS_ROUTES.openSource}
-                className="fj-nav-link"
-                aria-current={openSourceCurrent}
-              >
-                Open Source
-              </Link>
-            ) : null}
+            </SiteNavLink>
             <Link href="/docs" className="fj-nav-link">
               Docs
             </Link>
@@ -59,15 +38,9 @@ export function SiteHeaderContent({
 
           <div className="fj-header__actions">
             {showOss ? (
-              <GitHubStarLinkView
-                starCount={githubStarCount}
-                className="fj-header__github"
-              />
+              <GitHubStarLinkLive className="fj-header__github" />
             ) : null}
-            <SiteHeaderMobileNav
-              showGithubStar={showOss}
-              githubStarCount={githubStarCount}
-            />
+            <SiteHeaderMobileNav showGithubStar={showOss} />
             <Link href="/login" className="fj-nav-link fj-header__login">
               Log in
             </Link>

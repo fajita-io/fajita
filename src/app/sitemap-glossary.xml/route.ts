@@ -1,5 +1,5 @@
 import { GLOSSARY_CATEGORIES } from "@/lib/glossary/frontmatter";
-import { publicTerms } from "@/lib/glossary/registry";
+import { alphabetAvailability, publicTerms } from "@/lib/glossary/registry";
 import { siteUrl } from "@/lib/site/site-config";
 
 export const dynamic = "force-static";
@@ -21,6 +21,11 @@ export function GET() {
     ...GLOSSARY_CATEGORIES.map((c) =>
       urlEntry(`/glossary/category/${c}`, "2026-07-17", "0.6"),
     ),
+    ...alphabetAvailability()
+      .filter((entry) => entry.count > 0)
+      .map((entry) =>
+        urlEntry(`/glossary/letter/${entry.letter}`, "2026-07-17", "0.45"),
+      ),
     ...terms.map((t) =>
       urlEntry(`/glossary/${t.meta.slug}`, t.meta.lastReviewedAt, "0.55"),
     ),

@@ -32,7 +32,11 @@ const nextConfig: NextConfig = {
   output: "standalone",
   headers: buildSecurityHeaders(),
   experimental: {
-    optimizePackageImports: ["@clerk/nextjs"],
+    optimizePackageImports: [
+      "@clerk/nextjs",
+      "@sentry/nextjs",
+      "@supabase/supabase-js",
+    ],
   },
 };
 

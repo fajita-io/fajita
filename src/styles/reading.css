@@ -11,7 +11,7 @@
   --reading-section-gap: var(--space-10);
   --reading-stack-gap: var(--space-8);
   --reading-header-gap: var(--space-3);
-  --reading-sticky-top: calc(var(--space-16) + var(--space-2));
+  --reading-sticky-top: calc(var(--space-16) + var(--space-2) + var(--fj-ph-banner-height, 0px));
 }
 
 @media (max-width: 47.9rem) {

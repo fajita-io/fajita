@@ -5,20 +5,65 @@ import dynamic from "next/dynamic";
 import { BrandIcon } from "@/components/design-system/icons";
 import { BrandButtonLink } from "@/components/design-system/primitives";
 import { SectionHeading } from "@/components/design-system/typography";
-import { AlertFlow } from "@/components/site/alert-flow";
-import { AvailabilityBadge } from "@/components/site/availability-badge";
-import { MonitorPreview } from "@/components/site/monitor-preview";
 import { HeroCtaCluster } from "@/components/site/oss/hero-cta-cluster";
-import {
-  DeploymentChoice,
-  OpenSourceHomeSection,
-} from "@/components/site/oss/deployment-choice";
 import { DataFastGoals } from "@/lib/analytics";
 import { buildSignupUrl } from "@/lib/auth/paid-signup-flow";
 import { homeFaq } from "@/lib/site/faq";
 import { publicPlans, pricingConfig } from "@/lib/site/pricing";
 import { buildMetadata } from "@/lib/site/metadata";
 import { siteUrl } from "@/lib/site/site-config";
+
+const MonitorPreview = dynamic(
+  () =>
+    import("@/components/site/monitor-preview").then((m) => m.MonitorPreview),
+  {
+    loading: () => (
+      <div
+        className="fj-deferred-slot fj-deferred-slot--monitor"
+        aria-hidden="true"
+      />
+    ),
+  },
+);
+
+const AlertFlow = dynamic(
+  () => import("@/components/site/alert-flow").then((m) => m.AlertFlow),
+  {
+    loading: () => (
+      <div
+        className="fj-deferred-slot fj-deferred-slot--alert-flow"
+        aria-hidden="true"
+      />
+    ),
+  },
+);
+
+const OpenSourceHomeSection = dynamic(
+  () =>
+    import("@/components/site/oss/deployment-choice").then(
+      (m) => m.OpenSourceHomeSection,
+    ),
+  {
+    loading: () => (
+      <div className="fj-deferred-slot fj-deferred-slot--oss" aria-hidden="true" />
+    ),
+  },
+);
+
+const DeploymentChoice = dynamic(
+  () =>
+    import("@/components/site/oss/deployment-choice").then(
+      (m) => m.DeploymentChoice,
+    ),
+  {
+    loading: () => (
+      <div
+        className="fj-deferred-slot fj-deferred-slot--deployment"
+        aria-hidden="true"
+      />
+    ),
+  },
+);
 
 const HeroNarrative = dynamic(
   () =>
@@ -63,6 +108,8 @@ const FaqList = dynamic(
   () => import("@/components/site/faq-list").then((m) => m.FaqList),
   { loading: () => <div className="fj-deferred-slot fj-deferred-slot--faq" aria-hidden="true" /> },
 );
+
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   ...buildMetadata({
@@ -124,7 +171,6 @@ export default function HomePage() {
       <section className="fj-hero">
         <div className="fj-container fj-hero__grid">
           <div className="fj-hero__copy">
-            <AvailabilityBadge />
             <p className="fj-eyebrow">Open source uptime monitoring</p>
             <h1 className="fj-display-1">
               Catch outages before your customers do.
@@ -154,7 +200,7 @@ export default function HomePage() {
       </section>
 
       {/* 2 · Product proof */}
-      <section className="fj-band--tight">
+      <section className="fj-band--tight fj-cv-auto">
         <div className="fj-container">
           <div className="fj-split">
             <div className="fj-split__sticky fj-rail">
@@ -175,7 +221,7 @@ export default function HomePage() {
 
       {/* 3 · The problem */}
       <section
-        className="fj-band fj-band--carbon"
+        className="fj-band fj-band--carbon fj-cv-auto"
         data-theme="dark"
       >
         <div className="fj-container">
@@ -247,7 +293,7 @@ export default function HomePage() {
       </section>
 
       {/* 4 · Coverage */}
-      <section className="fj-band">
+      <section className="fj-band fj-cv-auto">
         <div className="fj-container">
           <SectionHeading
             eyebrow="Coverage"
@@ -261,7 +307,7 @@ export default function HomePage() {
 
       {/* 5 · Detection and verification */}
       <section
-        className="fj-band fj-band--carbon"
+        className="fj-band fj-band--carbon fj-cv-auto"
         data-theme="dark"
       >
         <div className="fj-container">
@@ -308,7 +354,7 @@ export default function HomePage() {
       </section>
 
       {/* 6 · Status pages */}
-      <section className="fj-band">
+      <section className="fj-band fj-cv-auto">
         <div className="fj-container">
           <div className="fj-split">
             <div className="fj-split__sticky fj-rail">
@@ -345,7 +391,7 @@ export default function HomePage() {
       <OpenSourceHomeSection />
 
       {/* 8 · Lightweight positioning */}
-      <section className="fj-band--tight">
+      <section className="fj-band--tight fj-cv-auto">
         <div className="fj-container fj-container--wide">
           <SectionHeading
             eyebrow="Focus"
@@ -365,7 +411,7 @@ export default function HomePage() {
       </section>
 
       {/* 8 · Interactive product journey */}
-      <section className="fj-band" id="how-it-works">
+      <section className="fj-band fj-cv-auto" id="how-it-works">
         <div className="fj-container">
           <SectionHeading
             eyebrow="How it works"
@@ -378,7 +424,7 @@ export default function HomePage() {
       </section>
 
       {/* 10 · Pricing preview */}
-      <section className="fj-band--tight">
+      <section className="fj-band--tight fj-cv-auto">
         <div className="fj-container">
           <SectionHeading
             eyebrow="Fajita Cloud"
@@ -443,7 +489,7 @@ export default function HomePage() {
 
       {/* 11 · Security */}
       <section
-        className="fj-band fj-band--carbon"
+        className="fj-band fj-band--carbon fj-cv-auto"
         data-theme="dark"
       >
         <div className="fj-container">
@@ -500,7 +546,7 @@ export default function HomePage() {
       </section>
 
       {/* 12 · FAQ */}
-      <section className="fj-band">
+      <section className="fj-band fj-cv-auto">
         <div className="fj-container">
           <SectionHeading
             eyebrow="Questions"
@@ -514,7 +560,7 @@ export default function HomePage() {
       <DeploymentChoice />
 
       {/* 13 · Final CTA */}
-      <section className="fj-band fj-band--carbon" data-theme="dark">
+      <section className="fj-band fj-band--carbon fj-cv-auto" data-theme="dark">
         <div className="fj-container">
           <SectionHeading
             eyebrow="Get started"

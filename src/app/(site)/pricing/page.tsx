@@ -9,8 +9,10 @@ import { PlanCards } from "@/components/site/plan-cards";
 import { PricingVolumeSection } from "@/components/site/pricing-volume-section";
 import { DataFastGoals } from "@/lib/analytics";
 import { billingFaq } from "@/lib/site/faq";
+import { buildFaqJsonLd, buildPricingJsonLd } from "@/lib/site/json-ld";
 import { buildMetadata } from "@/lib/site/metadata";
 import { comparisonRows, pricingConfig, publicPlans } from "@/lib/site/pricing";
+import { siteUrl } from "@/lib/site/site-config";
 
 export const metadata: Metadata = buildMetadata({
   title: "Pricing",
@@ -18,6 +20,9 @@ export const metadata: Metadata = buildMetadata({
     "Core, Team, and Scale plans with included monthly checks. Volume-based pricing for solo founders and growing teams. Monthly or annual billing.",
   path: "/pricing",
 });
+
+const billingFaqJsonLd = buildFaqJsonLd(billingFaq);
+const pricingJsonLd = buildPricingJsonLd(siteUrl, publicPlans);
 
 function ComparisonCell({
   value,
@@ -46,6 +51,14 @@ function ComparisonCell({
 export default function PricingPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(billingFaqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingJsonLd) }}
+      />
       <section className="fj-page-hero">
         <div className="fj-container">
           <p className="fj-eyebrow fj-page-hero__eyebrow">Fajita Cloud</p>

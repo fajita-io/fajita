@@ -1,9 +1,12 @@
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
-import { ProductHuntBanner } from "@/components/site/product-hunt-banner";
-import { AskFajitaMount } from "@/components/support/ask-fajita-mount";
+import { DeferredProductHuntBanner } from "@/components/site/deferred-product-hunt-banner";
+import { DeferredAskFajitaMount } from "@/components/support/deferred-ask-fajita-mount";
 
 import "@/styles/site.css";
+
+/** ISR for the public marketing shell. GitHub stars and nav state hydrate client-side. */
+export const revalidate = 3600;
 
 /** Public marketing shell: skip link, global nav, footer. */
 export default function SiteLayout({
@@ -14,11 +17,14 @@ export default function SiteLayout({
       <a href="#main" className="fj-skip-link">
         Skip to content
       </a>
-      <ProductHuntBanner />
+      <DeferredProductHuntBanner />
       <SiteHeader />
       <main id="main">{children}</main>
       <SiteFooter />
-      <AskFajitaMount mode="public" pageContext={{ route: "/", productArea: "marketing" }} />
+      <DeferredAskFajitaMount
+        mode="public"
+        pageContext={{ route: "/", productArea: "marketing" }}
+      />
     </>
   );
 }

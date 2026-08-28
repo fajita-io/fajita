@@ -1,11 +1,13 @@
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 import { ContentSearch } from "@/components/content/content-search";
-import { AskFajitaMount } from "@/components/support/ask-fajita-mount";
+import { DeferredAskFajitaMount } from "@/components/support/deferred-ask-fajita-mount";
 
 import "@/styles/site.css";
 import "@/styles/content.css";
 import "@/styles/reading.css";
+
+export const revalidate = 3600;
 
 export default function ContentLayout({
   children,
@@ -25,7 +27,7 @@ export default function ContentLayout({
         <main id="content-main">{children}</main>
       </div>
       <SiteFooter />
-      <AskFajitaMount
+      <DeferredAskFajitaMount
         mode="public"
         pageContext={{ route: "/blog", productArea: "content" }}
       />

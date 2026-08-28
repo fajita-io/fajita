@@ -60,7 +60,7 @@ function ResponseChart() {
         viewBox={`0 0 ${w} ${h}`}
         className="fj-response-chart"
         aria-hidden
-        preserveAspectRatio="none"
+        preserveAspectRatio="xMidYMid meet"
         style={{ height: "7rem" }}
       >
         {[0.25, 0.5, 0.75].map((f) => (

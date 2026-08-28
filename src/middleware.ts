@@ -29,6 +29,23 @@ const isPublicRoute = createRouteMatcher([
   "/billing/checkout(.*)",
 ]);
 
+/**
+ * Routes that need Clerk session handling. Marketing, docs, blog, glossary,
+ * status pages, and most public APIs skip Clerk entirely so HTML can cache at
+ * the edge without auth middleware overhead.
+ */
+const needsClerk = createRouteMatcher([
+  "/app(.*)",
+  "/login(.*)",
+  "/signup(.*)",
+  "/auth(.*)",
+  "/forgot-password(.*)",
+  "/verify-email(.*)",
+  "/billing(.*)",
+  "/affiliate(.*)",
+  "/api/support(.*)",
+]);
+
 /** Hostnames that always serve the marketing/app shell (never status rewrites). */
 const PLATFORM_HOSTS = platformHosts();
 
@@ -113,51 +130,65 @@ function referralCapture(request: NextRequest): URL | null {
   return url;
 }
 
-export default clerkMiddleware(
+function runSharedMiddleware(
+  request: NextRequest,
+  event: NextFetchEvent,
+): NextResponse | null {
+  const pathname = request.nextUrl.pathname;
+
+  if (!pathname.startsWith("/api") && datafastConfig.websiteId) {
+    trackAICrawlerRequest(request, event, {
+      websiteId: datafastConfig.websiteId,
+      ...(process.env.DATAFAST_BOT_TOKEN
+        ? { authToken: process.env.DATAFAST_BOT_TOKEN }
+        : {}),
+    });
+  }
+
+  const rewrite = statusHostRewrite(request);
+  if (rewrite) {
+    return NextResponse.rewrite(rewrite);
+  }
+
+  const referralRedirect = referralCapture(request);
+  if (referralRedirect) {
+    return NextResponse.redirect(referralRedirect);
+  }
+
+  return null;
+}
+
+const clerkHandler = clerkMiddleware(
   async (auth, request: NextRequest, event: NextFetchEvent) => {
-    // AI-crawler analytics for content routes only (not API/webhooks).
-    if (!request.nextUrl.pathname.startsWith("/api") && datafastConfig.websiteId) {
-      trackAICrawlerRequest(request, event, {
-        websiteId: datafastConfig.websiteId,
-        ...(process.env.DATAFAST_BOT_TOKEN
-          ? { authToken: process.env.DATAFAST_BOT_TOKEN }
-          : {}),
-      });
-    }
-
-    const rewrite = statusHostRewrite(request);
-    if (rewrite) {
-      return NextResponse.rewrite(rewrite);
-    }
-
-    // Affiliate referral capture. A top-level navigation carrying `?ref=` on a
-    // public marketing path is redirected to the referral endpoint, which
-    // records attribution server-side, sets the signed first-party cookie, and
-    // sends the visitor on to a clean, allowlisted destination (stripping the
-    // referral params from the visible URL). Only document navigations qualify,
-    // which blocks cookie stuffing via subresource requests.
-    const referralRedirect = referralCapture(request);
-    if (referralRedirect) {
-      return NextResponse.redirect(referralRedirect);
-    }
+    const shared = runSharedMiddleware(request, event);
+    if (shared) return shared;
 
     if (isProtectedRoute(request) && !isPublicRoute(request)) {
       await auth.protect();
     }
 
-    const requestHeaders = new Headers(request.headers);
-    requestHeaders.set("x-pathname", request.nextUrl.pathname);
-
-    return NextResponse.next({
-      request: { headers: requestHeaders },
-    });
+    return NextResponse.next();
   },
 );
+
+export default function middleware(
+  request: NextRequest,
+  event: NextFetchEvent,
+) {
+  const shared = runSharedMiddleware(request, event);
+  if (shared) return shared;
+
+  if (needsClerk(request)) {
+    return clerkHandler(request, event);
+  }
+
+  return NextResponse.next();
+}
 
 export const config = {
   matcher: [
     // Run on everything except Next internals and static asset files, so
-    // Clerk's auth() works in routes and robots.txt/llms.txt stay reachable.
+    // robots.txt/llms.txt stay reachable.
     "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|gif|webp|svg|ico|ttf|woff2?)).*)",
     "/(api|trpc)(.*)",
   ],
