@@ -45,12 +45,7 @@ export interface QualityScore {
 }
 
 /** Heuristic editorial quality score (0–100). Does not publish content. */
-function mentionsHostname(text: string, hostname: string): boolean {
-  return text.split(/\s+/).some((part) => {
-    const normalized = part.toLowerCase().replace(/^[^a-z0-9]+|[^a-z0-9]+$/g, "");
-    return normalized === hostname;
-  });
-}
+export function qualityScore(term: GlossaryTerm): QualityScore {
   const dimensions: Record<string, number> = {};
   const bodyText = term.body
     .map((b) => ("text" in b ? String(b.text) : ""))
@@ -77,4 +72,11 @@ function mentionsHostname(text: string, hostname: string): boolean {
 
   const total = Object.values(dimensions).reduce((a, b) => a + b, 0);
   return { total, dimensions };
+}
+
+function mentionsHostname(text: string, hostname: string): boolean {
+  return text.split(/\s+/).some((part) => {
+    const normalized = part.toLowerCase().replace(/^[^a-z0-9]+|[^a-z0-9]+$/g, "");
+    return normalized === hostname;
+  });
 }
