@@ -68,8 +68,15 @@ export function qualityScore(term: GlossaryTerm): QualityScore {
       : 2;
   dimensions.freshness = isStale(term) ? 2 : 10;
   dimensions.intent = term.meta.searchIntent ? 10 : 0;
-  dimensions.example = /\bexample\.com\b/i.test(bodyText) ? 10 : 6;
+  dimensions.example = mentionsHostname(bodyText, "example.com") ? 10 : 6;
 
   const total = Object.values(dimensions).reduce((a, b) => a + b, 0);
   return { total, dimensions };
+}
+
+function mentionsHostname(text: string, hostname: string): boolean {
+  return text.split(/\s+/).some((part) => {
+    const normalized = part.toLowerCase().replace(/^[^a-z0-9]+|[^a-z0-9]+$/g, "");
+    return normalized === hostname;
+  });
 }
