@@ -26,11 +26,48 @@ npm run selfhost:doctor
 - Configure Clerk webhook to your deployment URL.
 - Check webhook signing secret matches `CLERK_WEBHOOK_SIGNING_SECRET`.
 
+### Clerk webhook during local development
+
+Clerk must reach `https://<public-host>/api/webhooks/clerk`. Localhost is not reachable from Clerk's servers.
+
+1. Run Fajita locally (`npm run selfhost:up` or `npm run dev`).
+2. Start a tunnel to port 3000 with any HTTPS reverse tunnel:
+   - [ngrok](https://ngrok.com): `ngrok http 3000`
+   - [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/): `cloudflared tunnel --url http://localhost:3000`
+   - Similar tools work the same way: public HTTPS URL → your machine.
+3. In Clerk → Webhooks, set the endpoint to `https://<tunnel-host>/api/webhooks/clerk`.
+4. Copy the signing secret into `CLERK_WEBHOOK_SIGNING_SECRET` and restart the web container if it was already running.
+5. Trigger a test event from Clerk and confirm provisioning in the app.
+
+Production must use a real HTTPS URL on your domain, not a dev tunnel. Tunnels are for local development only.
+
+See [AUTHENTICATION.md](./AUTHENTICATION.md) for the full Clerk checklist.
+
 ### Email alerts fail
 
 - Run doctor email check.
 - Configure SMTP or Resend.
 - Alert UI shows "not configured" until a provider is set (expected when email disabled).
+
+### SMTP STARTTLS vs SMTPS (port 587 vs 465)
+
+Fajita uses Nodemailer with implicit TLS only when `SMTP_PORT=465`. Other ports use STARTTLS after a plain connection.
+
+| Mode | Typical port | Fajita behavior |
+| --- | --- | --- |
+| STARTTLS | 587 | Plain socket, then upgrade to TLS |
+| SMTPS (implicit TLS) | 465 | TLS from the first byte |
+
+Variables: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM`, and optional `ALERT_EMAIL_FROM`.
+
+Common symptoms:
+
+| Symptom | Likely cause |
+| --- | --- |
+| Hang then timeout on 587 | Provider expects STARTTLS; use port 587, not 465 |
+| `wrong version number` on 465 | Provider expects STARTTLS on 587 instead |
+| Authentication failed | Wrong credentials or app-password requirement |
+| Accepted but not delivered | `SMTP_FROM` domain lacks SPF/DKIM alignment |
 
 ### Heartbeat monitors always down
 
@@ -70,7 +107,7 @@ curl -H "Authorization: Bearer $CRON_SECRET" http://localhost:3000/api/health/op
 
 See [CONFIGURATION.md](./CONFIGURATION.md) for `NEXT_PUBLIC_APP_URL` behind Caddy, Nginx, or Traefik. Set forwarded headers and HTTPS at the proxy; point the proxy to web `:3000`.
 
-Examples: [examples/caddy/README.md](../../examples/caddy/README.md), [examples/nginx/README.md](../../examples/nginx/README.md)
+Examples: [examples/caddy/README.md](../../examples/caddy/README.md), [examples/nginx/README.md](../../examples/nginx/README.md), [examples/traefik/README.md](../../examples/traefik/README.md)
 
 ```text
 monitor.example.com {
@@ -112,6 +149,7 @@ docker compose run --rm migrate
 - Confirm signing secret configured in alert channel
 - Check alert worker logs for delivery errors
 - Verify outbound HTTPS is allowed from worker/network
+- Signed payloads: [SIGNED_WEBHOOKS.md](./SIGNED_WEBHOOKS.md) and [Verify webhook signatures](https://fajita.io/docs/webhooks/signatures)
 
 ## SSL check issues
 

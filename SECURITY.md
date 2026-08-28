@@ -62,6 +62,25 @@ If you run Fajita yourself:
 - Keep dependencies updated
 - Do not expose `/api/internal/*` routes without authentication at the edge
 
+## Public repository hygiene
+
+The `fajita-io/fajita` repository is scanned on every push to `main` and on pull requests:
+
+- **Gitleaks** (`.github/workflows/oss-readiness.yml`) with `.gitleaks.toml` allowlists for test fixtures and docs examples only
+- **`npm run readiness:secrets`** on tracked files (Stripe, Clerk, GitHub, Anthropic, Resend, AWS keys, private key blocks, assigned env secrets)
+- **`npm run oss:check:fast`** which also rejects tracked `.env` files (except `.env.example`), private key files, and database dumps
+
+Before pushing:
+
+```bash
+npm run readiness:secrets
+npm run oss:check:fast
+```
+
+Never commit `.env`, `.env.local`, production rotation exports, or operator DNS JSON exports (`scripts/resend-dns-records.json` is gitignored). Placeholders belong in `.env.example` only.
+
+If you believe a secret was committed, rotate it immediately at the provider, then contact maintainers so history can be reviewed.
+
 ## Disclosure
 
 We request coordinated disclosure. Please allow reasonable time to investigate and deploy fixes before public disclosure. We will credit reporters who wish to be named when fixes are published.

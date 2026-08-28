@@ -13,6 +13,10 @@ import {
   renderSlack,
 } from "@/lib/alerts/messages";
 import { ALERT_LIMITS } from "@/lib/alerts/constants";
+import {
+  discordHttpDeliverySummary,
+  validateDiscordWebhookUrl,
+} from "@/lib/alerts/discord-webhook";
 import { sendTransactionalEmail } from "@/lib/email/transport";
 import { safePost } from "@/lib/alerts/providers/http";
 
@@ -90,11 +94,29 @@ export async function sendSlackAlert(webhookUrl: string, ctx: AlertRenderContext
 }
 
 export async function sendDiscordAlert(webhookUrl: string, ctx: AlertRenderContext): Promise<ProviderOutcome> {
+  const started = Date.now();
+  const check = validateDiscordWebhookUrl(webhookUrl);
+  if (!check.ok) {
+    return failure("configuration_error", check.message, null, Date.now() - started);
+  }
   const res = await safePost({
     url: `${webhookUrl}${webhookUrl.includes("?") ? "&" : "?"}wait=true`,
     body: JSON.stringify(renderDiscord(ctx)),
     timeoutMs: ALERT_LIMITS.providerTimeoutMs,
   });
+  if (res.ok) return delivered(res.durationMs, res.status, res.requestId);
+  const status = res.status ?? 0;
+  const discordSummary = status > 0 ? discordHttpDeliverySummary(status) : null;
+  if (discordSummary) {
+    const { category } = categorizeHttpStatus(status);
+    return failure(
+      category ?? "unknown_provider_error",
+      discordSummary,
+      status,
+      res.durationMs,
+      res.requestId,
+    );
+  }
   return outcomeFromPost("Discord", res);
 }
 

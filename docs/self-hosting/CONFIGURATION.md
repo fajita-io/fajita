@@ -52,6 +52,22 @@ Stripe keys, Fajita Cloud DNS tokens, DataFast, GA, Sentry, affiliate tokens, an
 | `MONITOR_WORKER_ALLOW_LOOPBACK` | 0 | Dev only; never in production |
 | `SCHEDULER_INTERVAL_SECONDS` | 60 | Cron sidecar interval |
 
+## Reverse proxy
+
+Set `NEXT_PUBLIC_APP_URL` to your public HTTPS origin. Terminate TLS at the proxy and forward to web `:3000`.
+
+| Example | Path |
+| --- | --- |
+| Caddy | [examples/caddy/README.md](../../examples/caddy/README.md) |
+| Nginx | [examples/nginx/README.md](../../examples/nginx/README.md) |
+| Traefik | [examples/traefik/README.md](../../examples/traefik/README.md) |
+
+Forward `Host`, `X-Forwarded-For`, `X-Forwarded-Proto`, and WebSocket upgrade headers when needed.
+
+## Postgres (production Compose)
+
+See [POSTGRES_PRODUCTION.md](./POSTGRES_PRODUCTION.md) for healthcheck behavior, volume persistence, and hardening. Fajita does not operate managed Postgres for self-hosters.
+
 ## Configuration validation
 
 ```bash

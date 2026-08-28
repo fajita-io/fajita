@@ -4,6 +4,7 @@ import { encryptSecret, maskSecret } from "@/lib/monitoring/secret-crypto";
 import { serviceClient } from "@/lib/supabase/service";
 import type { Json } from "@/lib/supabase/types";
 import { validateUrl } from "@/lib/monitoring/destination";
+import { validateDiscordWebhookUrl } from "@/lib/alerts/discord-webhook";
 import { generateSigningKey } from "@/lib/alerts/signing";
 import { ALERT_LIMITS, BLOCKED_WEBHOOK_HEADERS, type AlertProvider } from "@/lib/alerts/constants";
 import { emailMatchesOrgMember } from "@/lib/alerts/recipients";
@@ -275,9 +276,8 @@ export async function createSlackChannel(
 export async function createDiscordChannel(
   params: NewChannelBase & { webhookUrl: string; serverHint?: string },
 ): Promise<{ channelId: string }> {
-  if (!/^https:\/\/(discord|discordapp)\.com\/api\/webhooks\/\d+\/[A-Za-z0-9._-]+$/.test(params.webhookUrl)) {
-    throw new Error("Enter a valid Discord webhook URL (https://discord.com/api/webhooks/...).");
-  }
+  const discordUrl = validateDiscordWebhookUrl(params.webhookUrl);
+  if (!discordUrl.ok) throw new Error(discordUrl.message);
   const summary = params.serverHint || "Discord webhook";
   const channelId = await insertChannel({
     organizationId: params.organizationId,
@@ -521,6 +521,10 @@ export async function rotateChannelCredential(params: {
   provider: AlertProvider;
   value: string;
 }): Promise<void> {
+  if (params.provider === "discord") {
+    const discordUrl = validateDiscordWebhookUrl(params.value);
+    if (!discordUrl.ok) throw new Error(discordUrl.message);
+  }
   const db = serviceClient();
   const secretType =
     params.provider === "slack"

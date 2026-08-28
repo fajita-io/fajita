@@ -8,6 +8,15 @@ Target: open `http://localhost:3000`, sign in, create a monitor, and see checks 
 - A [Clerk](https://clerk.com) application (your own, not Fajita's)
 - Node.js 22+ (for local scripts outside Docker)
 
+## Linux and macOS notes
+
+These steps were written for bash on Linux and macOS. From the repository root:
+
+- Run `docker compose` (Compose V2). If your install only provides `docker-compose`, use that instead.
+- On Linux, your user may need membership in the `docker` group to run Compose without `sudo`.
+- Clone with LF line endings. If you copied `.env` from Windows, confirm it has Unix line endings before starting containers.
+- Paths in this guide are relative to the repo root (`fajita/` after clone).
+
 ## Steps
 
 ### 1. Clone and configure
@@ -51,7 +60,9 @@ In your Clerk dashboard:
 - Add `http://localhost:3000` to allowed origins
 - Set sign-in redirect to `/app`
 - Configure the Supabase third-party auth integration (see [AUTHENTICATION.md](./AUTHENTICATION.md))
-- Point the Clerk webhook to `https://your-host/api/webhooks/clerk` (use a tunnel for local dev)
+- Point the Clerk webhook to `https://your-host/api/webhooks/clerk` (use a tunnel for local dev; see [TROUBLESHOOTING.md](./TROUBLESHOOTING.md#clerk-webhook-during-local-development))
+
+For how workers, verification, and scheduling connect, see [Architecture overview](../architecture/OVERVIEW.md).
 
 ### 3. Start the stack
 

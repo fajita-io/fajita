@@ -38,7 +38,7 @@ No separate bootstrap admin password is required. Platform admin (`PLATFORM_ADMI
 ## Limitations
 
 - Clerk account required (free tier available for development).
-- Webhook endpoint must be reachable for full user sync (tunnel for local dev).
+- Webhook endpoint must be reachable for full user sync (tunnel for local dev; see [TROUBLESHOOTING.md](./TROUBLESHOOTING.md#clerk-webhook-during-local-development)).
 - Step-up and org policies follow Clerk configuration.
 
 ## Security notes
