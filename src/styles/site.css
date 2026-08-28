@@ -2157,13 +2157,24 @@
 
 .fj-footer__grid {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr));
-  gap: var(--space-10) var(--space-8);
+  grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr));
+  gap: var(--space-10) var(--space-6);
   padding: var(--space-16) 0;
 }
 
+.fj-footer__grid--oss {
+  grid-template-columns: minmax(0, 1.25fr) repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 74.99rem) {
+  .fj-footer__grid--oss {
+    gap: var(--space-8) var(--space-5);
+  }
+}
+
 @media (max-width: 63.75rem) {
-  .fj-footer__grid {
+  .fj-footer__grid,
+  .fj-footer__grid--oss {
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -2173,6 +2184,10 @@
     grid-template-columns: 1fr;
     gap: var(--space-8);
   }
+}
+
+.fj-footer__brand p {
+  max-width: 16rem;
 }
 
 .fj-footer__brand {

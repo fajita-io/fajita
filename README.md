@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src=".github/assets/fajita-dashboard.png" alt="Fajita monitor dashboard" width="720" />
+<img src=".github/assets/fajita-readme-hero.png" alt="Fajita — open-source uptime monitoring. The watch before the fire." width="720" />
 
 # Fajita
 
