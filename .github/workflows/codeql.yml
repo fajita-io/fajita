@@ -25,17 +25,30 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [javascript-typescript, go]
+        include:
+          - language: javascript-typescript
+          - language: go
+            build-mode: manual
 
     steps:
       - name: Checkout
         uses: actions/checkout@v7
 
+      - name: Setup Go (worker extraction)
+        if: matrix.language == 'go'
+        uses: actions/setup-go@v7
+        with:
+          go-version: "1.26"
+          cache-dependency-path: |
+            services/monitor-worker/go.sum
+            packages/monitor-contracts/go.sum
+
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: ${{ matrix.language }}
           queries: security-extended
+          build-mode: ${{ matrix.build-mode || 'none' }}
 
       - name: Setup Node (TypeScript extraction)
         if: matrix.language == 'javascript-typescript'
@@ -48,22 +61,13 @@ jobs:
         if: matrix.language == 'javascript-typescript'
         run: npm ci
 
-      - name: Setup Go (worker extraction)
-        if: matrix.language == 'go'
-        uses: actions/setup-go@v7
-        with:
-          go-version: "1.26"
-          cache-dependency-path: |
-            services/monitor-worker/go.sum
-            packages/monitor-contracts/go.sum
-
       - name: Build Go modules
         if: matrix.language == 'go'
         run: |
-          go build -C services/monitor-worker ./...
-          go build -C packages/monitor-contracts ./...
+          (cd services/monitor-worker && go build ./...)
+          (cd packages/monitor-contracts && go build ./...)
 
       - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
         with:
           category: "/language:${{ matrix.language }}"
