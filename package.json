@@ -44,18 +44,18 @@
     "smoke:public": "tsx scripts/public-smoke.ts"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.120.0",
-    "@clerk/nextjs": "^7.8.1",
+    "@anthropic-ai/sdk": "^0.122.0",
+    "@clerk/nextjs": "^7.8.3",
     "@datafast/ai-crawl": "^1.0.0",
-    "@sentry/nextjs": "^10.71.0",
+    "@sentry/nextjs": "^10.72.0",
     "@supabase/supabase-js": "^2.112.4",
     "next": "^15.3.0",
-    "nodemailer": "^9.0.5",
+    "nodemailer": "^9.0.6",
     "postgres": "^3.4.9",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "stripe": "^22.5.0",
-    "zod": "^4.4.3"
+    "zod": "^4.5.1"
   },
   "devDependencies": {
     "@clerk/testing": "^2.2.30",
