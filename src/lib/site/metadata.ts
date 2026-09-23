@@ -14,9 +14,16 @@ export function buildMetadata(options: {
   /** Route path beginning with "/", e.g. "/pricing". */
   path: string;
   noindex?: boolean;
+  /** Absolute or site-relative Open Graph image URL/path. */
+  image?: string;
 }): Metadata {
-  const { title, description, path, noindex } = options;
+  const { title, description, path, noindex, image } = options;
   const url = `${siteUrl}${path === "/" ? "" : path}`;
+  const imageUrl = image
+    ? image.startsWith("http")
+      ? image
+      : `${siteUrl}${image.startsWith("/") ? image : `/${image}`}`
+    : undefined;
 
   return {
     title,
@@ -28,11 +35,13 @@ export function buildMetadata(options: {
       url,
       siteName: "Fajita",
       type: "website",
+      ...(imageUrl ? { images: [{ url: imageUrl }] } : {}),
     },
     twitter: {
       card: "summary_large_image",
       title: `${title} · Fajita`,
       description,
+      ...(imageUrl ? { images: [imageUrl] } : {}),
     },
     ...(noindex ? { robots: { index: false, follow: false } } : {}),
   };

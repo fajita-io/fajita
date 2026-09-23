@@ -49,6 +49,7 @@ export async function generateMetadata({
     title: page.meta.title,
     description: page.meta.description,
     path: `/docs/${page.meta.slug}`,
+    image: `/docs/og/${page.meta.slug}`,
     noindex,
   });
 }
