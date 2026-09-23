@@ -90,15 +90,19 @@ describe("getGitHubStarCount", () => {
 
   it("sends Authorization when a GitHub token env is set", async () => {
     vi.stubEnv("GITHUB_TOKEN", "test-token");
-    const fetchMock = vi.fn(async () =>
-      Response.json({ stargazers_count: 19 }),
+    let capturedInit: RequestInit | undefined;
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
+        capturedInit = init;
+        return Response.json({ stargazers_count: 19 });
+      }),
     );
-    vi.stubGlobal("fetch", fetchMock);
 
     await expect(getGitHubStarCount()).resolves.toBe(19);
 
-    const [, init] = fetchMock.mock.calls[0] as [string, RequestInit];
-    const headers = new Headers(init.headers);
+    expect(capturedInit).toBeDefined();
+    const headers = new Headers(capturedInit?.headers);
     expect(headers.get("Authorization")).toBe("Bearer test-token");
     expect(headers.get("Accept")).toBe("application/vnd.github+json");
     expect(headers.get("User-Agent")).toBe("fajita-io-site");
