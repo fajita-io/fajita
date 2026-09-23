@@ -12,10 +12,12 @@ const googleAnalyticsHost = "https://www.google-analytics.com";
 const googleTagManagerHost = "https://www.googletagmanager.com";
 const supabaseHost = "https://*.supabase.co";
 const sentryHost = "https://*.ingest.sentry.io";
+/** TrustMRR verified-revenue badge iframe on /about. */
+const trustmrrHost = "https://trustmrr.com";
 
 /**
  * Production security headers for marketing, auth, app, and API routes.
- * CSP allows Clerk, DataFast, Genius, Google Analytics, Supabase, and Sentry while blocking framing
+ * CSP allows Clerk, DataFast, Genius, Google Analytics, Supabase, Sentry, and TrustMRR embeds while blocking framing
  * and tightening defaults elsewhere.
  */
 export function buildSecurityHeaders(): NonNullable<
@@ -60,6 +62,7 @@ export function buildSecurityHeaders(): NonNullable<
       clerkProductionFrontend,
       clerkProductionAccounts,
       "https://challenges.cloudflare.com",
+      trustmrrHost,
     ].join(" "),
     "object-src 'none'",
     "worker-src 'self' blob:",
