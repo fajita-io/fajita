@@ -50,8 +50,10 @@ function MobileMenuIcon() {
  */
 export function SiteHeaderMobileNav({
   showGithubStar = false,
+  initialStarCount = null,
 }: {
   showGithubStar?: boolean;
+  initialStarCount?: number | null;
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -168,7 +170,7 @@ export function SiteHeaderMobileNav({
               </Link>
               {showGithubStar ? (
                 <div className="fj-header-mobile-nav__github">
-                  <GitHubStarLinkLive />
+                  <GitHubStarLinkLive initialStarCount={initialStarCount} />
                 </div>
               ) : null}
               <Link
