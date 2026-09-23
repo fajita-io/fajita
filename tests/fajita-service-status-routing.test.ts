@@ -57,4 +57,14 @@ describe("fajita service status routing", () => {
       "/_status-host/status.acme.com",
     );
   });
+
+  it("rewrites custom domain paths through the host catch-all", () => {
+    expect(resolveStatusHostRewrite("status.acme.com", "/history")).toBe(
+      "/_status-host/status.acme.com/history",
+    );
+    expect(resolveStatusHostRewrite("status.acme.com", "/incidents/x")).toBe(
+      "/_status-host/status.acme.com/incidents/x",
+    );
+  });
 });
+

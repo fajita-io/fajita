@@ -8,7 +8,7 @@ import { trackAICrawlerRequest } from "@datafast/ai-crawl";
 
 import { datafastConfig } from "@/lib/analytics/config";
 import { platformHosts, primaryAppHost } from "@/lib/deployment/config";
-import { STATUS_PAGE_ZONE } from "@/lib/status-pages/config";
+import { resolveStatusHostRewrite } from "@/lib/status-pages/fajita-service-status-routing";
 
 /**
  * Protected surfaces. Everything under /app (the authenticated product)
@@ -50,27 +50,13 @@ const needsClerk = createRouteMatcher([
 const PLATFORM_HOSTS = platformHosts();
 
 /**
- * Resolve status-page host routing. Requests on a hosted subdomain
- * (<slug>.status.fajita.io) rewrite to /status/<slug>; requests on a verified
- * custom domain rewrite to the host resolver. The primary app/marketing host
- * and local/preview hosts are never rewritten. Returns null when no rewrite
- * applies.
+ * Resolve status-page host routing via the shared helper so middleware stays
+ * aligned with `resolveStatusHostRewrite` (status zone apex, hosted
+ * subdomains, and custom domains).
  */
 function statusHostRewrite(request: NextRequest): URL | null {
   const host = (request.headers.get("host") ?? "").split(":")[0].toLowerCase();
   if (!host) return null;
-
-  const path = request.nextUrl.pathname;
-  // Never touch platform paths or the status routes themselves.
-  if (
-    path.startsWith("/api") ||
-    path.startsWith("/_next") ||
-    path.startsWith("/status") ||
-    path.startsWith("/_status-host") ||
-    path.startsWith("/app")
-  ) {
-    return null;
-  }
 
   const appHost = primaryAppHost();
   const isPrimary =
@@ -80,18 +66,11 @@ function statusHostRewrite(request: NextRequest): URL | null {
     host.endsWith(".vercel.app");
   if (isPrimary) return null;
 
+  const rewritten = resolveStatusHostRewrite(host, request.nextUrl.pathname);
+  if (!rewritten) return null;
+
   const url = request.nextUrl.clone();
-
-  // Hosted subdomain: <slug>.status.fajita.io
-  if (host.endsWith(`.${STATUS_PAGE_ZONE}`)) {
-    const slug = host.slice(0, host.length - STATUS_PAGE_ZONE.length - 1);
-    if (!slug || slug.includes(".")) return null;
-    url.pathname = `/status/${slug}${path === "/" ? "" : path}`;
-    return url;
-  }
-
-  // Custom domain: route to the host resolver.
-  url.pathname = `/_status-host/${encodeURIComponent(host)}${path === "/" ? "" : path}`;
+  url.pathname = rewritten;
   return url;
 }
 
