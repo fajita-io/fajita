@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { BrandButtonLink } from "@/components/design-system/primitives";
 import { SectionHeading } from "@/components/design-system/typography";
+import { TrustMrrBadge } from "@/components/site/trustmrr-badge";
 import { DataFastGoals } from "@/lib/analytics";
 import { buildMetadata } from "@/lib/site/metadata";
 import { company, cta, siteUrl } from "@/lib/site/site-config";
@@ -138,6 +139,18 @@ export default function AboutPage() {
           <p className="fj-body-sm" style={{ marginTop: "var(--space-6)", color: "var(--color-text-muted)" }}>
             {company.name} is based in Kalispell, Montana.
           </p>
+        </div>
+      </section>
+
+      <section className="fj-band--tight">
+        <div className="fj-container fj-container--wide">
+          <SectionHeading
+            eyebrow="Independent verification"
+            title="See the numbers for yourself."
+            lede="Fajita's public revenue profile is verified through TrustMRR, so the proof is available alongside the story."
+            as="h2"
+          />
+          <TrustMrrBadge />
         </div>
       </section>
 
