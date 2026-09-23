@@ -4,10 +4,12 @@ import { datafastConfig } from "@/lib/analytics/config";
 
 /**
  * DataFast pageview tracking + goal queue.
- * Mount once in the root layout `<head>` after the page is interactive.
+ * Loads through a same-origin /datafast/* proxy so ad blockers cannot drop
+ * the pixel or event XHR (mirrors Adventure / DataFast Next.js docs).
+ * Mount once in the root layout.
  */
 export function DataFastScript() {
-  const { websiteId, domain, scriptSrc, allowLocalhost } = datafastConfig;
+  const { websiteId, domain, allowLocalhost } = datafastConfig;
 
   if (!websiteId || !domain) {
     return null;
@@ -15,7 +17,7 @@ export function DataFastScript() {
 
   return (
     <>
-      <Script id="datafast-queue" strategy="lazyOnload">
+      <Script id="datafast-queue" strategy="beforeInteractive">
         {`
           window.datafast = window.datafast || function() {
             (window.datafast.q = window.datafast.q || []).push(arguments);
@@ -23,11 +25,13 @@ export function DataFastScript() {
         `}
       </Script>
       <Script
-        src={scriptSrc}
+        id="datafast-pixel"
+        src="/datafast/script.js"
+        data-api-url="/datafast/events"
         data-website-id={websiteId}
         data-domain={domain}
         {...(allowLocalhost ? { "data-allow-localhost": "true" } : {})}
-        strategy="lazyOnload"
+        strategy="afterInteractive"
       />
     </>
   );
