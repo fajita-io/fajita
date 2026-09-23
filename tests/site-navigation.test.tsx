@@ -15,6 +15,16 @@ vi.mock("next/navigation", () => ({
   usePathname: () => "/",
 }));
 
+vi.mock("@/lib/site/github-stars", async () => {
+  const actual = await vi.importActual<typeof import("@/lib/site/github-stars")>(
+    "@/lib/site/github-stars",
+  );
+  return {
+    ...actual,
+    getGitHubStarCount: vi.fn(async () => null),
+  };
+});
+
 beforeEach(() => {
   Object.defineProperty(window, "matchMedia", {
     writable: true,
@@ -34,8 +44,8 @@ beforeEach(() => {
 afterEach(cleanup);
 
 describe("site header", () => {
-  it("renders the primary nav landmarks and CTA", () => {
-    render(<SiteHeaderContent />);
+  it("renders the primary nav landmarks and CTA", async () => {
+    render(await SiteHeaderContent());
     expect(screen.getByRole("navigation", { name: "Main" })).toBeTruthy();
     expect(screen.getByRole("link", { name: "Fajita home" })).toBeTruthy();
     expect(
@@ -43,8 +53,8 @@ describe("site header", () => {
     ).toBeGreaterThan(0);
   });
 
-  it("features dropdown opens, lists all six feature pages, and closes on Escape", () => {
-    render(<SiteHeaderContent />);
+  it("features dropdown opens, lists all six feature pages, and closes on Escape", async () => {
+    render(await SiteHeaderContent());
     const trigger = screen.getByRole("button", { name: /features/i });
     expect(trigger.getAttribute("aria-expanded")).toBe("false");
 
@@ -67,8 +77,8 @@ describe("site header", () => {
     expect(trigger.getAttribute("aria-expanded")).toBe("false");
   });
 
-  it("links to primary nav surfaces", () => {
-    const { container } = render(<SiteHeaderContent />);
+  it("links to primary nav surfaces", async () => {
+    const { container } = render(await SiteHeaderContent());
     const hrefs = Array.from(container.querySelectorAll("a")).map((a) =>
       a.getAttribute("href"),
     );

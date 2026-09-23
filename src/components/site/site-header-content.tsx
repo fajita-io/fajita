@@ -8,11 +8,13 @@ import { SiteHeaderMobileNav } from "@/components/site/site-header-mobile-nav";
 import { SiteHeaderScroll } from "@/components/site/site-header-scroll";
 import { SiteNavLink } from "@/components/site/site-nav-link";
 import { DataFastGoals } from "@/lib/analytics/goals";
+import { getGitHubStarCount } from "@/lib/site/github-stars";
 import { ossPublicVisible } from "@/lib/site/oss-config";
 import { cta } from "@/lib/site/site-config";
 
-export function SiteHeaderContent() {
+export async function SiteHeaderContent() {
   const showOss = ossPublicVisible();
+  const initialStarCount = showOss ? await getGitHubStarCount() : null;
 
   return (
     <>
@@ -38,9 +40,15 @@ export function SiteHeaderContent() {
 
           <div className="fj-header__actions">
             {showOss ? (
-              <GitHubStarLinkLive className="fj-header__github" />
+              <GitHubStarLinkLive
+                className="fj-header__github"
+                initialStarCount={initialStarCount}
+              />
             ) : null}
-            <SiteHeaderMobileNav showGithubStar={showOss} />
+            <SiteHeaderMobileNav
+              showGithubStar={showOss}
+              initialStarCount={initialStarCount}
+            />
             <Link href="/login" className="fj-nav-link fj-header__login">
               Log in
             </Link>
