@@ -38,6 +38,21 @@ const nextConfig: NextConfig = {
       "@supabase/supabase-js",
     ],
   },
+  // Same-origin DataFast proxy. Serving the pixel and events endpoint through
+  // fajita.io avoids third-party blockers that drop datafa.st XHR. Mirrors
+  // Adventure (adv.entu.re) /datafast/* rewrites.
+  async rewrites() {
+    return [
+      {
+        source: "/datafast/script.js",
+        destination: "https://datafa.st/js/script.js",
+      },
+      {
+        source: "/datafast/events",
+        destination: "https://datafa.st/api/events",
+      },
+    ];
+  },
 };
 
 export default withSentryConfig(nextConfig, {

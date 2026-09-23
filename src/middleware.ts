@@ -189,7 +189,7 @@ export const config = {
   matcher: [
     // Run on everything except Next internals and static asset files, so
     // robots.txt/llms.txt stay reachable.
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|gif|webp|svg|ico|ttf|woff2?)).*)",
+    "/((?!_next/static|_next/image|favicon.ico|datafast|.*\\.(?:png|jpg|jpeg|gif|webp|svg|ico|ttf|woff2?)).*)",
     "/(api|trpc)(.*)",
   ],
 };
