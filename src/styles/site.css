@@ -2779,6 +2779,41 @@ body:has(.fj-ph-banner) {
   color: var(--color-text-primary);
 }
 
+/* TrustMRR proof point */
+.fj-trustmrr {
+  width: min(100%, 34rem);
+  margin-top: var(--space-8);
+}
+
+.fj-trustmrr__frame {
+  overflow: hidden;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--color-background-secondary);
+  box-shadow: var(--shadow-low);
+}
+
+.fj-trustmrr__iframe {
+  display: block;
+  width: 100%;
+  height: 24rem;
+  border: 0;
+}
+
+.fj-trustmrr__fallback {
+  margin: var(--space-3) 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-body-sm);
+}
+
+.fj-trustmrr__fallback a {
+  color: var(--color-text-secondary);
+}
+
+.fj-trustmrr__fallback a:hover {
+  color: var(--color-text-primary);
+}
+
 /* Product journey demo helpers */
 .fj-journey-card {
   display: grid;
